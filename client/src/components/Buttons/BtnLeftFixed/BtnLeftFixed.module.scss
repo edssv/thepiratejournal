@@ -1,0 +1,26 @@
+@use '../../../scss/util' as *;
+
+.root {
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    padding-top: 30px;
+    width: 115px;
+    height: 100%;
+    cursor: pointer;
+    color: var(--spectrum-global-color-gray-600);
+    transition: 50ms linear;
+
+    &:hover {
+        color: var(--spectrum-global-color-gray-800);
+    }
+
+    .icon {
+        padding-right: 7px;
+        font-size: $fs-sm;
+        font-weight: 700;
+        cursor: pointer;
+    }
+}

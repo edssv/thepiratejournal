@@ -1,0 +1,45 @@
+@use '../../scss/util' as *;
+
+.root {
+    background-size: cover;
+    height: 100vh;
+
+    .background {
+        height: 100%;
+        background-color: var(--spectrum-global-color-gray-600);
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        .inner {
+            display: flex;
+            justify-content: center;
+            height: 100%;
+            gap: 260px;
+            .logoAndSpan {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: left;
+                align-items: flex-start;
+
+                .logo {
+                    height: 90px;
+                }
+
+                p {
+                    color: var(--white);
+                }
+            }
+            .panel {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                height: 100%;
+                width: 510px;
+            }
+            .item {
+            }
+        }
+    }
+}

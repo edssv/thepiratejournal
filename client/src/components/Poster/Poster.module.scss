@@ -1,0 +1,36 @@
+@use '../../scss/util' as *;
+
+.root {
+    max-width: 240px;
+    .posterWrapper {
+        margin-bottom: 8px;
+        .posterLink {
+            display: flex;
+            position: relative;
+            overflow: hidden;
+            border-radius: $br-sm;
+
+            img {
+                width: 100%;
+                height: 280px;
+                object-fit: cover;
+            }
+        }
+    }
+
+    .captions {
+        span {
+            display: block;
+        }
+
+        .title {
+            font-size: 18px;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: var(--transparent-color);
+        }
+    }
+}

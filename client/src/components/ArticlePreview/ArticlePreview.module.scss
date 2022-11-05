@@ -1,0 +1,59 @@
+@use '../../scss/util' as *;
+
+.root {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-xs;
+    min-width: 160px;
+    overflow: hidden;
+
+    &:hover .top__img {
+        filter: none;
+    }
+
+    .top {
+        position: relative;
+        &__img {
+            position: relative;
+            min-width: 160px;
+            height: 172px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            border-radius: $br-sm;
+            filter: brightness(0.95);
+            transition: filter ease-in-out 0.2s;
+        }
+        .bookmark__wrapper {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 52px;
+            height: 52px;
+        }
+    }
+    .bottom {
+        .headline {
+            margin-bottom: $gap-xs;
+            font-size: $fs-lg;
+            font-weight: 500;
+        }
+        .author {
+            margin-bottom: 3px;
+            font-size: $fs-sm;
+        }
+
+        .date_and_counts {
+            display: flex;
+            align-items: center;
+            gap: $gap-sm;
+
+            .date {
+                font-size: $fs-sm;
+            }
+        }
+    }
+}

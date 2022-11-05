@@ -1,0 +1,22 @@
+@use '../../scss/util/' as *;
+
+.cardLayout__container {
+    width: 100%;
+    .root {
+        width: 100%;
+        padding: 40px 56px;
+        background-color: var(--spectrum-global-color-gray-100);
+        min-height: 630px;
+        border-radius: $br-sm;
+        .header {
+            margin-bottom: 8px;
+
+            h2 {
+                font-size: 33px;
+            }
+        }
+        .content {
+            display: flex;
+        }
+    }
+}

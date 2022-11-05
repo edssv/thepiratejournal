@@ -1,0 +1,31 @@
+@use '../../scss/util' as *;
+
+.root {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+
+    .top {
+        gap: 30px;
+        display: flex;
+
+        &__img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        &__info {
+            display: flex;
+            flex-direction: column;
+            gap: $gap-xs;
+            .info__headline {
+            }
+        }
+    }
+}

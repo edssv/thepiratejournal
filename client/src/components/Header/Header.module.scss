@@ -1,0 +1,94 @@
+@use '../../scss/util/' as *;
+
+:global {
+    .active::after {
+        opacity: 1 !important;
+    }
+}
+
+.root {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: $header-height;
+
+    &::before {
+        background-color: var(--spectrum-global-color-gray-200);
+        color-scheme: light;
+        bottom: 0;
+        content: '';
+        height: 1px;
+        left: 0;
+        opacity: 1;
+        pointer-events: none;
+        position: absolute;
+        right: 0;
+    }
+
+    .content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 auto;
+
+        &__left {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            .logo {
+                font-size: 20px;
+                letter-spacing: 2.5px;
+                font-weight: 700;
+                max-height: $header-height;
+
+                img {
+                    height: 55px;
+                }
+            }
+            .nav {
+                display: flex;
+                gap: 50px;
+
+                &__link {
+                    position: relative;
+                    font-size: $fs-lg;
+                    font-weight: 700;
+                    line-height: $header-height;
+
+                    &::after {
+                        background-color: var(--spectrum-global-color-gray-800);
+                        content: '';
+                        height: 2px;
+                        left: 0;
+                        opacity: 0;
+                        position: absolute;
+                        right: 0;
+                        top: 98%;
+                        transition: opacity 0.15s, -webkit-transform 0.15s;
+                        transition: transform 0.15s, opacity 0.15s;
+                        transition: transform 0.15s, opacity 0.15s, -webkit-transform 0.15s;
+                    }
+                }
+            }
+        }
+
+        &__right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+
+            .profile {
+                display: flex;
+                align-items: center;
+                gap: $gap-md;
+                &__img {
+                    width: 38px;
+                    height: 38px;
+                    border-radius: 50%;
+                }
+                &__name {
+                }
+            }
+        }
+    }
+}

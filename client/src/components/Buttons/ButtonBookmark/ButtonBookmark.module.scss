@@ -1,0 +1,12 @@
+@use '../../../scss/util' as *;
+
+.root {
+    opacity: 0.6;
+    cursor: pointer;
+    &:hover {
+        opacity: 1;
+    }
+    svg {
+        color: var(--white);
+    }
+}

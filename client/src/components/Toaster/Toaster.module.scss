@@ -1,0 +1,11 @@
+@use '../../scss/util' as *;
+
+.root {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: #c9252d;
+    padding: 16px 16px 16px 24px;
+    font-size: $fs-sm;
+    color: var(--white);
+    font-weight: 500;
+}

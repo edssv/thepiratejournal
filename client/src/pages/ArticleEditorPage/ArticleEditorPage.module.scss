@@ -1,0 +1,53 @@
+@use '../../scss/util' as *;
+
+.root {
+    padding: 30px 0;
+
+    .top {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 70px;
+
+        &__author {
+            display: flex;
+            gap: $gap-lg;
+            img {
+                width: 40px;
+                height: 40px;
+            }
+            .author__text {
+                .headline {
+                    font-weight: 500;
+                    margin-bottom: 3px;
+                }
+            }
+        }
+
+        &__labels {
+            .labels__publish {
+                position: relative;
+                display: flex;
+                align-items: center;
+                gap: $gap-xs;
+                font-size: $fs-sm;
+                color: var(--black70);
+                cursor: pointer;
+            }
+        }
+
+        &__right {
+            display: flex;
+            gap: $gap-md;
+        }
+    }
+    :global {
+        .ce-header {
+            margin-bottom: 35px;
+            font-weight: 700;
+
+            &::placeholder {
+                font-weight: 700;
+            }
+        }
+    }
+}

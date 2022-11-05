@@ -1,0 +1,18 @@
+.root {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    z-index: 999;
+    cursor: pointer;
+
+    .closeIcon {
+        color: var(--spectrum-global-color-gray-600);
+        transition: 50ms linear;
+
+        &:hover {
+            color: var(--spectrum-global-color-gray-800);
+        }
+    }
+}

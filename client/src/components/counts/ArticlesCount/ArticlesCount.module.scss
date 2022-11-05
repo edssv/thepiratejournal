@@ -1,0 +1,8 @@
+@use '../../../scss/util/' as *;
+
+.root {
+    display: flex;
+    align-items: center;
+    gap: $gap-xs;
+    font-size: $fs-sm;
+}

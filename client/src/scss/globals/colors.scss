@@ -1,0 +1,33 @@
+:root {
+    --primary-color: hsl(237, 50%, 50%);
+    --text-black: #323232;
+    --black-90: hsl(0, 0%, 10%);
+    --black-80: hsl(0, 0%, 20%);
+    --black-70: hsl(0, 0%, 30%);
+    --black-60: hsl(0, 0%, 40%);
+    --black-50: hsl(0, 0%, 50%);
+    --white: hsl(0, 0%, 100%);
+    --transparent-color: hsl(0, 0%, 60%);
+    --border-color: hsl(0, 0%, 92%);
+    --link-color: hsl(212, 86%, 58%);
+    --error-color: hsl(357, 67%, 53%);
+
+    --header-background: var(--primary-color);
+
+    // // Buttons
+    // cta
+    --btnCta-color: hsl(213, 84%, 49%);
+    --btnCta-br-color: hsl(213, 84%, 49%);
+    --btnCta-color-hover: hsl(213, 88%, 43%);
+    --btnCta-br-color-hover: hsl(213, 88%, 43%);
+    // primary
+    --btn-color: transparent;
+    --btn-br-color: hsl(0, 0%, 31%);
+    --btn-text-color: hsl(0, 0%, 31%);
+    --btn-color-hover: hsl(0, 0%, 31%);
+    --btn-br-color-hover: hsl(0, 0%, 31%);
+    --btn-text-color-hover: var(--white);
+    --btn-color-active: hsl(0, 0%, 20%);
+    --btn-br-color-active: hsl(0, 0%, 20%);
+    --btn-text-color-active: var(--white);
+}

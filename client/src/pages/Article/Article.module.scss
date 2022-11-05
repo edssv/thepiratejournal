@@ -1,0 +1,53 @@
+@use '../../scss/util' as *;
+
+.root {
+    padding: 30px 0;
+
+    .top {
+        display: flex;
+        justify-content: space-between;
+        &__content {
+            display: flex;
+            gap: $gap-lg;
+            img {
+                width: 48px;
+                height: 48px;
+            }
+            .content__text {
+                .headline {
+                    font-weight: 500;
+                    margin-bottom: 7px;
+                }
+            }
+        }
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        padding: 45px 0 35px;
+        text-align: center;
+        font-size: $fs-lg;
+        line-height: 1.5;
+        word-break: break-word;
+        word-wrap: break-word;
+
+        &__blocks {
+            display: flex;
+            flex-direction: column;
+            img {
+                max-height: 400px;
+                object-fit: cover;
+            }
+
+            img,
+            p {
+                margin-top: 25px;
+            }
+        }
+
+        .img__wrapper {
+        }
+    }
+}

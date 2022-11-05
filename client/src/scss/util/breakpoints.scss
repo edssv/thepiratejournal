@@ -1,0 +1,32 @@
+@use './functions.scss' as f;
+
+// 576px, 768px, 991px, 1440px
+$breakpoints-up: (
+    'sm': 576px,
+    'md': 768px,
+    'lg': 991px,
+    'xl': 1440px,
+    'xxl': 1920px,
+    'xxxl': 2560px,
+);
+// 575.98px, 767.98px, 990.98px, 1439.98px
+$breakpoints-down: (
+    'sm': 575.98px,
+    'md': 767.98px,
+    'lg': 990.98px,
+    'xl': 1439.98px,
+    'xxl': 1919.98px,
+    'xxxl': 2559.98px,
+);
+
+@mixin breakpoint($size) {
+    @media (min-width: map-get($breakpoints-up, $size)) {
+        @content;
+    }
+}
+
+@mixin breakpoint-down($size) {
+    @media (max-width: map-get($breakpoints-down, $size)) {
+        @content;
+    }
+}
