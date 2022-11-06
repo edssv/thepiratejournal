@@ -9,7 +9,7 @@ import { store } from './redux';
 function ErrorFallback() {
     return (
         <div role="alert">
-            <p>Ошибка, Серго</p>
+            <p>Ошибка</p>
         </div>
     );
 }
