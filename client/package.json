@@ -1,6 +1,7 @@
 {
-    "name": "review-site",
+    "name": "client",
     "version": "0.1.0",
+    "proxy": "http://localhost:5000",
     "private": true,
     "dependencies": {
         "@adobe/react-spectrum": "^3.22.0",
@@ -56,6 +57,5 @@
         "@editorjs/marker": "^1.2.2",
         "@editorjs/quote": "^2.4.0",
         "@editorjs/warning": "^1.2.0"
-    },
-    "proxy": "http://194.67.121.62:5000"
+    }
 }
