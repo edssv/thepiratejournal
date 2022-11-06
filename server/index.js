@@ -19,12 +19,7 @@ app.use(
         origin: process.env.CLIENT_URL,
     }),
 );
-app.use(
-    '/api',
-    createProxyMiddleware({ target: 'http://localhost:5000', changeOrigin: true }),
-    router,
-);
-
+app.use('/api', router);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(errorMiddleware);
 

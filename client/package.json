@@ -1,6 +1,7 @@
 {
     "name": "client",
     "version": "0.1.0",
+    "proxy": "http://localhost:5000",
     "private": true,
     "dependencies": {
         "@adobe/react-spectrum": "^3.22.0",
