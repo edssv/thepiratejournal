@@ -26,7 +26,7 @@ const Configuration = () => {
                 class: ImageTool,
                 config: {
                     endpoints: {
-                        byFile: 'http://localhost:5000/api/upload', // Your backend file uploader endpoint
+                        byFile: 'http://194.67.121.62:5000/api/upload', // Your backend file uploader endpoint
                         byUrl: 'http://localhost:8008/fetchUrl', // Your endpoint that provides uploading by Url
                     },
                 },

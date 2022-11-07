@@ -5,14 +5,14 @@ import styles from './Home.module.scss';
 import { ArticlePreview } from '../../components/ArticlePreview';
 import { useNavigate } from 'react-router-dom';
 import { viewsSumCalc } from '../../helpers/viewsSum';
-import { Button } from '@adobe/react-spectrum';
+import { Button, ProgressCircle } from '@adobe/react-spectrum';
 
 const Home = () => {
     const navigate = useNavigate();
 
     const { data, isLoading } = useGetArticlesQuery('');
 
-    if (isLoading) return <h3>Загрузка...</h3>;
+    if (isLoading) return <ProgressCircle />;
 
     return (
         <div className={styles.root}>

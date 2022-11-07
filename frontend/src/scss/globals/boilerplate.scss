@@ -55,7 +55,11 @@ button {
     background-color: unset;
     border: none;
     width: fit-content;
-    cursor: pointer !important;
+    cursor: pointer;
+
+    &.spectrum-Button_e2d99e {
+        cursor: pointer;
+    }
 }
 
 // // Helper classes

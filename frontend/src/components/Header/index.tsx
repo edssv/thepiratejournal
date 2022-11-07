@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@adobe/react-spectrum';
 import { IoLogOutOutline } from 'react-icons/io5';
 
@@ -12,11 +12,14 @@ import { useAuth } from '../../hooks/useAuth';
 import { Avatar } from '../Avatar';
 
 export const Header = () => {
+    const location = useLocation();
     const navigate = useNavigate();
     const auth = useAuth();
     const [logout] = useLogoutMutation();
 
     const imageSrc = auth.user?.avatar;
+
+    const token = localStorage.getItem('token');
 
     return (
         <header className={styles.root}>
@@ -26,36 +29,39 @@ export const Header = () => {
                         <Link to="/" className={styles.logo}>
                             <img src={logo} alt="Логотип" />
                         </Link>
-                        <nav className={styles.nav}>
-                            <NavLink to="/articles" className={styles.nav__link}>
-                                Статьи
-                            </NavLink>
-                            <NavLink to="/games" className={styles.nav__link}>
-                                Игры
-                            </NavLink>
-                            <NavLink to="/authors" className={styles.nav__link}>
-                                Авторы
-                            </NavLink>
-                        </nav>
+                        {window.innerWidth > 900 && (
+                            <nav className={styles.nav}>
+                                <NavLink to="/articles" className={styles.nav__link}>
+                                    Статьи
+                                </NavLink>
+                                <NavLink to="/games" className={styles.nav__link}>
+                                    Игры
+                                </NavLink>
+                                <NavLink to="/authors" className={styles.nav__link}>
+                                    Авторы
+                                </NavLink>
+                            </nav>
+                        )}
                     </div>
                     <div className={styles.content__right}>
-                        <Button onPress={() => navigate('/article_edit')} variant="primary">
+                        <Button
+                            onPress={() => navigate('/article_edit', { state: { from: location } })}
+                            variant="primary">
                             Написать статью
                         </Button>
-                        {auth.user ? (
+                        {token ? (
                             <>
                                 <Link to="/profile">
                                     <Avatar imageSrc={imageSrc} />
                                 </Link>
-                                <Link
-                                    to="/login"
+                                <button
                                     onClick={async () => {
                                         await logout('');
                                         navigate('/login');
                                     }}
                                     className="icon-center">
                                     <IoLogOutOutline color="currentColor" size={24} />
-                                </Link>
+                                </button>
                             </>
                         ) : (
                             <Link to="/login">

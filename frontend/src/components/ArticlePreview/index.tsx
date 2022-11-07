@@ -1,6 +1,6 @@
 import React from 'react';
 import { IoEye, IoHeart } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { convertDateShort } from '../../pages/Article/convertDate';
 import { Article, Block } from '../../redux';
 import { ButtonBookmark } from '../Buttons/ButtonBookmark';
@@ -12,6 +12,8 @@ interface ArticlePreviewProps {
 }
 
 export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
+    const location = useLocation();
+
     const title = article.blocks.find((block: Block) => block.type === 'header')?.data.text;
     const id = article._id;
     const author = article.author.userName;
@@ -25,7 +27,7 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
     return (
         <div className={styles.root}>
             <div className={styles.top}>
-                <Link to={`/articles/${id}`}>
+                <Link to={`/articles/${id}`} state={{ from: location }}>
                     <div
                         className={styles.top__img}
                         style={{ backgroundImage: `url(${cover})` }}></div>
@@ -35,8 +37,10 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
                 </div>
             </div>
             <div className={styles.bottom}>
-                <Link to={`/articles/${id}`}>
-                    <div className={styles.headline}>{title ? title : 'Без названия'}</div>
+                <Link to={`/articles/${id}`} state={{ from: location }}>
+                    <div
+                        dangerouslySetInnerHTML={{ __html: title ? title : 'Без названия' }}
+                        className={styles.headline}></div>
                 </Link>
                 <Link to={`/users/${author}`}>
                     <div className={`${styles.author} tp-text`}>{author}</div>

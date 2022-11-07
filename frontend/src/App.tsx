@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { AuthOutlet } from './helpers/AuthOutlet';
 import { PrivateOutlet } from './helpers/PrivateOutlet';
+import { useAuth } from './hooks/useAuth';
 import { useCheckAuthQuery } from './redux/services/auth';
 
 import './scss/styles.scss';
@@ -24,7 +25,8 @@ const NotFoundPage = React.lazy(
 );
 
 const App = () => {
-    const { data, isLoading } = useCheckAuthQuery('');
+    const token = localStorage.getItem('token');
+    const { data, isLoading } = useCheckAuthQuery(token && '');
 
     return (
         <Routes>

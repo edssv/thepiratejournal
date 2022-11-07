@@ -3,11 +3,15 @@ import { useNavigate } from 'react-router-dom';
 
 import styles from './ButtonClose.module.scss';
 
-export const ButtonClose: React.FC = () => {
+interface ButtonCloseProps {
+    location: string;
+}
+
+export const ButtonClose: React.FC<ButtonCloseProps> = ({ location }) => {
     const navigate = useNavigate();
 
     return (
-        <button onClick={() => navigate(-1)} className={styles.root}>
+        <button onClick={() => navigate(location ? location : '/')} className={styles.root}>
             <svg
                 className={styles.closeIcon}
                 xmlns="http://www.w3.org/2000/svg"

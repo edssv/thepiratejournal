@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { toHtml } from './toHtml';
 import { BtnLeftFixed } from '../../components/Buttons/BtnLeftFixed';
 import { ButtonClose } from '../../components/Buttons/ButtonClose';
@@ -11,6 +11,7 @@ import { convertDateLong } from './convertDate';
 import { Avatar } from '../../components/Avatar';
 
 const Article: React.FC = () => {
+    const location = useLocation();
     const { id } = useParams();
 
     const { data, isLoading } = useGetArticleQuery(id);
@@ -18,6 +19,8 @@ const Article: React.FC = () => {
     if (isLoading) {
         return <span>Загрузка...</span>;
     }
+
+    const fromPage = location?.state?.from?.pathname;
 
     const article = data.article;
     const avatar = article.author.avatar;
@@ -32,7 +35,7 @@ const Article: React.FC = () => {
 
     return (
         <div className={styles.root}>
-            <BtnLeftFixed />
+            {fromPage && <BtnLeftFixed />}
             <div className="container-720">
                 <div className={styles.top}>
                     <div className={styles.top__content}>
@@ -48,7 +51,7 @@ const Article: React.FC = () => {
                     </div>
                     {/* <ButtonLike /> */}
                 </div>
-                <ButtonClose />
+                <ButtonClose location={fromPage} />
                 <div className={styles.content}>
                     <div
                         dangerouslySetInnerHTML={{ __html: toHtml(data.article.blocks) }}

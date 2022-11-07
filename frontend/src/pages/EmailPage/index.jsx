@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { VisibilityToggle } from '../../components/Buttons/VisibilityToggle';
 import Canvas from '../../components/Canvas';
 import CardLayout from '../../components/CardLayout';
@@ -14,7 +14,11 @@ import { useAuth } from '../../hooks/useAuth';
 
 const EmailPage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const auth = useAuth();
+
+    const fromPage = location.state?.from?.pathname || '/';
+    console.log(fromPage);
 
     const {
         register,
@@ -28,7 +32,7 @@ const EmailPage = () => {
     const onSubmit = async (formData) => {
         try {
             await login(formData).unwrap();
-            navigate('/');
+            navigate(fromPage);
         } catch (error) {
             console.log(error);
         }

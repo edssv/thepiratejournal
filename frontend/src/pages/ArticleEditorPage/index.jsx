@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import EditorJS from '@editorjs/editorjs';
 
 import { ButtonClose } from '../../components/Buttons/ButtonClose';
@@ -14,7 +14,10 @@ import { useAuth } from '../../hooks/useAuth';
 import { Avatar } from '../../components/Avatar';
 
 const ArticleEditorPage = () => {
+    const location = useLocation();
     const navigate = useNavigate();
+
+    const fromPage = location?.state?.from?.pathname;
 
     const [selectedFile, setSelectedFile] = useState('');
     const [uploadedUrl, setUploadedUrl] = useState('');
@@ -52,7 +55,7 @@ const ArticleEditorPage = () => {
     const userName = auth.user ? auth.user.userName : '';
     return (
         <div className={styles.root}>
-            <BtnLeftFixed />
+            {fromPage && <BtnLeftFixed />}
             <ButtonClose />
             <div className="container-720">
                 <div className={styles.top}>
@@ -82,9 +85,9 @@ const ArticleEditorPage = () => {
                                     width="auto"
                                     maxWidth={1200}
                                     variant="confirmation"
-                                    title="Подтвердить публикацию"
+                                    title="Подтвердить"
                                     primaryActionLabel="Опубликовать"
-                                    secondaryActionLabel="Сохранить как черновик"
+                                    // secondaryActionLabel="Сохранить как черновик"
                                     cancelLabel="Отмена"
                                     onPrimaryAction={onClickSave}>
                                     Вы уверены, что хотите опубликовать новую статью?

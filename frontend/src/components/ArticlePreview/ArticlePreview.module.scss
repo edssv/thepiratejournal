@@ -39,7 +39,10 @@
         .headline {
             margin-bottom: $gap-xs;
             font-size: $fs-lg;
-            font-weight: 500;
+            font-weight: 600;
+            line-height: 22px;
+            max-height: 44px;
+            overflow: hidden;
         }
         .author {
             margin-bottom: 3px;

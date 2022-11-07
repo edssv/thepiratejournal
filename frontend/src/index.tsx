@@ -5,14 +5,7 @@ import { Provider as Spectrum, defaultTheme, lightTheme } from '@adobe/react-spe
 import { ErrorBoundary } from 'react-error-boundary';
 import App from './App';
 import { store } from './redux';
-
-function ErrorFallback() {
-    return (
-        <div role="alert">
-            <p>Ошибка</p>
-        </div>
-    );
-}
+import { ErrorFallback } from './components/ErrorFallback';
 
 const root = ReactDOM.createRoot(document.getElementById('App') as HTMLElement);
 root.render(

@@ -35,7 +35,7 @@ export function PrivateOutlet() {
                         variant="information"
                         title="Войти"
                         primaryActionLabel="Войти"
-                        onPrimaryAction={() => navigate('/login')}
+                        onPrimaryAction={() => navigate('/login', { state: { from: location } })}
                         cancelLabel="Отмена"
                         onCancel={() => navigate(-1)}>
                         Для того, чтобы продолжить, вам необходимо войти в систему. Хотите войти
