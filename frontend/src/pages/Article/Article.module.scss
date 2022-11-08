@@ -27,7 +27,6 @@
         flex-direction: column;
         gap: 30px;
         padding: 45px 0 35px;
-        text-align: center;
         font-size: $fs-lg;
         line-height: 1.5;
         word-break: break-word;
@@ -41,13 +40,49 @@
                 object-fit: cover;
             }
 
-            img,
+            h2,
+            h3,
+            h4 img,
             p {
-                margin-top: 25px;
+                margin: 1em 0;
+            }
+            ul {
+                list-style: disc;
+                margin-bottom: 1.7em;
+                padding-left: 2.5em;
+            }
+
+            a {
+                border-bottom: 1px solid var(--spectrum-global-color-blue-500);
+                color: var(--spectrum-global-color-blue-500);
+                text-decoration: none;
+                transition: color 0.25s, border-bottom-color 0.25s;
             }
         }
 
         .img__wrapper {
         }
+    }
+}
+
+:global {
+    .ce-delimiter {
+        line-height: 1.6em;
+        width: 100%;
+        text-align: center;
+        height: 30px;
+        border: none;
+
+        &::before {
+            display: inline-block;
+            content: '***';
+            font-size: 30px;
+            line-height: 40px;
+            height: 30px;
+            letter-spacing: 0.2em;
+        }
+    }
+
+    .cdx-list {
     }
 }

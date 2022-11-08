@@ -5,6 +5,7 @@ import type { RootState } from '../store';
 
 type AuthState = {
     user: User | null;
+    accessToken: string;
 };
 
 const slice = createSlice({
@@ -17,6 +18,7 @@ const slice = createSlice({
             .addMatcher(authApi.endpoints.login.matchPending, (state, action) => {})
             .addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }) => {
                 state.user = payload.user;
+                state.accessToken = payload.accessToken;
                 localStorage.setItem('token', payload.accessToken);
             })
             .addMatcher(authApi.endpoints.login.matchRejected, (state, action) => {
@@ -29,6 +31,7 @@ const slice = createSlice({
             })
             .addMatcher(authApi.endpoints.signup.matchFulfilled, (state, { payload }) => {
                 state.user = payload.user;
+                state.accessToken = payload.accessToken;
                 localStorage.setItem('token', payload.accessToken);
             })
             .addMatcher(authApi.endpoints.signup.matchRejected, (state, action) => {
@@ -38,12 +41,14 @@ const slice = createSlice({
             // logout
             .addMatcher(authApi.endpoints.logout.matchFulfilled, (state, { payload }) => {
                 state.user = payload.user;
+                state.accessToken = payload.accessToken;
                 localStorage.removeItem('token');
             })
 
             // checkAuth
             .addMatcher(authApi.endpoints.checkAuth.matchFulfilled, (state, { payload }) => {
                 state.user = payload.user;
+                state.accessToken = payload.accessToken;
                 localStorage.setItem('token', payload.accessToken);
             });
     },
@@ -52,3 +57,4 @@ const slice = createSlice({
 export default slice.reducer;
 
 export const selectCurrentUser = (state: RootState) => state.auth.user;
+export const selectAccessToken = (state: RootState) => state.auth.accessToken;

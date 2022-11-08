@@ -40,13 +40,111 @@
             gap: $gap-md;
         }
     }
-    :global {
-        .ce-header {
-            margin-bottom: 35px;
-            font-weight: 700;
+}
 
-            &::placeholder {
-                font-weight: 700;
+:global {
+    .ce-header {
+        margin-bottom: 35px;
+        font-weight: 700;
+
+        &::placeholder {
+            font-weight: 700;
+        }
+    }
+    #editorjs {
+        .codex-editor__redactor {
+            font-size: 16px;
+            word-break: break-word;
+            .ce-block {
+                &--selected {
+                    .ce-block__content {
+                        background-color: var(--spectrum-global-color-gray-300);
+                    }
+                }
+            }
+        }
+        .ce-toolbar {
+            &__content {
+                .ce-toolbar__plus,
+                .ce-toolbar__settings-btn {
+                    color: currentColor;
+
+                    &:hover {
+                        background-color: var(--spectrum-global-color-gray-300);
+                    }
+                }
+                .ce-toolbar__plus {
+                }
+                .ce-toolbar__settings-btn {
+                }
+
+                .ce-toolbox {
+                    .ce-popover {
+                        background-color: var(--spectrum-global-color-gray-300);
+                        border: none;
+                        padding: 12px;
+
+                        .cdx-search-field {
+                            display: none;
+                        }
+
+                        &__items {
+                            .ce-popover__item {
+                                &:hover {
+                                    background-color: var(--spectrum-global-color-gray-900);
+                                    color: var(--spectrum-global-color-gray-100);
+
+                                    .ce-popover__item-icon {
+                                        border-color: var(--spectrum-global-color-gray-100);
+                                    }
+                                }
+
+                                &--focused {
+                                    background-color: var(
+                                        --spectrum-global-color-gray-200
+                                    ) !important;
+                                    border: none;
+
+                                    &:hover {
+                                        color: var(--spectrum-global-color-gray-800);
+
+                                        .ce-popover__item-icon {
+                                            border-color: var(--spectrum-global-color-gray-800);
+                                        }
+                                    }
+                                }
+
+                                &-label {
+                                    font-weight: 600;
+                                }
+                                &-icon {
+                                    background-color: inherit;
+                                    border: 2px solid var(--spectrum-global-color-gray-800);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .ce-settings {
+                    color: currentColor;
+                    background-color: var(--spectrum-global-color-gray-300);
+                    border: none;
+
+                    &__button,
+                    .cdx-settings-button {
+                        color: currentColor;
+
+                        &:hover {
+                            background-color: var(--spectrum-global-color-gray-900);
+                            color: var(--spectrum-global-color-gray-200);
+                        }
+
+                        &--active {
+                            background-color: var(--spectrum-global-color-gray-200);
+                        }
+                    }
+                }
             }
         }
     }

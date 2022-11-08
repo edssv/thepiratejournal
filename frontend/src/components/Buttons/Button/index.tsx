@@ -1,5 +1,5 @@
+import { ProgressCircle } from '@adobe/react-spectrum';
 import React from 'react';
-import { CircleLoader, MoonLoader } from 'react-spinners';
 
 import styles from './Button.module.scss';
 
@@ -20,7 +20,7 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
     return (
         <button onClick={onClick} disabled={disabled} className={`${styles.root} ${variant}`}>
-            {spinner && <CircleLoader color="#1472e6" size={16} />}
+            {spinner && <ProgressCircle size="S" isIndeterminate variant="overBackground" />}
             <span>{children}</span>
         </button>
     );

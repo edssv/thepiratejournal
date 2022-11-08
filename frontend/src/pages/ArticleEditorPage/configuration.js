@@ -35,15 +35,15 @@ const Configuration = () => {
             delimiter: Delimiter,
             marker: Marker,
             inlineCode: InlineCode,
-            warning: {
-                class: Warning,
-                inlineToolbar: true,
-                shortcut: 'CMD+SHIFT+W',
-                config: {
-                    titlePlaceholder: 'Title',
-                    messagePlaceholder: 'Message',
-                },
-            },
+            // warning: {
+            //     class: Warning,
+            //     inlineToolbar: true,
+            //     shortcut: 'CMD+SHIFT+W',
+            //     config: {
+            //         titlePlaceholder: 'Title',
+            //         messagePlaceholder: 'Message',
+            //     },
+            // },
         },
         data: {
             blocks: [

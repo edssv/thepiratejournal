@@ -19,8 +19,6 @@ export const Header = () => {
 
     const imageSrc = auth.user?.avatar;
 
-    const token = localStorage.getItem('token');
-
     return (
         <header className={styles.root}>
             <div className="container">
@@ -49,7 +47,7 @@ export const Header = () => {
                             variant="primary">
                             Написать статью
                         </Button>
-                        {token ? (
+                        {auth.user ? (
                             <>
                                 <Link to="/profile">
                                     <Avatar imageSrc={imageSrc} />

@@ -14,13 +14,13 @@ export const toHtml = (blocks: Block[]) => {
                 convertedHtml += `<p>${block.data.text}</p>`;
                 break;
             case 'delimiter':
-                convertedHtml += '<hr />';
+                convertedHtml += '<hr class="ce-delimiter cdx-block"/>';
                 break;
             case 'image':
                 convertedHtml += `<img class="img-fluid" src="${block.data.file.url}" title="${block.data.caption}" /><br /><em>${block.data.caption}</em>`;
                 break;
             case 'list':
-                convertedHtml += '<ul>';
+                convertedHtml += '<ul class="cdx-list">';
                 block.data.items.forEach(function (li: any) {
                     convertedHtml += `<li>${li}</li>`;
                 });
