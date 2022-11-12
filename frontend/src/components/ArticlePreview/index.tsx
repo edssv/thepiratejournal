@@ -1,3 +1,5 @@
+import { Divider } from '@adobe/react-spectrum';
+import CircleFilled from '@spectrum-icons/workflow/CircleFilled';
 import React from 'react';
 import { IoEye, IoHeart } from 'react-icons/io5';
 import { Link, useLocation } from 'react-router-dom';
@@ -14,9 +16,9 @@ interface ArticlePreviewProps {
 export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
     const location = useLocation();
 
-    const title = article.blocks.find((block: Block) => block.type === 'header')?.data.text;
+    const title = article.title;
     const id = article._id;
-    const author = article.author.userName;
+    const author = article.author.username;
     const cover = article.cover;
     const timestamp = article.timestamp;
     const viewsCount = article.views.count;
@@ -32,9 +34,9 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
                         className={styles.top__img}
                         style={{ backgroundImage: `url(${cover})` }}></div>
                 </Link>
-                <div className={styles.bookmark__wrapper}>
+                {/* <div className={styles.bookmark__wrapper}>
                     <ButtonBookmark />
-                </div>
+                </div> */}
             </div>
             <div className={styles.bottom}>
                 <Link to={`/articles/${id}`} state={{ from: location }}>
@@ -47,14 +49,7 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
                 </Link>
                 <div className={`${styles.date_and_counts} tp-text`}>
                     <span className={styles.date}>{date}</span>
-                    <svg
-                        width="1"
-                        height="10"
-                        viewBox="0 0 1 10"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <rect width="1" height="10" fill="currentColor" fillOpacity="0.6" />
-                    </svg>
+                    <CircleFilled width={3} />
                     <div className="icon-center">
                         <IoHeart />
                         <span>{likesCount}</span>

@@ -11,7 +11,8 @@ export interface Block {
 
 export interface Article {
     _id: string;
-    author: { id: string; userName: string };
+    author: { id: string; username: string };
+    title: string;
     cover: string;
     blocks: Block[];
     timestamp: string;
@@ -23,6 +24,11 @@ export const articleApi = api.injectEndpoints({
     endpoints: (build) => ({
         getArticle: build.query({
             query: (id) => `articles/${id}`,
+            providesTags: ['Articles'],
+        }),
+        getArticleEdit: build.query({
+            query: (id) => `articles/${id}/edit`,
+            providesTags: ['Articles'],
         }),
         getArticles: build.query({
             query: () => `articles`,
@@ -48,14 +54,34 @@ export const articleApi = api.injectEndpoints({
                 method: 'POST',
                 body,
             }),
+            invalidatesTags: ['Articles'],
+        }),
+
+        deleteArticle: build.mutation({
+            query: (id) => ({
+                url: `articles/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Articles'],
+        }),
+        editArticle: build.mutation({
+            query: ({ formData, id }) => ({
+                url: `articles/${id}/edit`,
+                method: 'PATCH',
+                body: formData,
+            }),
+            invalidatesTags: ['Articles'],
         }),
     }),
 });
 
 export const {
     useGetArticleQuery,
+    useGetArticleEditQuery,
     useGetArticlesQuery,
     useAddCoverMutation,
     useDeleteCoverMutation,
+    useDeleteArticleMutation,
     useAddArticleMutation,
+    useEditArticleMutation,
 } = articleApi;

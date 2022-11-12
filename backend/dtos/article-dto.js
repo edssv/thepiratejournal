@@ -1,6 +1,7 @@
 module.exports = class ArticleDto {
     id;
     author;
+    title;
     cover;
     blocks;
     timestamp;
@@ -10,6 +11,7 @@ module.exports = class ArticleDto {
     constructor(model) {
         (this.id = model._id),
             (this.author = model.author),
+            (this.title = model.title),
             (this.cover = model.cover),
             (this.blocks = model.blocks);
         this.timestamp = model.timestamp;

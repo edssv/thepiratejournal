@@ -16,12 +16,12 @@ const Profile: React.FC = () => {
 
     const { data, isLoading } = useGetUserQuery(id);
 
-    if (!data) return <h3>Загрузка...</h3>;
+    if (isLoading) return <></>;
 
-    const avatar = data.user.avatar;
-    const userName = data?.user.userName;
+    const avatar = data?.user.avatar;
+    const username = data?.user.username;
     const articlesCount = data?.articles.length;
-    const views = viewsSumCalc(data.articles);
+    const views = viewsSumCalc(data?.articles);
 
     const articles = data?.articles.map((article: Article, id) => (
         <ArticlePreview article={article} key={id} />
@@ -33,7 +33,7 @@ const Profile: React.FC = () => {
                 <Avatar imageSrc={avatar} width={200} />
                 <div className={styles.wrapper}>
                     <div className={styles.top__info}>
-                        <h2 className={styles.info__headline}>{userName}</h2>
+                        <h2 className={styles.info__headline}>{username}</h2>
                         <div className={styles.info__count_articles}></div>
                         <div className="icon-center">
                             <IoDocument />

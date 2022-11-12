@@ -1,13 +1,8 @@
 module.exports = class AuthorDto {
-    userName;
-    firstName;
-    lastName;
+    username;
     avatar;
 
     constructor(model) {
-        (this.userName = model.userName),
-            (this.firstName = model.firstName),
-            (this.lastName = model.lastName);
-        this.avatar = model.avatar;
+        (this.userName = model.username), (this.avatar = model.avatar);
     }
 };

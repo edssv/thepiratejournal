@@ -6,18 +6,15 @@ import Marker from '@editorjs/marker';
 import InlineCode from '@editorjs/inline-code';
 import Warning from '@editorjs/warning';
 
-const Configuration = () => {
+const Configuration = (dataBlocks) => {
     return {
-        /**
-         * Id of Element that should contain Editor instance
-         */
-
+        holderId: 'editorjs',
         autofocus: false,
         tools: {
             header: {
                 class: Header,
                 required: true,
-                config: { placeholder: 'Заголовок', levels: [2, 3, 4], defaultLevel: 3 },
+                config: { placeholder: 'Заголовок', levels: [3, 4], defaultLevel: 3 },
             },
             paragraph: {
                 config: { placeholder: 'Параграф' },
@@ -46,19 +43,7 @@ const Configuration = () => {
             // },
         },
         data: {
-            blocks: [
-                {
-                    id: 'o72AO0sY-1',
-                    type: 'header',
-                    data: {
-                        level: 2,
-                    },
-                },
-                {
-                    id: '6LPs8gr9-a',
-                    type: 'paragraph',
-                },
-            ],
+            blocks: dataBlocks,
         },
         blockTunes: {
             delete: {

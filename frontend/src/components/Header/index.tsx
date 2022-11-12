@@ -1,21 +1,24 @@
 import React from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Button } from '@adobe/react-spectrum';
+import { Button, Text } from '@adobe/react-spectrum';
+import Draw from '@spectrum-icons/workflow/Draw';
 import { IoLogOutOutline } from 'react-icons/io5';
 
 import logo from '../../assets/img/logo.png';
-import avatar from '../../assets/img/avatar.jpg';
 
 import styles from './Header.module.scss';
-import { useLogoutMutation } from '../../redux/services/auth';
+import { useCheckAuthQuery, useLogoutMutation } from '../../redux/services/auth';
 import { useAuth } from '../../hooks/useAuth';
 import { Avatar } from '../Avatar';
+import { HeaderSkeleton } from './HeaderSkeleton';
 
 export const Header = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const auth = useAuth();
+
     const [logout] = useLogoutMutation();
+    const { isLoading } = useCheckAuthQuery('');
 
     const imageSrc = auth.user?.avatar;
 
@@ -43,11 +46,15 @@ export const Header = () => {
                     </div>
                     <div className={styles.content__right}>
                         <Button
-                            onPress={() => navigate('/article_edit', { state: { from: location } })}
-                            variant="primary">
-                            Написать статью
+                            isQuiet
+                            onPress={() => navigate('/writing', { state: { from: location } })}
+                            variant="overBackground">
+                            <Draw />
+                            <Text> Написать статью</Text>
                         </Button>
-                        {auth.user ? (
+                        {isLoading ? (
+                            <HeaderSkeleton />
+                        ) : auth.user ? (
                             <>
                                 <Link to="/profile">
                                     <Avatar imageSrc={imageSrc} />

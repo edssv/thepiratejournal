@@ -8,14 +8,16 @@ import { useLoginMutation } from '../../redux/services/auth';
 
 import styles from './EmailPage.module.scss';
 import { BsFacebook } from 'react-icons/bs';
-import { Button } from '../../components/Buttons/Button';
 import { Toaster } from '../../components/Toaster';
 import { useAuth } from '../../hooks/useAuth';
+import useNetworkStatus from '../../hooks/useNetworkStatus';
+import { Button, ProgressCircle } from '@adobe/react-spectrum';
 
 const EmailPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const auth = useAuth();
+    const { isOnline } = useNetworkStatus();
 
     const fromPage = location.state?.from?.pathname || '/';
     console.log(fromPage);
@@ -42,7 +44,7 @@ const EmailPage = () => {
 
     return (
         <Canvas>
-            <CardLayout headline="Войти">
+            <CardLayout headline="Войти" toaster={isOnline ? false : true}>
                 <section className={styles.root}>
                     <form onSubmit={handleSubmit(onSubmit)} className={styles.emailForm}>
                         <section className={styles.emailField}>
@@ -54,9 +56,11 @@ const EmailPage = () => {
                                     <label className="field-label">Адрес электронной почты</label>
                                     <input
                                         {...register('email', {
-                                            required: 'Введите адрес электронной почты',
+                                            required: 'Введите адрес электронной почты.',
                                         })}
-                                        className="text-field"
+                                        className={`text-field  ${
+                                            errors?.password && `is-invalid`
+                                        }`}
                                     />
                                     {errors?.email && (
                                         <label className="field-label error-label">
@@ -82,29 +86,41 @@ const EmailPage = () => {
                                             passwordEye={passwordEye}
                                             setPasswordEye={setPasswordEye}
                                         />
-                                    </div>
+                                    </div>{' '}
+                                    {errors?.password && (
+                                        <label className="field-label error-label">
+                                            {errors?.password?.message}
+                                        </label>
+                                    )}
                                 </div>
-                                {errors?.password && (
-                                    <label className="field-label error-label">
-                                        {errors?.password?.message}
-                                    </label>
-                                )}
                             </div>
                             {isError && (
                                 <label
                                     className="field-label error-label "
                                     style={{ marginTop: '8px' }}>
-                                    Неверный адрес электронной почты или пароль
+                                    Неверный адрес электронной почты или пароль.
                                 </label>
                             )}
                         </section>
                         <section className={styles.submit}>
                             {isLoading ? (
-                                <Button spinner={true} disabled={true} variant="cta">
+                                <Button isDisabled={true} variant="cta">
+                                    <ProgressCircle
+                                        size="S"
+                                        isIndeterminate
+                                        marginEnd={6}
+                                        variant="overBackground"
+                                        aria-label="Loading…"
+                                    />
                                     Войти
                                 </Button>
                             ) : (
-                                <Button variant="cta">Войти</Button>
+                                <Button
+                                    isDisabled={isOnline ? false : true}
+                                    type="submit"
+                                    variant="cta">
+                                    Войти
+                                </Button>
                             )}
                         </section>
                     </form>

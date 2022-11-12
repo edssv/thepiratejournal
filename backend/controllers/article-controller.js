@@ -5,9 +5,11 @@ class ArticleController {
     async create(req, res, next) {
         try {
             const { refreshToken } = req.cookies;
+            const { autosave } = req.body;
             const user = await articleService.create(refreshToken);
             const doc = new articleModel({
-                author: { id: user.userId, userName: user.userName },
+                author: { id: user.userId, username: user.username },
+                title: req.body.title,
                 cover: req.body.cover,
                 blocks: req.body.blocks,
                 timestamp: req.body.time,
@@ -20,6 +22,36 @@ class ArticleController {
             res.status(500).json({
                 message: 'Не удалось создать статью',
             });
+        }
+    }
+
+    async remove(req, res, next) {
+        try {
+            const articleId = req.params.id;
+            await articleModel.findOneAndDelete({ _id: articleId });
+            res.json({
+                message: 'Статья удалена',
+            });
+        } catch (e) {
+            next(e);
+        }
+    }
+    async edit(req, res, next) {
+        try {
+            const articleId = req.params.id;
+            await articleModel.updateOne(
+                { _id: articleId },
+                {
+                    title: req.body.title,
+                    cover: req.body.cover,
+                    blocks: req.body.blocks,
+                },
+            );
+            res.json({
+                message: 'Статья обновлена',
+            });
+        } catch (e) {
+            next(e);
         }
     }
 
@@ -36,6 +68,16 @@ class ArticleController {
         try {
             const articleId = req.params.id;
             const article = await articleService.getOne(articleId);
+            res.json(article);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getOneEdit(req, res, next) {
+        try {
+            const articleId = req.params.id;
+            const article = await articleService.getOneEdit(articleId);
             res.json(article);
         } catch (e) {
             next(e);

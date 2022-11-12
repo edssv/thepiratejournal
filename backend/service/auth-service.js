@@ -7,10 +7,10 @@ const UserDto = require('../dtos/user-dto');
 const ApiError = require('../exceptions/api-error');
 
 class AuthService {
-    async registration(userName, email, password, firstName, lastName) {
-        const candidateUserName = await UserModel.findOne({ userName });
+    async registration(username, email, password) {
+        const candidateUsername = await UserModel.findOne({ username });
         const candidateEmail = await UserModel.findOne({ email });
-        if (candidateUserName) {
+        if (candidateUsername) {
             throw ApiError.BadRequest('Данное имя пользователя уже занято');
         }
         if (candidateEmail) {
@@ -18,13 +18,11 @@ class AuthService {
                 'Учетная запись с таким адресом электронной почты уже существует',
             );
         }
-        const hashPassword = await bcrypt.hash(password, 3);
+        const hashPassword = await bcrypt.hash(password, 6);
         const activationLink = uuid.v4(); // v34fa-asfasf-142saf-sa-asf
 
         const user = await UserModel.create({
-            userName,
-            firstName,
-            lastName,
+            username,
             email,
             password: hashPassword,
             activationLink,
@@ -53,12 +51,12 @@ class AuthService {
     async login(email, password) {
         const user = await UserModel.findOne({ email });
         if (!user) {
-            throw ApiError.BadRequest('Пользователь с таким email не найден');
+            throw ApiError.BadRequest('Неверный email или пароль');
         }
         const isPassEquals = await bcrypt.compare(password, user.password);
 
         if (!isPassEquals) {
-            throw ApiError.BadRequest('Неверный пароль');
+            throw ApiError.BadRequest('Неверный email или пароль');
         }
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({ ...userDto });

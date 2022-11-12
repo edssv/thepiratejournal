@@ -8,9 +8,9 @@ const ApiError = require('../exceptions/api-error');
 const articleModel = require('../models/article-model');
 
 class UserService {
-    async getUser(userName) {
-        const user = await UserModel.findOne({ userName });
-        const articles = await articleModel.find({ 'author.userName': userName });
+    async getUser(username) {
+        const user = await UserModel.findOne({ username });
+        const articles = await articleModel.find({ 'author.username': username });
         const authorDto = new UserDto(user);
         return { user: authorDto, articles: [...articles] };
     }

@@ -1,7 +1,7 @@
 {
     "name": "client",
     "version": "0.1.0",
-    "proxy": "http://194.67.121.62:5000/",
+    "proxy": "194.67.121.62:5000/",
     "private": true,
     "dependencies": {
         "@adobe/react-spectrum": "^3.22.0",
@@ -12,10 +12,12 @@
         "@editorjs/list": "^1.7.0",
         "@reduxjs/toolkit": "^1.8.6",
         "@spectrum-icons/illustrations": "^3.5.0",
+        "@spectrum-icons/workflow": "^4.0.3",
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^13.4.0",
         "@testing-library/user-event": "^13.5.0",
         "editorjs-html": "^3.4.2",
+        "lodash.debounce": "^4.0.8",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-error-boundary": "^3.1.4",

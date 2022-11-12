@@ -16,7 +16,7 @@ class ArticleService {
         if (!userData || !tokenFromDb) {
             throw ApiError.UnauthorizedError();
         }
-        return { userId: userData.id, userName: userData.userName };
+        return { userId: userData.id, username: userData.username };
     }
 
     async getOne(articleId) {
@@ -25,11 +25,20 @@ class ArticleService {
             { $inc: { 'views.count': 1 } },
             { returnDocument: 'after' },
         );
+        if (!article) {
+            throw ApiError.NotFound();
+        }
         const articleDto = new ArticleDto(article);
         // const authorId = articleDto.authorId;
         // const author = await userModel.findOne({ authorId });
         // console.log(author);
 
+        return { article: articleDto };
+    }
+
+    async getOneEdit(articleId) {
+        const article = await articleModel.findOne({ _id: articleId });
+        const articleDto = new ArticleDto(article);
         return { article: articleDto };
     }
 }

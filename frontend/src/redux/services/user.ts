@@ -2,7 +2,8 @@ import { api } from './api';
 import { Article } from './article';
 
 export interface User {
-    userName: string;
+    id: string;
+    username: string;
     firstName: string;
     lastName: string;
     avatar: string;

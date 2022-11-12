@@ -1,4 +1,5 @@
 import React from 'react';
+import { Toaster } from '../Toaster';
 
 import styles from './CardLayout.module.scss';
 
@@ -11,6 +12,7 @@ type CardLayoutProps = {
 const CardLayout: React.FC<CardLayoutProps> = ({ children, headline, toaster }) => {
     return (
         <div className={styles.cardLayout__container}>
+            {toaster && <Toaster />}
             <div
                 style={
                     toaster

@@ -10,7 +10,7 @@ import facebookIcon from '../../assets/img/social/f_logo_RGB-Blue_58.png';
 
 import styles from './Signup.module.scss';
 import { useSignupMutation } from '../../redux/services/auth';
-import { Button } from '../../components/Buttons/Button';
+import { Button, ProgressCircle } from '@adobe/react-spectrum';
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -21,10 +21,11 @@ const Signup = () => {
         formState: { errors, isValidating, isValid, isDirty },
         handleSubmit,
     } = useForm({
-        mode: 'onSubmit',
+        mode: 'onTouched',
     });
 
     const onSubmit = async (data) => {
+        console.log(data);
         try {
             await signup(data).unwrap();
             navigate('/');
@@ -74,28 +75,28 @@ const Signup = () => {
                             <div className={styles.field}>
                                 <label className="field-label">Имя пользователя</label>
                                 <input
-                                    {...register('userName', {
+                                    {...register('username', {
                                         required: 'Введите имя пользователя.',
                                         minLength: {
                                             value: 4,
-                                            message: 'Минимум 4 символа',
+                                            message: 'Минимум 4 символа.',
                                         },
                                         maxLength: {
                                             value: 12,
-                                            message: 'Максимум 12 символов',
+                                            message: 'Максимум 12 символов.',
                                         },
                                     })}
                                     type="text"
                                     className={`text-field  ${errors?.userName && `is-invalid`}`}
                                 />
-                                {errors?.userName && (
+                                {errors?.username && (
                                     <label className="field-label error-label">
-                                        {errors?.userName?.message}
+                                        {errors?.username?.message}
                                     </label>
                                 )}
                             </div>
-                            <div className={styles.name}>
-                                {/* Имя */}
+                            {/* <div className={styles.name}>
+                                
                                 <div className={styles.field}>
                                     <label className="field-label">Имя</label>
                                     <input
@@ -121,7 +122,7 @@ const Signup = () => {
                                         </label>
                                     )}
                                 </div>
-                                {/* Фамилия */}
+                                
                                 <div className={styles.field}>
                                     <label className="field-label">Фамилия</label>
                                     <input
@@ -145,7 +146,7 @@ const Signup = () => {
                                         </label>
                                     )}
                                 </div>
-                            </div>
+                            </div> */}
                             <div className={styles.field}>
                                 <label className="field-label">Адрес электронной почты</label>
                                 <input
@@ -181,7 +182,7 @@ const Signup = () => {
                                             pattern: {
                                                 value: /(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])/,
                                                 message:
-                                                    'Должен содержать как строчные (a-z), так и прописные буквы (A-Z), хотя бы одну цифру (0-9) или символ',
+                                                    'Должен содержать как строчные (a-z), так и прописные буквы (A-Z), хотя бы одну цифру (0-9) или символ.',
                                             },
                                             minLength: {
                                                 value: 8,
@@ -217,11 +218,23 @@ const Signup = () => {
 
                         <section className={styles.submit}>
                             {isLoading ? (
-                                <Button spinner={true} disabled={true} variant="cta">
+                                <Button isDisabled={true} variant="cta">
+                                    <ProgressCircle
+                                        size="S"
+                                        isIndeterminate
+                                        marginEnd={6}
+                                        variant="overBackground"
+                                        aria-label="Loading…"
+                                    />
                                     Создать
                                 </Button>
                             ) : (
-                                <Button variant="cta">Создать</Button>
+                                <Button
+                                    isDisabled={isValid ? false : true}
+                                    type="submit"
+                                    variant="cta">
+                                    Создать
+                                </Button>
                             )}
                         </section>
                     </form>

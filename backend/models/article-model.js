@@ -3,8 +3,9 @@ const { Schema, model } = require('mongoose');
 const ArticleSchema = new Schema({
     author: {
         id: { type: String, required: true },
-        userName: { type: String, required: true },
+        username: { type: String, required: true },
     },
+    title: { type: String },
     cover: {
         type: Object,
         required: true,

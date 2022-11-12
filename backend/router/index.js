@@ -7,9 +7,11 @@ const router = new Router();
 const { body } = require('express-validator');
 const authMiddleware = require('../middlewares/auth-middleware');
 const fileMiddleware = require('../middlewares/file-middleware');
+const auth = require('../exceptions/checkAuth');
 
 router.post(
     '/signup',
+    body('username'),
     body('email').isEmail(),
     body('password').isLength({ min: 3, max: 32 }),
     authController.registration,
@@ -30,5 +32,8 @@ router.delete('/upload', fileController.deleteFile);
 router.get('/articles', articleController.getAll);
 router.get('/articles/:id', articleController.getOne);
 router.post('/articles', articleController.create);
+router.delete('/articles/:id', auth.checkAuth, auth.checkAuthor, articleController.remove);
+router.get('/articles/:id/edit', articleController.getOneEdit);
+router.patch('/articles/:id/edit', auth.checkAuth, auth.checkAuthor, articleController.edit);
 
 module.exports = router;

@@ -51,8 +51,8 @@
 
                 &__link {
                     position: relative;
-                    font-size: $fs-lg;
-                    font-weight: 700;
+                    font-size: $fs-md;
+                    font-weight: 600;
                     line-height: $header-height;
 
                     &::after {
@@ -67,6 +67,10 @@
                         transition: opacity 0.15s, -webkit-transform 0.15s;
                         transition: transform 0.15s, opacity 0.15s;
                         transition: transform 0.15s, opacity 0.15s, -webkit-transform 0.15s;
+                    }
+
+                    &:hover::after {
+                        opacity: 1 !important;
                     }
                 }
             }

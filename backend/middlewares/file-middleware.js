@@ -13,7 +13,8 @@ const storage = multer.diskStorage({
         }
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        cb(null, file.fieldname + '-' + uniqueSuffix);
     },
 });
 
@@ -25,7 +26,7 @@ const upload = multer({
     fileFilter: (req, file, cb) => {
         // allow images only
         if (!file.originalname.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
-            return cb(new Error('Only image are allowed.'), false);
+            cb(new multer.MulterError('LIMIT_UNEXPECTED_FILE'), false);
         }
         cb(null, true);
     },

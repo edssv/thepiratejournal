@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
+import CoverImage from '@spectrum-icons/workflow/CoverImage';
 import { useAddCoverMutation, useDeleteCoverMutation } from '../../redux';
 import {
     Button,
@@ -10,6 +11,7 @@ import {
     Content,
     ButtonGroup,
     IllustratedMessage,
+    Text,
 } from '@adobe/react-spectrum';
 import Upload from '@spectrum-icons/illustrations/Upload';
 
@@ -22,6 +24,7 @@ type CoverWindowProps = {
     onClickSave: any;
     selectedFile: any;
     setSelectedFile: any;
+    isEditing: boolean;
 };
 
 type PopupClick = MouseEvent & {
@@ -34,9 +37,11 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({
     onClickSave,
     selectedFile,
     setSelectedFile,
+    isEditing,
 }) => {
     const filePicker = useRef<HTMLInputElement>(null);
 
+    const [isMounted, setIsMounted] = useState(isEditing);
     const [addCover, { data, isLoading }] = useAddCoverMutation();
     const [deleteCover] = useDeleteCoverMutation();
 
@@ -56,6 +61,9 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({
     };
 
     useEffect(() => {
+        console.log(isMounted);
+        if (isMounted) return;
+
         if (selectedFile) handleUpload();
     }, [selectedFile]);
 
@@ -69,6 +77,7 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({
 
     const handleDeleteCover = () => {
         if (selectedFile) {
+            setIsMounted(false);
             setUploadedUrl('');
             setSelectedFile('');
             deleteCover(data.file);
@@ -78,14 +87,19 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({
     return (
         <div className={styles.root}>
             <DialogTrigger>
-                <Button variant="primary">Обложка</Button>
+                <Button variant="primary">
+                    <CoverImage />
+                    <Text>Обложка</Text>
+                </Button>
                 {(close) => (
                     <Dialog>
                         <Heading>Выбор обложки</Heading>
                         <Divider />
                         <Content maxWidth={568} height={308} width="100%">
                             {!selectedFile ? (
-                                <IllustratedMessage height={300}>
+                                <IllustratedMessage
+                                    UNSAFE_style={{ color: 'currentcolor' }}
+                                    height={300}>
                                     <button onClick={handlePick}>
                                         <Upload />
                                         <Heading>Нажмите, чтобы выбрать файл</Heading>
@@ -122,10 +136,9 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({
                             <Button
                                 variant="secondary"
                                 onPress={() => {
-                                    handleDeleteCover();
                                     close();
                                 }}>
-                                Отменить
+                                Отмена
                             </Button>
                             <Button
                                 onPress={() => close()}

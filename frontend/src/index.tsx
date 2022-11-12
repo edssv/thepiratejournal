@@ -6,6 +6,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import App from './App';
 import { store } from './redux';
 import { ErrorFallback } from './components/ErrorFallback';
+import { SkeletonTheme } from 'react-loading-skeleton';
 
 const root = ReactDOM.createRoot(document.getElementById('App') as HTMLElement);
 root.render(

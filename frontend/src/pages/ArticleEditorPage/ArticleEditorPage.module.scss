@@ -40,6 +40,24 @@
             gap: $gap-md;
         }
     }
+
+    .writingHeader {
+        width: 100%;
+        height: auto;
+        background-color: transparent;
+        border: none;
+        resize: none;
+        outline: 0 !important;
+        font-size: 36px;
+        line-height: 1.3em;
+        font-family: Segoe UI, Roboto, sans-serif;
+        font-weight: 700;
+        color: currentColor;
+
+        &::placeholder {
+            text-decoration: underline;
+        }
+    }
 }
 
 :global {

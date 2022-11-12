@@ -55,7 +55,6 @@ class FileController {
     }
 
     async deleteFile(req, res) {
-        const directoryPath = process.cwd();
         const filePath = `${req.body.filePath}`;
         fs.unlink(filePath, (err) => {
             if (err) {

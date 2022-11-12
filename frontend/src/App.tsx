@@ -26,7 +26,7 @@ const NotFoundPage = React.lazy(
 
 const App = () => {
     const token = localStorage.getItem('token');
-    const { data, isLoading } = useCheckAuthQuery(token && '');
+    const {} = useCheckAuthQuery('');
 
     return (
         <Routes>
@@ -34,7 +34,7 @@ const App = () => {
                 <Route
                     index
                     element={
-                        <Suspense fallback="loading">
+                        <Suspense fallback="">
                             <Home />
                         </Suspense>
                     }
@@ -42,7 +42,7 @@ const App = () => {
                 <Route
                     path="games"
                     element={
-                        <Suspense fallback="loading">
+                        <Suspense fallback="">
                             <GamesPage />
                         </Suspense>
                     }
@@ -50,7 +50,7 @@ const App = () => {
                 <Route
                     path="games/metro-exodus"
                     element={
-                        <Suspense fallback="loading">
+                        <Suspense fallback="">
                             <GamePage />
                         </Suspense>
                     }
@@ -68,15 +68,29 @@ const App = () => {
                 <Route
                     path="/users/:id"
                     element={
-                        <Suspense fallback="loading">
+                        <Suspense
+                            fallback={
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        top: 0,
+                                        right: 0,
+                                        bottom: 0,
+                                        left: 0,
+                                        zIndex: 9999,
+                                        width: '100%',
+                                        height: '100%',
+                                        backgroundColor: 'black',
+                                    }}></div>
+                            }>
                             <Profile />
                         </Suspense>
                     }
                 />
                 <Route
-                    path="/*"
+                    path="*"
                     element={
-                        <Suspense fallback="loading">
+                        <Suspense fallback="">
                             <NotFoundPage />
                         </Suspense>
                     }
@@ -85,7 +99,7 @@ const App = () => {
             <Route
                 path="articles/:id"
                 element={
-                    <Suspense fallback="loading">
+                    <Suspense fallback="">
                         <Article />
                     </Suspense>
                 }
@@ -93,9 +107,17 @@ const App = () => {
 
             <Route element={<PrivateOutlet />}>
                 <Route
-                    path="/article_edit"
+                    path="/writing"
                     element={
-                        <Suspense fallback="loading">
+                        <Suspense fallback="">
+                            <ArticleEditorPage />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path="/articles/:id/edit"
+                    element={
+                        <Suspense fallback="">
                             <ArticleEditorPage />
                         </Suspense>
                     }
@@ -105,7 +127,7 @@ const App = () => {
                 <Route
                     path="/login"
                     element={
-                        <Suspense fallback="loading">
+                        <Suspense fallback="">
                             <EmailPage />
                         </Suspense>
                     }
@@ -113,7 +135,7 @@ const App = () => {
                 <Route
                     path="/signup"
                     element={
-                        <Suspense fallback="loading">
+                        <Suspense fallback="">
                             <Signup />
                         </Suspense>
                     }
