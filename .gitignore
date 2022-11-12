@@ -11,17 +11,17 @@
 # production
 /build
 
-/uploads/*.jpg
-/uploads/*.png
-/uploads/*.webp
+backend/uploads/*.jpg
+backend/uploads/*.png
+backend/uploads/*.webp
 
-/uploads/covers/*.jpg
-/uploads/covers/*.png
-/uploads/covers/*.webp
+backend/uploads/covers/*.jpg
+backend/uploads/covers/*.png
+backend/uploads/covers/*.webp
 
-/uploads/avatars/*.jpg
-/uploads/avatars/*.png
-/uploads/avatars/*.webp
+backend/uploads/avatars/*.jpg
+backend/uploads/avatars/*.png
+backend/uploads/avatars/*.webp
 
 
 # misc
