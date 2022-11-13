@@ -46,9 +46,8 @@ export const Header = () => {
                     </div>
                     <div className={styles.content__right}>
                         <Button
-                            isQuiet
                             onPress={() => navigate('/writing', { state: { from: location } })}
-                            variant="overBackground">
+                            variant="primary">
                             <Draw />
                             <Text> Написать статью</Text>
                         </Button>

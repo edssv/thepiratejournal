@@ -39,13 +39,13 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
                 </div> */}
             </div>
             <div className={styles.bottom}>
-                <Link to={`/articles/${id}`} state={{ from: location }}>
-                    <div
-                        dangerouslySetInnerHTML={{ __html: title ? title : 'Без названия' }}
-                        className={styles.headline}></div>
-                </Link>
-                <Link to={`/users/${author}`}>
-                    <div className={`${styles.author} tp-text`}>{author}</div>
+                <Link
+                    to={`/articles/${id}`}
+                    state={{ from: location }}
+                    dangerouslySetInnerHTML={{ __html: title ? title : 'Без названия' }}
+                    className={styles.headline}></Link>
+                <Link to={`/users/${author}`} className={`${styles.author} tp-text`}>
+                    {author}
                 </Link>
                 <div className={`${styles.date_and_counts} tp-text`}>
                     <span className={styles.date}>{date}</span>

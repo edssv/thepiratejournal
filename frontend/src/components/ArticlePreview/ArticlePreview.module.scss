@@ -37,14 +37,18 @@
     }
     .bottom {
         .headline {
+            display: block;
             margin-bottom: $gap-xs;
             font-size: $fs-lg;
             font-weight: 600;
             line-height: 22px;
             max-height: 44px;
+            width: fit-content;
             overflow: hidden;
         }
         .author {
+            display: block;
+            width: fit-content;
             margin-bottom: 3px;
             font-size: $fs-sm;
         }

@@ -36,11 +36,11 @@ const Article: React.FC = () => {
     const { data, isLoading, isError, isFetching } = useGetArticleQuery(id);
     const [deleteArticle] = useDeleteArticleMutation();
 
-    if (isLoading) {
+    if (isFetching) {
         return <></>;
     }
-    if (isFetching) {
-        return <ProgressCircle />;
+    if (isLoading) {
+        return <></>;
     }
 
     if (isError) {
