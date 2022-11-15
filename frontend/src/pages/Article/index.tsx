@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toHtml } from './toHtml';
 import { BtnLeftFixed } from '../../components/Buttons/BtnLeftFixed';
@@ -26,14 +26,16 @@ import Alert from '@spectrum-icons/workflow/Alert';
 
 import NotFoundPage from '../NotFoundPage';
 import { useAuth } from '../../hooks/useAuth';
+import { useDocTitle } from '../../hooks/useDocTitle';
 
 const Article: React.FC = () => {
+    const [doctitle, setDocTitle] = useDocTitle('Статья');
     const location = useLocation();
     const { id } = useParams();
     const navigate = useNavigate();
     const auth = useAuth();
 
-    const { data, isLoading, isError, isFetching } = useGetArticleQuery(id);
+    const { data, isLoading, isError, isSuccess, isFetching } = useGetArticleQuery(id);
     const [deleteArticle] = useDeleteArticleMutation();
 
     if (isFetching) {
@@ -49,11 +51,13 @@ const Article: React.FC = () => {
 
     const fromPage = location?.state?.from?.pathname;
 
+    const userId = auth.user?.id;
+
     const article = data.article;
-    const avatar = article.author.avatar;
+    const avatar = data.user?.avatar;
     const title = article.title;
-    const author = article.author.username;
-    const authorId = article.author.id;
+    const author = data.user?.username ? data.user?.username : 'deleted';
+    const authorId = article.author._id;
     const cover = article.cover;
     const timestamp = article.timestamp;
     const viewsCount = article.views.count;
@@ -67,17 +71,17 @@ const Article: React.FC = () => {
             <div className="container-720">
                 <div className={styles.top}>
                     <div className={styles.top__content}>
-                        <Link to="/profile">
+                        <Link to={`/users/${author}`}>
                             <Avatar imageSrc={avatar} width={42} />
                         </Link>
                         <div className={styles.content__text}>
-                            <Link to="/profile">
+                            <Link to={`/users/${author}`}>
                                 <div className={styles.headline}>{author}</div>
                             </Link>
                             <div className={`${styles.date} tp-text`}>{date}</div>
                         </div>
                     </div>
-                    {auth?.user?.id === authorId && (
+                    {userId === authorId && (
                         <ButtonGroup>
                             <Button
                                 isQuiet

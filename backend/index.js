@@ -1,16 +1,19 @@
 require('dotenv').config();
 const express = require('express');
-const { createProxyMiddleware } = require('http-proxy-middleware');
 const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const router = require('./routes/index');
+const authRoutes = require('./routes/auth');
+const articlesRoutes = require('./routes/articles');
 const errorMiddleware = require('./middlewares/error-middleware');
 
 const PORT = process.env.PORT || 5000;
 const app = express();
 
+// middleware
+app.use(errorMiddleware);
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -19,10 +22,15 @@ app.use(
         origin: process.env.CLIENT_URL,
     }),
 );
-app.use('/api', router);
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(errorMiddleware);
 
+// routes
+app.use('/api', router);
+app.use('/api', authRoutes);
+app.use('/api', articlesRoutes);
+
+app.use(express.static(path.join(__dirname, 'uploads')));
+
+// connect to db
 const start = async () => {
     try {
         await mongoose.connect(process.env.DB_URL, {

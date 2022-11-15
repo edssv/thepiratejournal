@@ -2,8 +2,7 @@ import { api } from './api';
 import { User } from './user';
 export interface AuthResponse {
     user: User;
-    accessToken: string;
-    refreshToken: string;
+    token: string;
 }
 
 export interface LoginRequest {
@@ -12,8 +11,7 @@ export interface LoginRequest {
 }
 
 export interface SignupRequest {
-    firstName: string;
-    lastName: string;
+    username: string;
     email: string;
     password: string;
 }
@@ -40,13 +38,10 @@ export const authApi = api.injectEndpoints({
                 method: 'POST',
             }),
         }),
-        checkAuth: builder.query<AuthResponse, any>({
-            query: (credentials) => ({
-                url: 'refresh',
-                method: 'GET',
-                body: credentials.refreshToken,
-            }),
+        getCurrentUser: builder.query({
+            query: () => `getCurrentUser`,
         }),
+
         protected: builder.mutation<{ message: string }, void>({
             query: () => 'protected',
         }),
@@ -57,6 +52,6 @@ export const {
     useLoginMutation,
     useSignupMutation,
     useLogoutMutation,
-    useCheckAuthQuery,
+    useGetCurrentUserQuery,
     useProtectedMutation,
 } = authApi;

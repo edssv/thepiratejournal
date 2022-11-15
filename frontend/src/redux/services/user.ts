@@ -4,10 +4,7 @@ import { Article } from './article';
 export interface User {
     id: string;
     username: string;
-    firstName: string;
-    lastName: string;
     avatar: string;
-    isActivated: boolean;
 }
 
 export interface UserResponse {

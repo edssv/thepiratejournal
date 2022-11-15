@@ -12,14 +12,17 @@ import { Button, DialogTrigger, AlertDialog, ProgressCircle } from '@adobe/react
 import { useAuth } from '../../hooks/useAuth';
 import { Avatar } from '../../components/Avatar';
 import NotFoundPage from '../NotFoundPage';
+import { useDocTitle } from '../../hooks/useDocTitle';
 
 const ArticleEditorPage = () => {
     const { id } = useParams();
+    const isEditing = Boolean(id);
+
+    const [doctitle, setDocTitle] = useDocTitle(!isEditing ? 'Новая статья' : 'Изменение статьи');
+
     const location = useLocation();
     const navigate = useNavigate();
     const textAreaRef = useRef();
-
-    const isEditing = Boolean(id);
 
     const fromPage = location?.state?.from?.pathname;
 

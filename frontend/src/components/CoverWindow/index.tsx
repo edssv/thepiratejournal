@@ -55,7 +55,7 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({
         }
 
         const formData = new FormData();
-        formData.append('cover', selectedFile);
+        formData.append('image', selectedFile);
 
         addCover(formData);
     };

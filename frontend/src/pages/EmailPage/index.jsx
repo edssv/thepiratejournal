@@ -12,15 +12,16 @@ import { Toaster } from '../../components/Toaster';
 import { useAuth } from '../../hooks/useAuth';
 import useNetworkStatus from '../../hooks/useNetworkStatus';
 import { Button, ProgressCircle } from '@adobe/react-spectrum';
+import { useDocTitle } from '../../hooks/useDocTitle';
 
 const EmailPage = () => {
+    const [doctitle, setDocTitle] = useDocTitle('Войти');
     const navigate = useNavigate();
     const location = useLocation();
     const auth = useAuth();
     const { isOnline } = useNetworkStatus();
 
     const fromPage = location.state?.from?.pathname || '/';
-    console.log(fromPage);
 
     const {
         register,

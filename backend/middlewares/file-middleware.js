@@ -1,20 +1,13 @@
 const multer = require('multer');
 const fs = require('fs');
 
-const storage = multer.diskStorage({
+const storage = multer.memoryStorage({
     destination: (req, file, cb) => {
-        if (file.fieldname === 'cover') {
-            cb(null, 'uploads/covers');
+        console.log(file);
+        if (!fs.existsSync('uploads')) {
+            fs.mkdirSync('uploads');
         }
-        if (file.fieldname === 'avatar') {
-            cb(null, 'uploads/avatars');
-        } else {
-            cb(null, 'uploads');
-        }
-    },
-    filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-        cb(null, file.fieldname + '-' + uniqueSuffix);
+        cb(null, 'uploads');
     },
 });
 

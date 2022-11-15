@@ -1,11 +1,21 @@
 @use '../../scss/util' as *;
 
 .root {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    width: 100%;
     background-color: #c9252d;
     padding: 16px 16px 16px 24px;
     font-size: $fs-sm;
     color: var(--white);
     font-weight: 600;
+
+    @include breakpoint(sm) {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .label {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
 }

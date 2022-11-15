@@ -1,75 +1,117 @@
+const User = require('../models/user-model');
+const jwt = require('jsonwebtoken');
+const tokenModel = require('../models/token-model');
+const tokenService = require('../service/token-service');
 const authService = require('../service/auth-service');
-const { validationResult } = require('express-validator');
-const ApiError = require('../exceptions/api-error');
 
-class AuthController {
-    async registration(req, res, next) {
-        try {
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Ошибка при валидации', errors.array()));
-            }
-            const { username, email, password } = req.body;
-            const userData = await authService.registration(username, email, password);
-            res.cookie('refreshToken', userData.refreshToken, {
-                maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-                httpOnly: true,
-            });
-            return res.json(userData);
-        } catch (e) {
-            next(e);
-        }
+const createToken = (_id) => {
+    return jwt.sign({ _id }, process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' });
+};
+const createRefreshToken = (_id) => {
+    return jwt.sign({ _id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '30d' });
+};
+
+// signup user
+const signupUser = async (req, res) => {
+    const { username, email, password } = req.body;
+    try {
+        const user = await User.signup(username, email, password);
+
+        // create a token
+        const token = createToken(user._id);
+        const refreshToken = createRefreshToken(user._id);
+
+        // save refreshToken in db and cookies
+        await tokenModel.create({ user: user._id, refreshToken });
+        res.cookie('refreshToken', refreshToken, {
+            maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+            httpOnly: true,
+        });
+
+        res.status(200).json({ user: { username: user.username, avatar: user.avatar }, token });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
+};
 
-    async login(req, res, next) {
-        try {
-            const { email, password } = req.body;
-            const userData = await authService.login(email, password);
-            res.cookie('refreshToken', userData.refreshToken, {
-                maxAge: 30 * 24 * 60 * 60 * 1000,
-                httpOnly: true,
-            });
-            return res.json(userData);
-        } catch (e) {
-            next(e);
-        }
+const loginUser = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const user = await User.login(email, password);
+
+        // create a token
+        const token = createToken(user._id);
+        const refreshToken = createRefreshToken(user._id);
+
+        // save refreshToken in db and cookies
+        await tokenService.saveToken(user._id, refreshToken);
+        res.cookie('refreshToken', refreshToken, {
+            maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+            httpOnly: true,
+        });
+
+        res.status(200).json({
+            user: { _id: user._id, username: user.username, avatar: user.avatar },
+            token,
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
+};
 
-    async logout(req, res, next) {
-        try {
-            const { refreshToken } = req.cookies;
-            const token = await authService.logout(refreshToken);
-            res.clearCookie('refreshToken');
-            return res.json(token);
-        } catch (e) {
-            next(e);
-        }
+const refresh = async (req, res) => {
+    const { refreshToken } = req.cookies;
+    try {
+        const user = await User.refresh(refreshToken);
+
+        const token = createToken(user._id);
+        const newRefreshToken = createRefreshToken(user._id);
+
+        // save refreshToken in db and cookies
+        await tokenService.saveToken(user._id, newRefreshToken);
+        res.cookie('refreshToken', newRefreshToken, {
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+            httpOnly: true,
+        });
+
+        res.status(200).json({ token });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
+};
 
-    async activate(req, res, next) {
-        try {
-            const activationLink = req.params.link;
-            await authService.activate(activationLink);
-            return res.redirect(process.env.CLIENT_URL);
-        } catch (e) {
-            next(e);
-        }
+const logout = async (req, res, next) => {
+    try {
+        const { refreshToken } = req.cookies;
+        await tokenModel.deleteOne({ refreshToken });
+        res.clearCookie('refreshToken');
+
+        res.status(200).json({ message: 'Вы вышли и токен удален' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
+};
 
-    async refresh(req, res, next) {
-        try {
-            const { refreshToken } = req.cookies;
-
-            const userData = await authService.refresh(refreshToken);
-            res.cookie('refreshToken', userData.refreshToken, {
-                maxAge: 30 * 24 * 60 * 60 * 1000,
-                httpOnly: true,
-            });
-            return res.json(userData);
-        } catch (e) {
-            next(e);
-        }
+const activate = async (req, res, next) => {
+    try {
+        const activationLink = req.params.link;
+        await authService.activate(activationLink);
+        return res.redirect(process.env.CLIENT_URL);
+    } catch (e) {
+        next(e);
     }
-}
+};
 
-module.exports = new AuthController();
+const getCurrentUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+
+        res.status(200).json({
+            user: { id: user._id, username: user.username, avatar: user.avatar },
+        });
+    } catch (error) {
+        res.status(401).json({ message: 'Неавторизованный запрос' });
+    }
+};
+
+module.exports = { signupUser, loginUser, logout, activate, refresh, getCurrentUser };

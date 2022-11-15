@@ -5,7 +5,8 @@ import { Overlay } from './components/Overlay';
 import { AuthOutlet } from './helpers/AuthOutlet';
 import { PrivateOutlet } from './helpers/PrivateOutlet';
 import { useAuth } from './hooks/useAuth';
-import { useCheckAuthQuery } from './redux/services/auth';
+import { useDocTitle } from './hooks/useDocTitle';
+import { useGetCurrentUserQuery } from './redux/services/auth';
 
 import './scss/styles.scss';
 
@@ -26,8 +27,9 @@ const NotFoundPage = React.lazy(
 );
 
 const App = () => {
+    const [doctitle, setDocTitle] = useDocTitle('');
     const token = localStorage.getItem('token');
-    const {} = useCheckAuthQuery('');
+    const {} = useGetCurrentUserQuery(token && null);
 
     return (
         <Routes>

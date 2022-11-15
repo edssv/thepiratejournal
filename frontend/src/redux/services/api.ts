@@ -1,19 +1,42 @@
 import { createApi, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react';
+import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { tokenReceived, loggedOut } from '../slices/authSlice';
 
 // Create our baseQuery instance
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/api',
+    baseUrl: 'http://194.67.121.62:5000/api',
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
         // By default, if we have a token in the store, let's use that for authenticated requests
         const token = localStorage.getItem('token');
 
         if (token) {
-            headers.set('authentication', `Bearer ${token}`);
+            headers.set('authorization', `Bearer ${token}`);
         }
         return headers;
     },
 });
+
+const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
+    args,
+    api,
+    extraOptions,
+) => {
+    let result = await baseQuery(args, api, extraOptions);
+    if (result.error && result.error.status === 401) {
+        // try to get a new token
+        const refreshResult = await baseQuery('/refresh', api, extraOptions);
+        if (refreshResult.data) {
+            // store the new token
+            api.dispatch(tokenReceived(refreshResult.data));
+            // retry the initial query
+            result = await baseQuery(args, api, extraOptions);
+        } else {
+            api.dispatch(loggedOut());
+        }
+    }
+    return result;
+};
 
 const baseQueryWithRetry = retry(baseQuery, { maxRetries: 0 });
 
@@ -35,7 +58,7 @@ export const api = createApi({
     /**
      * A bare bones base query would just be `baseQuery: fetchBaseQuery({ baseUrl: '/' })`
      */
-    baseQuery: baseQueryWithRetry,
+    baseQuery: baseQueryWithReauth,
     /**
      * Tag types must be defined in the original API definition
      * for any tags that would be provided by injected endpoints

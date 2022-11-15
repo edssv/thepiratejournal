@@ -2,32 +2,51 @@
 
 .root {
     background-size: cover;
+    background-position-y: 60%;
     height: 100vh;
 
     .background {
         height: 100%;
-        background-color: var(--spectrum-global-color-gray-600);
         overflow-x: hidden;
         overflow-y: auto;
+        background: rgba(0, 0, 0, 0.5);
 
         .inner {
             display: flex;
             justify-content: center;
             height: 100%;
             gap: 260px;
+
             .logoAndSpan {
-                display: flex;
+                display: none;
                 flex-direction: column;
                 justify-content: center;
+                gap: 16px;
                 text-align: left;
                 align-items: flex-start;
+                color: var(--white);
 
-                .logo {
-                    height: 90px;
+                @include breakpoint(xl) {
+                    display: flex;
+                }
+
+                .logo__wrapper {
+                    display: flex;
+
+                    align-items: center;
+                    gap: 16px;
+
+                    .logo {
+                        height: 80px;
+                    }
+
+                    .logo__text {
+                        font-size: 32px;
+                        line-height: 1.2;
+                    }
                 }
 
                 p {
-                    color: var(--white);
                     font-size: 20px;
                 }
             }

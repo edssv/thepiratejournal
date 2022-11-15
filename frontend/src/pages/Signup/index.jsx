@@ -11,8 +11,12 @@ import facebookIcon from '../../assets/img/social/f_logo_RGB-Blue_58.png';
 import styles from './Signup.module.scss';
 import { useSignupMutation } from '../../redux/services/auth';
 import { Button, ProgressCircle } from '@adobe/react-spectrum';
+import { useDocTitle } from '../../hooks/useDocTitle';
+import useNetworkStatus from '../../hooks/useNetworkStatus';
 
 const Signup = () => {
+    const [doctitle, setDocTitle] = useDocTitle('Регистрация');
+    const { isOnline } = useNetworkStatus();
     const navigate = useNavigate();
     const [signup, { isLoading, isError, error }] = useSignupMutation();
 
@@ -40,7 +44,7 @@ const Signup = () => {
 
     return (
         <Canvas>
-            <CardLayout headline="Создать учетную запись">
+            <CardLayout headline="Создать учетную запись" toaster={isOnline ? false : true}>
                 <div className={styles.root}>
                     <section className={styles.social__buttons}>
                         <Link to="#" className={styles.social__button}>
@@ -87,7 +91,7 @@ const Signup = () => {
                                         },
                                     })}
                                     type="text"
-                                    className={`text-field  ${errors?.userName && `is-invalid`}`}
+                                    className={`text-field ${errors?.username && `is-invalid`}`}
                                 />
                                 {errors?.username && (
                                     <label className="field-label error-label">

@@ -1,61 +1,34 @@
 const fs = require('fs');
+const sharp = require('sharp');
+const path = require('path');
 
 class FileController {
     async uploadFile(req, res) {
-        const getDestination = () => {
-            if (req.files.cover) {
-                return req.files.cover[0].destination;
-            }
-            if (req.files.avatar) {
-                return req.files.avatar[0].destination;
-            }
-            if (req.files.image) {
-                return req.files.image[0].destination;
-            }
-        };
-        const getFilename = () => {
-            if (req.files.cover) {
-                return req.files.cover[0].filename;
-            }
-            if (req.files.avatar) {
-                return req.files.avatar[0].filename;
-            }
-            if (req.files.image) {
-                return req.files.image[0].filename;
-            }
-        };
-
-        const getPath = () => {
-            if (req.files.cover) {
-                return req.files.cover[0].path;
-            }
-            if (req.files.avatar) {
-                return req.files.avatar[0].path;
-            }
-            if (req.files.image) {
-                return req.files.image[0].path;
-            }
-        };
-
-        const fileDestination = getDestination();
-        const filename = getFilename();
-        const filePath = getPath();
-
         try {
+            const { buffer, originalname } = req.file;
+
+            const timestamp = Date.now();
+            const ref = timestamp + '-' + originalname;
+            const directory = path.join(process.cwd(), `\\uploads\\${ref}`);
+
+            await sharp(buffer).resize(1600).jpeg({ quality: 70 }).toFile(directory);
+
+            const link = `${process.env.API_URL}/${ref}`;
+
             res.json({
                 success: 1,
                 file: {
-                    filePath: `${filePath}`,
-                    url: `${process.env.API_URL}/${fileDestination}/${filename}`,
+                    ref: directory,
+                    url: link,
                 },
             });
         } catch (error) {
-            return res.json(error);
+            res.status(400).json({ message: error.message });
         }
     }
 
     async deleteFile(req, res) {
-        const filePath = `${req.body.filePath}`;
+        const filePath = `${req.body.ref}`;
         fs.unlink(filePath, (err) => {
             if (err) {
                 res.status(500).send({

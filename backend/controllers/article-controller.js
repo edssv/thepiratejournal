@@ -1,34 +1,32 @@
-const articleModel = require('../models/article-model');
+const Article = require('../models/article-model');
 const articleService = require('../service/article-service');
+const User = require('../models/user-model');
 
 class ArticleController {
-    async create(req, res, next) {
+    async creating(req, res) {
+        const authorId = req.user._id;
+        const authorUsername = req.user.username;
+        const { title, cover, blocks, time } = req.body;
         try {
-            const { refreshToken } = req.cookies;
-            const { autosave } = req.body;
-            const user = await articleService.create(refreshToken);
-            const doc = new articleModel({
-                author: { id: user.userId, username: user.username },
-                title: req.body.title,
-                cover: req.body.cover,
-                blocks: req.body.blocks,
-                timestamp: req.body.time,
-            });
-
-            const article = await doc.save();
+            const article = await Article.creating(
+                authorId,
+                authorUsername,
+                title,
+                cover,
+                blocks,
+                time,
+            );
 
             res.json(article);
-        } catch (err) {
-            res.status(500).json({
-                message: 'Не удалось создать статью',
-            });
+        } catch (error) {
+            res.status(400).json({ message: error.message });
         }
     }
 
     async remove(req, res, next) {
         try {
             const articleId = req.params.id;
-            await articleModel.findOneAndDelete({ _id: articleId });
+            await Article.findOneAndDelete({ _id: articleId });
             res.json({
                 message: 'Статья удалена',
             });
@@ -36,41 +34,40 @@ class ArticleController {
             next(e);
         }
     }
-    async edit(req, res, next) {
+    async editing(req, res, next) {
+        const articleId = req.params.id;
+        const { title, cover, blocks } = req.body;
         try {
-            const articleId = req.params.id;
-            await articleModel.updateOne(
-                { _id: articleId },
-                {
-                    title: req.body.title,
-                    cover: req.body.cover,
-                    blocks: req.body.blocks,
-                },
-            );
-            res.json({
-                message: 'Статья обновлена',
-            });
-        } catch (e) {
-            next(e);
+            await Article.editing(articleId, title, cover, blocks);
+            res.status(200).json({ message: 'Статья обновлена' });
+        } catch (error) {
+            res.status(400).json({ message: error.message });
         }
     }
 
     async getAll(req, res, next) {
         try {
-            const articles = await articleModel.find().exec();
+            const articles = await Article.find().exec();
             return res.json(articles);
         } catch (e) {
             next(e);
         }
     }
 
-    async getOne(req, res, next) {
+    async getOne(req, res) {
+        const id = req.params.id;
+
         try {
-            const articleId = req.params.id;
-            const article = await articleService.getOne(articleId);
-            res.json(article);
-        } catch (e) {
-            next(e);
+            const article = await Article.getOne(id);
+
+            const user = await User.findById(article.author._id);
+
+            res.status(200).json({
+                article,
+                user: { _id: user._id, username: user.username, avatar: user.avatar },
+            });
+        } catch (error) {
+            res.status(400).json({ message: error.message });
         }
     }
 

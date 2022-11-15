@@ -2,10 +2,10 @@ import { ProgressCircle } from '@adobe/react-spectrum';
 import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { useCheckAuthQuery } from '../redux/services/auth';
+import { useGetCurrentUserQuery } from '../redux/services/auth';
 
 export const AuthOutlet = () => {
-    const { isLoading } = useCheckAuthQuery('');
+    const { isLoading } = useGetCurrentUserQuery('');
 
     const auth = useAuth();
     const location = useLocation();

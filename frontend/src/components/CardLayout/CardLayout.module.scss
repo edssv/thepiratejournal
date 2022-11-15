@@ -1,22 +1,42 @@
 @use '../../scss/util/' as *;
 
-.cardLayout__container {
+.root {
     width: 100%;
-    .root {
-        width: 100%;
-        padding: 40px 56px;
-        background-color: var(--spectrum-global-color-gray-100);
-        min-height: 630px;
-        border-radius: $br-sm;
-        .header {
-            margin-bottom: 8px;
+    padding: 24px 18px;
+    background-color: var(--spectrum-global-color-gray-100);
+    height: 100%;
+    color: var(--spectrum-global-color-gray-900);
 
-            h2 {
-                font-size: 33px;
+    @include breakpoint(sm) {
+        min-height: 630px;
+        height: unset;
+        padding: 40px 56px;
+        border-radius: $br-sm;
+    }
+    .header {
+        margin-bottom: 8px;
+
+        .logo {
+            margin-bottom: 12px;
+            img {
+                height: 18px;
+            }
+
+            span {
+                font-size: 14px;
+                font-weight: 700;
+            }
+
+            @include breakpoint(sm) {
+                display: none;
             }
         }
-        .content {
-            display: flex;
+
+        h2 {
+            font-size: 33px;
         }
+    }
+    .content {
+        display: flex;
     }
 }

@@ -10,9 +10,12 @@ import styles from './Profile.module.scss';
 import { ArticlePreview } from '../../components/ArticlePreview';
 import { viewsSumCalc } from '../../helpers/viewsSum';
 import { Avatar } from '../../components/Avatar';
+import { useDocTitle } from '../../hooks/useDocTitle';
 
 const Profile: React.FC = () => {
     const { id } = useParams();
+
+    const [doctitle, setDocTitle] = useDocTitle(id);
 
     const { data, isLoading } = useGetUserQuery(id);
 

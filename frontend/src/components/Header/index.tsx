@@ -4,10 +4,10 @@ import { Button, Text } from '@adobe/react-spectrum';
 import Draw from '@spectrum-icons/workflow/Draw';
 import { IoLogOutOutline } from 'react-icons/io5';
 
-import logo from '../../assets/img/logo.png';
+import logo from '../../assets/img/logotype.png';
 
 import styles from './Header.module.scss';
-import { useCheckAuthQuery, useLogoutMutation } from '../../redux/services/auth';
+import { useGetCurrentUserQuery, useLogoutMutation } from '../../redux/services/auth';
 import { useAuth } from '../../hooks/useAuth';
 import { Avatar } from '../Avatar';
 import { HeaderSkeleton } from './HeaderSkeleton';
@@ -18,7 +18,7 @@ export const Header = () => {
     const auth = useAuth();
 
     const [logout] = useLogoutMutation();
-    const { isLoading } = useCheckAuthQuery('');
+    const { isLoading } = useGetCurrentUserQuery(null);
 
     const imageSrc = auth.user?.avatar;
 

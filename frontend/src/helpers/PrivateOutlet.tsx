@@ -8,11 +8,11 @@ import {
     DialogContainer,
     ProgressCircle,
 } from '@adobe/react-spectrum';
-import { useCheckAuthQuery } from '../redux/services/auth';
+import { useGetCurrentUserQuery } from '../redux/services/auth';
 
 export function PrivateOutlet() {
     let [isOpen, setOpen] = React.useState(false);
-    const { isLoading } = useCheckAuthQuery('');
+    const { isLoading } = useGetCurrentUserQuery('');
 
     const auth = useAuth();
     const location = useLocation();
@@ -30,7 +30,7 @@ export function PrivateOutlet() {
             />
         );
 
-    if (!auth?.user?.isActivated)
+    if (!auth)
         return (
             <>
                 <DialogContainer onDismiss={() => setOpen(false)}>
@@ -48,7 +48,7 @@ export function PrivateOutlet() {
                 <Outlet />
             </>
         );
-    if (auth?.user?.isActivated) return <Outlet />;
+    if (auth) return <Outlet />;
 
     return (
         <>
