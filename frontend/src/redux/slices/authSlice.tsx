@@ -5,6 +5,7 @@ import type { RootState } from '../store';
 
 type AuthState = {
     user: User | null;
+    isActivated: boolean;
     token: string | null;
 };
 
@@ -19,6 +20,7 @@ const slice = createSlice({
         loggedOut: (state) => {
             state.user = null;
             state.token = null;
+            localStorage.removeItem('token');
         },
     },
     extraReducers: (builder) => {
@@ -67,4 +69,4 @@ export const { tokenReceived, loggedOut } = slice.actions;
 export default slice.reducer;
 
 export const selectCurrentUser = (state: RootState) => state.auth.user;
-export const selectAccessToken = (state: RootState) => state.auth.token;
+export const selectIsActivated = (state: RootState) => state.auth.isActivated;

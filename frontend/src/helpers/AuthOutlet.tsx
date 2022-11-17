@@ -1,6 +1,6 @@
 import { ProgressCircle } from '@adobe/react-spectrum';
-import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Canvas } from '../components';
 import { useAuth } from '../hooks/useAuth';
 import { useGetCurrentUserQuery } from '../redux/services/auth';
 
@@ -16,12 +16,18 @@ export const AuthOutlet = () => {
             <ProgressCircle
                 position="absolute"
                 isIndeterminate
-                size="M"
+                size="L"
                 left="50%"
-                top="45%"
+                top="50%"
                 aria-label="Загрузка..."
             />
         );
 
-    return auth.user ? navigate : <Outlet />;
+    return auth.user ? (
+        navigate
+    ) : (
+        <Canvas>
+            <Outlet />
+        </Canvas>
+    );
 };

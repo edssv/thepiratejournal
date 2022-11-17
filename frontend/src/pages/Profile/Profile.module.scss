@@ -4,45 +4,105 @@
     display: flex;
     flex-direction: column;
     gap: 60px;
+    padding-top: 30px;
+    background-color: var(--spectrum-well-background-color);
 
-    .top {
-        gap: 30px;
-        display: flex;
-
-        &__img {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        .wrapper {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        &__info {
-            display: flex;
-            flex-direction: column;
-            gap: $gap-xs;
-            .info__headline {
-            }
-        }
+    @include breakpoint(xl) {
+        flex-direction: row;
+        padding-top: 60px;
     }
 
-    .all_articles {
-        .headline {
-            margin-bottom: 30px;
-        }
-        &__list {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
+    .wrapper {
+        margin: 0 auto;
+        max-width: 1760px;
+        width: 100%;
+        min-height: 101vh;
+        position: relative;
+        padding: 0 15px;
 
-            @include breakpoint-down(xl) {
-                grid-template-columns: repeat(3, 1fr);
+        @include breakpoint(xl) {
+            display: flex;
+            gap: 50px;
+            align-items: flex-start;
+            max-width: 1438px;
+            padding: 0 50px;
+        }
+
+        @include breakpoint(xxl) {
+            max-width: 1762px;
+        }
+
+        @include breakpoint(xxxl) {
+            max-width: 2186px;
+        }
+        .top {
+            position: relative;
+            gap: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 30px;
+
+            @include breakpoint(xl) {
+                background-color: var(--spectrum-global-color-gray-100);
+                box-shadow: 0 1px 3px var(--spectrum-global-color-gray-300);
+                padding: 25px 30px 16px;
+                min-width: 360px;
+                border-radius: 3px;
+                height: 80%;
             }
-            @include breakpoint-down(lg) {
-                grid-template-columns: repeat(2, 1fr);
+
+            &__img {
+                width: 200px;
+                height: 200px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+            &__wrapper {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+                gap: 30px;
+            }
+            &__info {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+
+                .info__headline {
+                    font-weight: 600;
+                    color: var(--spectrum-global-color-gray-900);
+                    line-height: 1;
+                }
+
+                .info__counters,
+                .location,
+                .signupDate {
+                    gap: 14px;
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: var(--spectrum-global-color-gray-600);
+                }
+                .info__counters {
+                    display: flex;
+                    justify-content: center;
+                }
+            }
+
+            .signupDate {
+                display: none;
+                position: absolute;
+                bottom: 20px;
+                font-size: 14px;
+                font-weight: 500;
+                color: var(--spectrum-global-color-gray-600);
+
+                @include breakpoint(xl) {
+                    display: block;
+                }
             }
         }
     }

@@ -3,7 +3,7 @@ import CircleFilled from '@spectrum-icons/workflow/CircleFilled';
 import React from 'react';
 import { IoEye, IoHeart } from 'react-icons/io5';
 import { Link, useLocation } from 'react-router-dom';
-import { convertDateShort } from '../../pages/Article/convertDate';
+import { convertDateShort } from '../../helpers/convertDate';
 import { Article, Block } from '../../redux';
 import { ButtonBookmark } from '../Buttons/ButtonBookmark';
 

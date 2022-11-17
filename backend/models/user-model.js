@@ -6,19 +6,16 @@ const jwt = require('jsonwebtoken');
 const mailService = require('../service/mail-service');
 const tokenModel = require('../models/token-model');
 
-const userSchema = new Schema(
-    {
-        username: { type: String, required: true, unique: true },
-        email: { type: String, required: true, unique: true },
-        password: { type: String, required: true },
-        isActivated: { type: Boolean, default: false },
-        avatar: { type: String },
-        activationLink: { type: String },
-    },
-    {
-        timestamps: true,
-    },
-);
+const userSchema = new Schema({
+    username: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    isActivated: { type: Boolean, default: false },
+    avatar: { type: String },
+    activationLink: { type: String },
+    info: { country: String, city: String },
+    time: { type: Number, default: new Date() },
+});
 
 // static signup method
 userSchema.statics.signup = async function (username, email, password) {

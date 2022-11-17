@@ -1,4 +1,7 @@
+@use '../../../scss/util' as *;
+
 .root {
+    display: none;
     position: absolute;
     top: 20px;
     right: 20px;
@@ -6,6 +9,10 @@
     height: 48px;
     z-index: 999;
     cursor: pointer;
+
+    @include breakpoint(lg) {
+        display: block;
+    }
 
     .closeIcon {
         color: var(--spectrum-global-color-gray-600);

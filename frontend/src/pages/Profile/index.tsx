@@ -1,7 +1,6 @@
 import React from 'react';
-import { IoDocument, IoEye } from 'react-icons/io5';
+import { IoEye } from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
-import { ButtonLike } from '../../components/Buttons/ButtonLike';
 import { useAuth } from '../../hooks/useAuth';
 import { useGetUserQuery } from '../../redux/services/user';
 import { Article } from '../../redux/services/article';
@@ -11,6 +10,10 @@ import { ArticlePreview } from '../../components/ArticlePreview';
 import { viewsSumCalc } from '../../helpers/viewsSum';
 import { Avatar } from '../../components/Avatar';
 import { useDocTitle } from '../../hooks/useDocTitle';
+import Location from '@spectrum-icons/workflow/Location';
+import Heart from '@spectrum-icons/workflow/Heart';
+import { Button, ButtonGroup, Text } from '@adobe/react-spectrum';
+import { convertDateDayMonthYear, convertDateShort } from '../../helpers/convertDate';
 
 const Profile: React.FC = () => {
     const { id } = useParams();
@@ -29,31 +32,47 @@ const Profile: React.FC = () => {
     const articles = data?.articles.map((article: Article, id) => (
         <ArticlePreview article={article} key={id} />
     ));
-
+    const date = convertDateDayMonthYear(data?.user.timestamp);
     return (
         <div className={styles.root}>
-            <div className={styles.top}>
-                <Avatar imageSrc={avatar} width={200} />
-                <div className={styles.wrapper}>
-                    <div className={styles.top__info}>
-                        <h2 className={styles.info__headline}>{username}</h2>
-                        <div className={styles.info__count_articles}></div>
-                        <div className="icon-center">
-                            <IoDocument />
-                            <span>{articlesCount} статей</span>
+            <div className={styles.wrapper}>
+                <div className={styles.top}>
+                    <Avatar imageSrc={avatar} width={160} />
+                    <div className={styles.top__wrapper}>
+                        <div className={styles.top__info}>
+                            <h3 className={styles.info__headline}>{username}</h3>
+                            <div className={styles.info__counters}>
+                                {/* <div className="icon-center">
+                                <IoDocument />
+                                <span>{articlesCount} статей</span>
+                            </div> */}
+                                <div className="icon-center">
+                                    <IoEye />
+                                    <span>{views} просмотров</span>
+                                </div>
+                            </div>
+                            <div className={styles.location}>
+                                <Location size="XS" /> {data?.user.info.city},{' '}
+                                {data?.user.info.country}
+                            </div>
                         </div>
-                        <div className="icon-center">
-                            <IoEye />
-                            <span>{views} просмотров</span>
-                        </div>
+                        <Button variant="accent">
+                            <Heart />
+                            <Text>1 999</Text>
+                        </Button>
                     </div>
-                    {/* <ButtonLike /> */}
+                    <span className={styles.signupDate}>Дата регистрации: {date}</span>
                 </div>
+                <section className="articles">
+                    <ButtonGroup>
+                        <Button variant="primary" style="fill">
+                            Статьи
+                        </Button>
+                        <Button variant="primary">Оценки</Button>
+                    </ButtonGroup>
+                    <div className="articles__list">{articles}</div>
+                </section>
             </div>
-            <section className="articles">
-                <h4 className="headline">Все статьи пользователя</h4>
-                <div className="articles__list">{articles}</div>
-            </section>
         </div>
     );
 };

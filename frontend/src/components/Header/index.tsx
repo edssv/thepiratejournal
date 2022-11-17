@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Button, Text } from '@adobe/react-spectrum';
+import { Button, ButtonGroup, Text } from '@adobe/react-spectrum';
 import Draw from '@spectrum-icons/workflow/Draw';
 import { IoLogOutOutline } from 'react-icons/io5';
 
@@ -11,6 +11,8 @@ import { useGetCurrentUserQuery, useLogoutMutation } from '../../redux/services/
 import { useAuth } from '../../hooks/useAuth';
 import { Avatar } from '../Avatar';
 import { HeaderSkeleton } from './HeaderSkeleton';
+import { useMatchMedia } from '../../hooks';
+import { useMediaPredicate } from 'react-media-hook';
 
 export const Header = () => {
     const location = useLocation();
@@ -22,15 +24,36 @@ export const Header = () => {
 
     const imageSrc = auth.user?.avatar;
 
+    // media
+    const isMobile = useMediaPredicate('(max-width: 768px)');
+    const fromLaptop = useMediaPredicate('(min-width: 991px)');
+
     return (
-        <header className={styles.root}>
+        <header
+            className={styles.root}
+            style={
+                window.screenTop > 55
+                    ? { boxShadow: 'rgba(0, 0, 0, 0.2) 0px -2px 6px ' }
+                    : { boxShadow: 'unset' }
+            }>
             <div className="container">
                 <div className={styles.content}>
                     <div className={styles.content__left}>
-                        <Link to="/" className={styles.logo}>
-                            <img src={logo} alt="Логотип" />
+                        <Link to="/" className={`${styles.logo} icon-center`}>
+                            {isMobile ? (
+                                <img src={logo} alt="The Pirate Journal" />
+                            ) : (
+                                <>
+                                    <img src={logo} alt="The Pirate Journal" />
+                                    <span>
+                                        The Pirate <br />
+                                        Journal
+                                    </span>
+                                </>
+                            )}
                         </Link>
-                        {window.innerWidth > 900 && (
+
+                        {fromLaptop && (
                             <nav className={styles.nav}>
                                 <NavLink to="/articles" className={styles.nav__link}>
                                     Статьи
@@ -45,12 +68,21 @@ export const Header = () => {
                         )}
                     </div>
                     <div className={styles.content__right}>
-                        <Button
-                            onPress={() => navigate('/writing', { state: { from: location } })}
-                            variant="primary">
-                            <Draw />
-                            <Text> Написать статью</Text>
-                        </Button>
+                        <ButtonGroup>
+                            <Button
+                                isQuiet
+                                onPress={() => navigate('/writing', { state: { from: location } })}
+                                variant="primary">
+                                {isMobile ? (
+                                    <Draw />
+                                ) : (
+                                    <>
+                                        <Draw />
+                                        <Text> Написать статью</Text>
+                                    </>
+                                )}
+                            </Button>
+                        </ButtonGroup>
                         {isLoading ? (
                             <HeaderSkeleton />
                         ) : auth.user ? (

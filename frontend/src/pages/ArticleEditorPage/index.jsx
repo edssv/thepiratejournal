@@ -2,35 +2,36 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import EditorJS from '@editorjs/editorjs';
 import debounce from 'lodash.debounce';
-import { ButtonClose } from '../../components/Buttons/ButtonClose';
 import styles from './ArticleEditorPage.module.scss';
 import Configuration from './configuration';
-import { BtnLeftFixed } from '../../components/Buttons/BtnLeftFixed';
+import { BtnLeftFixed, Avatar, CoverWindow, ButtonClose } from '../../components';
 import { useAddArticleMutation, useEditArticleMutation, useGetArticleEditQuery } from '../../redux';
-import { CoverWindow } from '../../components/CoverWindow';
 import { Button, DialogTrigger, AlertDialog, ProgressCircle } from '@adobe/react-spectrum';
-import { useAuth } from '../../hooks/useAuth';
-import { Avatar } from '../../components/Avatar';
 import NotFoundPage from '../NotFoundPage';
-import { useDocTitle } from '../../hooks/useDocTitle';
+import { useMatchMedia, useDocTitle, useAuth } from '../../hooks';
+import { useMediaPredicate } from 'react-media-hook';
+import Checkmark from '@spectrum-icons/workflow/Checkmark';
+import ChevronLeft from '@spectrum-icons/workflow/ChevronLeft';
+import { TopPanelMobile } from '../../components/TopPanelMobile';
+import { resizeTextareaHeight } from './resizeTextareaFunction';
 
 const ArticleEditorPage = () => {
-    const { id } = useParams();
-    const isEditing = Boolean(id);
-
-    const [doctitle, setDocTitle] = useDocTitle(!isEditing ? 'Новая статья' : 'Изменение статьи');
-
     const location = useLocation();
     const navigate = useNavigate();
-    const textAreaRef = useRef();
+    const { id } = useParams();
+    const isEditing = Boolean(id);
+    const auth = useAuth();
 
-    const fromPage = location?.state?.from?.pathname;
-
+    // set doctitle
+    const [doctitle, setDocTitle] = useDocTitle(!isEditing ? 'Новая статья' : 'Изменение статьи');
+    // redux rtk
     const { data, isLoading, isSuccess, isError, error } = useGetArticleEditQuery(isEditing && id);
     const [addArticle] = useAddArticleMutation();
     const [editArticle] = useEditArticleMutation();
-
-    const auth = useAuth();
+    // location
+    const fromPage = location?.state?.from?.pathname;
+    // media
+    const isMobile = useMediaPredicate('(max-width: 768px)');
 
     const [selectedFile, setSelectedFile] = useState('');
     const [uploadedUrl, setUploadedUrl] = useState('');
@@ -52,7 +53,7 @@ const ArticleEditorPage = () => {
                     isIndeterminate
                     size="M"
                     left="50%"
-                    top="45%"
+                    top="50%"
                     aria-label="Загрузка..."
                 />;
             }
@@ -103,72 +104,55 @@ const ArticleEditorPage = () => {
         navigate(-1);
     };
 
-    const avatar = auth.user ? auth.user.avatar : '';
-    const userName = auth.user ? auth.user.userName : '';
+    resizeTextareaHeight();
 
-    const tx = textAreaRef;
-    for (let i = 0; i < tx.length; i++) {
-        tx[i].setAttribute('style', 'height:' + tx[i].scrollHeight + 'px;overflow-y:hidden;');
-        tx[i].addEventListener('input', OnInput, false);
-    }
-
-    function OnInput() {
-        this.style.height = 0;
-        this.style.height = this.scrollHeight + 'px';
-    }
+    const Confirm = (
+        <DialogTrigger>
+            <Button isDisabled={selectedFile ? false : true} variant="cta">
+                {isEditing ? 'Сохранить' : 'Опубликовать'}
+            </Button>
+            {(close) => (
+                <AlertDialog
+                    variant="confirmation"
+                    title="Подтвердить"
+                    primaryActionLabel="Опубликовать"
+                    // secondaryActionLabel="Сохранить как черновик"
+                    cancelLabel="Отмена"
+                    onPrimaryAction={onClickSave}>
+                    Вы уверены, что хотите опубликовать новую статью?
+                </AlertDialog>
+            )}
+        </DialogTrigger>
+    );
 
     return (
         <div className={styles.root}>
-            {fromPage && <BtnLeftFixed />}
-            <ButtonClose />
-            <div className="container-720">
-                <div className={styles.top}>
-                    <div className={styles.top__author}>
-                        <Link to="/profile">
-                            <Avatar imageSrc={avatar} width={46} />
-                        </Link>
-                        <div className={styles.author__text}>
-                            <div className={styles.headline}>{userName}</div>
-                            <span className={`${styles.subhead} tp-text`}>Новая статья</span>
-                        </div>
-                    </div>
-                    <div className={styles.top__right}>
-                        <CoverWindow
-                            uploadedUrl={uploadedUrl}
-                            setUploadedUrl={setUploadedUrl}
-                            onClickSave={onClickSave}
-                            selectedFile={selectedFile}
-                            setSelectedFile={setSelectedFile}
-                            isEditing={isEditing}
-                        />
-                        <DialogTrigger>
-                            <Button isDisabled={selectedFile ? false : true} variant="cta">
-                                {isEditing ? 'Сохранить' : 'Публикация'}
-                            </Button>
-                            {(close) => (
-                                <AlertDialog
-                                    variant="confirmation"
-                                    title="Подтвердить"
-                                    primaryActionLabel="Опубликовать"
-                                    // secondaryActionLabel="Сохранить как черновик"
-                                    cancelLabel="Отмена"
-                                    onPrimaryAction={onClickSave}>
-                                    Вы уверены, что хотите опубликовать новую статью?
-                                </AlertDialog>
-                            )}
-                        </DialogTrigger>
-                    </div>
-                </div>
-                <form>
+            <div className={styles.top_bar}>
+                <Button onPress={() => navigate(fromPage ? fromPage : '/')} variant="secondary">
+                    Отмена
+                </Button>
+                {Confirm}
+            </div>
+            <div className={styles.container}>
+                <div className={styles.textarea__wrapper}>
                     <textarea
-                        ref={textAreaRef}
-                        placeholder="Заголовок"
+                        placeholder="Дай мне имя"
                         className={styles.writingHeader}
                         value={textareaValue}
                         onChange={(e) => setTextareaValue(e.target.value)}
+                        style={{ height: 42 }}
                     />
-                    <div id="editorjs" />
-                </form>
+                </div>
+                <CoverWindow
+                    uploadedUrl={uploadedUrl}
+                    setUploadedUrl={setUploadedUrl}
+                    onClickSave={onClickSave}
+                    selectedFile={selectedFile}
+                    setSelectedFile={setSelectedFile}
+                    isEditing={isEditing}
+                />
+
+                <div id="editorjs" />
             </div>
         </div>
     );

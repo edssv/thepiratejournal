@@ -5,6 +5,12 @@ export interface User {
     id: string;
     username: string;
     avatar: string;
+    timestamp: any;
+    info: {
+        city: string;
+        country: string;
+    };
+    isActivated: boolean;
 }
 
 export interface UserResponse {

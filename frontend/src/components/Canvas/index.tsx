@@ -9,7 +9,7 @@ type CanvasProps = {
     children: any;
 };
 
-const Canvas: React.FC<CanvasProps> = ({ children }) => {
+export const Canvas: React.FC<CanvasProps> = ({ children }) => {
     return (
         <div className={styles.root} style={{ backgroundImage: `url(${background})` }}>
             <section className={styles.background}>
@@ -29,5 +29,3 @@ const Canvas: React.FC<CanvasProps> = ({ children }) => {
         </div>
     );
 };
-
-export default Canvas;

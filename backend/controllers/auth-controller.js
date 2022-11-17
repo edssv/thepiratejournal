@@ -107,7 +107,12 @@ const getCurrentUser = async (req, res) => {
         const user = await User.findById(req.user._id);
 
         res.status(200).json({
-            user: { id: user._id, username: user.username, avatar: user.avatar },
+            user: {
+                id: user._id,
+                username: user.username,
+                avatar: user.avatar,
+                isActivated: user.isActivated,
+            },
         });
     } catch (error) {
         res.status(401).json({ message: 'Неавторизованный запрос' });

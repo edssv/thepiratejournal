@@ -16,14 +16,12 @@ const Configuration = (dataBlocks) => {
                 required: true,
                 config: { placeholder: 'Заголовок', levels: [3, 4], defaultLevel: 3 },
             },
-            paragraph: {
-                config: { placeholder: 'Параграф' },
-            },
+
             image: {
                 class: ImageTool,
                 config: {
                     endpoints: {
-                        byFile: 'http://194.67.121.62:5000/api/upload', // Your backend file uploader endpoint
+                        byFile: `${process.env.REACT_APP_API_URL} + /upload`, // Your backend file uploader endpoint
                         byUrl: 'http://localhost:8008/fetchUrl', // Your endpoint that provides uploading by Url
                     },
                 },

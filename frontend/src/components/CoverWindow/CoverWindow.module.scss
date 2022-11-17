@@ -12,21 +12,83 @@
         }
     }
 }
+
+.root {
+    .container {
+        margin-bottom: 72px;
+
+        .placeholder {
+            @include breakpoint(md) {
+                min-width: 768px;
+                width: 100%;
+            }
+            .uploader {
+                position: relative;
+                height: auto;
+                border: 2px dashed var(--spectrum-global-color-gray-200);
+                border-radius: 12px;
+                cursor: pointer;
+
+                .placeholder__content {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 40px 24px 6px 24px;
+
+                    .headline {
+                        font-size: 16px;
+                        font-weight: 400;
+                    }
+                    p {
+                        font-size: 14px;
+                        margin-top: 8px;
+                        color: var(--spectrum-global-color-gray-600);
+                    }
+                    ul {
+                        font-size: 14px;
+                        color: var(--spectrum-global-color-gray-600);
+                        margin-top: 16px;
+                        @include breakpoint(md) {
+                            display: flex;
+                            flex-direction: column;
+                            margin-top: 40px;
+                        }
+
+                        li {
+                            margin-left: 16px;
+                            line-height: 28px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 .cover {
     width: 100%;
-    height: 300px;
+    height: 380px;
     position: relative;
     background-size: cover;
     background-position: center;
     border-radius: $br-xs;
 
+    &:hover {
+        .cover__closeBtn {
+            opacity: 1;
+        }
+    }
+
     &__closeBtn {
         position: absolute;
-        top: 0;
-        right: 0;
-        width: 22px;
-        height: 22px;
-        background-color: var(--black-50);
+        top: 12px;
+        right: 12px;
+        width: 38px;
+        height: 38px;
+
+        border-radius: 8px;
+        transition: opacity 0.2s ease;
+        opacity: 0;
         cursor: pointer;
     }
 }

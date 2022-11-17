@@ -33,7 +33,7 @@ const App = () => {
 
     return (
         <Routes>
-            <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Layout container={true} />}>
                 <Route
                     index
                     element={
@@ -45,7 +45,7 @@ const App = () => {
                 <Route
                     path="games"
                     element={
-                        <Suspense fallback="">
+                        <Suspense fallback={<Overlay />}>
                             <GamesPage />
                         </Suspense>
                     }
@@ -53,7 +53,7 @@ const App = () => {
                 <Route
                     path="games/metro-exodus"
                     element={
-                        <Suspense fallback="">
+                        <Suspense fallback={<Overlay />}>
                             <GamePage />
                         </Suspense>
                     }
@@ -68,6 +68,45 @@ const App = () => {
                         }
                     />
                 </Route> */}
+
+                <Route
+                    path="*"
+                    element={
+                        <Suspense fallback={<Overlay />}>
+                            <NotFoundPage />
+                        </Suspense>
+                    }
+                />
+
+                <Route element={<PrivateOutlet />}>
+                    <Route
+                        path="/writing"
+                        element={
+                            <Suspense fallback={<Overlay />}>
+                                <ArticleEditorPage />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/articles/:id/edit"
+                        element={
+                            <Suspense fallback={<Overlay />}>
+                                <ArticleEditorPage />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+            </Route>
+
+            <Route element={<Layout container={false} />}>
+                <Route
+                    path="articles/:id"
+                    element={
+                        <Suspense fallback={<Overlay />}>
+                            <Article />
+                        </Suspense>
+                    }
+                />
                 <Route
                     path="/users/:id"
                     element={
@@ -76,47 +115,13 @@ const App = () => {
                         </Suspense>
                     }
                 />
-                <Route
-                    path="*"
-                    element={
-                        <Suspense fallback="">
-                            <NotFoundPage />
-                        </Suspense>
-                    }
-                />
             </Route>
-            <Route
-                path="articles/:id"
-                element={
-                    <Suspense fallback="">
-                        <Article />
-                    </Suspense>
-                }
-            />
 
-            <Route element={<PrivateOutlet />}>
-                <Route
-                    path="/writing"
-                    element={
-                        <Suspense fallback="">
-                            <ArticleEditorPage />
-                        </Suspense>
-                    }
-                />
-                <Route
-                    path="/articles/:id/edit"
-                    element={
-                        <Suspense fallback="">
-                            <ArticleEditorPage />
-                        </Suspense>
-                    }
-                />
-            </Route>
             <Route element={<AuthOutlet />}>
                 <Route
                     path="/login"
                     element={
-                        <Suspense fallback="">
+                        <Suspense fallback={<Overlay />}>
                             <EmailPage />
                         </Suspense>
                     }
@@ -124,7 +129,7 @@ const App = () => {
                 <Route
                     path="/signup"
                     element={
-                        <Suspense fallback="">
+                        <Suspense fallback={<Overlay />}>
                             <Signup />
                         </Suspense>
                     }

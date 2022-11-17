@@ -1,69 +1,109 @@
 @use '../../scss/util' as *;
 
 .root {
-    padding: 30px 0;
+    .shot_container {
+        .shot_content {
+            padding: 20px 16px;
 
-    .top {
-        display: flex;
-        justify-content: space-between;
-        &__content {
-            display: flex;
-            gap: $gap-lg;
-            img {
-                width: 48px;
-                height: 48px;
+            @include breakpoint(lg) {
+                padding: 20px 120px;
+                transition: padding 0.25s linear;
+                transition-delay: 0.15s;
             }
-            .content__text {
-                .headline {
-                    font-weight: 600;
-                    margin-bottom: 7px;
+            .shot_content_container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                max-width: 1172px;
+                margin: 0 auto;
+
+                .top {
+                    position: relative;
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                    max-width: 768px;
+
+                    &__content {
+                        display: flex;
+                        gap: 16px;
+
+                        img {
+                            width: 48px;
+                            height: 48px;
+                        }
+
+                        .content__text {
+                            .article_title {
+                                font-size: 16px;
+                                font-weight: 500;
+                                line-height: 22px;
+                            }
+
+                            .text__bottom {
+                                display: flex;
+                                align-items: center;
+                                height: fit-content;
+
+                                .author_name,
+                                .date {
+                                    font-size: 14px;
+                                }
+                            }
+                        }
+                    }
                 }
-                .date {
-                    font-weight: 600;
+                .content__wrapper {
+                    max-width: 752px;
+                    margin-top: 44px 0;
+                }
+                .content {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 30px;
+                    padding: 45px 0 35px;
+                    font-size: $fs-lg;
+                    line-height: 1.5;
+                    word-break: break-word;
+                    word-wrap: break-word;
+
+                    img {
+                        max-width: 100%;
+                    }
+
+                    &__blocks {
+                        display: flex;
+                        flex-direction: column;
+                        img {
+                            max-height: 400px;
+                            object-fit: cover;
+                        }
+
+                        h2,
+                        h3,
+                        h4 img,
+                        p {
+                            margin: 1em 0;
+                        }
+                        ul {
+                            list-style: disc;
+                            margin-bottom: 1.7em;
+                            padding-left: 2.5em;
+                        }
+
+                        a {
+                            border-bottom: 1px solid var(--spectrum-global-color-blue-500);
+                            color: var(--spectrum-global-color-blue-500);
+                            text-decoration: none;
+                            transition: color 0.25s, border-bottom-color 0.25s;
+                        }
+                    }
+
+                    .img__wrapper {
+                    }
                 }
             }
-        }
-    }
-
-    .content {
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-        padding: 45px 0 35px;
-        font-size: $fs-lg;
-        line-height: 1.5;
-        word-break: break-word;
-        word-wrap: break-word;
-
-        &__blocks {
-            display: flex;
-            flex-direction: column;
-            img {
-                max-height: 400px;
-                object-fit: cover;
-            }
-
-            h2,
-            h3,
-            h4 img,
-            p {
-                margin: 1em 0;
-            }
-            ul {
-                list-style: disc;
-                margin-bottom: 1.7em;
-                padding-left: 2.5em;
-            }
-
-            a {
-                border-bottom: 1px solid var(--spectrum-global-color-blue-500);
-                color: var(--spectrum-global-color-blue-500);
-                text-decoration: none;
-                transition: color 0.25s, border-bottom-color 0.25s;
-            }
-        }
-
-        .img__wrapper {
         }
     }
 }

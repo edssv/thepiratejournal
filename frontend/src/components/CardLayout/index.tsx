@@ -10,7 +10,7 @@ type CardLayoutProps = {
     toaster?: boolean;
 };
 
-const CardLayout: React.FC<CardLayoutProps> = ({ children, headline, toaster }) => {
+export const CardLayout: React.FC<CardLayoutProps> = ({ children, headline, toaster }) => {
     return (
         <>
             {toaster && <Toaster />}
@@ -26,7 +26,7 @@ const CardLayout: React.FC<CardLayoutProps> = ({ children, headline, toaster }) 
                 <header className={styles.header}>
                     <div className={`${styles.logo} icon-center`}>
                         <img src={logo} alt="The pirate" />
-                        <span>The Pirate</span>
+                        <span>The Pirate Journal</span>
                     </div>
                     <h2>{headline}</h2>
                 </header>
@@ -35,5 +35,3 @@ const CardLayout: React.FC<CardLayoutProps> = ({ children, headline, toaster }) 
         </>
     );
 };
-
-export default CardLayout;

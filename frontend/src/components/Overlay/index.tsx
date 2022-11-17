@@ -11,9 +11,9 @@ export const Overlay = () => {
                 <ProgressCircle
                     position="absolute"
                     isIndeterminate
-                    size="M"
+                    size="L"
                     left="50%"
-                    top="45%"
+                    top="50%"
                     aria-label="Загрузка..."
                 />
             </div>

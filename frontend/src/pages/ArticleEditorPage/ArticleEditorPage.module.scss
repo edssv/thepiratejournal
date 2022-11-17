@@ -1,61 +1,62 @@
 @use '../../scss/util' as *;
 
 .root {
-    padding: 30px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 0;
 
-    .top {
+    @include breakpoint(md) {
+        padding: 30px 9px;
+    }
+
+    .top_bar {
+        width: 100%;
         display: flex;
         justify-content: space-between;
-        margin-bottom: 70px;
+        align-items: center;
 
-        &__author {
-            display: flex;
-            gap: $gap-lg;
-            img {
-                width: 40px;
-                height: 40px;
-            }
-            .author__text {
-                .headline {
-                    font-weight: 500;
-                    margin-bottom: 3px;
-                }
-            }
-        }
-
-        &__labels {
-            .labels__publish {
-                position: relative;
-                display: flex;
-                align-items: center;
-                gap: $gap-xs;
-                font-size: $fs-sm;
-                color: var(--black70);
-                cursor: pointer;
-            }
-        }
-
-        &__right {
-            display: flex;
-            gap: $gap-md;
+        @include breakpoint(lg) {
+            position: sticky;
+            top: 30px;
         }
     }
 
-    .writingHeader {
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         width: 100%;
-        height: auto;
-        background-color: transparent;
-        border: none;
-        resize: none;
-        outline: 0 !important;
-        font-size: 36px;
-        line-height: 1.3em;
-        font-family: Segoe UI, Roboto, sans-serif;
-        font-weight: 700;
-        color: currentColor;
+        max-width: 968px;
 
-        &::placeholder {
-            text-decoration: underline;
+        .textarea__wrapper {
+            width: 100%;
+
+            display: flex;
+            justify-content: center;
+            margin: 32px 0 24px;
+
+            @include breakpoint(md) {
+                margin: 48px 0 32px;
+            }
+
+            .writingHeader {
+                background-color: transparent;
+                max-width: 656px;
+                width: 100%;
+                border: none;
+                resize: none;
+                outline: 0 !important;
+                font-size: 32px;
+                line-height: 1.3em;
+                font-family: Segoe UI, Roboto, sans-serif;
+                font-weight: 700;
+                color: currentColor;
+
+                &::placeholder {
+                    color: var(--spectrum-global-color-gray-600);
+                }
+            }
         }
     }
 }
@@ -74,6 +75,9 @@
             font-size: 16px;
             word-break: break-word;
             .ce-block {
+                &__content {
+                    max-width: 752px;
+                }
                 &--selected {
                     .ce-block__content {
                         background-color: var(--spectrum-global-color-gray-300);
@@ -82,84 +86,91 @@
             }
         }
         .ce-toolbar {
+            display: block;
             &__content {
-                .ce-toolbar__plus,
-                .ce-toolbar__settings-btn {
-                    color: currentColor;
+                max-width: 752px;
 
-                    &:hover {
-                        background-color: var(--spectrum-global-color-gray-300);
-                    }
-                }
-                .ce-toolbar__plus {
-                }
-                .ce-toolbar__settings-btn {
-                }
+                .ce-toolbar__actions {
+                    opacity: 1;
 
-                .ce-toolbox {
-                    .ce-popover {
-                        background-color: var(--spectrum-global-color-gray-300);
-                        border: none;
-                        padding: 12px;
+                    .ce-toolbar__plus,
+                    .ce-toolbar__settings-btn {
+                        color: currentColor;
 
-                        .cdx-search-field {
-                            display: none;
+                        &:hover {
+                            background-color: var(--spectrum-global-color-gray-300);
                         }
+                    }
+                    .ce-toolbar__plus {
+                    }
+                    .ce-toolbar__settings-btn {
+                    }
 
-                        &__items {
-                            .ce-popover__item {
-                                &:hover {
-                                    background-color: var(--spectrum-global-color-gray-900);
-                                    color: var(--spectrum-global-color-gray-100);
+                    .ce-toolbox {
+                        .ce-popover {
+                            background-color: var(--spectrum-global-color-gray-300);
+                            border: none;
+                            padding: 12px;
 
-                                    .ce-popover__item-icon {
-                                        border-color: var(--spectrum-global-color-gray-100);
-                                    }
-                                }
+                            .cdx-search-field {
+                                display: none;
+                            }
 
-                                &--focused {
-                                    background-color: var(
-                                        --spectrum-global-color-gray-200
-                                    ) !important;
-                                    border: none;
-
+                            &__items {
+                                .ce-popover__item {
                                     &:hover {
-                                        color: var(--spectrum-global-color-gray-800);
+                                        background-color: var(--spectrum-global-color-gray-900);
+                                        color: var(--spectrum-global-color-gray-100);
 
                                         .ce-popover__item-icon {
-                                            border-color: var(--spectrum-global-color-gray-800);
+                                            border-color: var(--spectrum-global-color-gray-100);
                                         }
                                     }
-                                }
 
-                                &-label {
-                                    font-weight: 600;
-                                }
-                                &-icon {
-                                    background-color: inherit;
-                                    border: 2px solid var(--spectrum-global-color-gray-800);
+                                    &--focused {
+                                        background-color: var(
+                                            --spectrum-global-color-gray-200
+                                        ) !important;
+                                        border: none;
+
+                                        &:hover {
+                                            color: var(--spectrum-global-color-gray-800);
+
+                                            .ce-popover__item-icon {
+                                                border-color: var(--spectrum-global-color-gray-800);
+                                            }
+                                        }
+                                    }
+
+                                    &-label {
+                                        font-weight: 600;
+                                    }
+                                    &-icon {
+                                        background-color: inherit;
+                                        border: 2px solid var(--spectrum-global-color-gray-800);
+                                    }
                                 }
                             }
                         }
                     }
-                }
 
-                .ce-settings {
-                    color: currentColor;
-                    background-color: var(--spectrum-global-color-gray-300);
-                    border: none;
-
-                    &__button,
-                    .cdx-settings-button {
+                    .ce-settings {
                         color: currentColor;
+                        background-color: var(--spectrum-global-color-gray-300);
+                        border: none;
 
-                        &:hover {
-                            background-color: var(--spectrum-global-color-gray-900);
-                            color: var(--spectrum-global-color-gray-200);
-                        }
+                        &__button,
+                        .cdx-settings-button {
+                            color: currentColor;
 
-                        &--active {
-                            background-color: var(--spectrum-global-color-gray-200);
+                            &:hover {
+                                background-color: var(--spectrum-global-color-gray-900);
+                                color: var(--spectrum-global-color-gray-200);
+                            }
+
+                            &--active {
+                                background-color: var(--spectrum-global-color-gray-200);
+                            }
                         }
                     }
                 }

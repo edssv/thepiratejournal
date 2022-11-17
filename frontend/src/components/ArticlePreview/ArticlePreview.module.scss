@@ -16,11 +16,11 @@
         &__img {
             position: relative;
             min-width: 160px;
-            height: 172px;
+            height: 190px;
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;
-            border-radius: $br-sm;
+            border-radius: 6px;
             filter: brightness(0.95);
             transition: filter ease-in-out 0.2s;
         }

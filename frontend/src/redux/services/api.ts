@@ -4,7 +4,7 @@ import { tokenReceived, loggedOut } from '../slices/authSlice';
 
 // Create our baseQuery instance
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://194.67.121.62:5000/api',
+    baseUrl: process.env.REACT_APP_API_URL,
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
         // By default, if we have a token in the store, let's use that for authenticated requests

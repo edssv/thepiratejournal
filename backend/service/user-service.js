@@ -11,8 +11,17 @@ class UserService {
     async getUser(username) {
         const user = await UserModel.findOne({ username });
         const articles = await articleModel.find({ 'author.username': username });
-        const authorDto = new UserDto(user);
-        return { user: authorDto, articles: [...articles] };
+
+        return {
+            user: {
+                id: user._id,
+                username: user.username,
+                avatar: user.avatar,
+                timestamp: user.time,
+                info: user.info,
+            },
+            articles: [...articles],
+        };
     }
     async getAllUsers() {
         const users = await UserModel.find();

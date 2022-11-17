@@ -19,3 +19,16 @@ export const convertDateShort = (timestamp: string) => {
 
     return dateShort;
 };
+
+export const convertDateDayMonthYear = (timestamp: string) => {
+    const date = Number(timestamp);
+    const dateObj = new Date(date);
+
+    const dateDayMonthYear = dateObj.toLocaleString('ru-Ru', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
+
+    return dateDayMonthYear;
+};

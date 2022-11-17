@@ -62,6 +62,8 @@ class ArticleController {
 
             const user = await User.findById(article.author._id);
 
+            if (!user) return res.status(200).json({ article, message: 'Автор статьи не найден' });
+
             res.status(200).json({
                 article,
                 user: { _id: user._id, username: user.username, avatar: user.avatar },

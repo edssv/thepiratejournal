@@ -1,0 +1,12 @@
+@use '../../scss/util' as *;
+
+.root {
+    height: 55px;
+    border-bottom: 1px solid var(--spectrum-global-color-gray-300);
+
+    .wrapper {
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
+}

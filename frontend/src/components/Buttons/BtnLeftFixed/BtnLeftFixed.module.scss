@@ -1,9 +1,9 @@
 @use '../../../scss/util' as *;
 
 .root {
+    display: none;
     position: fixed;
     top: 0;
-    display: flex;
     justify-content: center;
     align-items: start;
     padding-top: 30px;
@@ -12,6 +12,10 @@
     cursor: pointer;
     color: var(--spectrum-global-color-gray-600);
     transition: 50ms linear;
+
+    @include breakpoint(lg) {
+        display: flex;
+    }
 
     &:hover {
         color: var(--spectrum-global-color-gray-800);

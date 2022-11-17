@@ -7,9 +7,13 @@
 }
 
 .root {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     align-items: center;
-    position: relative;
     height: $header-height;
 
     &::before {
@@ -29,6 +33,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        height: 100%;
         margin: 0 auto;
 
         &__left {
@@ -37,12 +42,17 @@
             gap: 50px;
             .logo {
                 font-size: 20px;
-                letter-spacing: 2.5px;
+                gap: 12px;
                 font-weight: 700;
                 max-height: $header-height;
 
+                span {
+                    font-size: 15px;
+                    line-height: 15px;
+                }
+
                 img {
-                    height: 44px;
+                    height: 36px;
                 }
             }
             .nav {
