@@ -1,11 +1,11 @@
-import { Divider } from '@adobe/react-spectrum';
 import CircleFilled from '@spectrum-icons/workflow/CircleFilled';
+import Heart from '@spectrum-icons/workflow/Heart';
 import React from 'react';
-import { IoEye, IoHeart } from 'react-icons/io5';
+import { IoEye } from 'react-icons/io5';
+
 import { Link, useLocation } from 'react-router-dom';
 import { convertDateShort } from '../../helpers/convertDate';
-import { Article, Block } from '../../redux';
-import { ButtonBookmark } from '../Buttons/ButtonBookmark';
+import { Article } from '../../redux';
 
 import styles from './ArticlePreview.module.scss';
 
@@ -51,7 +51,7 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
                     <span className={styles.date}>{date}</span>
                     <CircleFilled width={3} />
                     <div className="icon-center">
-                        <IoHeart />
+                        <Heart />
                         <span>{likesCount}</span>
                     </div>
                     <div className="icon-center">
