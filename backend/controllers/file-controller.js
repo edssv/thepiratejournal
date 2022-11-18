@@ -9,7 +9,7 @@ class FileController {
 
             const timestamp = Date.now();
             const ref = timestamp + '-' + originalname;
-            const directory = path.join(`uploads\\${ref}`);
+            const directory = path.join(`uploads/${ref}`);
 
             await sharp(buffer).resize(1600).jpeg({ quality: 70 }).toFile(directory);
 
