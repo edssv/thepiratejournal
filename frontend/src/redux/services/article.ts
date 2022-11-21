@@ -19,6 +19,11 @@ export interface Article {
     views: { count: number };
     likes: { count: number };
 }
+export interface ArticleResponse {
+    article: Article;
+    author: { id: string; username: string };
+    isLiked: boolean;
+}
 
 export const articleApi = api.injectEndpoints({
     endpoints: (build) => ({
@@ -32,6 +37,7 @@ export const articleApi = api.injectEndpoints({
         }),
         getArticles: build.query({
             query: () => `articles`,
+            providesTags: ['Articles'],
         }),
 
         addCover: build.mutation({
@@ -56,7 +62,6 @@ export const articleApi = api.injectEndpoints({
             }),
             invalidatesTags: ['Articles'],
         }),
-
         deleteArticle: build.mutation({
             query: (id) => ({
                 url: `articles/${id}`,
@@ -66,11 +71,23 @@ export const articleApi = api.injectEndpoints({
         }),
         editArticle: build.mutation({
             query: ({ formData, id }) => ({
-                url: `articles/${id}/edit`,
+                url: `articles/${id}`,
                 method: 'PATCH',
                 body: formData,
             }),
             invalidatesTags: ['Articles'],
+        }),
+        like: build.mutation({
+            query: (id) => ({
+                url: `articles/${id}/like/like`,
+                method: 'PATCH',
+            }),
+        }),
+        removeLike: build.mutation({
+            query: (id) => ({
+                url: `articles/${id}/like/removelike`,
+                method: 'PATCH',
+            }),
         }),
     }),
 });
@@ -80,6 +97,8 @@ export const {
     useGetArticleEditQuery,
     useGetArticlesQuery,
     useAddCoverMutation,
+    useLikeMutation,
+    useRemoveLikeMutation,
     useDeleteCoverMutation,
     useDeleteArticleMutation,
     useAddArticleMutation,

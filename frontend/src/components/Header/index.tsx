@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Button, ButtonGroup, Text } from '@adobe/react-spectrum';
+import {
+    ActionButton,
+    Button,
+    ButtonGroup,
+    Text,
+    Tooltip,
+    TooltipTrigger,
+} from '@adobe/react-spectrum';
 import Draw from '@spectrum-icons/workflow/Draw';
 import { IoLogOutOutline } from 'react-icons/io5';
 
@@ -17,12 +24,12 @@ import { useMediaPredicate } from 'react-media-hook';
 export const Header = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const auth = useAuth();
+    const { user } = useAuth();
 
     const [logout] = useLogoutMutation();
     const { isLoading } = useGetCurrentUserQuery(null);
 
-    const imageSrc = auth.user?.avatar;
+    const imageSrc = user?.avatar;
 
     // media
     const isMobile = useMediaPredicate('(max-width: 768px)');
@@ -70,34 +77,37 @@ export const Header = () => {
                     <div className={styles.content__right}>
                         <ButtonGroup>
                             <Button
-                                isQuiet
                                 onPress={() => navigate('/writing', { state: { from: location } })}
-                                variant="primary">
+                                variant="secondary">
                                 {isMobile ? (
                                     <Draw />
                                 ) : (
                                     <>
                                         <Draw />
-                                        <Text> Написать статью</Text>
+                                        <Text>Создать статью</Text>
                                     </>
                                 )}
                             </Button>
                         </ButtonGroup>
                         {isLoading ? (
                             <HeaderSkeleton />
-                        ) : auth.user ? (
+                        ) : user ? (
                             <>
-                                <Link to="/profile">
+                                <Link to={`/users/${user.username}`}>
                                     <Avatar imageSrc={imageSrc} />
                                 </Link>
-                                <button
-                                    onClick={async () => {
-                                        await logout('');
-                                        navigate('/login');
-                                    }}
-                                    className="icon-center">
-                                    <IoLogOutOutline color="currentColor" size={24} />
-                                </button>
+                                <TooltipTrigger delay={200}>
+                                    <ActionButton
+                                        onPress={async () => {
+                                            await logout('');
+                                            navigate('/login');
+                                        }}
+                                        isQuiet
+                                        UNSAFE_style={{ borderRadius: '50%' }}>
+                                        <IoLogOutOutline color="currentColor" size={24} />
+                                    </ActionButton>
+                                    <Tooltip placement="bottom">Выйти из аккаунта</Tooltip>
+                                </TooltipTrigger>
                             </>
                         ) : (
                             <Link to="/login">

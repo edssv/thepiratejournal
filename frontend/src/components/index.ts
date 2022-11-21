@@ -7,3 +7,4 @@ export { CoverWindow } from './CoverWindow';
 export { Overlay } from './Overlay';
 export { ArticlePreview } from './ArticlePreview';
 export { Avatar } from './Avatar';
+export { TippyBox } from './TippyBox';

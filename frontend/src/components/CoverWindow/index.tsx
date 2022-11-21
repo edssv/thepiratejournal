@@ -32,10 +32,6 @@ type CoverWindowProps = {
     isEditing: boolean;
 };
 
-type PopupClick = MouseEvent & {
-    path: Node[];
-};
-
 export const CoverWindow: React.FC<CoverWindowProps> = ({
     uploadedUrl,
     setUploadedUrl,
@@ -66,7 +62,6 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({
     };
 
     useEffect(() => {
-        console.log(isMounted);
         if (isMounted) return;
 
         if (selectedFile) handleUpload();
@@ -120,7 +115,9 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({
                     <div className={styles.placeholder}>
                         <div className={styles.uploader} onClick={handlePick}>
                             <div className={styles.placeholder__content}>
-                                {!isMobile && <ImageAdd size="XXL" marginBottom={12} />}
+                                {!isMobile && (
+                                    <ImageAdd color="informative" size="XXL" marginBottom={12} />
+                                )}
                                 <div className={styles.headline}>Нажмите, чтобы выбрать файл</div>
                                 <p>Рекомендуется 1600x1200 или выше. Максимум 8МБ</p>
                                 <ul>

@@ -54,6 +54,7 @@ const EmailPage = () => {
                                     {...register('email', {
                                         required: 'Введите адрес электронной почты.',
                                     })}
+                                    disabled={isLoading ? true : false}
                                     className={`text-field  ${errors?.password && `is-invalid`}`}
                                 />
                                 {errors?.email && (
@@ -69,6 +70,7 @@ const EmailPage = () => {
                                         {...register('password', {
                                             required: 'Введите пароль.',
                                         })}
+                                        disabled={isLoading ? true : false}
                                         className={`text-field  ${
                                             errors?.password && `is-invalid`
                                         }`}

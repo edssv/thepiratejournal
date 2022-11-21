@@ -14,14 +14,14 @@ const Configuration = (dataBlocks) => {
             header: {
                 class: Header,
                 required: true,
-                config: { placeholder: 'Заголовок', levels: [3, 4], defaultLevel: 3 },
+                config: { levels: [3, 4], defaultLevel: 3 },
             },
 
             image: {
                 class: ImageTool,
                 config: {
                     endpoints: {
-                        byFile: `${process.env.REACT_APP_API_URL} + /upload`, // Your backend file uploader endpoint
+                        byFile: `${process.env.REACT_APP_API_URL}/upload`, // Your backend file uploader endpoint
                         byUrl: 'http://localhost:8008/fetchUrl', // Your endpoint that provides uploading by Url
                     },
                 },
@@ -40,6 +40,7 @@ const Configuration = (dataBlocks) => {
             //     },
             // },
         },
+        defaultBlock: 'header',
         data: {
             blocks: dataBlocks,
         },

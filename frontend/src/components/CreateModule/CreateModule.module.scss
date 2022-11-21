@@ -1,0 +1,67 @@
+@use '../../scss/util' as *;
+
+.root {
+    background-color: var(--spectrum-global-color-gray-100);
+    border: 1px dashed var(--spectrum-global-color-gray-300);
+    border-radius: 4px;
+    text-align: center;
+    transition: background-color 0.15s linear;
+    .wrapper {
+        height: 0;
+        padding-top: 78.22%;
+        position: relative;
+        width: 100%;
+        border-radius: 4px;
+        position: relative;
+
+        .content {
+            border-radius: 4px;
+            height: 100%;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
+
+            .promt {
+                bottom: 0;
+                display: -webkit-box;
+                display: flex;
+                flex-direction: column;
+                left: 0;
+                position: absolute;
+                right: 0;
+                text-decoration: none;
+                top: 0;
+
+                .iconAndHeading {
+                    align-items: center;
+                    display: -webkit-box;
+                    display: flex;
+                    flex-direction: column;
+                    height: 100%;
+                    justify-content: center;
+                    width: 100%;
+
+                    .icon {
+                        width: 75px;
+                        height: 75px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 50%;
+                        background-color: #dee8ff;
+                        margin-bottom: 5%;
+                    }
+                }
+                .text {
+                    font-size: 12px;
+                    padding: 0 5% 15px;
+
+                    p {
+                        color: var(--spectrum-global-color-gray-600);
+                    }
+                }
+            }
+        }
+    }
+}

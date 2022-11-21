@@ -7,9 +7,8 @@
     z-index: 8;
 
     .inner {
-        align-items: center;
-        display: -webkit-box;
         display: flex;
+        align-items: center;
         justify-content: center;
         min-height: 100vh;
         position: relative;

@@ -5,6 +5,7 @@ const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
 const mailService = require('../service/mail-service');
 const tokenModel = require('../models/token-model');
+const Article = require('./article-model');
 
 const userSchema = new Schema({
     username: { type: String, required: true, unique: true },
@@ -14,6 +15,7 @@ const userSchema = new Schema({
     avatar: { type: String },
     activationLink: { type: String },
     info: { country: String, city: String },
+    liked: [{ type: String, required: true }],
     time: { type: Number, default: new Date() },
 });
 
@@ -91,6 +93,43 @@ userSchema.statics.refresh = async function (refreshToken) {
     }
 
     return user;
+};
+
+userSchema.statics.getUser = async function (username) {
+    const user = await this.findOne({ username });
+    const articles = await Article.find({ 'author.username': username });
+    const liked = await Article.find({ _id: { $in: user.liked } });
+
+    return {
+        user: {
+            _id: user._id,
+            username: user.username,
+            avatar: user.avatar,
+            timestamp: user.time,
+            info: user.info,
+        },
+        articles,
+        liked,
+    };
+};
+
+userSchema.statics.liked = async function (userId, articleId, remove) {
+    if (remove) {
+        await this.findOneAndUpdate(
+            { _id: userId },
+            { $pull: { liked: articleId } },
+            { returnDocument: 'after' },
+        );
+        return;
+    }
+
+    await this.findOneAndUpdate(
+        { _id: userId },
+        { $push: { liked: articleId } },
+        { returnDocument: 'after' },
+    );
+
+    return;
 };
 
 module.exports = model('User', userSchema);

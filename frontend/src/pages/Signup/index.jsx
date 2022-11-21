@@ -12,7 +12,7 @@ import { Button, ProgressCircle } from '@adobe/react-spectrum';
 import { useDocTitle, useNetworkStatus } from '../../hooks';
 
 const Signup = () => {
-    const [doctitle, setDocTitle] = useDocTitle('Регистрация');
+    const [doctitle, setDocTitle] = useDocTitle('Зарегистрироваться');
     const { isOnline } = useNetworkStatus();
     const navigate = useNavigate();
     const [signup, { isLoading, isError, error }] = useSignupMutation();
@@ -75,10 +75,11 @@ const Signup = () => {
                                         message: 'Минимум 4 символа.',
                                     },
                                     maxLength: {
-                                        value: 12,
-                                        message: 'Максимум 12 символов.',
+                                        value: 16,
+                                        message: 'Максимум 16 символов.',
                                     },
                                 })}
+                                disabled={isLoading ? true : false}
                                 type="text"
                                 className={`text-field ${errors?.username && `is-invalid`}`}
                             />
@@ -157,6 +158,7 @@ const Signup = () => {
                                         value: 32,
                                     },
                                 })}
+                                disabled={isLoading ? true : false}
                                 type="email"
                                 className={`text-field  ${errors?.email && `is-invalid`}`}
                             />
@@ -185,6 +187,7 @@ const Signup = () => {
                                             value: 20,
                                         },
                                     })}
+                                    disabled={isLoading ? true : false}
                                     className={`text-field ${
                                         isValidating === true ? `is-valid` : ''
                                     } ${errors?.password && `is-invalid`}`}

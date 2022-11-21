@@ -1,18 +1,22 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import EditorJS from '@editorjs/editorjs';
 import debounce from 'lodash.debounce';
 import styles from './ArticleEditorPage.module.scss';
 import Configuration from './configuration';
-import { BtnLeftFixed, Avatar, CoverWindow, ButtonClose } from '../../components';
+import { CoverWindow } from '../../components';
 import { useAddArticleMutation, useEditArticleMutation, useGetArticleEditQuery } from '../../redux';
-import { Button, DialogTrigger, AlertDialog, ProgressCircle } from '@adobe/react-spectrum';
+import {
+    Button,
+    DialogTrigger,
+    AlertDialog,
+    ProgressCircle,
+    TooltipTrigger,
+    Tooltip,
+} from '@adobe/react-spectrum';
 import NotFoundPage from '../NotFoundPage';
-import { useMatchMedia, useDocTitle, useAuth } from '../../hooks';
+import { useDocTitle, useAuth } from '../../hooks';
 import { useMediaPredicate } from 'react-media-hook';
-import Checkmark from '@spectrum-icons/workflow/Checkmark';
-import ChevronLeft from '@spectrum-icons/workflow/ChevronLeft';
-import { TopPanelMobile } from '../../components/TopPanelMobile';
 import { resizeTextareaHeight } from './resizeTextareaFunction';
 
 const ArticleEditorPage = () => {
@@ -108,7 +112,7 @@ const ArticleEditorPage = () => {
 
     const Confirm = (
         <DialogTrigger>
-            <Button isDisabled={selectedFile ? false : true} variant="cta">
+            <Button isDisabled={selectedFile && textareaValue ? false : true} variant="cta">
                 {isEditing ? 'Сохранить' : 'Опубликовать'}
             </Button>
             {(close) => (
@@ -128,15 +132,19 @@ const ArticleEditorPage = () => {
     return (
         <div className={styles.root}>
             <div className={styles.top_bar}>
-                <Button onPress={() => navigate(fromPage ? fromPage : '/')} variant="secondary">
-                    Отмена
-                </Button>
+                <TooltipTrigger delay={200}>
+                    <Button onPress={() => navigate(fromPage ? fromPage : '/')} variant="secondary">
+                        Отмена
+                    </Button>
+                    <Tooltip placement="right">Вернуться назад</Tooltip>
+                </TooltipTrigger>
                 {Confirm}
             </div>
             <div className={styles.container}>
                 <div className={styles.textarea__wrapper}>
                     <textarea
-                        placeholder="Дай мне имя"
+                        autoFocus="true"
+                        placeholder="Как корабль назовёшь так он и поплывёт"
                         className={styles.writingHeader}
                         value={textareaValue}
                         onChange={(e) => setTextareaValue(e.target.value)}

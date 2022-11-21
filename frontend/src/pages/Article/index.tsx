@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toHtml } from './toHtml';
-import { useDeleteArticleMutation, useGetArticleQuery } from '../../redux';
+import {
+    useDeleteArticleMutation,
+    useGetArticleQuery,
+    useLikeMutation,
+    useRemoveLikeMutation,
+} from '../../redux';
 
 import styles from './Article.module.scss';
 import { convertDateLong } from '../../helpers/convertDate';
-import { Avatar } from '../../components/Avatar';
+import { Avatar, Overlay, TippyBox } from '../../components';
 import {
-    ActionButton,
     AlertDialog,
     Button,
     ButtonGroup,
@@ -16,20 +20,17 @@ import {
     DialogTrigger,
     Divider,
     Heading,
-    ProgressCircle,
     Text,
+    Tooltip,
+    TooltipTrigger,
 } from '@adobe/react-spectrum';
 import Edit from '@spectrum-icons/workflow/Edit';
 import DeleteOutline from '@spectrum-icons/workflow/Delete';
-import Alert from '@spectrum-icons/workflow/Alert';
 import CircleFilled from '@spectrum-icons/workflow/CircleFilled';
 import Heart from '@spectrum-icons/workflow/Heart';
-
 import NotFoundPage from '../NotFoundPage';
-import { useAuth } from '../../hooks/useAuth';
-import { useDocTitle } from '../../hooks/useDocTitle';
+import { useAuth, useDocTitle } from '../../hooks';
 import { useMediaPredicate } from 'react-media-hook';
-import Bookmark from '@spectrum-icons/workflow/Bookmark';
 import BookmarkSingle from '@spectrum-icons/workflow/BookmarkSingle';
 
 const Article: React.FC = () => {
@@ -37,26 +38,45 @@ const Article: React.FC = () => {
     const location = useLocation();
     const { id } = useParams();
     const navigate = useNavigate();
-    const auth = useAuth();
+    const { user } = useAuth();
     // media
     const isMobile = useMediaPredicate('(max-width: 767.98px)');
     const fromTablet = useMediaPredicate('(min-width: 768px)');
 
-    const { data, isLoading, isError, isSuccess, isFetching } = useGetArticleQuery(id);
+    const { data, isLoading, isError } = useGetArticleQuery(id);
     const [deleteArticle] = useDeleteArticleMutation();
+    const [like] = useLikeMutation();
+    const [removeLike] = useRemoveLikeMutation();
 
-    if (isFetching) return <></>;
-    if (isLoading) return <></>;
+    const [isLike, setLike] = useState<boolean>();
+    const [tippy, setTippy] = useState<boolean>(false);
+
+    useEffect(() => {
+        setLike(data?.isLiked);
+    }, [data?.isLiked]);
+
+    if (isLoading) return <Overlay />;
     if (isError) return <NotFoundPage />;
+
+    const handleSetLike = () => {
+        like(id);
+        setLike(true);
+    };
+
+    const handleRemoveLike = () => {
+        removeLike(id);
+        setLike(false);
+    };
 
     const fromPage = location?.state?.from?.pathname;
 
-    const userId = auth.user?.id;
-
+    const userId = user?.id;
     const article = data.article;
-    const avatar = data.user?.avatar;
-    const author = data.user?.username ? data.user?.username : 'deleted';
-    const authorId = article.author._id;
+    const author = article.author;
+    const title = article.title;
+    const avatar = author.avatar;
+    const authorname = author.username ? author.username : 'deleted';
+    const authorId = author._id;
     const cover = article.cover;
 
     const date = convertDateLong(article.timestamp);
@@ -68,14 +88,16 @@ const Article: React.FC = () => {
                     <div className={styles.shot_content_container}>
                         <div className={styles.top}>
                             <div className={styles.top__content}>
-                                <Link to={`/users/${author}`}>
+                                <Link to={`/users/${authorname}`}>
                                     <Avatar imageSrc={avatar} width={48} />
                                 </Link>
                                 <div className={styles.content__text}>
-                                    <h4 className={styles.article_title}>{article?.title}</h4>
+                                    <h4 className={styles.article_title}>
+                                        {title ? title : 'Без названия'}
+                                    </h4>
                                     <div className={styles.text__bottom}>
-                                        <Link to={`/users/${author}`}>
-                                            <div className={styles.author_name}>{author}</div>
+                                        <Link to={`/users/${authorname}`}>
+                                            <div className={styles.author_name}>{authorname}</div>
                                         </Link>
                                         <CircleFilled height={3} width={3} margin="0 8px" />
                                         <div className={styles.date}>{date}</div>
@@ -84,19 +106,21 @@ const Article: React.FC = () => {
                             </div>
                             {userId === authorId ? (
                                 <ButtonGroup>
-                                    <Button
-                                        isQuiet
-                                        variant="primary"
-                                        onPress={() =>
-                                            navigate(`/articles/${id}/edit`, {
-                                                state: { from: location },
-                                            })
-                                        }>
-                                        <Edit />
-                                    </Button>
+                                    <TooltipTrigger delay={200}>
+                                        <Button
+                                            variant="primary"
+                                            onPress={() =>
+                                                navigate(`/articles/${id}/edit`, {
+                                                    state: { from: location },
+                                                })
+                                            }>
+                                            <Edit />
+                                        </Button>
+                                        <Tooltip>Редактировать</Tooltip>
+                                    </TooltipTrigger>
                                     <DialogTrigger>
                                         <Button
-                                            isQuiet
+                                            style="fill"
                                             marginStart={12}
                                             type="button"
                                             variant="primary">
@@ -120,13 +144,62 @@ const Article: React.FC = () => {
                                     </DialogTrigger>
                                 </ButtonGroup>
                             ) : (
-                                <ButtonGroup>
-                                    <Button variant="primary">
-                                        <BookmarkSingle />
-                                    </Button>
-                                    <Button variant="cta">
-                                        <Heart />
-                                    </Button>
+                                <ButtonGroup UNSAFE_className={styles.bookmarksAndLikes}>
+                                    <TooltipTrigger delay={200}>
+                                        <Button variant="secondary" style="fill">
+                                            <BookmarkSingle />
+                                        </Button>
+                                        <Tooltip>Сохранить в закладки</Tooltip>
+                                    </TooltipTrigger>
+
+                                    {!user ? (
+                                        <DialogTrigger type="popover">
+                                            <Button
+                                                variant={isLike ? 'negative' : !isLike && 'accent'}
+                                                style="fill">
+                                                <Heart />
+                                            </Button>
+                                            {(close) => (
+                                                <Dialog>
+                                                    <Heading>Добавляй в избранное</Heading>
+                                                    <Content>
+                                                        <p>
+                                                            Чтобы добавлять статьи в понравившиеся,
+                                                            войди в аккаунт.
+                                                        </p>
+                                                    </Content>
+                                                    <ButtonGroup>
+                                                        <Button
+                                                            onPress={close}
+                                                            variant="secondary"
+                                                            staticColor="white">
+                                                            Не сейчас
+                                                        </Button>
+                                                        <Button
+                                                            onPress={() =>
+                                                                navigate('/login', {
+                                                                    state: { from: location },
+                                                                })
+                                                            }
+                                                            variant="accent"
+                                                            staticColor="white">
+                                                            Войти
+                                                        </Button>
+                                                    </ButtonGroup>
+                                                </Dialog>
+                                            )}
+                                        </DialogTrigger>
+                                    ) : (
+                                        <TooltipTrigger delay={200}>
+                                            <Button
+                                                onPress={isLike ? handleRemoveLike : handleSetLike}
+                                                variant={isLike ? 'negative' : !isLike && 'accent'}
+                                                style="fill">
+                                                <Heart />
+                                            </Button>
+                                            <Tooltip>Добавить в понравившиеся</Tooltip>
+                                        </TooltipTrigger>
+                                    )}
                                 </ButtonGroup>
                             )}
                         </div>

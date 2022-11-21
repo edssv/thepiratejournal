@@ -1,4 +1,5 @@
 import React from 'react';
+import { useMediaPredicate } from 'react-media-hook';
 
 import logo from '../../assets/img/logotype.png';
 import background from '../../assets/img/thepirate_background.jpg';
@@ -10,19 +11,30 @@ type CanvasProps = {
 };
 
 export const Canvas: React.FC<CanvasProps> = ({ children }) => {
+    const fromMobile = useMediaPredicate('(min-width: 510px)');
+    const fromDesktop = useMediaPredicate('(min-width: 1280px)');
+
     return (
-        <div className={styles.root} style={{ backgroundImage: `url(${background})` }}>
+        <div
+            className={styles.root}
+            style={
+                fromMobile
+                    ? { backgroundImage: `url(${background})` }
+                    : { backgroundImage: 'unset' }
+            }>
             <section className={styles.background}>
                 <div className={styles.inner}>
-                    <div className={styles.logoAndSpan}>
-                        <div className={styles.logo__wrapper}>
-                            <img className={styles.logo} src={logo} alt="Logo" />
-                            <h2 className={styles.logo__text}>
-                                The Pirate <br /> Journal
-                            </h2>
+                    {fromDesktop && (
+                        <div className={styles.logoAndSpan}>
+                            <div className={styles.logo__wrapper}>
+                                <img className={styles.logo} src={logo} alt="Logo" />
+                                <h2 className={styles.logo__text}>
+                                    The Pirate <br /> Journal
+                                </h2>
+                            </div>
+                            <p>Войдите или создайте учетную запись</p>
                         </div>
-                        <p>Войдите или создайте учетную запись</p>
-                    </div>
+                    )}
                     <div className={`${styles.item} ${styles.panel}`}>{children}</div>
                 </div>
             </section>

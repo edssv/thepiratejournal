@@ -30,6 +30,7 @@ const articleSchema = new Schema({
             type: Number,
             default: 0,
         },
+        users: [{ type: String, required: true }],
     },
 });
 
@@ -77,6 +78,26 @@ articleSchema.statics.getOne = async function (id) {
     );
 
     return article;
+};
+
+articleSchema.statics.like = async function (id, userId) {
+    await this.findOneAndUpdate(
+        { _id: id },
+        { $push: { 'likes.users': userId }, $inc: { 'likes.count': 1 } },
+        { returnDocument: 'after' },
+    );
+
+    return;
+};
+
+articleSchema.statics.removeLike = async function (id, userId) {
+    await this.findOneAndUpdate(
+        { _id: id },
+        { $pull: { 'likes.users': userId }, $inc: { 'likes.count': -1 } },
+        { returnDocument: 'after' },
+    );
+
+    return;
 };
 
 module.exports = model('Article', articleSchema);

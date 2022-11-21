@@ -14,8 +14,12 @@ export interface User {
 }
 
 export interface UserResponse {
-    user: User;
-    articles: Article[];
+    userData: {
+        user: User;
+        articles: Article[];
+        liked: Article[];
+    };
+    isOwner: boolean;
 }
 
 export const userApi = api.injectEndpoints({

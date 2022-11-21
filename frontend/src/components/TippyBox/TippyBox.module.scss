@@ -1,0 +1,58 @@
+:global {
+    .TippyBox {
+        .tippy {
+            max-width: 336px;
+            transition-duration: 300ms; //
+            background-color: var(--spectrum-global-color-static-blue-600);
+            border-radius: 8px;
+            box-shadow: 0 4px 40px rgb(0 0 0 / 30%);
+            color: #fff;
+            font-size: 14px;
+            line-height: 1.4;
+            outline: 0;
+            position: relative;
+            text-align: start;
+            transition-property: visibility, opacity, -webkit-transform;
+            transition-property: transform, visibility, opacity;
+            transition-property: transform, visibility, opacity, -webkit-transform;
+
+            .content {
+                padding: 16px;
+                position: relative;
+                transition-duration: 300ms; //
+
+                .headline {
+                    margin-bottom: 8px;
+                    font-size: 18px;
+                    font-weight: 700;
+                }
+
+                .buttonGroup {
+                    width: 100%;
+                    display: flex;
+                    justify-content: end;
+                }
+            }
+            .arrow {
+                position: absolute;
+                top: 0px;
+                transform: translate3d(0px, 12px, 0px);
+                color: var(--spectrum-global-color-static-blue-600);
+                height: 16px;
+                pointer-events: none;
+                width: 16px;
+
+                &::before {
+                    border-color: transparent;
+                    border-style: solid;
+                    content: '';
+                    position: absolute;
+                    border-right-color: initial;
+                    border-width: 8px 8px 8px 0;
+                    left: -7px;
+                    transform-origin: center right;
+                }
+            }
+        }
+    }
+}

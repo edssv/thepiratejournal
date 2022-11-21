@@ -3,8 +3,8 @@
 .root {
     display: flex;
     flex-direction: column;
-    gap: $gap-xs;
     min-width: 160px;
+
     overflow: hidden;
 
     &:hover .top__img {
@@ -13,6 +13,7 @@
 
     .top {
         position: relative;
+
         &__img {
             position: relative;
             min-width: 160px;
@@ -20,10 +21,11 @@
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;
-            border-radius: 6px;
+            border-radius: 4px;
             filter: brightness(0.95);
             transition: filter ease-in-out 0.2s;
         }
+
         .bookmark__wrapper {
             position: absolute;
             top: 0px;
@@ -35,32 +37,52 @@
             height: 52px;
         }
     }
+
     .bottom {
-        .headline {
-            display: block;
-            margin-bottom: $gap-xs;
-            font-size: $fs-lg;
-            font-weight: 600;
-            line-height: 22px;
-            max-height: 44px;
-            width: fit-content;
-            overflow: hidden;
-        }
-        .author {
-            display: block;
-            width: fit-content;
-            margin-bottom: 3px;
-            font-size: $fs-sm;
-        }
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        max-width: initial;
+        width: 100%;
+        height: 60px;
+        margin-top: 8px;
 
-        .date_and_counts {
-            display: flex;
-            align-items: center;
-            gap: $gap-sm;
+        .info {
+            max-width: 75%;
+            width: 100%;
+            padding-right: 15px;
 
-            .date {
-                font-size: $fs-sm;
+            .headline {
+                display: block;
+                font-size: 16px;
+                font-weight: 600;
+                line-height: 20px;
+                max-height: 40px;
+                max-width: 100%;
+                margin-bottom: -2px;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
+
+            .author {
+                display: block;
+                width: fit-content;
+                margin-bottom: 3px;
+                font-size: $fs-sm;
+                overflow: hidden;
+                max-width: 100%;
+
+                text-overflow: ellipsis;
+            }
+        }
+
+        .stats {
+            display: flex;
+            gap: 15px;
+            height: fit-content;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--spectrum-global-color-gray-500);
         }
     }
 }

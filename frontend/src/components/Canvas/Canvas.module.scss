@@ -3,7 +3,11 @@
 .root {
     background-size: cover;
     background-position-y: 60%;
-    height: 100vh;
+    height: 100%;
+
+    @media (min-width: 510px) {
+        height: 100vh;
+    }
 
     .background {
         height: 100%;
@@ -18,17 +22,13 @@
             gap: 260px;
 
             .logoAndSpan {
-                display: none;
+                display: flex;
                 flex-direction: column;
                 justify-content: center;
                 gap: 16px;
                 text-align: left;
                 align-items: flex-start;
                 color: var(--white);
-
-                @include breakpoint(xl) {
-                    display: flex;
-                }
 
                 .logo__wrapper {
                     display: flex;

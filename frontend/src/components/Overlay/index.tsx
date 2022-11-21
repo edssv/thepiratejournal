@@ -5,17 +5,10 @@ import styles from './Overlay.module.scss';
 
 export const Overlay = () => {
     return (
-        <div className={styles.overplay}>
+        <div className={styles.root}>
             <div className={styles.inner}>
                 <div className={styles.wallpaper}></div>
-                <ProgressCircle
-                    position="absolute"
-                    isIndeterminate
-                    size="L"
-                    left="50%"
-                    top="50%"
-                    aria-label="Загрузка..."
-                />
+                <ProgressCircle isIndeterminate size="L" aria-label="Загрузка..." />
             </div>
         </div>
     );
