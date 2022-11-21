@@ -15,17 +15,9 @@
 /backend/uploads/*.png
 /backend/uploads/*.webp
 
-/backend/uploads/covers/*.jpg
-/backend/uploads/covers/*.png
-/backend/uploads/covers/*.webp
-
-/backend/uploads/avatars/*.jpg
-/backend/uploads/avatars/*.png
-/backend/uploads/avatars/*.webp
-
-
 # misc
 .DS_Store
+/frontend/*.env
 .env.local
 .env.development.local
 .env.test.local
