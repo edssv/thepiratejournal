@@ -14,20 +14,18 @@ import { IoLogOutOutline } from 'react-icons/io5';
 import logo from '../../assets/img/logotype.png';
 
 import styles from './Header.module.scss';
-import { useGetCurrentUserQuery, useLogoutMutation } from '../../redux/services/auth';
+import { useLogoutMutation } from '../../redux/services/auth';
 import { useAuth } from '../../hooks/useAuth';
 import { Avatar } from '../Avatar';
 import { HeaderSkeleton } from './HeaderSkeleton';
-import { useMatchMedia } from '../../hooks';
 import { useMediaPredicate } from 'react-media-hook';
 
 export const Header = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { user } = useAuth();
+    const { user, isLoading } = useAuth();
 
     const [logout] = useLogoutMutation();
-    const { isLoading } = useGetCurrentUserQuery(null);
 
     const imageSrc = user?.avatar;
 
@@ -59,7 +57,6 @@ export const Header = () => {
                                 </>
                             )}
                         </Link>
-
                         {fromLaptop && (
                             <nav className={styles.nav}>
                                 <NavLink to="/articles" className={styles.nav__link}>
@@ -77,7 +74,9 @@ export const Header = () => {
                     <div className={styles.content__right}>
                         <ButtonGroup>
                             <Button
-                                onPress={() => navigate('/writing', { state: { from: location } })}
+                                onPress={() =>
+                                    navigate('/articles/new', { state: { from: location } })
+                                }
                                 variant="secondary">
                                 {isMobile ? (
                                     <Draw />
@@ -110,9 +109,9 @@ export const Header = () => {
                                 </TooltipTrigger>
                             </>
                         ) : (
-                            <Link to="/login">
-                                <Button variant="cta">Войти</Button>
-                            </Link>
+                            <Button href="/login" elementType="a" variant="cta">
+                                Войти
+                            </Button>
                         )}
                     </div>
                 </div>

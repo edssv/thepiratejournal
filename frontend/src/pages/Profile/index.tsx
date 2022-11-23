@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
-import { IoEye } from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
 import { useGetUserQuery } from '../../redux/services/user';
-import { Article } from '../../redux/services/article';
+import { Article, Draft } from '../../redux/services/article';
 
 import styles from './Profile.module.scss';
-import { ArticlePreview } from '../../components/ArticlePreview';
-import { viewsSumCalc } from '../../helpers/viewsSum';
-import { Avatar } from '../../components/Avatar';
 import { useDocTitle } from '../../hooks/useDocTitle';
 import Location from '@spectrum-icons/workflow/Location';
 import Heart from '@spectrum-icons/workflow/Heart';
-import { Button, ButtonGroup, Text } from '@adobe/react-spectrum';
-import { convertDateDayMonthYear, convertDateShort } from '../../helpers/convertDate';
-import { CreateModule } from '../../components/CreateModule';
+import { Button, ButtonGroup, Divider, Text } from '@adobe/react-spectrum';
+import { convertDateDayMonthYear, viewsSumCalc } from '../../helpers';
+import { DraftPreview, CreateModule, Avatar, ArticlePreview } from '../../components';
+import { IoEye } from 'react-icons/io5';
 
 const Profile: React.FC = () => {
     const { id } = useParams();
@@ -25,9 +21,10 @@ const Profile: React.FC = () => {
 
     if (isLoading) return <></>;
 
-    const user = data?.userData.user;
-    const articles = data?.userData.articles;
-    const liked = data?.userData.liked;
+    const user = data?.user;
+    const articles = data?.articles;
+    const liked = data?.liked;
+    const drafts = data?.drafts;
     const isOwner = data?.isOwner;
 
     const avatar = user?.avatar;
@@ -40,10 +37,10 @@ const Profile: React.FC = () => {
     const articlesList = articles?.map((article: Article, id) => (
         <ArticlePreview article={article} key={id} />
     ));
-
     const likedList = liked?.map((article: Article, id) => (
         <ArticlePreview article={article} key={id} />
     ));
+    const draftsList = drafts?.map((draft: Draft, id) => <DraftPreview draft={draft} key={id} />);
 
     const likedBlock = () => {
         if (likedList?.length === 0 && !isOwner) return '';
@@ -93,14 +90,31 @@ const Profile: React.FC = () => {
                     <span className={styles.signupDate}>Дата регистрации: {date}</span>
                 </div>
                 <section className={`${styles.articlesSection} articles`}>
-                    <ButtonGroup>
+                    <ButtonGroup flex UNSAFE_className={styles.buttonGroup}>
                         <Button
                             onPress={() => setList('articles')}
                             variant={list === 'articles' ? 'primary' : 'secondary'}
                             style={list === 'articles' ? 'fill' : 'outline'}>
                             Статьи
                         </Button>
-                        {likedBlock()}
+                        {likedBlock()}{' '}
+                        {isOwner && (
+                            <>
+                                <Divider
+                                    orientation="vertical"
+                                    alignSelf="center"
+                                    size="S"
+                                    height="20px"
+                                    margin="0 10px"
+                                />{' '}
+                                <Button
+                                    onPress={() => setList('drafts')}
+                                    variant={list === 'drafts' ? 'primary' : 'secondary'}
+                                    style={list === 'drafts' ? 'fill' : 'outline'}>
+                                    Черновики
+                                </Button>
+                            </>
+                        )}
                     </ButtonGroup>
                     {list === 'articles' && (
                         <div className="articles__list">
@@ -119,6 +133,12 @@ const Profile: React.FC = () => {
                                 </div>
                             )
                         ))}
+                    {list === 'drafts' && (
+                        <div className="articles__list">
+                            {draftsList}
+                            <CreateModule draft />
+                        </div>
+                    )}
                 </section>
             </div>
         </div>

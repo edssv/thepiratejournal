@@ -9,9 +9,10 @@ import styles from './CreateModule.module.scss';
 interface CreateModuleProps {
     create?: boolean;
     find?: boolean;
+    draft?: boolean;
 }
 
-export const CreateModule: React.FC<CreateModuleProps> = ({ create, find }) => {
+export const CreateModule: React.FC<CreateModuleProps> = ({ create, find, draft }) => {
     const navigate = useNavigate();
 
     const findButton = <Button variant="secondary">Найти статьи</Button>;
@@ -23,7 +24,7 @@ export const CreateModule: React.FC<CreateModuleProps> = ({ create, find }) => {
                     <div className={styles.promt}>
                         <div className={styles.iconAndHeading}>
                             <div className={styles.icon}>
-                                {create ? (
+                                {create || draft ? (
                                     <AddCircle size="M" color="informative" />
                                 ) : (
                                     find && <Search color="informative" />
@@ -31,18 +32,27 @@ export const CreateModule: React.FC<CreateModuleProps> = ({ create, find }) => {
                             </div>
                             <Button
                                 onPress={() =>
-                                    create ? navigate('/writing') : navigate('/articles')
+                                    create || draft
+                                        ? navigate('/articles/new')
+                                        : navigate('/articles')
                                 }
                                 variant="secondary">
-                                {create ? 'Написать статью' : 'Найти статьи'}
+                                {create || draft ? 'Написать статью' : 'Найти статьи'}
                             </Button>
                         </div>
                         <div className={styles.text}>
-                            {create && (
+                            {create ? (
                                 <p>
                                     Получайте отзывы, просмотры и оценки. Общедоступные проекты
                                     также могут быть отмечены как «Популярные» нашими кураторами.
                                 </p>
+                            ) : (
+                                draft && (
+                                    <p>
+                                        Ты сможешь получать оценки, а также собирать просмотры на
+                                        опубликованных статьях.
+                                    </p>
+                                )
                             )}
                         </div>
                     </div>

@@ -5,6 +5,7 @@ import { IoEye, IoHeart } from 'react-icons/io5';
 import { Link, useLocation } from 'react-router-dom';
 import { convertDateShort } from '../../helpers/convertDate';
 import { Article } from '../../redux';
+import { ArticleStats } from '../ArticleStats';
 
 import styles from './ArticlePreview.module.scss';
 
@@ -48,16 +49,7 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
                         {author}
                     </Link>
                 </div>
-                <div className={styles.stats}>
-                    <span className="icon-center">
-                        <IoHeart />
-                        <span>{likesCount}</span>
-                    </span>
-                    <span className="icon-center">
-                        <IoEye />
-                        <span>{viewsCount}</span>
-                    </span>
-                </div>
+                <ArticleStats viewsCount={viewsCount} likesCount={likesCount} />
             </div>
         </div>
     );

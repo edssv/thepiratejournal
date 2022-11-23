@@ -38,6 +38,7 @@ export const authApi = api.injectEndpoints({
                 url: 'logout',
                 method: 'POST',
             }),
+            invalidatesTags: ['Articles'],
         }),
         getCurrentUser: builder.query({
             query: () => `getCurrentUser`,

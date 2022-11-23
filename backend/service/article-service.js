@@ -35,13 +35,6 @@ class ArticleService {
 
         return { article: articleDto };
     }
-
-    async getOneEdit(articleId) {
-        console.log(articleId);
-        const article = await articleModel.findOne({ _id: articleId });
-        const articleDto = new ArticleDto(article);
-        return { article: articleDto };
-    }
 }
 
 module.exports = new ArticleService();

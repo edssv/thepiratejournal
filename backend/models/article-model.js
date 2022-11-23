@@ -1,14 +1,13 @@
 const { Schema, model } = require('mongoose');
-const UserDto = require('../dtos/user-dto');
 
 const articleSchema = new Schema({
     author: {
         _id: { type: String, required: true },
         username: { type: String, required: true },
     },
-    title: { type: String },
+    title: { type: String, required: true },
     cover: {
-        type: Object,
+        type: String,
         required: true,
     },
     blocks: {

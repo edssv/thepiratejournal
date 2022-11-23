@@ -17,7 +17,7 @@
     height: $header-height;
 
     &::before {
-        background-color: var(--spectrum-global-color-gray-200);
+        background-color: var(--spectrum-well-border-color);
         color-scheme: light;
         bottom: 0;
         content: '';

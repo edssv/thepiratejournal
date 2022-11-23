@@ -2,27 +2,29 @@ const userService = require('../service/user-service');
 const ApiError = require('../exceptions/api-error');
 const User = require('../models/user-model');
 
-const getUsers = async (req, res, next) => {
+const getUsers = async (req, res) => {
     try {
         const users = await userService.getAllUsers();
-        return res.json(users);
+        res.json(users);
     } catch (e) {
         res.status(400).json({ message: error.message });
     }
 };
 
-const getUser = async (req, res, next) => {
+const getUser = async (req, res) => {
     const username = req.params.id;
     const currentUser = req.currentUser;
     try {
-        const userData = await User.getUser(username);
+        const { user, articles, liked, drafts } = await User.getUser(username);
 
         let isOwner = false;
         if (currentUser) {
-            isOwner = userData.user._id.toString() === currentUser._id.toString() ? true : false;
+            isOwner = user._id.toString() === currentUser._id.toString() ? true : false;
         }
 
-        return res.status(200).json({ userData, isOwner });
+        if (isOwner) return res.status(200).json({ user, articles, liked, drafts, isOwner });
+
+        res.status(200).json({ user, articles, liked });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

@@ -40,7 +40,7 @@ const Configuration = (dataBlocks) => {
             //     },
             // },
         },
-        defaultBlock: 'header',
+        defaultBlock: 'paragraph',
         data: {
             blocks: dataBlocks,
         },

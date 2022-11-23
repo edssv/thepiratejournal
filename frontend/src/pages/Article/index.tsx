@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toHtml } from './toHtml';
 import {
     useDeleteArticleMutation,
@@ -10,19 +10,16 @@ import {
 
 import styles from './Article.module.scss';
 import { convertDateLong } from '../../helpers/convertDate';
-import { Avatar, Overlay, TippyBox } from '../../components';
+import { Avatar, Overlay, ArticleStats, ButtonLike } from '../../components';
 import {
+    ActionButton,
     AlertDialog,
     Button,
     ButtonGroup,
-    Content,
-    Dialog,
     DialogTrigger,
-    Divider,
-    Heading,
-    Text,
     Tooltip,
     TooltipTrigger,
+    Well,
 } from '@adobe/react-spectrum';
 import Edit from '@spectrum-icons/workflow/Edit';
 import DeleteOutline from '@spectrum-icons/workflow/Delete';
@@ -32,6 +29,7 @@ import NotFoundPage from '../NotFoundPage';
 import { useAuth, useDocTitle } from '../../hooks';
 import { useMediaPredicate } from 'react-media-hook';
 import BookmarkSingle from '@spectrum-icons/workflow/BookmarkSingle';
+import Reply from '@spectrum-icons/workflow/Reply';
 
 const Article: React.FC = () => {
     const [doctitle, setDocTitle] = useDocTitle('Статья');
@@ -40,46 +38,32 @@ const Article: React.FC = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
     // media
-    const isMobile = useMediaPredicate('(max-width: 767.98px)');
+    const isTablet = useMediaPredicate('(max-width: 990.98px)');
     const fromTablet = useMediaPredicate('(min-width: 768px)');
 
     const { data, isLoading, isError } = useGetArticleQuery(id);
     const [deleteArticle] = useDeleteArticleMutation();
-    const [like] = useLikeMutation();
-    const [removeLike] = useRemoveLikeMutation();
 
-    const [isLike, setLike] = useState<boolean>();
     const [tippy, setTippy] = useState<boolean>(false);
-
-    useEffect(() => {
-        setLike(data?.isLiked);
-    }, [data?.isLiked]);
 
     if (isLoading) return <Overlay />;
     if (isError) return <NotFoundPage />;
 
-    const handleSetLike = () => {
-        like(id);
-        setLike(true);
-    };
-
-    const handleRemoveLike = () => {
-        removeLike(id);
-        setLike(false);
-    };
-
     const fromPage = location?.state?.from?.pathname;
 
     const userId = user?.id;
-    const article = data.article;
-    const author = article.author;
-    const title = article.title;
-    const avatar = author.avatar;
-    const authorname = author.username ? author.username : 'deleted';
-    const authorId = author._id;
-    const cover = article.cover;
+    const article = data?.article;
+    const author = article?.author;
+    const title = article?.title;
+    const blocks = article?.blocks;
+    const avatar = author?.avatar;
+    const authorname = author?.username ? author.username : 'deleted';
+    const authorId = author?._id;
+    const cover = article?.cover;
+    const views = article?.views.count;
+    const likes = article?.likes.count;
 
-    const date = convertDateLong(article.timestamp);
+    const date = convertDateLong(article?.timestamp);
 
     return (
         <div className={styles.root}>
@@ -89,18 +73,16 @@ const Article: React.FC = () => {
                         <div className={styles.top}>
                             <div className={styles.top__content}>
                                 <Link to={`/users/${authorname}`}>
-                                    <Avatar imageSrc={avatar} width={48} />
+                                    <Avatar imageSrc={avatar} width={42} />
                                 </Link>
-                                <div className={styles.content__text}>
+                                <div className={styles.text}>
                                     <h4 className={styles.article_title}>
                                         {title ? title : 'Без названия'}
                                     </h4>
-                                    <div className={styles.text__bottom}>
+                                    <div className={styles.authorNameAndDate}>
                                         <Link to={`/users/${authorname}`}>
-                                            <div className={styles.author_name}>{authorname}</div>
+                                            <div className={styles.authorName}>{authorname}</div>
                                         </Link>
-                                        <CircleFilled height={3} width={3} margin="0 8px" />
-                                        <div className={styles.date}>{date}</div>
                                     </div>
                                 </div>
                             </div>
@@ -144,77 +126,80 @@ const Article: React.FC = () => {
                                     </DialogTrigger>
                                 </ButtonGroup>
                             ) : (
-                                <ButtonGroup UNSAFE_className={styles.bookmarksAndLikes}>
-                                    <TooltipTrigger delay={200}>
-                                        <Button variant="secondary" style="fill">
-                                            <BookmarkSingle />
-                                        </Button>
-                                        <Tooltip>Сохранить в закладки</Tooltip>
-                                    </TooltipTrigger>
-
-                                    {!user ? (
-                                        <DialogTrigger type="popover">
-                                            <Button
-                                                variant={isLike ? 'negative' : !isLike && 'accent'}
-                                                style="fill">
-                                                <Heart />
-                                            </Button>
-                                            {(close) => (
-                                                <Dialog>
-                                                    <Heading>Добавляй в избранное</Heading>
-                                                    <Content>
-                                                        <p>
-                                                            Чтобы добавлять статьи в понравившиеся,
-                                                            войди в аккаунт.
-                                                        </p>
-                                                    </Content>
-                                                    <ButtonGroup>
-                                                        <Button
-                                                            onPress={close}
-                                                            variant="secondary"
-                                                            staticColor="white">
-                                                            Не сейчас
-                                                        </Button>
-                                                        <Button
-                                                            onPress={() =>
-                                                                navigate('/login', {
-                                                                    state: { from: location },
-                                                                })
-                                                            }
-                                                            variant="accent"
-                                                            staticColor="white">
-                                                            Войти
-                                                        </Button>
-                                                    </ButtonGroup>
-                                                </Dialog>
-                                            )}
-                                        </DialogTrigger>
-                                    ) : (
+                                isTablet && (
+                                    <ButtonGroup UNSAFE_className={styles.controls}>
                                         <TooltipTrigger delay={200}>
-                                            <Button
-                                                onPress={isLike ? handleRemoveLike : handleSetLike}
-                                                variant={isLike ? 'negative' : !isLike && 'accent'}
-                                                style="fill">
-                                                <Heart />
-                                            </Button>
-                                            <Tooltip>Добавить в понравившиеся</Tooltip>
+                                            <ActionButton isQuiet>
+                                                <BookmarkSingle size="XS" />
+                                            </ActionButton>
+                                            <Tooltip>Сохранить в закладки</Tooltip>
                                         </TooltipTrigger>
-                                    )}
-                                </ButtonGroup>
+                                    </ButtonGroup>
+                                )
                             )}
                         </div>
 
                         <div className={styles.content__wrapper}>
                             <div className={styles.content}>
-                                <img src={article.cover} alt="" />
+                                <img src={cover} alt="" />
                                 <h2>{article?.title}</h2>
                                 <div
                                     dangerouslySetInnerHTML={{
-                                        __html: toHtml(data.article.blocks),
+                                        __html: toHtml(blocks),
                                     }}
                                     className={styles.content__blocks}></div>
                             </div>
+                            {isTablet && (
+                                <div className={styles.button}>
+                                    <ButtonLike isLiked={data?.isLiked} id={id} />
+                                </div>
+                            )}
                         </div>
+                        <div className={styles.bottomInfo}>
+                            <Well
+                                role="region"
+                                aria-labelledby="wellLabel"
+                                UNSAFE_className={styles.well}>
+                                <div className={styles.dateAndStats}>
+                                    <span className={styles.date}>{date}</span>
+                                    <ArticleStats viewsCount={views} likesCount={likes} />
+                                </div>
+                                <div className={styles.author}>
+                                    <Link to={`/users/${authorname}`}>
+                                        <Avatar imageSrc={avatar} width={48} />
+                                    </Link>
+                                    <span className={styles.authorName}>{authorname}</span>
+                                </div>
+                            </Well>
+                        </div>
+                        {!isTablet && (
+                            <div className={styles.shot_sidebar}>
+                                <div className={styles.shot_controls_wrapper}>
+                                    <div className={styles.shot_controls}>
+                                        <Link to={`/users/${authorname}`}>
+                                            <Avatar imageSrc={avatar} width={40} />
+                                        </Link>
+                                        <ButtonGroup
+                                            orientation="vertical"
+                                            UNSAFE_className={styles.buttonGroup}>
+                                            <TooltipTrigger delay={200} placement="left">
+                                                <Button variant="secondary">
+                                                    <Reply />
+                                                </Button>
+                                                <Tooltip>Поделиться</Tooltip>
+                                            </TooltipTrigger>
+                                            <TooltipTrigger delay={200} placement="left">
+                                                <Button variant="secondary">
+                                                    <BookmarkSingle size="XS" />
+                                                </Button>
+                                                <Tooltip>Сохранить в закладки</Tooltip>
+                                            </TooltipTrigger>
+                                            <ButtonLike isLiked={data?.isLiked} id={id} />
+                                        </ButtonGroup>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

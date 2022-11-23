@@ -1,12 +1,24 @@
 const Article = require('../models/article-model');
-const articleService = require('../service/article-service');
+const Draft = require('../models/draftModel');
 const User = require('../models/user-model');
 
 const creating = async (req, res) => {
     const authorId = req.user._id;
     const authorUsername = req.user.username;
-    const { title, cover, blocks, time } = req.body;
+    const { intent, title, cover, blocks, time } = req.body;
     try {
+        if (intent === 'draft') {
+            const draft = await Draft.creating(
+                authorId,
+                authorUsername,
+                title,
+                cover,
+                blocks,
+                time,
+            );
+            return res.json(draft);
+        }
+
         const article = await Article.creating(
             authorId,
             authorUsername,
@@ -90,16 +102,6 @@ const getOne = async (req, res) => {
     }
 };
 
-const getOneEdit = async (req, res, next) => {
-    try {
-        const articleId = req.params.id;
-        const article = await articleService.getOneEdit(articleId);
-        res.json(article);
-    } catch (e) {
-        next(e);
-    }
-};
-
 const like = async (req, res) => {
     const articleId = req.params.id;
     const userId = req.user._id;
@@ -128,4 +130,4 @@ const removeLike = async (req, res) => {
     }
 };
 
-module.exports = { creating, remove, editing, getAll, getOne, getOneEdit, like, removeLike };
+module.exports = { creating, remove, editing, getAll, getOne, like, removeLike };

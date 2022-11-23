@@ -1,5 +1,5 @@
 import { api } from './api';
-import { Article } from './article';
+import { Article, Draft } from './article';
 
 export interface User {
     id: string;
@@ -14,11 +14,10 @@ export interface User {
 }
 
 export interface UserResponse {
-    userData: {
-        user: User;
-        articles: Article[];
-        liked: Article[];
-    };
+    user: User;
+    articles: Article[];
+    liked: Article[];
+    drafts: Draft[];
     isOwner: boolean;
 }
 

@@ -29,7 +29,7 @@ const NotFoundPage = React.lazy(
 const App = () => {
     const [doctitle, setDocTitle] = useDocTitle('');
     const token = localStorage.getItem('token');
-    const {} = useGetCurrentUserQuery(token && null);
+    useGetCurrentUserQuery('', { skip: !token && true });
 
     return (
         <Routes>
@@ -80,7 +80,7 @@ const App = () => {
 
                 <Route element={<PrivateOutlet />}>
                     <Route
-                        path="/writing"
+                        path="/articles/new"
                         element={
                             <Suspense fallback={<Overlay />}>
                                 <ArticleEditorPage />

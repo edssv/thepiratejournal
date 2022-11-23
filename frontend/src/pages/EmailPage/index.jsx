@@ -99,25 +99,20 @@ const EmailPage = () => {
                         )}
                     </section>
                     <section className={styles.submit}>
-                        {isLoading ? (
-                            <Button isDisabled={true} variant="cta">
+                        <Button
+                            isDisabled={isOnline && !isLoading ? false : true}
+                            type="submit"
+                            variant="accent">
+                            {isLoading && (
                                 <ProgressCircle
                                     size="S"
                                     isIndeterminate
                                     marginEnd={6}
-                                    variant="overBackground"
                                     aria-label="Loading…"
                                 />
-                                Войти
-                            </Button>
-                        ) : (
-                            <Button
-                                isDisabled={isOnline ? false : true}
-                                type="submit"
-                                variant="cta">
-                                Войти
-                            </Button>
-                        )}
+                            )}{' '}
+                            Войти
+                        </Button>
                     </section>
                 </form>
                 <div className={styles.socials__separator}>Или</div>

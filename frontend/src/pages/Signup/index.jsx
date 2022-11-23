@@ -89,58 +89,6 @@ const Signup = () => {
                                 </label>
                             )}
                         </div>
-                        {/* <div className={styles.name}>
-                                
-                                <div className={styles.field}>
-                                    <label className="field-label">Имя</label>
-                                    <input
-                                        {...register('firstName', {
-                                            required: 'Введите имя.',
-                                            minLength: {
-                                                value: 3,
-                                                message: 'Минимум 3 символа.',
-                                            },
-                                            maxLength: {
-                                                value: 12,
-                                                message: 'Максимум 12 символов',
-                                            },
-                                        })}
-                                        type="text"
-                                        className={`text-field ${
-                                            errors?.firstName && `is-invalid`
-                                        }`}
-                                    />
-                                    {errors?.firstName && (
-                                        <label className="field-label error-label">
-                                            {errors?.firstName?.message}
-                                        </label>
-                                    )}
-                                </div>
-                                
-                                <div className={styles.field}>
-                                    <label className="field-label">Фамилия</label>
-                                    <input
-                                        {...register('lastName', {
-                                            required: 'Введите фамилию.',
-                                            minLength: {
-                                                value: 3,
-                                                message: 'Минимум 3 символа.',
-                                            },
-                                            maxLength: {
-                                                value: 20,
-                                                message: 'Максимум 20 символов',
-                                            },
-                                        })}
-                                        type="text"
-                                        className={`text-field ${errors?.lastName && `is-invalid`}`}
-                                    />
-                                    {errors?.lastName && (
-                                        <label className="field-label error-label">
-                                            {errors?.lastName?.message}
-                                        </label>
-                                    )}
-                                </div>
-                            </div> */}
                         <div className={styles.field}>
                             <label className="field-label">Адрес электронной почты</label>
                             <input
@@ -211,22 +159,20 @@ const Signup = () => {
                     </div>
 
                     <section className={styles.submit}>
-                        {isLoading ? (
-                            <Button isDisabled={true} variant="cta">
+                        <Button
+                            isDisabled={isOnline && !isLoading && isValid ? false : true}
+                            type="submit"
+                            variant="accent">
+                            {isLoading && (
                                 <ProgressCircle
                                     size="S"
                                     isIndeterminate
                                     marginEnd={6}
-                                    variant="overBackground"
                                     aria-label="Loading…"
                                 />
-                                Создать
-                            </Button>
-                        ) : (
-                            <Button isDisabled={isValid ? false : true} type="submit" variant="cta">
-                                Создать
-                            </Button>
-                        )}
+                            )}{' '}
+                            Создать
+                        </Button>
                     </section>
                 </form>
             </div>

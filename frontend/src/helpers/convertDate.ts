@@ -1,4 +1,4 @@
-export const convertDateLong = (timestamp: string) => {
+export const convertDateLong = (timestamp: string | undefined) => {
     const date = Number(timestamp);
     const dateObj = new Date(date);
 
@@ -8,7 +8,7 @@ export const convertDateLong = (timestamp: string) => {
     return `${monthDay} в ${hourMinute}`;
 };
 
-export const convertDateShort = (timestamp: string) => {
+export const convertDateShort = (timestamp: string | undefined) => {
     const date = Number(timestamp);
     const dateObj = new Date(date);
 
@@ -20,7 +20,7 @@ export const convertDateShort = (timestamp: string) => {
     return dateShort;
 };
 
-export const convertDateDayMonthYear = (timestamp: string) => {
+export const convertDateDayMonthYear = (timestamp: string | undefined) => {
     const date = Number(timestamp);
     const dateObj = new Date(date);
 
@@ -31,4 +31,18 @@ export const convertDateDayMonthYear = (timestamp: string) => {
     });
 
     return dateDayMonthYear;
+};
+
+export const convertDateMDHM = (timestamp: string | undefined) => {
+    const date = Number(timestamp);
+    const dateObj = new Date(date);
+
+    const hours = dateObj.toLocaleString('ru-Ru', {
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+    });
+
+    return hours;
 };

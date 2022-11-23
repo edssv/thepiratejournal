@@ -1,27 +1,91 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import {
+    Button,
+    ButtonGroup,
+    Content,
+    Dialog,
+    DialogTrigger,
+    Heading,
+    Tooltip,
+    TooltipTrigger,
+} from '@adobe/react-spectrum';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../hooks';
+import Heart from '@spectrum-icons/workflow/Heart';
+import { useLikeMutation, useRemoveLikeMutation } from '../../../redux';
 
 import styles from './ButtonLike.module.scss';
 
-export const ButtonLike = () => {
-    const [onLike, setLike] = React.useState(false);
+interface IsLikeProps {
+    isLiked: boolean | undefined;
+    id: string | undefined;
+}
 
+export const ButtonLike: React.FC<IsLikeProps> = ({ isLiked, id }) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { user } = useAuth();
+
+    const [like] = useLikeMutation();
+    const [removeLike] = useRemoveLikeMutation();
+
+    const [isLike, setLike] = useState<boolean>();
+
+    useEffect(() => {
+        setLike(isLiked);
+    }, [isLiked]);
+
+    const handleSetLike = () => {
+        like(id);
+        setLike(true);
+    };
+
+    const handleRemoveLike = () => {
+        removeLike(id);
+        setLike(false);
+    };
+
+    if (!user) {
+        return (
+            <DialogTrigger type="popover" mobileType="tray" placement="right">
+                <Button variant={isLike ? 'negative' : !isLike && 'accent'} style="fill">
+                    <Heart />
+                </Button>
+                {(close) => (
+                    <Dialog>
+                        <Heading>Добавляй в избранное</Heading>
+                        <Content>
+                            <p>Чтобы добавлять статьи в понравившиеся, войди в аккаунт.</p>
+                        </Content>
+                        <ButtonGroup>
+                            <Button onPress={close} variant="secondary" staticColor="white">
+                                Не сейчас
+                            </Button>
+                            <Button
+                                onPress={() =>
+                                    navigate('/login', {
+                                        state: { from: location },
+                                    })
+                                }
+                                variant="accent"
+                                staticColor="white">
+                                Войти
+                            </Button>
+                        </ButtonGroup>
+                    </Dialog>
+                )}
+            </DialogTrigger>
+        );
+    }
     return (
-        <button onClick={() => setLike(!onLike)} className={`${styles.root} btnPrimary`}>
-            <svg
-                width="18"
-                height="16"
-                viewBox="0 0 18 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M17.4697 5.0818C17.4695 3.89332 17.0091 2.7741 16.167 1.93203L16.1661 1.93113C15.3252 1.0945 14.2065 0.629347 13.0202 0.629347C11.8342 0.629347 10.7111 1.09427 9.86949 1.93585L9.01471 2.79063C9.01179 2.79355 9.0098 2.79451 9.00874 2.79495C9.00736 2.79551 9.0057 2.79587 9.00384 2.79587C9.00197 2.79587 9.00031 2.79551 8.99894 2.79495C8.99788 2.79451 8.99588 2.79355 8.99296 2.79063L8.13055 1.92822C7.28879 1.08646 6.16562 0.621715 4.97607 0.621715C3.78994 0.621715 2.6707 1.08675 1.83304 1.9244L2.18659 2.27796L1.83395 1.9235C0.990645 2.7625 0.530354 3.88266 0.530354 5.07125C0.530354 6.26131 0.995459 7.38052 1.83686 8.22192L8.64074 15.0258L8.9936 15.3787L9.34716 15.0265L16.1663 8.23406L16.167 8.23336C17.0081 7.39222 17.4738 6.27282 17.4697 5.0818ZM17.4697 5.0818C17.4697 5.0821 17.4697 5.0824 17.4697 5.0827H16.9698L17.4697 5.08089C17.4697 5.08119 17.4697 5.0815 17.4697 5.0818ZM8.65219 2.40637L9.00575 2.75992L9.3593 2.40637L9.85156 1.91411C10.7005 1.06519 11.825 0.599033 13.024 0.599033C14.2235 0.599033 15.3441 1.06178 16.1926 1.91029C17.0408 2.75854 17.5034 3.88235 17.5 5.08127V5.0827C17.5 6.28136 17.0341 7.40561 16.1856 8.25445C16.1854 8.25467 16.1852 8.25489 16.1849 8.25511L9.00392 15.4094L9.00337 15.41C9.00315 15.4101 9.00253 15.4105 9.00131 15.411C8.99937 15.4118 8.99729 15.4122 8.99564 15.4124C8.99514 15.4122 8.99438 15.412 8.99339 15.4116C8.99028 15.4103 8.98743 15.4083 8.98533 15.4062L1.81893 8.23984C0.969022 7.38994 0.50004 6.26883 0.500042 5.07125L0.500038 5.06982C0.496605 3.87189 0.962345 2.74779 1.8113 1.89884C2.65634 1.0538 3.78084 0.587585 4.97607 0.587585C6.17447 0.587585 7.30297 1.05715 8.1523 1.90647L8.65219 2.40637Z"
-                    fill="white"
-                    fillOpacity="0.6"
-                    stroke="white"
-                />
-            </svg>
-
-            <span style={{ color: 'white' }}>2707777</span>
-        </button>
+        <TooltipTrigger delay={200}>
+            <Button
+                onPress={isLike ? handleRemoveLike : handleSetLike}
+                variant={isLike ? 'negative' : !isLike && 'accent'}
+                style="fill">
+                <Heart />
+            </Button>
+            <Tooltip>Добавить в понравившиеся</Tooltip>
+        </TooltipTrigger>
     );
 };

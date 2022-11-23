@@ -23,7 +23,7 @@ import { useMediaPredicate } from 'react-media-hook';
 import Delete from '@spectrum-icons/workflow/Delete';
 
 type CoverWindowProps = {
-    windowOpen: boolean;
+    windowOpen?: boolean;
     uploadedUrl: string;
     setUploadedUrl: any;
     onClickSave: any;
@@ -45,6 +45,8 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({
     const [isMounted, setIsMounted] = useState(isEditing);
     const [addCover, { data, isLoading }] = useAddCoverMutation();
     const [deleteCover] = useDeleteCoverMutation();
+
+    console.log(uploadedUrl);
 
     const handlePick = () => {
         filePicker.current?.click();

@@ -28,7 +28,10 @@ const signupUser = async (req, res) => {
             httpOnly: true,
         });
 
-        res.status(200).json({ user: { username: user.username, avatar: user.avatar }, token });
+        res.status(200).json({
+            user: { username: user.username, avatar: user.avatar, isActivated: user.isActivated },
+            token,
+        });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -51,7 +54,12 @@ const loginUser = async (req, res) => {
         });
 
         res.status(200).json({
-            user: { _id: user._id, username: user.username, avatar: user.avatar },
+            user: {
+                _id: user._id,
+                username: user.username,
+                avatar: user.avatar,
+                isActivated: user.isActivated,
+            },
             token,
         });
     } catch (error) {

@@ -1,9 +1,14 @@
 @use '../../scss/util' as *;
 
+$infoWidth: 768px;
+
 .root {
+    min-height: calc(100vh - $header-height);
+    background-color: var(--spectrum-well-background-color);
     .shot_container {
         .shot_content {
             padding: 20px 16px;
+            position: relative;
 
             @include breakpoint(lg) {
                 padding: 20px 120px;
@@ -24,55 +29,87 @@
                     display: flex;
                     justify-content: space-between;
                     width: 100%;
-                    max-width: 768px;
+                    max-width: $infoWidth;
 
                     &__content {
                         display: flex;
-                        gap: 16px;
-
-                        img {
-                            width: 48px;
-                            height: 48px;
+                        gap: 12px;
+                        max-width: 60%;
+                        @include breakpoint(lg) {
+                            flex-direction: row;
                         }
 
-                        .content__text {
+                        img {
+                            width: 42px;
+                            height: 42px;
+                        }
+
+                        .text {
+                            width: 100%;
+
                             .article_title {
+                                max-width: 100%;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
                                 font-size: 16px;
                                 font-weight: 500;
                                 line-height: 22px;
                             }
 
-                            .text__bottom {
-                                display: flex;
-                                align-items: center;
-                                height: fit-content;
+                            .authorName {
+                                font-size: 14px;
+                                font-weight: 400;
+                            }
+                        }
 
-                                .author_name,
-                                .date {
-                                    font-size: 14px;
+                        .bottom {
+                            display: flex;
+                            align-items: center;
+                            height: fit-content;
+
+                            .authorNameAndDate {
+                                margin-left: 12px;
+                                align-items: center;
+                                @include breakpoint(lg) {
+                                    display: flex;
+                                    margin-left: unset;
                                 }
+                            }
+
+                            .author_name,
+                            .date {
+                                font-size: 14px;
                             }
                         }
                     }
 
-                    .bookmarksAndLikes {
+                    .controls {
                         position: relative;
                         button {
-                            width: 45px;
-                            height: 45px;
+                            width: 40px;
+                            height: 40px;
                             border-radius: 50%;
                         }
                     }
                 }
                 .content__wrapper {
                     max-width: 752px;
-                    margin-top: 44px 0;
+
+                    .button {
+                        display: block;
+                        position: sticky;
+                        bottom: 15px;
+                        right: 15px;
+                        margin-top: -55px;
+                        float: right;
+                    }
                 }
                 .content {
                     display: flex;
                     flex-direction: column;
                     gap: 30px;
-                    padding: 45px 0 35px;
+                    padding: 25px 0 35px;
                     font-size: $fs-lg;
                     line-height: 1.5;
                     word-break: break-word;
@@ -80,6 +117,7 @@
 
                     img {
                         max-width: 100%;
+                        border-radius: 4px;
                     }
 
                     &__blocks {
@@ -111,6 +149,90 @@
                     }
 
                     .img__wrapper {
+                    }
+                }
+
+                .bottomInfo {
+                    max-width: $infoWidth;
+                    width: 100%;
+
+                    .well {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 12px;
+                        width: 100%;
+                        padding: 20px;
+
+                        .articleTitle {
+                            font-size: 18px;
+                        }
+
+                        .dateAndStats {
+                            display: flex;
+                            justify-content: space-between;
+                        }
+
+                        .date {
+                            font-weight: 600;
+                        }
+
+                        .author {
+                            display: flex;
+                            align-items: center;
+                            gap: 12px;
+
+                            .authorName {
+                                font-size: 16px;
+                                font-weight: 600;
+                            }
+                        }
+                    }
+                }
+
+                .shot_sidebar {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    height: 100%;
+                    z-index: 2;
+
+                    .shot_controls_wrapper {
+                        position: absolute;
+                        top: 0;
+                        right: 40px;
+                        box-sizing: border-box;
+                        height: 100%;
+                        padding: 40px 0;
+                        @include breakpoint(lg) {
+                            padding-top: 60px;
+                        }
+
+                        .shot_controls {
+                            @include breakpoint(lg) {
+                                display: flex;
+                                position: sticky;
+                                gap: 18px;
+                                z-index: 10;
+                                top: 40px;
+                                flex-direction: column;
+                                align-items: center;
+                                transform: translateX(0);
+                                opacity: 1;
+                                will-change: transform;
+                            }
+
+                            .buttonGroup {
+                                display: flex;
+                                flex-direction: column;
+                                margin-left: 0;
+
+                                button {
+                                    width: 40px;
+                                    height: 40px;
+                                    border-radius: 50%;
+                                }
+                            }
+                        }
                     }
                 }
             }

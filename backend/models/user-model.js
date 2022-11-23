@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const mailService = require('../service/mail-service');
 const tokenModel = require('../models/token-model');
 const Article = require('./article-model');
+const Draft = require('../models/draftModel');
 
 const userSchema = new Schema({
     username: { type: String, required: true, unique: true },
@@ -99,6 +100,7 @@ userSchema.statics.getUser = async function (username) {
     const user = await this.findOne({ username });
     const articles = await Article.find({ 'author.username': username });
     const liked = await Article.find({ _id: { $in: user.liked } });
+    const drafts = await Draft.find({ 'author._id': user._id });
 
     return {
         user: {
@@ -110,6 +112,7 @@ userSchema.statics.getUser = async function (username) {
         },
         articles,
         liked,
+        drafts,
     };
 };
 
