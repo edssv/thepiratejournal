@@ -4,7 +4,7 @@ import { Button } from '@adobe/react-spectrum';
 import img from '../../assets/img/Metro_Exodus.png';
 
 import styles from './GamePage.module.scss';
-import { useGetArticlesQuery } from '../../redux';
+import { useGetArticlesQuery } from '../../redux/services/article';
 import { useNavigate } from 'react-router-dom';
 import { viewsSumCalc } from '../../helpers/viewsSum';
 

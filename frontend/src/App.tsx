@@ -1,141 +1,63 @@
-import React, { Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { Layout } from './components/Layout';
-import { Overlay } from './components/Overlay';
-import { AuthOutlet } from './helpers/AuthOutlet';
-import { PrivateOutlet } from './helpers/PrivateOutlet';
-import { useAuth } from './hooks/useAuth';
+import { Suspense, lazy } from 'react';
+import { Routes, Route, useRoutes } from 'react-router-dom';
+import { Layout, Overlay } from './components';
+import { AuthOutlet, PrivateOutlet } from './helpers';
+import { DraftsOutlet } from './helpers/DraftsOutlet';
 import { useDocTitle } from './hooks/useDocTitle';
-import { useGetCurrentUserQuery } from './redux/services/auth';
+import { useGetCurrentUserQuery } from './redux';
 
 import './scss/styles.scss';
 
-const Home = React.lazy(() => import(/* webpackChunkName: "Home" */ './pages/Home'));
-const GamesPage = React.lazy(() => import(/* webpackChunkName: "GamesPage" */ './pages/GamesPage'));
-const GamePage = React.lazy(() => import(/* webpackChunkName: "GamePage" */ './pages/GamePage'));
-const Profile = React.lazy(() => import(/* webpackChunkName: "Profile" */ './pages/Profile'));
-const Article = React.lazy(() => import(/* webpackChunkName: "Article" */ './pages/Article'));
-const ArticleEditorPage = React.lazy(
+const Home = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Home'));
+const GamesPage = lazy(() => import(/* webpackChunkName: "GamesPage" */ './pages/Games'));
+const GamePage = lazy(() => import(/* webpackChunkName: "GamePage" */ './pages/GamePage'));
+const Profile = lazy(() => import(/* webpackChunkName: "Profile" */ './pages/Profile'));
+const Article = lazy(() => import(/* webpackChunkName: "Article" */ './pages/Article'));
+const ArticleEditorPage = lazy(
     () => import(/* webpackChunkName: "ArticleEditorPage" */ './pages/ArticleEditorPage'),
 );
-const EmailPage = React.lazy(
+const EmailPage = lazy(
     () => import(/* webpackChunkName: "EmailPage" */ './pages/EmailPage/index.jsx'),
 );
-const Signup = React.lazy(() => import(/* webpackChunkName: "Signup" */ './pages/Signup'));
-const NotFoundPage = React.lazy(
-    () => import(/* webpackChunkName: "NotFoundPage" */ './pages/NotFoundPage'),
-);
+const Signup = lazy(() => import(/* webpackChunkName: "Signup" */ './pages/Signup'));
+const NotFoundPage = lazy(() => import(/* webpackChunkName: "NotFoundPage" */ './pages/NotFound'));
 
 const App = () => {
-    const [doctitle, setDocTitle] = useDocTitle('');
+    useDocTitle('');
     const token = localStorage.getItem('token');
-    useGetCurrentUserQuery('', { skip: !token && true });
+    useGetCurrentUserQuery('', { skip: !token });
 
     return (
-        <Routes>
-            <Route path="/" element={<Layout container={true} />}>
-                <Route
-                    index
-                    element={
-                        <Suspense fallback="">
-                            <Home />
-                        </Suspense>
-                    }
-                />
-                <Route
-                    path="games"
-                    element={
-                        <Suspense fallback={<Overlay />}>
-                            <GamesPage />
-                        </Suspense>
-                    }
-                />
-                <Route
-                    path="games/metro-exodus"
-                    element={
-                        <Suspense fallback={<Overlay />}>
-                            <GamePage />
-                        </Suspense>
-                    }
-                />
-                {/* <Route element={<PrivateOutlet />}>
-                    <Route
-                        path="/profile"
-                        element={
-                            <Suspense fallback="loading">
-                                <Profile />
-                            </Suspense>
-                        }
-                    />
-                </Route> */}
-
-                <Route
-                    path="*"
-                    element={
-                        <Suspense fallback={<Overlay />}>
-                            <NotFoundPage />
-                        </Suspense>
-                    }
-                />
-
-                <Route element={<PrivateOutlet />}>
-                    <Route
-                        path="/articles/new"
-                        element={
-                            <Suspense fallback={<Overlay />}>
-                                <ArticleEditorPage />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="/articles/:id/edit"
-                        element={
-                            <Suspense fallback={<Overlay />}>
-                                <ArticleEditorPage />
-                            </Suspense>
-                        }
-                    />
+        <Suspense fallback={<Overlay />}>
+            <Routes>
+                <Route path="/" element={<Layout container={true} />}>
+                    <Route index element={<Home />} />
+                    <Route path="games" element={<GamesPage />} />
+                    <Route path="games/metro-exodus" element={<GamePage />} />
+                    <Route path="*" element={<NotFoundPage />} />
+                    <Route element={<PrivateOutlet />}>
+                        <Route path="/articles/new" element={<ArticleEditorPage />} />
+                        <Route path="/articles/:id/edit" element={<ArticleEditorPage />} />
+                        <Route path="/drafts/:id/edit" element={<ArticleEditorPage />} />
+                    </Route>
                 </Route>
-            </Route>
 
-            <Route element={<Layout container={false} />}>
-                <Route
-                    path="articles/:id"
-                    element={
-                        <Suspense fallback={<Overlay />}>
-                            <Article />
-                        </Suspense>
-                    }
-                />
-                <Route
-                    path="/users/:id"
-                    element={
-                        <Suspense fallback={<Overlay />}>
-                            <Profile />
-                        </Suspense>
-                    }
-                />
-            </Route>
+                <Route element={<Layout container={false} />}>
+                    <Route path="articles/:id" element={<Article />} />
+                    <Route path="/users/:id" element={<Profile />} />
+                    <Route path="/users/:id/articles" element={<Profile />} />
+                    <Route path="/users/:id/appreciated" element={<Profile />} />
+                    <Route element={<DraftsOutlet />}>
+                        <Route path="/users/:id/drafts" element={<Profile />} />
+                    </Route>
+                </Route>
 
-            <Route element={<AuthOutlet />}>
-                <Route
-                    path="/login"
-                    element={
-                        <Suspense fallback={<Overlay />}>
-                            <EmailPage />
-                        </Suspense>
-                    }
-                />
-                <Route
-                    path="/signup"
-                    element={
-                        <Suspense fallback={<Overlay />}>
-                            <Signup />
-                        </Suspense>
-                    }
-                />
-            </Route>
-        </Routes>
+                <Route element={<AuthOutlet />}>
+                    <Route path="/login" element={<EmailPage />} />
+                    <Route path="/signup" element={<Signup />} />
+                </Route>
+            </Routes>
+        </Suspense>
     );
 };
 export default App;

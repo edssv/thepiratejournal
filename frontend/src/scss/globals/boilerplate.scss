@@ -10,17 +10,14 @@
 
 html {
     min-height: 100vh;
+    font-size: 100%;
+    font-family: 'Roboto', sans-serif !important;
 }
+
 body,
 #App,
 .container {
     height: 100%;
-}
-
-html {
-    font-size: 100%;
-    font-family: 'Montserrat', sans-serif !important;
-    color: var(--text-black);
 }
 
 main {
@@ -97,7 +94,7 @@ button {
         }
     }
 
-    .liked__list {
+    .appreciated__list {
         display: grid;
         flex-wrap: wrap;
         gap: 40px;
@@ -202,6 +199,10 @@ button {
             .spectrum-Dialog-heading_6d8b48,
             p {
                 color: white;
+            }
+
+            .spectrum-ButtonGroup_b10c2f {
+                width: 100%;
             }
         }
     }

@@ -1,21 +1,12 @@
-import React, { useEffect } from 'react';
 import { Article, useGetArticlesQuery } from '../../redux';
+import { useDocTitle } from '../../hooks/useDocTitle';
+import { ArticlePreview, ArticleSkeleton } from '../../components';
 
 import styles from './Home.module.scss';
-import { ArticlePreview } from '../../components/ArticlePreview';
-import { useNavigate } from 'react-router-dom';
-import { viewsSumCalc } from '../../helpers/viewsSum';
-import { Button, ProgressCircle } from '@adobe/react-spectrum';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
-import { ArticleSkeleton } from '../../components/ArticlePreview/ArticleSkeleton';
-import { useDocTitle } from '../../hooks/useDocTitle';
-
 const Home = () => {
-    const [doctitle, setDocTitle] = useDocTitle('');
+    useDocTitle('');
 
-    const navigate = useNavigate();
-
-    const { data, isLoading } = useGetArticlesQuery('', { refetchOnFocus: true });
+    const { data, isLoading } = useGetArticlesQuery(null);
     return (
         <div className={styles.root}>
             <section className="articles">

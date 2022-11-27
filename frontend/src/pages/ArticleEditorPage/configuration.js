@@ -5,15 +5,19 @@ import Delimiter from '@editorjs/delimiter';
 import Marker from '@editorjs/marker';
 import InlineCode from '@editorjs/inline-code';
 import Warning from '@editorjs/warning';
+import customBlock from './customBlock';
 
 const Configuration = (dataBlocks) => {
     return {
-        holderId: 'editorjs',
+        holder: 'editorjs',
         autofocus: false,
+        placeholder: 'Давай напишем классную статью!',
+        onChange: (event) => {
+            console.log('change', event);
+        },
         tools: {
             header: {
                 class: Header,
-                required: true,
                 config: { levels: [3, 4], defaultLevel: 3 },
             },
 
@@ -40,6 +44,7 @@ const Configuration = (dataBlocks) => {
             //     },
             // },
         },
+        block: customBlock,
         defaultBlock: 'paragraph',
         data: {
             blocks: dataBlocks,

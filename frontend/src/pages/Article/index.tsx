@@ -1,69 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useDeleteArticleMutation, useGetArticleQuery } from '../../redux';
+import { convertDateLong } from '../../helpers';
 import { toHtml } from './toHtml';
-import {
-    useDeleteArticleMutation,
-    useGetArticleQuery,
-    useLikeMutation,
-    useRemoveLikeMutation,
-} from '../../redux';
-
-import styles from './Article.module.scss';
-import { convertDateLong } from '../../helpers/convertDate';
-import { Avatar, Overlay, ArticleStats, ButtonLike } from '../../components';
-import {
-    ActionButton,
-    AlertDialog,
-    Button,
-    ButtonGroup,
-    DialogTrigger,
-    Tooltip,
-    TooltipTrigger,
-    Well,
-} from '@adobe/react-spectrum';
-import Edit from '@spectrum-icons/workflow/Edit';
-import DeleteOutline from '@spectrum-icons/workflow/Delete';
-import CircleFilled from '@spectrum-icons/workflow/CircleFilled';
-import Heart from '@spectrum-icons/workflow/Heart';
-import NotFoundPage from '../NotFoundPage';
 import { useAuth, useDocTitle } from '../../hooks';
 import { useMediaPredicate } from 'react-media-hook';
+import { Avatar, Overlay, ArticleStats, ButtonLike, ButtonDelete } from '../../components';
+import { Button, ButtonGroup, Divider, Tooltip, TooltipTrigger, Well } from '@adobe/react-spectrum';
+import NotFoundPage from '../NotFound';
+
+// icons
 import BookmarkSingle from '@spectrum-icons/workflow/BookmarkSingle';
+import Edit from '@spectrum-icons/workflow/Edit';
 import Reply from '@spectrum-icons/workflow/Reply';
 
+import styles from './Article.module.scss';
+
 const Article: React.FC = () => {
-    const [doctitle, setDocTitle] = useDocTitle('Статья');
+    useDocTitle('Статья');
     const location = useLocation();
     const { id } = useParams();
     const navigate = useNavigate();
     const { user } = useAuth();
+
     // media
     const isTablet = useMediaPredicate('(max-width: 990.98px)');
-    const fromTablet = useMediaPredicate('(min-width: 768px)');
 
-    const { data, isLoading, isError } = useGetArticleQuery(id);
+    const { data, isLoading } = useGetArticleQuery(id);
     const [deleteArticle] = useDeleteArticleMutation();
 
-    const [tippy, setTippy] = useState<boolean>(false);
-
     if (isLoading) return <Overlay />;
-    if (isError) return <NotFoundPage />;
 
     const fromPage = location?.state?.from?.pathname;
 
-    const userId = user?.id;
-    const article = data?.article;
-    const author = article?.author;
-    const title = article?.title;
-    const blocks = article?.blocks;
-    const avatar = author?.avatar;
-    const authorname = author?.username ? author.username : 'deleted';
-    const authorId = author?._id;
-    const cover = article?.cover;
-    const views = article?.views.count;
-    const likes = article?.likes.count;
+    const title = data?.title;
+    const authorname = data?.author.username ? data?.author.username : 'deleted';
+    const authorId = data?.author._id;
+    const isOwner = user?.id === authorId;
 
-    const date = convertDateLong(article?.timestamp);
+    const date = convertDateLong(data?.timestamp);
 
     return (
         <div className={styles.root}>
@@ -73,7 +48,7 @@ const Article: React.FC = () => {
                         <div className={styles.top}>
                             <div className={styles.top__content}>
                                 <Link to={`/users/${authorname}`}>
-                                    <Avatar imageSrc={avatar} width={42} />
+                                    <Avatar imageSrc={data?.author.avatar} width={42} />
                                 </Link>
                                 <div className={styles.text}>
                                     <h4 className={styles.article_title}>
@@ -86,72 +61,21 @@ const Article: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-                            {userId === authorId ? (
-                                <ButtonGroup>
-                                    <TooltipTrigger delay={200}>
-                                        <Button
-                                            variant="primary"
-                                            onPress={() =>
-                                                navigate(`/articles/${id}/edit`, {
-                                                    state: { from: location },
-                                                })
-                                            }>
-                                            <Edit />
-                                        </Button>
-                                        <Tooltip>Редактировать</Tooltip>
-                                    </TooltipTrigger>
-                                    <DialogTrigger>
-                                        <Button
-                                            style="fill"
-                                            marginStart={12}
-                                            type="button"
-                                            variant="primary">
-                                            <DeleteOutline />
-                                        </Button>
-                                        {(close) => (
-                                            <AlertDialog
-                                                variant="destructive"
-                                                title="Удаление статьи"
-                                                primaryActionLabel="Удалить"
-                                                onPrimaryAction={() => {
-                                                    deleteArticle(id);
-                                                    close();
-                                                    navigate(fromPage ? fromPage : '/');
-                                                }}
-                                                cancelLabel="Отмена"
-                                                onCancel={close}>
-                                                Вы действительно хотите удалить статью?
-                                            </AlertDialog>
-                                        )}
-                                    </DialogTrigger>
-                                </ButtonGroup>
-                            ) : (
-                                isTablet && (
-                                    <ButtonGroup UNSAFE_className={styles.controls}>
-                                        <TooltipTrigger delay={200}>
-                                            <ActionButton isQuiet>
-                                                <BookmarkSingle size="XS" />
-                                            </ActionButton>
-                                            <Tooltip>Сохранить в закладки</Tooltip>
-                                        </TooltipTrigger>
-                                    </ButtonGroup>
-                                )
-                            )}
                         </div>
 
                         <div className={styles.content__wrapper}>
                             <div className={styles.content}>
-                                <img src={cover} alt="" />
-                                <h2>{article?.title}</h2>
+                                <img src={data?.cover} alt="Обложка" />
+                                <h2>{data?.title}</h2>
                                 <div
                                     dangerouslySetInnerHTML={{
-                                        __html: toHtml(blocks),
+                                        __html: toHtml(data?.blocks),
                                     }}
                                     className={styles.content__blocks}></div>
                             </div>
                             {isTablet && (
                                 <div className={styles.button}>
-                                    <ButtonLike isLiked={data?.isLiked} id={id} />
+                                    <ButtonLike isLiked={data?.isLike} id={id} width="45px" />
                                 </div>
                             )}
                         </div>
@@ -162,11 +86,14 @@ const Article: React.FC = () => {
                                 UNSAFE_className={styles.well}>
                                 <div className={styles.dateAndStats}>
                                     <span className={styles.date}>{date}</span>
-                                    <ArticleStats viewsCount={views} likesCount={likes} />
+                                    <ArticleStats
+                                        viewsCount={data?.views.count}
+                                        likesCount={data?.likes.count}
+                                    />
                                 </div>
                                 <div className={styles.author}>
                                     <Link to={`/users/${authorname}`}>
-                                        <Avatar imageSrc={avatar} width={48} />
+                                        <Avatar imageSrc={data?.author.avatar} width={48} />
                                     </Link>
                                     <span className={styles.authorName}>{authorname}</span>
                                 </div>
@@ -177,7 +104,7 @@ const Article: React.FC = () => {
                                 <div className={styles.shot_controls_wrapper}>
                                     <div className={styles.shot_controls}>
                                         <Link to={`/users/${authorname}`}>
-                                            <Avatar imageSrc={avatar} width={40} />
+                                            <Avatar imageSrc={data?.author.avatar} width={45} />
                                         </Link>
                                         <ButtonGroup
                                             orientation="vertical"
@@ -194,7 +121,35 @@ const Article: React.FC = () => {
                                                 </Button>
                                                 <Tooltip>Сохранить в закладки</Tooltip>
                                             </TooltipTrigger>
-                                            <ButtonLike isLiked={data?.isLiked} id={id} />
+                                            <ButtonLike
+                                                isLiked={data?.isLike}
+                                                id={id}
+                                                tooltipPosition="left"
+                                            />
+
+                                            {isOwner && (
+                                                <>
+                                                    <Divider size="S" margin="16px 0px" />
+                                                    <TooltipTrigger delay={200} placement="left">
+                                                        <Button
+                                                            variant="secondary"
+                                                            onPress={() =>
+                                                                navigate(`/articles/${id}/edit`, {
+                                                                    state: { from: location },
+                                                                })
+                                                            }>
+                                                            <Edit />
+                                                        </Button>
+                                                        <Tooltip>Редактировать</Tooltip>
+                                                    </TooltipTrigger>
+                                                    <ButtonDelete
+                                                        onPrimaryAction={() => {
+                                                            deleteArticle(id);
+                                                            navigate(fromPage ? fromPage : '/');
+                                                        }}
+                                                    />
+                                                </>
+                                            )}
                                         </ButtonGroup>
                                     </div>
                                 </div>

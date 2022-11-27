@@ -36,4 +36,10 @@ draftSchema.statics.creating = async function (
     return draft;
 };
 
+draftSchema.statics.getOne = async function (id) {
+    const draft = await this.findById(id);
+
+    return { ...draft._doc, isPublished: false };
+};
+
 module.exports = model('Draft', draftSchema);

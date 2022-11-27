@@ -1,30 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react';
-import { IoClose } from 'react-icons/io5';
-import CoverImage from '@spectrum-icons/workflow/CoverImage';
-import ImageAdd from '@spectrum-icons/workflow/ImageAdd';
-import { useAddCoverMutation, useDeleteCoverMutation } from '../../redux';
-import {
-    Button,
-    Dialog,
-    DialogTrigger,
-    Heading,
-    Divider,
-    Content,
-    ButtonGroup,
-    IllustratedMessage,
-    Text,
-    View,
-} from '@adobe/react-spectrum';
-import Upload from '@spectrum-icons/illustrations/Upload';
-
-import styles from './CoverWindow.module.scss';
+import { useAddCoverMutation, useDeleteCoverMutation } from '../../../redux';
+import { Button } from '@adobe/react-spectrum';
 import { useMediaPredicate } from 'react-media-hook';
 import Delete from '@spectrum-icons/workflow/Delete';
+import ImageAdd from '@spectrum-icons/workflow/ImageAdd';
+
+import styles from './CoverWindow.module.scss';
 
 type CoverWindowProps = {
     windowOpen?: boolean;
-    uploadedUrl: string;
+    uploadedUrl?: string;
     setUploadedUrl: any;
     onClickSave: any;
     selectedFile: any;
@@ -45,8 +31,6 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({
     const [isMounted, setIsMounted] = useState(isEditing);
     const [addCover, { data, isLoading }] = useAddCoverMutation();
     const [deleteCover] = useDeleteCoverMutation();
-
-    console.log(uploadedUrl);
 
     const handlePick = () => {
         filePicker.current?.click();
@@ -120,12 +104,12 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({
                                 {!isMobile && (
                                     <ImageAdd color="informative" size="XXL" marginBottom={12} />
                                 )}
-                                <div className={styles.headline}>Нажмите, чтобы выбрать файл</div>
+                                <div className={styles.headline}>Нажми, чтобы выбрать файл</div>
                                 <p>Рекомендуется 1600x1200 или выше. Максимум 8МБ</p>
                                 <ul>
                                     <li>Изображения высокого разрешения (png, jpg, webp)</li>
                                     <li>
-                                        Загружайте только те медиафайлы, на которые у вас есть права
+                                        Загружай только те медиафайлы, на которые у тебя есть права
                                     </li>
                                 </ul>
                             </div>
@@ -143,77 +127,4 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({
             </div>
         </div>
     );
-    <DialogTrigger>
-        {!isMobile ? (
-            <Button variant="primary">
-                <CoverImage />
-                <Text>Обложка</Text>
-            </Button>
-        ) : (
-            <Button isQuiet variant="primary">
-                <ImageAdd />
-            </Button>
-        )}
-        {(close) => (
-            <Dialog>
-                <Heading>Выбор обложки</Heading>
-                <Divider />
-                <Content maxWidth={568} height={308} width="100%">
-                    {!selectedFile ? (
-                        <IllustratedMessage height={300}>
-                            <button onClick={handlePick}>
-                                <Upload />
-                                {isMobile ? (
-                                    <h4>Нажмите, чтобы выбрать файл</h4>
-                                ) : (
-                                    <Heading>Нажмите, чтобы выбрать файл</Heading>
-                                )}
-                                <input
-                                    ref={filePicker}
-                                    className="hidden"
-                                    type="file"
-                                    onChange={handleChange}
-                                    accept="image/jpeg,image/png,image/webp"
-                                    name="photo"
-                                />
-                                <Content>
-                                    Формат — JPG, WEBP, или PNG <br />
-                                </Content>
-                            </button>
-                        </IllustratedMessage>
-                    ) : isLoading ? (
-                        <div className="cdx-loader"></div>
-                    ) : (
-                        <div
-                            className={styles.cover}
-                            style={{ backgroundImage: `url(${uploadedUrl})` }}>
-                            {uploadedUrl && (
-                                <button
-                                    onClick={handleDeleteCover}
-                                    className={`${styles.cover__closeBtn} icon-center`}>
-                                    <IoClose size={14} color="white" />
-                                </button>
-                            )}
-                        </div>
-                    )}
-                </Content>
-                <ButtonGroup>
-                    <Button
-                        variant="secondary"
-                        onPress={() => {
-                            close();
-                        }}>
-                        Отмена
-                    </Button>
-                    <Button
-                        onPress={() => close()}
-                        isDisabled={selectedFile ? false : true}
-                        variant="cta"
-                        autoFocus>
-                        Подтвердить
-                    </Button>
-                </ButtonGroup>
-            </Dialog>
-        )}
-    </DialogTrigger>;
 };

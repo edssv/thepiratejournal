@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { AlertDialog, DialogContainer, ProgressCircle } from '@adobe/react-spectrum';
+import { AlertDialog, DialogContainer } from '@adobe/react-spectrum';
 import { Overlay } from '../components';
 
 export const PrivateOutlet = () => {
@@ -10,18 +10,6 @@ export const PrivateOutlet = () => {
     const { user, isLoading } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
-
-    if (isLoading)
-        return (
-            <ProgressCircle
-                position="absolute"
-                isIndeterminate
-                size="L"
-                left="50%"
-                top="50%"
-                aria-label="Загрузка..."
-            />
-        );
 
     if (isLoading) return <Overlay />;
 

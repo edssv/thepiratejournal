@@ -10,7 +10,7 @@ export const ErrorFallback = () => {
             <Error />
             <Heading>Ошибка 500 - Внутренняя ошибка сервера</Heading>
             <Content>Что-то пошло не так. Пожалуйста, попробуйте позже.</Content>
-            <Button onPress={() => navigate('/')} variant="overBackground" marginTop={18}>
+            <Button href="/" elementType="a" variant="overBackground" marginTop={18}>
                 Домой
             </Button>
         </IllustratedMessage>

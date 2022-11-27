@@ -1,27 +1,24 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { VisibilityToggle, Canvas, CardLayout } from '../../components';
-import { useLoginMutation } from '../../redux/services/auth';
+import { VisibilityToggle, CardLayout, ButtonProgress } from '../../components';
+import { useNetworkStatus, useDocTitle } from '../../hooks';
+import { useLoginMutation } from '../../redux';
 
 import styles from './EmailPage.module.scss';
+
 import { BsFacebook } from 'react-icons/bs';
-import { Toaster } from '../../components/Toaster';
-import { useAuth, useNetworkStatus, useDocTitle } from '../../hooks';
-import { Button, ProgressCircle } from '@adobe/react-spectrum';
 
 const EmailPage = () => {
-    const [doctitle, setDocTitle] = useDocTitle('Войти');
+    useDocTitle('Войти');
     const navigate = useNavigate();
     const location = useLocation();
-    const auth = useAuth();
     const { isOnline } = useNetworkStatus();
-
     const fromPage = location.state?.from?.pathname || '/';
 
     const {
         register,
-        formState: { errors, isValid },
+        formState: { errors },
         handleSubmit,
     } = useForm({
         mode: 'all',
@@ -40,7 +37,7 @@ const EmailPage = () => {
     const [passwordEye, setPasswordEye] = useState(false);
 
     return (
-        <CardLayout headline="Войти" toaster={isOnline ? false : true}>
+        <CardLayout headline="Войти" toaster={!isOnline}>
             <section className={styles.root}>
                 <form onSubmit={handleSubmit(onSubmit)} className={styles.emailForm}>
                     <section className={styles.emailField}>
@@ -54,7 +51,7 @@ const EmailPage = () => {
                                     {...register('email', {
                                         required: 'Введите адрес электронной почты.',
                                     })}
-                                    disabled={isLoading ? true : false}
+                                    disabled={isLoading}
                                     className={`text-field  ${errors?.password && `is-invalid`}`}
                                 />
                                 {errors?.email && (
@@ -70,7 +67,7 @@ const EmailPage = () => {
                                         {...register('password', {
                                             required: 'Введите пароль.',
                                         })}
-                                        disabled={isLoading ? true : false}
+                                        disabled={isLoading}
                                         className={`text-field  ${
                                             errors?.password && `is-invalid`
                                         }`}
@@ -99,20 +96,12 @@ const EmailPage = () => {
                         )}
                     </section>
                     <section className={styles.submit}>
-                        <Button
-                            isDisabled={isOnline && !isLoading ? false : true}
-                            type="submit"
-                            variant="accent">
-                            {isLoading && (
-                                <ProgressCircle
-                                    size="S"
-                                    isIndeterminate
-                                    marginEnd={6}
-                                    aria-label="Loading…"
-                                />
-                            )}{' '}
+                        <ButtonProgress
+                            isLoading={isLoading}
+                            isDisabled={!isOnline || isLoading}
+                            type="submit">
                             Войти
-                        </Button>
+                        </ButtonProgress>
                     </section>
                 </form>
                 <div className={styles.socials__separator}>Или</div>

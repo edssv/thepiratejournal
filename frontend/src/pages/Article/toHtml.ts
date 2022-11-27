@@ -1,4 +1,4 @@
-import { Block } from '../../redux';
+import { Block } from '../../redux/services/article';
 
 export const toHtml = (blocks: Block[] | undefined) => {
     let convertedHtml = '';

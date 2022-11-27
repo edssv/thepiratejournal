@@ -16,7 +16,7 @@ const userSchema = new Schema({
     avatar: { type: String },
     activationLink: { type: String },
     info: { country: String, city: String },
-    liked: [{ type: String, required: true }],
+    appreciated: [{ type: String, required: true }],
     time: { type: Number, default: new Date() },
 });
 
@@ -99,7 +99,7 @@ userSchema.statics.refresh = async function (refreshToken) {
 userSchema.statics.getUser = async function (username) {
     const user = await this.findOne({ username });
     const articles = await Article.find({ 'author.username': username });
-    const liked = await Article.find({ _id: { $in: user.liked } });
+    const appreciated = await Article.find({ _id: { $in: user.appreciated } });
     const drafts = await Draft.find({ 'author._id': user._id });
 
     return {
@@ -111,16 +111,16 @@ userSchema.statics.getUser = async function (username) {
             info: user.info,
         },
         articles,
-        liked,
+        appreciated,
         drafts,
     };
 };
 
-userSchema.statics.liked = async function (userId, articleId, remove) {
+userSchema.statics.appreciated = async function (userId, articleId, remove) {
     if (remove) {
         await this.findOneAndUpdate(
             { _id: userId },
-            { $pull: { liked: articleId } },
+            { $pull: { appreciated: articleId } },
             { returnDocument: 'after' },
         );
         return;
@@ -128,7 +128,7 @@ userSchema.statics.liked = async function (userId, articleId, remove) {
 
     await this.findOneAndUpdate(
         { _id: userId },
-        { $push: { liked: articleId } },
+        { $push: { appreciated: articleId } },
         { returnDocument: 'after' },
     );
 

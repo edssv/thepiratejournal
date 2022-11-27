@@ -1,20 +1,25 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Button } from '@react-spectrum/button';
 
 import styles from './DraftPreview.module.scss';
-import Heart from '@spectrum-icons/workflow/Heart';
 import { IoEye, IoHeart } from 'react-icons/io5';
-import { Draft } from '../../redux';
+import { Draft, useDeleteArticleMutation } from '../../redux/services/article';
 import Image from '@spectrum-icons/workflow/Image';
 import { convertDateMDHM } from '../../helpers';
+import { ButtonProgress } from '../Buttons';
 
 interface DraftPreviewProps {
     draft: Draft;
+    refetch: any;
 }
 
-export const DraftPreview: React.FC<DraftPreviewProps> = ({ draft }) => {
+export const DraftPreview: React.FC<DraftPreviewProps> = ({ draft, refetch }) => {
+    const navigate = useNavigate();
+
+    const [deleteDraft, { isLoading }] = useDeleteArticleMutation();
+
     const time = convertDateMDHM(draft.timestamp);
 
     return (
@@ -33,16 +38,23 @@ export const DraftPreview: React.FC<DraftPreviewProps> = ({ draft }) => {
                     </div>
                     <div className={styles.cover__overlay}>
                         <div className={styles.controls}>
-                            <Button variant="accent" marginBottom="10px">
-                                Редактировать статью
-                            </Button>
                             <Button
+                                onPress={() => navigate(`/drafts/${draft._id}/edit`)}
+                                variant="accent"
+                                marginBottom="10px">
+                                Продолжить создание
+                            </Button>
+                            <ButtonProgress
+                                onPress={() => {
+                                    deleteDraft(draft._id).then(refetch(draft._id));
+                                }}
+                                isLoading={isLoading}
+                                isDisabled={isLoading}
                                 variant="primary"
                                 staticColor="white"
-                                style="fill"
-                                marginBottom="10px">
+                                style="fill">
                                 Удалить черновик
-                            </Button>
+                            </ButtonProgress>
                             <span className={styles.timeModified}>
                                 {` Последнее изменение ${time}`}
                             </span>

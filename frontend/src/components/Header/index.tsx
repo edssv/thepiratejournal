@@ -33,6 +33,10 @@ export const Header = () => {
     const isMobile = useMediaPredicate('(max-width: 768px)');
     const fromLaptop = useMediaPredicate('(min-width: 991px)');
 
+    const onClickWrite = () => {
+        navigate('/articles/new', { state: { from: location } });
+    };
+
     return (
         <header
             className={styles.root}
@@ -72,22 +76,20 @@ export const Header = () => {
                         )}
                     </div>
                     <div className={styles.content__right}>
-                        <ButtonGroup>
-                            <Button
-                                onPress={() =>
-                                    navigate('/articles/new', { state: { from: location } })
-                                }
-                                variant="secondary">
-                                {isMobile ? (
-                                    <Draw />
-                                ) : (
-                                    <>
-                                        <Draw />
-                                        <Text>Создать статью</Text>
-                                    </>
-                                )}
+                        {fromLaptop ? (
+                            <Button onPress={onClickWrite} variant="secondary">
+                                <Draw />
+                                <Text>Создать статью</Text>
                             </Button>
-                        </ButtonGroup>
+                        ) : (
+                            <ActionButton
+                                onPress={onClickWrite}
+                                isQuiet
+                                UNSAFE_style={{ borderRadius: '50%' }}>
+                                <Draw />
+                            </ActionButton>
+                        )}
+
                         {isLoading ? (
                             <HeaderSkeleton />
                         ) : user ? (

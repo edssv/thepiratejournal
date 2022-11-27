@@ -15,16 +15,16 @@ const getUser = async (req, res) => {
     const username = req.params.id;
     const currentUser = req.currentUser;
     try {
-        const { user, articles, liked, drafts } = await User.getUser(username);
+        const { user, articles, appreciated, drafts } = await User.getUser(username);
 
         let isOwner = false;
         if (currentUser) {
             isOwner = user._id.toString() === currentUser._id.toString() ? true : false;
         }
 
-        if (isOwner) return res.status(200).json({ user, articles, liked, drafts, isOwner });
+        if (isOwner) return res.status(200).json({ user, articles, appreciated, drafts, isOwner });
 
-        res.status(200).json({ user, articles, liked });
+        res.status(200).json({ user, articles, appreciated });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

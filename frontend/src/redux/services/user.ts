@@ -16,7 +16,7 @@ export interface User {
 export interface UserResponse {
     user: User;
     articles: Article[];
-    liked: Article[];
+    appreciated: Article[];
     drafts: Draft[];
     isOwner: boolean;
 }

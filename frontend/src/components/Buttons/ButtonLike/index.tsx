@@ -12,16 +12,18 @@ import {
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../hooks';
 import Heart from '@spectrum-icons/workflow/Heart';
-import { useLikeMutation, useRemoveLikeMutation } from '../../../redux';
+import { useLikeMutation, useRemoveLikeMutation } from '../../../redux/services/article';
 
 import styles from './ButtonLike.module.scss';
 
 interface IsLikeProps {
     isLiked: boolean | undefined;
     id: string | undefined;
+    tooltipPosition?: any;
+    width?: string | number;
 }
 
-export const ButtonLike: React.FC<IsLikeProps> = ({ isLiked, id }) => {
+export const ButtonLike: React.FC<IsLikeProps> = ({ isLiked, id, tooltipPosition, width }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const { user } = useAuth();
@@ -47,8 +49,11 @@ export const ButtonLike: React.FC<IsLikeProps> = ({ isLiked, id }) => {
 
     if (!user) {
         return (
-            <DialogTrigger type="popover" mobileType="tray" placement="right">
-                <Button variant={isLike ? 'negative' : !isLike && 'accent'} style="fill">
+            <DialogTrigger type="popover" mobileType="tray" placement={tooltipPosition}>
+                <Button
+                    variant={isLike ? 'negative' : !isLike && 'accent'}
+                    style="fill"
+                    UNSAFE_style={{ width: width, height: width, borderRadius: '50%' }}>
                     <Heart />
                 </Button>
                 {(close) => (
@@ -78,11 +83,12 @@ export const ButtonLike: React.FC<IsLikeProps> = ({ isLiked, id }) => {
         );
     }
     return (
-        <TooltipTrigger delay={200}>
+        <TooltipTrigger delay={200} placement={tooltipPosition}>
             <Button
                 onPress={isLike ? handleRemoveLike : handleSetLike}
                 variant={isLike ? 'negative' : !isLike && 'accent'}
-                style="fill">
+                style="fill"
+                UNSAFE_style={{ width: width, height: width, borderRadius: '50%' }}>
                 <Heart />
             </Button>
             <Tooltip>Добавить в понравившиеся</Tooltip>

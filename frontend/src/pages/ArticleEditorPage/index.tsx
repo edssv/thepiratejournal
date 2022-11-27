@@ -1,24 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import EditorJS from '@editorjs/editorjs';
 import debounce from 'lodash.debounce';
-import styles from './ArticleEditorPage.module.scss';
 import Configuration from './configuration';
-import { CoverWindow } from '../../components';
+import { CoverWindow, Overlay, ButtonProgress } from '../../components';
 import { useAddArticleMutation, useEditArticleMutation, useGetArticleQuery } from '../../redux';
-import {
-    Button,
-    DialogTrigger,
-    AlertDialog,
-    ProgressCircle,
-    TooltipTrigger,
-    Tooltip,
-    ButtonGroup,
-} from '@adobe/react-spectrum';
-import NotFoundPage from '../NotFoundPage';
-import { useDocTitle, useAuth } from '../../hooks';
+import { Button, TooltipTrigger, Tooltip, ButtonGroup } from '@adobe/react-spectrum';
+import NotFoundPage from '../NotFound';
+import { useDocTitle } from '../../hooks';
 import { useMediaPredicate } from 'react-media-hook';
 import { resizeTextareaHeight } from './resizeTextareaFunction';
+
+import styles from './ArticleEditorPage.module.scss';
+import { ConfirmDialog } from './ConfirmDialog';
+import { DraftInfoDialog } from './DraftInfoDialog';
 
 interface IEditorJS {
     save: any;
@@ -27,26 +22,26 @@ interface IEditorJS {
 const ArticleEditorPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { id } = useParams();
-    const isEditing = Boolean(id);
-    const auth = useAuth();
-
-    // set doctitle
-    const [doctitle, setDocTitle] = useDocTitle(!isEditing ? 'Новая статья' : 'Изменение статьи');
-    // redux rtk
-    const { data, isLoading, isSuccess, isError, error } = useGetArticleQuery(id, {
-        skip: !isEditing && true,
-    });
-    const [addArticle, { isLoading: isSaving }] = useAddArticleMutation();
-    const [editArticle] = useEditArticleMutation();
-    // location
     const fromPage = location?.state?.from?.pathname;
-    // media
+    const { id } = useParams();
+    const isDraft = Boolean(location.pathname.split('/')[1] === 'drafts');
+    const isEditing = isDraft ? false : Boolean(id);
+    const draftButtonRef = useRef();
+
+    useDocTitle(!isEditing ? 'Новая статья' : 'Изменение статьи');
+
+    const { data, isLoading, isError } = useGetArticleQuery(id, {
+        skip: !isEditing && !isDraft,
+    });
+    const [addArticle, { isLoading: isSaving, isSuccess: isSuccessSave, isError: isErrorSave }] =
+        useAddArticleMutation();
+    const [editArticle] = useEditArticleMutation();
+
     const isMobile = useMediaPredicate('(max-width: 768px)');
 
     const [selectedFile, setSelectedFile] = useState(false);
-    const [uploadedUrl, setUploadedUrl] = useState('');
-    const [textareaValue, setTextareaValue] = useState('');
+    const [uploadedUrl, setUploadedUrl] = useState<string | undefined>();
+    const [textareaValue, setTextareaValue] = useState<string | undefined>();
     const [formStatus, setFormStatus] = useState<'unchanged' | 'modified' | 'saved'>('unchanged');
 
     const [editor, setEditor] = useState<IEditorJS>();
@@ -59,24 +54,12 @@ const ArticleEditorPage = () => {
     // );
 
     useEffect(() => {
-        if (isEditing) {
-            if (isLoading) {
-                <ProgressCircle
-                    position="absolute"
-                    isIndeterminate
-                    size="M"
-                    left="50%"
-                    top="50%"
-                    aria-label="Загрузка..."
-                />;
-            }
-            if (isSuccess) {
-                setTextareaValue(data?.article.title);
-                const editorjs = new EditorJS(Configuration(data.article.blocks));
-                setSelectedFile(true);
-                setUploadedUrl(data.article.cover);
-                setEditor(editorjs);
-            }
+        if (isEditing || isDraft) {
+            const editorjs = new EditorJS(Configuration(data?.blocks));
+            setTextareaValue(data?.title);
+            setSelectedFile(data?.cover ? true : false);
+            setUploadedUrl(data?.cover);
+            setEditor(editorjs);
         } else {
             const editorjs = new EditorJS(Configuration());
             setEditor(editorjs);
@@ -100,9 +83,8 @@ const ArticleEditorPage = () => {
         return () => {};
     }, [formStatus]);
 
-    if (isEditing && isError) {
-        return <NotFoundPage />;
-    }
+    if (isLoading) return <Overlay />;
+    if (isEditing && isError) return <NotFoundPage />;
 
     const onChangeEditor = () => {
         editor?.save().then((outputData: object) => {
@@ -118,10 +100,10 @@ const ArticleEditorPage = () => {
         editor
             ?.save()
             .then((outputData: any) => {
-                delete outputData.version;
                 const formData = Object.assign(
-                    { intent: 'publish' },
                     outputData,
+                    { saveFromDraft: isDraft, draftId: isDraft && id },
+                    { intent: 'publish' },
                     { title: textareaValue },
                     { cover: uploadedUrl },
                 );
@@ -136,10 +118,9 @@ const ArticleEditorPage = () => {
         editor
             ?.save()
             .then((outputData: any) => {
-                delete outputData.version;
                 const formData = Object.assign(
-                    { intent: 'draft' },
                     outputData,
+                    { intent: 'draft' },
                     { title: textareaValue },
                     { cover: uploadedUrl },
                 );
@@ -158,27 +139,6 @@ const ArticleEditorPage = () => {
 
     resizeTextareaHeight();
 
-    const Confirm = (
-        <DialogTrigger>
-            <Button isDisabled={selectedFile && textareaValue ? false : true} variant="cta">
-                {isEditing ? 'Обновить' : 'Опубликовать'}
-            </Button>
-            {(close) => (
-                <AlertDialog
-                    variant="confirmation"
-                    title={isEditing ? 'Обновление статьи' : 'Публикация статьи'}
-                    primaryActionLabel={isEditing ? 'Обновить' : 'Опубликовать'}
-                    // secondaryActionLabel="Сохранить как черновик"
-                    cancelLabel="Отмена"
-                    onPrimaryAction={onClickSave}>
-                    {isEditing
-                        ? 'Ты действительно хочешь обновить статью?'
-                        : 'Ты децствительно хочешь опубликовать новую статью,'}
-                </AlertDialog>
-            )}
-        </DialogTrigger>
-    );
-
     return (
         <div className={styles.root}>
             <div className={styles.top_bar}>
@@ -192,21 +152,22 @@ const ArticleEditorPage = () => {
                     </Button>
                     <Tooltip placement="right">Вернуться назад</Tooltip>
                 </TooltipTrigger>
-                <ButtonGroup>
+                <ButtonGroup align="end">
                     {!isEditing && (
-                        <Button onPress={saveDraft} isDisabled={isSaving && true} variant="primary">
-                            {isSaving && (
-                                <ProgressCircle
-                                    size="S"
-                                    marginEnd="8px"
-                                    isIndeterminate
-                                    aria-label="Loading…"
-                                />
-                            )}{' '}
-                            Сохранить как черновик
-                        </Button>
+                        <DraftInfoDialog
+                            onPress={saveDraft}
+                            isLoading={isSaving}
+                            isSuccess={isSuccessSave}
+                            isError={isErrorSave}
+                            isDisabled={isSaving}
+                        />
                     )}
-                    {Confirm}
+                    <ConfirmDialog
+                        selectedFile={selectedFile}
+                        textareaValue={textareaValue}
+                        onClickSave={onClickSave}
+                        isEditing={isEditing}
+                    />
                 </ButtonGroup>
             </div>
             <div className={styles.container}>
@@ -220,8 +181,11 @@ const ArticleEditorPage = () => {
                     }}>
                     <div className={styles.textarea__wrapper}>
                         <textarea
+                            maxLength={68}
                             autoFocus={true}
-                            placeholder="Как корабль назовёшь так он и поплывёт"
+                            placeholder={
+                                isMobile ? 'Дай мне имя' : 'Как корабль назовёшь так он и поплывёт'
+                            }
                             className={styles.writingHeader}
                             value={textareaValue}
                             onChange={(e) => setTextareaValue(e.target.value)}

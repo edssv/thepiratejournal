@@ -5,7 +5,7 @@ const User = require('../models/user-model');
 const creating = async (req, res) => {
     const authorId = req.user._id;
     const authorUsername = req.user.username;
-    const { intent, title, cover, blocks, time } = req.body;
+    const { intent, title, cover, blocks, time, saveFromDraft, draftId } = req.body;
     try {
         if (intent === 'draft') {
             const draft = await Draft.creating(
@@ -28,24 +28,33 @@ const creating = async (req, res) => {
             time,
         );
 
+        if (saveFromDraft) {
+            await Draft.deleteOne({ _id: draftId });
+        }
+
         res.json(article);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 };
 
-const remove = async (req, res, next) => {
+const remove = async (req, res) => {
     try {
-        const articleId = req.params.id;
-        await Article.findOneAndDelete({ _id: articleId });
-        res.json({
-            message: 'Статья удалена',
-        });
-    } catch (e) {
-        next(e);
+        const id = req.params.id;
+        const article = await Article.findOneAndDelete({ _id: id });
+
+        if (!article) {
+            await Draft.findOneAndRemove({ _id: id });
+            return res.status(200).json({ message: 'Черновик удалён' });
+        }
+
+        res.status(200).json({ message: 'Статья удалена' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
 };
-const editing = async (req, res, next) => {
+
+const editing = async (req, res) => {
     const articleId = req.params.id;
     const { title, cover, blocks } = req.body;
     try {
@@ -71,31 +80,28 @@ const getOne = async (req, res) => {
     try {
         const article = await Article.getOne(id);
 
+        if (!article) {
+            const data = await Draft.getOne(id);
+            return res.status(200).json(data);
+        }
+
         const author = await User.findById(article.author._id);
 
         if (!author) return res.status(200).json({ article, message: 'Автор статьи не найден' });
 
-        let isLiked = '';
+        let isLike = '';
 
         if (currentUser) {
-            isLiked = await User.findOne({
+            isLike = await User.findOne({
                 _id: currentUser._id,
-                liked: { $in: article._id.toString() },
+                appreciated: { $in: article._id.toString() },
             });
         }
 
         res.status(200).json({
-            article: {
-                _id: article.id,
-                title: article.title,
-                cover: article.cover,
-                blocks: article.blocks,
-                views: article.views,
-                likes: article.likes,
-                author: { _id: author._id, username: author.username, avatar: author.avatar },
-                timestamp: article.timestamp,
-            },
-            isLiked: isLiked ? true : false,
+            ...article._doc,
+            author: { _id: author._id, username: author.username, avatar: author.avatar },
+            isLike: isLike ? true : false,
         });
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -108,7 +114,7 @@ const like = async (req, res) => {
 
     try {
         await Article.like(articleId, userId);
-        await User.liked(userId, articleId);
+        await User.appreciated(userId, articleId);
 
         res.status(200).json({ message: 'Спасибо за оценку!' });
     } catch (error) {
@@ -122,7 +128,7 @@ const removeLike = async (req, res) => {
 
     try {
         await Article.removeLike(articleId, userId);
-        await User.liked(userId, articleId, remove);
+        await User.appreciated(userId, articleId, remove);
 
         res.status(200).json({ message: 'Ваша оценка удалена' });
     } catch (error) {

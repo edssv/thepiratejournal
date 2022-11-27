@@ -43,17 +43,8 @@ export const authApi = api.injectEndpoints({
         getCurrentUser: builder.query({
             query: () => `getCurrentUser`,
         }),
-
-        protected: builder.mutation<{ message: string }, void>({
-            query: () => 'protected',
-        }),
     }),
 });
 
-export const {
-    useLoginMutation,
-    useSignupMutation,
-    useLogoutMutation,
-    useGetCurrentUserQuery,
-    useProtectedMutation,
-} = authApi;
+export const { useLoginMutation, useSignupMutation, useLogoutMutation, useGetCurrentUserQuery } =
+    authApi;

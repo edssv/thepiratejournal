@@ -24,18 +24,15 @@ export interface Article {
     cover: string;
     blocks: Block[];
     timestamp: string;
+    isPublished: boolean;
     views: { count: number };
     likes: { count: number };
-}
-export interface ArticleResponse {
-    article: Article;
-    author: { id: string; username: string };
-    isLiked: boolean;
+    isLike: boolean;
 }
 
 export const articleApi = api.injectEndpoints({
     endpoints: (build) => ({
-        getArticle: build.query<ArticleResponse, string | undefined>({
+        getArticle: build.query<Article, string | undefined>({
             query: (id) => `articles/${id}`,
             providesTags: ['Articles'],
         }),

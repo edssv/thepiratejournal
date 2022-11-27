@@ -1,25 +1,24 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { Canvas, CardLayout, VisibilityToggle } from '../../components';
+import { useSignupMutation } from '../../redux';
+import { useDocTitle, useNetworkStatus } from '../../hooks';
+import { ButtonProgress, CardLayout, VisibilityToggle } from '../../components';
 
 import googleIcon from '../../assets/img/social/google.svg';
 import facebookIcon from '../../assets/img/social/f_logo_RGB-Blue_58.png';
 
 import styles from './Signup.module.scss';
-import { useSignupMutation } from '../../redux/services/auth';
-import { Button, ProgressCircle } from '@adobe/react-spectrum';
-import { useDocTitle, useNetworkStatus } from '../../hooks';
 
 const Signup = () => {
-    const [doctitle, setDocTitle] = useDocTitle('Зарегистрироваться');
+    useDocTitle('Зарегистрироваться');
     const { isOnline } = useNetworkStatus();
     const navigate = useNavigate();
     const [signup, { isLoading, isError, error }] = useSignupMutation();
 
     const {
         register,
-        formState: { errors, isValidating, isValid, isDirty },
+        formState: { errors, isValidating },
         handleSubmit,
     } = useForm({
         mode: 'onTouched',
@@ -36,11 +35,8 @@ const Signup = () => {
     };
     const [passwordEye, setPasswordEye] = useState(false);
 
-    const isValidArrow =
-        "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='12' width='12'%3E%3Cpath d='M4.5 10a1.023 1.023 0 0 1-.8-.384l-2.488-3a1 1 0 0 1 1.577-1.233L4.5 7.376l4.712-5.991a1 1 0 1 1 1.576 1.23l-5.511 7A.977.977 0 0 1 4.5 10z' fill='%23268e6c'/%3E%3C/svg%3E";
-
     return (
-        <CardLayout headline="Создать учетную запись" toaster={isOnline ? false : true}>
+        <CardLayout headline="Создать учетную запись" toaster={!isOnline}>
             <div className={styles.root}>
                 <section className={styles.social__buttons}>
                     <Link to="#" className={styles.social__button}>
@@ -70,6 +66,10 @@ const Signup = () => {
                             <input
                                 {...register('username', {
                                     required: 'Введите имя пользователя.',
+                                    pattern: {
+                                        value: /^(?=.{4,16}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
+                                        message: 'Введите имя пользователя.',
+                                    },
                                     minLength: {
                                         value: 4,
                                         message: 'Минимум 4 символа.',
@@ -159,20 +159,12 @@ const Signup = () => {
                     </div>
 
                     <section className={styles.submit}>
-                        <Button
-                            isDisabled={isOnline && !isLoading && isValid ? false : true}
-                            type="submit"
-                            variant="accent">
-                            {isLoading && (
-                                <ProgressCircle
-                                    size="S"
-                                    isIndeterminate
-                                    marginEnd={6}
-                                    aria-label="Loading…"
-                                />
-                            )}{' '}
+                        <ButtonProgress
+                            isLoading={isLoading}
+                            isDisabled={!isOnline || isLoading}
+                            type="submit">
                             Создать
-                        </Button>
+                        </ButtonProgress>
                     </section>
                 </form>
             </div>

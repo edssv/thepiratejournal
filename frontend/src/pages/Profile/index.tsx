@@ -1,35 +1,35 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useGetUserQuery } from '../../redux/services/user';
-import { Article, Draft } from '../../redux/services/article';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useGetUserQuery, Article, Draft } from '../../redux';
+import { convertDateDayMonthYear, viewsSumCalc } from '../../helpers';
+import { DraftPreview, CreateModule, Avatar, ArticlePreview, Overlay } from '../../components';
+import { useDocTitle } from '../../hooks';
+import { Button, ButtonGroup, Divider, Text } from '@adobe/react-spectrum';
 
-import styles from './Profile.module.scss';
-import { useDocTitle } from '../../hooks/useDocTitle';
+// icons
+import { IoEye } from 'react-icons/io5';
 import Location from '@spectrum-icons/workflow/Location';
 import Heart from '@spectrum-icons/workflow/Heart';
-import { Button, ButtonGroup, Divider, Text } from '@adobe/react-spectrum';
-import { convertDateDayMonthYear, viewsSumCalc } from '../../helpers';
-import { DraftPreview, CreateModule, Avatar, ArticlePreview } from '../../components';
-import { IoEye } from 'react-icons/io5';
+
+import styles from './Profile.module.scss';
 
 const Profile: React.FC = () => {
     const { id } = useParams();
-    const [doctitle, setDocTitle] = useDocTitle(id);
-    const [list, setList] = useState('articles');
+    useDocTitle(id);
+    const location = useLocation();
+    const navigate = useNavigate();
 
-    const { data, isLoading } = useGetUserQuery(id);
+    const chapter = location.pathname.split('/')[3];
 
-    if (isLoading) return <></>;
+    const [list, setList] = useState(chapter ? chapter : 'articles');
+
+    const { data, isLoading, refetch } = useGetUserQuery(id);
+
+    if (isLoading) return <Overlay />;
 
     const user = data?.user;
     const articles = data?.articles;
-    const liked = data?.liked;
-    const drafts = data?.drafts;
     const isOwner = data?.isOwner;
-
-    const avatar = user?.avatar;
-    const username = user?.username;
-    const articlesCount = articles?.length;
     const views = viewsSumCalc(articles);
     const city = user?.info.city;
     const country = user?.info.country;
@@ -37,22 +37,29 @@ const Profile: React.FC = () => {
     const articlesList = articles?.map((article: Article, id) => (
         <ArticlePreview article={article} key={id} />
     ));
-    const likedList = liked?.map((article: Article, id) => (
+    const appreciatedList = data?.appreciated?.map((article: Article, id) => (
         <ArticlePreview article={article} key={id} />
     ));
-    const draftsList = drafts?.map((draft: Draft, id) => <DraftPreview draft={draft} key={id} />);
+    const draftsList = data?.drafts?.map((draft: Draft, id) => (
+        <DraftPreview draft={draft} refetch={refetch} key={id} />
+    ));
 
-    const likedBlock = () => {
-        if (likedList?.length === 0 && !isOwner) return '';
-        if ((likedList?.length === 0 && isOwner) || likedList?.length !== 0)
+    const appreciatedBlock = () => {
+        if (appreciatedList?.length === 0 && !isOwner) return '';
+        if ((appreciatedList?.length === 0 && isOwner) || appreciatedList?.length !== 0)
             return (
                 <Button
-                    onPress={() => setList('liked')}
-                    variant={list === 'liked' ? 'primary' : 'secondary'}
-                    style={list === 'liked' ? 'fill' : 'outline'}>
+                    onPress={() => changeChapter('appreciated')}
+                    variant={list === 'appreciated' ? 'primary' : 'secondary'}
+                    style={list === 'appreciated' ? 'fill' : 'outline'}>
                     Оценки
                 </Button>
             );
+    };
+
+    const changeChapter = (chapter: string) => {
+        setList(chapter);
+        navigate(`/users/${id}/${chapter}`);
     };
 
     const date = convertDateDayMonthYear(user?.timestamp);
@@ -60,10 +67,10 @@ const Profile: React.FC = () => {
         <div className={styles.root}>
             <div className={styles.wrapper}>
                 <div className={styles.top}>
-                    <Avatar imageSrc={avatar} width={110} />
+                    <Avatar imageSrc={user?.avatar} width={110} />
                     <div className={styles.top__wrapper}>
                         <div className={styles.top__info}>
-                            <h3 className={styles.info__headline}>{username}</h3>
+                            <h3 className={styles.info__headline}>{user?.username}</h3>
                             <div className={styles.info__counters}>
                                 {/* <div className="icon-center">
                                 <IoDocument />
@@ -92,12 +99,12 @@ const Profile: React.FC = () => {
                 <section className={`${styles.articlesSection} articles`}>
                     <ButtonGroup flex UNSAFE_className={styles.buttonGroup}>
                         <Button
-                            onPress={() => setList('articles')}
+                            onPress={() => changeChapter('articles')}
                             variant={list === 'articles' ? 'primary' : 'secondary'}
                             style={list === 'articles' ? 'fill' : 'outline'}>
                             Статьи
                         </Button>
-                        {likedBlock()}{' '}
+                        {appreciatedBlock()}{' '}
                         {isOwner && (
                             <>
                                 <Divider
@@ -108,7 +115,7 @@ const Profile: React.FC = () => {
                                     margin="0 10px"
                                 />{' '}
                                 <Button
-                                    onPress={() => setList('drafts')}
+                                    onPress={() => changeChapter('drafts')}
                                     variant={list === 'drafts' ? 'primary' : 'secondary'}
                                     style={list === 'drafts' ? 'fill' : 'outline'}>
                                     Черновики
@@ -123,9 +130,9 @@ const Profile: React.FC = () => {
                                 : isOwner && <CreateModule create />}
                         </div>
                     )}
-                    {list === 'liked' &&
-                        (likedList?.length !== 0 ? (
-                            <div className="liked__list">{likedList}</div>
+                    {list === 'appreciated' &&
+                        (appreciatedList?.length !== 0 ? (
+                            <div className="appreciated__list">{appreciatedList}</div>
                         ) : (
                             isOwner && (
                                 <div className="articles__list">

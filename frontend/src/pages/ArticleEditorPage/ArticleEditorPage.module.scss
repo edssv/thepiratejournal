@@ -80,7 +80,7 @@
                 }
                 &--selected {
                     .ce-block__content {
-                        background-color: var(--spectrum-global-color-gray-300);
+                        background-color: var(--spectrum-blue-100);
                     }
                 }
             }
@@ -124,6 +124,8 @@
                         top: -24px;
 
                         .ce-popover {
+                            background-color: var(--spectrum-global-color-gray-100);
+                            border: none;
                             @media (min-width: 651px) {
                                 box-shadow: unset;
                                 background-color: unset;
@@ -221,7 +223,11 @@
 
                     .ce-settings {
                         color: currentColor;
-                        background-color: var(--spectrum-global-color-gray-300);
+                        background-color: var(--spectrum-blue-100);
+
+                        .icon {
+                            color: var(--spectrum-blue-900);
+                        }
                         border: none;
 
                         &__button,
@@ -229,12 +235,11 @@
                             color: currentColor;
 
                             &:hover {
-                                background-color: var(--spectrum-global-color-gray-900);
-                                color: var(--spectrum-global-color-gray-200);
-                            }
+                                background-color: var(--spectrum-blue-800);
 
-                            &--active {
-                                background-color: var(--spectrum-global-color-gray-200);
+                                .icon {
+                                    color: var(--spectrum-global-color-gray-100);
+                                }
                             }
                         }
                     }

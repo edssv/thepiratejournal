@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react';
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { tokenReceived, loggedOut } from '../slices/authSlice';
 
 // Create our baseQuery instance
 const baseQuery = fetchBaseQuery({
@@ -28,11 +27,13 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
         const refreshResult = await baseQuery('/refresh', api, extraOptions);
         if (refreshResult.data) {
             // store the new token
-            api.dispatch(tokenReceived(refreshResult.data));
+            api.dispatch({ type: 'auth/tokenReceived', payload: refreshResult.data });
             // retry the initial query
             result = await baseQuery(args, api, extraOptions);
         } else {
-            api.dispatch(loggedOut());
+            api.dispatch({
+                type: 'auth/loggedOut',
+            });
         }
     }
     return result;
