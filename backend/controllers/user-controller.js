@@ -14,6 +14,7 @@ const getUsers = async (req, res) => {
 const getUser = async (req, res) => {
     const username = req.params.id;
     const currentUser = req.currentUser;
+    console.log(req.params);
     try {
         const { user, articles, appreciated, drafts } = await User.getUser(username);
 

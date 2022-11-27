@@ -29,10 +29,6 @@ export const userApi = api.injectEndpoints({
                 method: 'GET',
             }),
         }),
-
-        protected: builder.mutation<{ message: string }, void>({
-            query: () => 'protected',
-        }),
     }),
 });
 

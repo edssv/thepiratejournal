@@ -17,6 +17,7 @@ import { DraftInfoDialog } from './DraftInfoDialog';
 
 interface IEditorJS {
     save: any;
+    onChange?: any;
 }
 
 const ArticleEditorPage = () => {
@@ -95,6 +96,8 @@ const ArticleEditorPage = () => {
             saveDraft(formData);
         });
     };
+
+    editor?.onChange(console.log('p'));
 
     const saveArticle = () => {
         editor

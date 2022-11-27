@@ -4,11 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@react-spectrum/button';
 
 import styles from './DraftPreview.module.scss';
-import { IoEye, IoHeart } from 'react-icons/io5';
 import { Draft, useDeleteArticleMutation } from '../../redux/services/article';
 import Image from '@spectrum-icons/workflow/Image';
 import { convertDateMDHM } from '../../helpers';
 import { ButtonProgress } from '../Buttons';
+import { ArticleStats } from '../ArticleStats';
 
 interface DraftPreviewProps {
     draft: Draft;
@@ -66,14 +66,7 @@ export const DraftPreview: React.FC<DraftPreviewProps> = ({ draft, refetch }) =>
                                     {draft.author.username}
                                 </Link>
                             </div>
-                            <div className={styles.stats}>
-                                <span className="icon-center">
-                                    <IoHeart />0
-                                </span>
-                                <span className="icon-center">
-                                    <IoEye />0
-                                </span>
-                            </div>
+                            <ArticleStats viewsCount={0} likesCount={0} />
                         </div>
                     </div>
                 </div>

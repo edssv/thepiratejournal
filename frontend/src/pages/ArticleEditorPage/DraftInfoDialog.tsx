@@ -41,9 +41,12 @@ export const DraftInfoDialog: React.FC<DraftInfoDialogProps> = ({
                 <Divider />
 
                 <Content>
-                    <Text>Ты можешь его найти в разделе "Черновики" в cвоем профиле.</Text>
+                    <Text>Ты можешь найти его в разделе "Черновики" в cвоем профиле.</Text>
                 </Content>
             </Dialog>
+            {/* <div className="tippy">
+                <p>Ты можешь найти его в разделе "Черновики" в cвоем профиле.</p>
+            </div> */}
         </DialogTrigger>
     );
 };

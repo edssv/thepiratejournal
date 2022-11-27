@@ -1,7 +1,7 @@
 {
     "name": "client",
     "version": "0.1.0",
-    "proxy": "http://194.67.121.62:5000/",
+    "proxy": "http://localhost:5000/",
     "private": true,
     "dependencies": {
         "@adobe/react-spectrum": "^3.23.0",
@@ -25,7 +25,6 @@
         "react-dom": "^18.2.0",
         "react-error-boundary": "^3.1.4",
         "react-hook-form": "^7.38.0",
-        "react-icons": "^4.6.0",
         "react-loading-skeleton": "^3.1.0",
         "react-media-hook": "^0.5.0",
         "react-redux": "^8.0.4",

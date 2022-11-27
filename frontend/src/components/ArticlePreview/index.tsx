@@ -1,7 +1,4 @@
-import CircleFilled from '@spectrum-icons/workflow/CircleFilled';
 import React from 'react';
-import { IoEye, IoHeart } from 'react-icons/io5';
-
 import { Link, useLocation } from 'react-router-dom';
 import { convertDateShort } from '../../helpers/convertDate';
 import { Article } from '../../redux/services/article';

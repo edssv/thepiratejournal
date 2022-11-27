@@ -7,7 +7,6 @@ import { useDocTitle } from '../../hooks';
 import { Button, ButtonGroup, Divider, Text } from '@adobe/react-spectrum';
 
 // icons
-import { IoEye } from 'react-icons/io5';
 import Location from '@spectrum-icons/workflow/Location';
 import Heart from '@spectrum-icons/workflow/Heart';
 
@@ -19,9 +18,10 @@ const Profile: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const chapter = location.pathname.split('/')[3];
+    const activeSection = location.pathname.split('/')[3];
+    console.log(activeSection);
 
-    const [list, setList] = useState(chapter ? chapter : 'articles');
+    const [list, setList] = useState(activeSection ? activeSection : 'articles');
 
     const { data, isLoading, refetch } = useGetUserQuery(id);
 
@@ -71,16 +71,7 @@ const Profile: React.FC = () => {
                     <div className={styles.top__wrapper}>
                         <div className={styles.top__info}>
                             <h3 className={styles.info__headline}>{user?.username}</h3>
-                            <div className={styles.info__counters}>
-                                {/* <div className="icon-center">
-                                <IoDocument />
-                                <span>{articlesCount} статей</span>
-                            </div> */}
-                                <div className="icon-center">
-                                    <IoEye />
-                                    <span>{views ? views : 0} просмотров</span>
-                                </div>
-                            </div>
+                            <div className={styles.info__counters}></div>
                             <div className={styles.location}>
                                 <Location size="XS" />{' '}
                                 {city && country

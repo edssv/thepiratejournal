@@ -7,8 +7,6 @@ import { useLoginMutation } from '../../redux';
 
 import styles from './EmailPage.module.scss';
 
-import { BsFacebook } from 'react-icons/bs';
-
 const EmailPage = () => {
     useDocTitle('Войти');
     const navigate = useNavigate();
@@ -129,8 +127,26 @@ const EmailPage = () => {
                         <span>Продолжить с Google</span>
                     </Link>
 
-                    <Link to="#" className={styles.social__button}>
-                        <BsFacebook color="#1472e6" /> <span>Продолжить с Facebook</span>
+                    <Link
+                        to="#"
+                        className={styles.social__button}
+                        style={{
+                            backgroundColor: 'var(--spectrum-accent-background-color-default)',
+                            border: 'none',
+                        }}>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16">
+                            <path
+                                id="new_facebook_logo"
+                                data-name="new facebook logo"
+                                d="M16,8.049A8,8,0,1,0,6.75,16V10.376H4.719V8.049H6.75V6.276A2.832,2.832,0,0,1,9.772,3.144a12.235,12.235,0,0,1,1.791.157V5.282H10.554A1.16,1.16,0,0,0,9.25,6.54V8.049h2.219l-.355,2.327H9.25V16A8.036,8.036,0,0,0,16,8.049Z"
+                                fill="#fff"
+                            />
+                        </svg>{' '}
+                        <span>Продолжить с Facebook</span>
                     </Link>
                 </section>
             </section>

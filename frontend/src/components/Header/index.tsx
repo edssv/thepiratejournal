@@ -9,7 +9,6 @@ import {
     TooltipTrigger,
 } from '@adobe/react-spectrum';
 import Draw from '@spectrum-icons/workflow/Draw';
-import { IoLogOutOutline } from 'react-icons/io5';
 
 import logo from '../../assets/img/logotype.png';
 
@@ -19,6 +18,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { Avatar } from '../Avatar';
 import { HeaderSkeleton } from './HeaderSkeleton';
 import { useMediaPredicate } from 'react-media-hook';
+import LogOut from '@spectrum-icons/workflow/LogOut';
 
 export const Header = () => {
     const location = useLocation();
@@ -105,7 +105,7 @@ export const Header = () => {
                                         }}
                                         isQuiet
                                         UNSAFE_style={{ borderRadius: '50%' }}>
-                                        <IoLogOutOutline color="currentColor" size={24} />
+                                        <LogOut />
                                     </ActionButton>
                                     <Tooltip placement="bottom">Выйти из аккаунта</Tooltip>
                                 </TooltipTrigger>

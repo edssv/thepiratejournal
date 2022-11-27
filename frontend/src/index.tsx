@@ -17,7 +17,7 @@ root.render(
                 minHeight="100vh"
                 height={'auto'}
                 locale="ru-RU"
-                UNSAFE_style={{ fontFamily: 'Roboto' }}>
+                UNSAFE_style={{ fontFamily: 'Roboto, sans-serif' }}>
                 <ErrorBoundary FallbackComponent={ErrorFallback}>
                     <App />
                 </ErrorBoundary>
