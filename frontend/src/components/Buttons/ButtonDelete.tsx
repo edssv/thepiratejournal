@@ -1,16 +1,32 @@
+import React, { CSSProperties } from 'react';
 import { AlertDialog, Button, DialogTrigger } from '@adobe/react-spectrum';
-import Delete from '@spectrum-icons/workflow/Delete';
-import React from 'react';
 
 interface onPrimaryAction {
     onPrimaryAction?: any;
+    children?: React.ReactNode;
+    variant?: 'accent' | 'primary' | 'secondary' | 'negative';
+    staticColor?: 'white' | 'black';
+    style?: 'fill' | 'outline';
+    UNSAFE_style?: CSSProperties;
 }
 
-export const ButtonDelete: React.FC<onPrimaryAction> = ({ onPrimaryAction }) => {
+export const ButtonDelete: React.FC<onPrimaryAction> = ({
+    onPrimaryAction,
+    children,
+    variant,
+    staticColor,
+    style,
+    UNSAFE_style,
+}) => {
     return (
         <DialogTrigger>
-            <Button type="button" variant="secondary">
-                <Delete />
+            <Button
+                type="button"
+                variant={variant ? variant : 'accent'}
+                staticColor={staticColor}
+                style={style}
+                UNSAFE_style={UNSAFE_style}>
+                {children}
             </Button>
             {(close) => (
                 <AlertDialog

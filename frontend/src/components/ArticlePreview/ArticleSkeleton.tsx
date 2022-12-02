@@ -21,7 +21,7 @@ export const ArticleSkeleton: React.FC<ArticleSkeletonProps> = ({ counts }) => {
                                 enableAnimation={false}>
                                 <Skeleton borderRadius={8} height={172} />
                                 <Skeleton width="90%" height={20} style={{ marginTop: '10px' }} />
-                                <Skeleton width="60%" height={20} style={{ marginTop: '10px' }} />
+                                <Skeleton width="30%" height={20} style={{ marginTop: '10px' }} />
                             </SkeletonTheme>
                         </div>
                     ))}

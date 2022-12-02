@@ -1,0 +1,52 @@
+import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { ArticlePreview, ArticleSkeleton } from '../../components';
+import { Article, useSearchArticlesQuery } from '../../redux';
+
+import styles from './Articles.module.scss';
+import { SearchHeader } from './SearchHeader';
+
+const Articles = () => {
+    const location = useLocation();
+
+    const sectionFromUrl = location.pathname.split('/')[2];
+    const sortFromUrl = location.search.split('sort=')[1];
+    const searchFromUrl = location.search.split('search=')[1];
+    const [selectCategory, setSelectCategory] = useState(sectionFromUrl ? sectionFromUrl : '');
+    const [sortType, setSortType] = React.useState<React.Key>(sortFromUrl ? sortFromUrl : '');
+    const [searchValue, setSearchValue] = useState(searchFromUrl ? decodeURI(searchFromUrl) : '');
+    const [queryParams, setQueryParams] = useState('');
+    const { data, isLoading, isFetching } = useSearchArticlesQuery({
+        category: selectCategory,
+        queryParams,
+    });
+
+    const articlesList =
+        isLoading || isFetching ? (
+            <ArticleSkeleton counts={12} />
+        ) : (
+            data?.map((article: Article, id: number) => (
+                <ArticlePreview key={id} article={article} />
+            ))
+        );
+
+    return (
+        <div className={styles.root}>
+            <SearchHeader
+                selectCategory={selectCategory}
+                setSelectCategory={setSelectCategory}
+                sortType={sortType}
+                setSortType={setSortType}
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+                setQueryParams={setQueryParams}
+            />
+
+            <ul className="articles__list" style={{ padding: '24px' }}>
+                {articlesList}
+            </ul>
+        </div>
+    );
+};
+
+export default Articles;

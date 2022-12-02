@@ -132,6 +132,7 @@ const EmailPage = () => {
                         className={styles.social__button}
                         style={{
                             backgroundColor: 'var(--spectrum-accent-background-color-default)',
+                            color: '#ffffff',
                             border: 'none',
                         }}>
                         <svg

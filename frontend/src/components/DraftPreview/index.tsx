@@ -7,7 +7,7 @@ import styles from './DraftPreview.module.scss';
 import { Draft, useDeleteArticleMutation } from '../../redux/services/article';
 import Image from '@spectrum-icons/workflow/Image';
 import { convertDateMDHM } from '../../helpers';
-import { ButtonProgress } from '../Buttons';
+import { ButtonDelete, ButtonProgress } from '../Buttons';
 import { ArticleStats } from '../ArticleStats';
 
 interface DraftPreviewProps {
@@ -44,17 +44,15 @@ export const DraftPreview: React.FC<DraftPreviewProps> = ({ draft, refetch }) =>
                                 marginBottom="10px">
                                 Продолжить создание
                             </Button>
-                            <ButtonProgress
-                                onPress={() => {
+                            <ButtonDelete
+                                onPrimaryAction={() => {
                                     deleteDraft(draft._id).then(refetch(draft._id));
                                 }}
-                                isLoading={isLoading}
-                                isDisabled={isLoading}
                                 variant="primary"
                                 staticColor="white"
                                 style="fill">
                                 Удалить черновик
-                            </ButtonProgress>
+                            </ButtonDelete>
                             <span className={styles.timeModified}>
                                 {` Последнее изменение ${time}`}
                             </span>

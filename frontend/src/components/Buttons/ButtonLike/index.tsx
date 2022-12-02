@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import {
-    Button,
-    ButtonGroup,
-    Content,
-    Dialog,
-    DialogTrigger,
-    Heading,
-    Tooltip,
-    TooltipTrigger,
-} from '@adobe/react-spectrum';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Button, Tooltip, TooltipTrigger } from '@adobe/react-spectrum';
 import { useAuth } from '../../../hooks';
 import Heart from '@spectrum-icons/workflow/Heart';
-import { useLikeMutation, useRemoveLikeMutation } from '../../../redux/services/article';
+import { useLikeMutation, useRemoveLikeMutation } from '../../../redux';
 
 import styles from './ButtonLike.module.scss';
+import { Tippy } from '../../Tippy';
 
 interface IsLikeProps {
     isLiked: boolean | undefined;
@@ -24,8 +15,6 @@ interface IsLikeProps {
 }
 
 export const ButtonLike: React.FC<IsLikeProps> = ({ isLiked, id, tooltipPosition, width }) => {
-    const navigate = useNavigate();
-    const location = useLocation();
     const { user } = useAuth();
 
     const [like] = useLikeMutation();
@@ -49,37 +38,17 @@ export const ButtonLike: React.FC<IsLikeProps> = ({ isLiked, id, tooltipPosition
 
     if (!user) {
         return (
-            <DialogTrigger type="popover" mobileType="tray" placement={tooltipPosition}>
+            <Tippy
+                tooltipPosition={tooltipPosition}
+                title={'Добавляй в избранное'}
+                paragraph={'Чтобы добавлять статьи в понравившиеся, войди в аккаунт.'}>
                 <Button
                     variant={isLike ? 'negative' : !isLike && 'accent'}
                     style="fill"
                     UNSAFE_style={{ width: width, height: width, borderRadius: '50%' }}>
                     <Heart />
                 </Button>
-                {(close) => (
-                    <Dialog>
-                        <Heading>Добавляй в избранное</Heading>
-                        <Content>
-                            <p>Чтобы добавлять статьи в понравившиеся, войди в аккаунт.</p>
-                        </Content>
-                        <ButtonGroup>
-                            <Button onPress={close} variant="secondary" staticColor="white">
-                                Не сейчас
-                            </Button>
-                            <Button
-                                onPress={() =>
-                                    navigate('/login', {
-                                        state: { from: location },
-                                    })
-                                }
-                                variant="accent"
-                                staticColor="white">
-                                Войти
-                            </Button>
-                        </ButtonGroup>
-                    </Dialog>
-                )}
-            </DialogTrigger>
+            </Tippy>
         );
     }
     return (

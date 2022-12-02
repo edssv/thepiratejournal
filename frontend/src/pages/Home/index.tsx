@@ -1,27 +1,43 @@
+import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import { Article, useGetArticlesQuery } from '../../redux';
 import { useDocTitle } from '../../hooks/useDocTitle';
 import { ArticlePreview, ArticleSkeleton } from '../../components';
+import { HomeSectionPrompt } from './HomeSectionPrompt';
+import { TabPanel } from './TabPanel';
 
 import styles from './Home.module.scss';
+
 const Home = () => {
     useDocTitle('');
+    const location = useLocation();
 
-    const { data, isLoading } = useGetArticlesQuery(null);
+    const sectionFromUrl = location.pathname.split('/')[1];
+    const [activeSection, setActiveSection] = useState(sectionFromUrl ? sectionFromUrl : 'for_you');
+    const { data, isLoading, isSuccess } = useGetArticlesQuery({
+        section: activeSection,
+    });
+
+    const articlesList = data?.map((article: Article, id: number) =>
+        isLoading ? <ArticleSkeleton counts={12} /> : <ArticlePreview key={id} article={article} />,
+    );
+
+    const articles =
+        activeSection === 'for_you' ? (
+            articlesList
+        ) : activeSection === 'following' && !data && isSuccess ? (
+            <HomeSectionPrompt
+                headline="Ты еще не подписан ни на одного автора."
+                text="Подписавшись на автора, ты увидишь все его проекты, которые автор делает доступными для подписчиков."
+            />
+        ) : (
+            articlesList
+        );
     return (
         <div className={styles.root}>
-            <section className="articles">
-                <h4 className="headline">Все статьи</h4>
-
-                <ul className="articles__list">
-                    {isLoading ? (
-                        <ArticleSkeleton counts={12} />
-                    ) : (
-                        data.map((article: Article, id: number) => (
-                            <ArticlePreview key={id} article={article} />
-                        ))
-                    )}
-                </ul>
-            </section>
+            <TabPanel activeSection={activeSection} setActiveSection={setActiveSection}>
+                {articles}
+            </TabPanel>
         </div>
     );
 };

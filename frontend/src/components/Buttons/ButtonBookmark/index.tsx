@@ -17,7 +17,7 @@ export const ButtonBookmark: React.FC = () => {
                     <g
                         id="favorite_24__Page-2"
                         stroke="none"
-                        stroke-width="1"
+                        strokeWidth="1"
                         fill="none"
                         fillRule="evenodd">
                         <g id="favorite_24__favorite_24">

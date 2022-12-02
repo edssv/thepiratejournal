@@ -1,0 +1,37 @@
+:global {
+    .spectrum-Popover_6115b8 {
+        max-width: 336px;
+        padding: 16px;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 1px 6px rgb(0 0 0 / 20%);
+        background-color: var(--spectrum-global-color-static-blue-600);
+
+        .spectrum-Dialog_6d8b48 {
+            .spectrum-Dialog-grid_6d8b48 {
+                display: block !important;
+
+                .spectrum-Dialog-heading_6d8b48 {
+                    margin-bottom: 8px;
+                    font-size: 18px;
+                    font-weight: 700;
+                }
+
+                .spectrum-Dialog-heading_6d8b48,
+                p {
+                    color: white;
+                }
+
+                .spectrum-ButtonGroup_b10c2f {
+                    width: 100%;
+                }
+            }
+        }
+
+        .spectrum-Popover-tip_6115b8 {
+            path {
+                fill: var(--spectrum-global-color-static-blue-600) !important;
+            }
+        }
+    }
+}

@@ -1,0 +1,8 @@
+@use '../../../../scss/util' as *;
+
+.root {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    height: 65px;
+}

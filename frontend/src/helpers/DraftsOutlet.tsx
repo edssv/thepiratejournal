@@ -3,8 +3,8 @@ import { Overlay } from '../components';
 import { useGetUserQuery } from '../redux';
 
 export const DraftsOutlet = () => {
-    const { id } = useParams();
-    const { data, isLoading } = useGetUserQuery(id);
+    const { username } = useParams();
+    const { data, isLoading } = useGetUserQuery(username);
 
     if (isLoading) return <Overlay />;
 

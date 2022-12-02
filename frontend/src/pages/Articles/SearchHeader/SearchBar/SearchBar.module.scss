@@ -1,0 +1,124 @@
+@use '../../../../scss/util' as *;
+
+.root {
+    .searchWrap {
+        position: relative;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: start;
+        background-color: var(--spectrum-well-background-color);
+        border: 1px solid var(--spectrum-global-color-gray-300);
+        border-radius: 999px;
+        z-index: 3;
+
+        .inputWrap {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            height: 50px;
+            width: 100%;
+
+            form {
+                position: relative;
+                height: 100%;
+                width: 100%;
+
+                .searchInput {
+                    position: absolute;
+                    height: 100%;
+                    width: 100%;
+                    margin-top: -1px;
+                    appearance: none;
+                    background: transparent;
+                    border: none;
+                    color: var(--spectrum-global-color-gray-800);
+                    font-size: 22px;
+                    font-weight: 800;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+
+                    &::placeholder {
+                        color: var(--spectrum-global-color-gray-500);
+                    }
+
+                    &:focus {
+                        outline: none;
+                    }
+                }
+            }
+        }
+
+        .tabTrigger {
+            border-left: 1px solid var(--spectrum-global-color-gray-300);
+
+            &::after {
+                border-left: 4px solid transparent;
+                border-right: 4px solid transparent;
+                border-top: 4px solid #000;
+                content: '';
+                height: 0;
+                position: absolute;
+                right: 19px;
+                top: 23px;
+                width: 0;
+            }
+
+            select {
+                display: block;
+                height: 50px;
+                padding: 10px 19px;
+                padding-right: 40px;
+                appearance: none;
+                border: none;
+                border-radius: 999px;
+                font-size: 15px;
+                font-weight: 600;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            .menu {
+                background-color: #ffffff;
+            }
+        }
+
+        .tabNavigation {
+            display: flex;
+            align-items: center;
+            border-left: 1px solid var(--spectrum-global-color-gray-300);
+            border-bottom-right-radius: 999px;
+            border-top-right-radius: 999px;
+            background-color: var(--spectrum-global-color-gray-100);
+
+            .tabList {
+                display: flex;
+                gap: 4px;
+                padding: 10px 17px;
+
+                .tabItem {
+                    .tabLink {
+                        display: flex;
+                        align-items: center;
+                        border-radius: 999px;
+                        font-size: 14px;
+                        font-weight: 600;
+                        justify-content: center;
+                        padding: 6px 13px 6px 12px;
+                        text-align: center;
+                        white-space: nowrap;
+                        cursor: pointer;
+
+                        &.active {
+                            background-color: var(--spectrum-global-color-gray-900);
+                            color: var(--spectrum-global-color-gray-100);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

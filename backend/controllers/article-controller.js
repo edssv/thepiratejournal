@@ -5,7 +5,7 @@ const User = require('../models/user-model');
 const creating = async (req, res) => {
     const authorId = req.user._id;
     const authorUsername = req.user.username;
-    const { intent, title, cover, blocks, time, saveFromDraft, draftId } = req.body;
+    const { intent, title, cover, blocks, category, time, saveFromDraft, draftId } = req.body;
     try {
         if (intent === 'draft') {
             const draft = await Draft.creating(
@@ -25,6 +25,7 @@ const creating = async (req, res) => {
             title,
             cover,
             blocks,
+            category,
             time,
         );
 
@@ -65,12 +66,40 @@ const editing = async (req, res) => {
     }
 };
 
-const getAll = async (req, res, next) => {
+const getAll = async (req, res) => {
+    const section = req.params.section;
+    const currentUser = req.currentUser;
+
     try {
-        const articles = await Article.find().exec();
-        return res.json(articles);
-    } catch (e) {
-        next(e);
+        if (section === 'following' && !currentUser) {
+            return res.status(401).json({
+                message:
+                    'Войди в систему, чтобы просматривать обновления авторов, на которых ты подписан.',
+            });
+        }
+
+        const articles = await Article.getAll(section, currentUser);
+
+        if (articles.length === 0) {
+            return res.status(204).json(articles);
+        }
+
+        res.status(200).json(articles);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const searchArticles = async (req, res) => {
+    const categoryName = req.params.category;
+    const sortType = req.query.sort;
+    const searchValue = req.query.search;
+
+    try {
+        const articles = await Article.searchArticles(categoryName, sortType, searchValue);
+        return res.status(200).json(articles);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
 };
 
@@ -136,4 +165,4 @@ const removeLike = async (req, res) => {
     }
 };
 
-module.exports = { creating, remove, editing, getAll, getOne, like, removeLike };
+module.exports = { creating, remove, editing, getAll, searchArticles, getOne, like, removeLike };

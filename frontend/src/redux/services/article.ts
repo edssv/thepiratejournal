@@ -22,7 +22,7 @@ export interface Article {
     author: { _id: string; username: string; avatar: string };
     title: string;
     cover: string;
-    blocks: Block[];
+    blocks: any;
     timestamp: string;
     isPublished: boolean;
     views: { count: number };
@@ -37,10 +37,13 @@ export const articleApi = api.injectEndpoints({
             providesTags: ['Articles'],
         }),
         getArticles: build.query({
-            query: () => `articles`,
+            query: ({ section }) => `articles/main/${section}`,
             providesTags: ['Articles'],
         }),
-
+        searchArticles: build.query({
+            query: ({ category, queryParams }) => `search/${category}?${queryParams}`,
+            providesTags: ['Articles'],
+        }),
         addCover: build.mutation({
             query: (body) => ({
                 url: 'upload',
@@ -96,6 +99,7 @@ export const articleApi = api.injectEndpoints({
 export const {
     useGetArticleQuery,
     useGetArticlesQuery,
+    useSearchArticlesQuery,
     useAddCoverMutation,
     useLikeMutation,
     useRemoveLikeMutation,

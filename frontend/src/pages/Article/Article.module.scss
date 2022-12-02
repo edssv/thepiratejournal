@@ -109,13 +109,14 @@ $infoWidth: 768px;
                     display: flex;
                     flex-direction: column;
                     gap: 30px;
-                    padding: 25px 0 35px;
+                    padding: 25px 0 15px;
                     font-size: $fs-lg;
                     line-height: 1.5;
                     word-break: break-word;
                     word-wrap: break-word;
 
                     img {
+                        max-height: 960px;
                         max-width: 100%;
                         border-radius: 4px;
                     }
@@ -123,17 +124,11 @@ $infoWidth: 768px;
                     &__blocks {
                         display: flex;
                         flex-direction: column;
-                        img {
-                            max-height: 400px;
-                            object-fit: cover;
-                        }
 
-                        h2,
-                        h3,
-                        h4 img,
-                        p {
+                        * {
                             margin: 1em 0;
                         }
+
                         ul {
                             list-style: disc;
                             margin-bottom: 1.7em;
@@ -173,7 +168,7 @@ $infoWidth: 768px;
                         }
 
                         .date {
-                            font-weight: 600;
+                            font-weight: 500;
                         }
 
                         .author {
@@ -183,7 +178,7 @@ $infoWidth: 768px;
 
                             .authorName {
                                 font-size: 16px;
-                                font-weight: 600;
+                                font-weight: 500;
                             }
                         }
                     }

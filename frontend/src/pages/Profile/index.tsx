@@ -1,20 +1,27 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useGetUserQuery, Article, Draft } from '../../redux';
+import {
+    useGetUserQuery,
+    Article,
+    Draft,
+    useFollowMutation,
+    useUnFollowMutation,
+} from '../../redux';
 import { convertDateDayMonthYear, viewsSumCalc } from '../../helpers';
 import { DraftPreview, CreateModule, Avatar, ArticlePreview, Overlay } from '../../components';
 import { useDocTitle } from '../../hooks';
-import { Button, ButtonGroup, Divider, Text } from '@adobe/react-spectrum';
+import { ActionButton, Button, ButtonGroup, Divider, Text } from '@adobe/react-spectrum';
 
 // icons
 import Location from '@spectrum-icons/workflow/Location';
 import Heart from '@spectrum-icons/workflow/Heart';
 
 import styles from './Profile.module.scss';
+import { ButtonFollow } from '../../components/Buttons/ButtonFollow';
 
 const Profile: React.FC = () => {
-    const { id } = useParams();
-    useDocTitle(id);
+    const { username } = useParams();
+    useDocTitle(username);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -23,7 +30,7 @@ const Profile: React.FC = () => {
 
     const [list, setList] = useState(activeSection ? activeSection : 'articles');
 
-    const { data, isLoading, refetch } = useGetUserQuery(id);
+    const { data, isLoading, refetch } = useGetUserQuery(username);
 
     if (isLoading) return <Overlay />;
 
@@ -59,7 +66,7 @@ const Profile: React.FC = () => {
 
     const changeChapter = (chapter: string) => {
         setList(chapter);
-        navigate(`/users/${id}/${chapter}`);
+        navigate(`/users/${username}/${chapter}`);
     };
 
     const date = convertDateDayMonthYear(user?.timestamp);
@@ -80,10 +87,12 @@ const Profile: React.FC = () => {
                                     : 'Пиратский корабль'}
                             </div>
                         </div>
-                        <Button variant="accent">
-                            <Heart />
-                            <Text>1 999</Text>
-                        </Button>
+                        {!isOwner && (
+                            <ButtonFollow
+                                username={username}
+                                hasSubscription={data?.viewer.hasSubscription}
+                            />
+                        )}
                     </div>
                     <span className={styles.signupDate}>Дата регистрации: {date}</span>
                 </div>

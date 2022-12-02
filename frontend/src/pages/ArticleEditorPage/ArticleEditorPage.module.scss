@@ -14,11 +14,21 @@
         width: 100%;
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: start;
+
+        @include breakpoint-down(lg) {
+            button {
+                min-height: 36px;
+                font-size: 14px;
+                padding: 3px 14px 5px;
+                border-radius: 24px;
+            }
+        }
 
         @include breakpoint(lg) {
             position: sticky;
             top: 30px;
+            align-items: center;
         }
     }
 

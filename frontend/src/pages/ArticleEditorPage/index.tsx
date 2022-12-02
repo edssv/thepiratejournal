@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { createReactEditorJS } from 'react-editor-js';
 import EditorJS from '@editorjs/editorjs';
 import debounce from 'lodash.debounce';
 import Configuration from './configuration';
@@ -27,7 +28,6 @@ const ArticleEditorPage = () => {
     const { id } = useParams();
     const isDraft = Boolean(location.pathname.split('/')[1] === 'drafts');
     const isEditing = isDraft ? false : Boolean(id);
-    const draftButtonRef = useRef();
 
     useDocTitle(!isEditing ? 'Новая статья' : 'Изменение статьи');
 
@@ -43,8 +43,11 @@ const ArticleEditorPage = () => {
     const [selectedFile, setSelectedFile] = useState(false);
     const [uploadedUrl, setUploadedUrl] = useState<string | undefined>();
     const [textareaValue, setTextareaValue] = useState<string | undefined>();
+    const [blocks, setBlocks] = useState();
     const [formStatus, setFormStatus] = useState<'unchanged' | 'modified' | 'saved'>('unchanged');
+    const [articleCategory, setArticleCategory] = useState<React.Key>();
 
+    const ReactEditorJS = createReactEditorJS();
     const [editor, setEditor] = useState<IEditorJS>();
 
     // const saveDraft = useCallback(
@@ -61,6 +64,7 @@ const ArticleEditorPage = () => {
             setSelectedFile(data?.cover ? true : false);
             setUploadedUrl(data?.cover);
             setEditor(editorjs);
+            setBlocks(data?.blocks);
         } else {
             const editorjs = new EditorJS(Configuration());
             setEditor(editorjs);
@@ -97,8 +101,6 @@ const ArticleEditorPage = () => {
         });
     };
 
-    editor?.onChange(console.log('p'));
-
     const saveArticle = () => {
         editor
             ?.save()
@@ -109,6 +111,7 @@ const ArticleEditorPage = () => {
                     { intent: 'publish' },
                     { title: textareaValue },
                     { cover: uploadedUrl },
+                    { category: { categoryName: articleCategory, game: 'Warface' } },
                 );
                 isEditing ? editArticle({ formData, id }) : addArticle(formData);
             })
@@ -166,10 +169,16 @@ const ArticleEditorPage = () => {
                         />
                     )}
                     <ConfirmDialog
-                        selectedFile={selectedFile}
-                        textareaValue={textareaValue}
+                        isDisabled={selectedFile && textareaValue ? false : true}
                         onClickSave={onClickSave}
                         isEditing={isEditing}
+                        articleCategory={articleCategory}
+                        setArticleCategory={setArticleCategory}
+                        onPressDraft={saveDraft}
+                        isLoadingDraft={isSaving}
+                        isSuccessDraft={isSuccessSave}
+                        isErrorDraft={isErrorSave}
+                        isDisabledDraft={isSaving}
                     />
                 </ButtonGroup>
             </div>
@@ -203,7 +212,8 @@ const ArticleEditorPage = () => {
                         setSelectedFile={setSelectedFile}
                         isEditing={isEditing}
                     />
-                    <div id="editorjs" />
+                    <div id="editorjs" onChange={() => console.log('p')} />
+                    {/* <ReactEditorJS onChange={() => console.log('p')} defaultValue={blocks} /> */}
                 </form>
             </div>
         </div>

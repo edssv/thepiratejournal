@@ -16,7 +16,7 @@ interface DraftInfoDialogProps {
     isSuccess: boolean;
     isError: boolean;
     isDisabled: boolean;
-    onPress: any;
+    onPress: (data: object) => void;
 }
 
 export const DraftInfoDialog: React.FC<DraftInfoDialogProps> = ({

@@ -9,6 +9,7 @@ const {
     getAll,
     like,
     removeLike,
+    searchArticles,
 } = require('../controllers/article-controller');
 const compareAuthor = require('../middlewares/compareAuthor');
 const requireAuth = require('../middlewares/requireAuth');
@@ -17,7 +18,9 @@ const checkUser = require('../middlewares/checkUser');
 
 const router = express.Router();
 
-router.get('/articles', getAll);
+router.get('/articles/main/:section', checkUser, getAll);
+router.get('/search', searchArticles);
+router.get('/search/:category', searchArticles);
 router.get('/articles/:id', checkUser, getOne);
 router.post('/articles', requireAuth, creating);
 router.delete('/articles/:id', requireAuth, compareAuthor, remove);

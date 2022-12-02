@@ -14,6 +14,16 @@ const articleSchema = new Schema({
         type: Array,
         required: true,
     },
+    category: {
+        categoryName: {
+            type: String,
+            required: true,
+        },
+        game: {
+            type: String,
+            // required: true,
+        },
+    },
     timestamp: {
         type: String,
         required: true,
@@ -39,6 +49,7 @@ articleSchema.statics.creating = async function (
     title,
     cover,
     blocks,
+    category,
     time,
 ) {
     const article = await this.create({
@@ -46,6 +57,7 @@ articleSchema.statics.creating = async function (
         title,
         cover,
         blocks,
+        category: { categoryName: category.categoryName, game: category.game },
         timestamp: time,
     });
 
@@ -67,6 +79,39 @@ articleSchema.statics.editing = async function (articleId, title, cover, blocks)
     );
 
     return;
+};
+
+articleSchema.statics.getAll = async function (section, currentUser) {
+    if (section === 'following') {
+        const followList = currentUser.follow;
+        const articles = await this.find({ 'author._id': { $in: followList } });
+
+        return articles;
+    }
+
+    if (section === 'for_you') {
+        const articles = await this.find().exec();
+
+        return articles;
+    }
+};
+
+articleSchema.statics.searchArticles = async function (categoryName, sortType, searchValue) {
+    const findCategoryParams = {
+        'category.categoryName': categoryName ? categoryName : { $type: 'string' },
+    };
+    const findSearchParams = { title: { $regex: searchValue ? searchValue : '' } };
+    const findParams = { $and: [findCategoryParams, findSearchParams] };
+    const sortParams =
+        sortType === 'recent'
+            ? { timestamp: -1 }
+            : sortType === 'appreciations'
+            ? { 'likes.count': -1 }
+            : { 'views.count': -1 };
+
+    const articles = await this.find(findParams).sort(sortParams);
+
+    return articles;
 };
 
 articleSchema.statics.getOne = async function (id) {

@@ -7,7 +7,6 @@ import { useAuth, useDocTitle } from '../../hooks';
 import { useMediaPredicate } from 'react-media-hook';
 import { Avatar, Overlay, ArticleStats, ButtonLike, ButtonDelete } from '../../components';
 import { Button, ButtonGroup, Divider, Tooltip, TooltipTrigger, Well } from '@adobe/react-spectrum';
-import NotFoundPage from '../NotFound';
 
 // icons
 import BookmarkSingle from '@spectrum-icons/workflow/BookmarkSingle';
@@ -15,6 +14,10 @@ import Edit from '@spectrum-icons/workflow/Edit';
 import Reply from '@spectrum-icons/workflow/Reply';
 
 import styles from './Article.module.scss';
+import Delete from '@spectrum-icons/workflow/Delete';
+import { ScrollControls } from './ScrollControls';
+import { StaticControls } from './StaticControls';
+import NotFoundPage from '../NotFound';
 
 const Article: React.FC = () => {
     useDocTitle('Статья');
@@ -26,10 +29,11 @@ const Article: React.FC = () => {
     // media
     const isTablet = useMediaPredicate('(max-width: 990.98px)');
 
-    const { data, isLoading } = useGetArticleQuery(id);
+    const { data, isLoading, isError } = useGetArticleQuery(id);
     const [deleteArticle] = useDeleteArticleMutation();
 
     if (isLoading) return <Overlay />;
+    if (isError) return <NotFoundPage />;
 
     const fromPage = location?.state?.from?.pathname;
 
@@ -74,9 +78,18 @@ const Article: React.FC = () => {
                                     className={styles.content__blocks}></div>
                             </div>
                             {isTablet && (
-                                <div className={styles.button}>
-                                    <ButtonLike isLiked={data?.isLike} id={id} width="45px" />
-                                </div>
+                                <>
+                                    <ScrollControls
+                                        articleId={id}
+                                        isLiked={data?.isLike}
+                                        isOwner={isOwner}
+                                    />
+                                    <StaticControls
+                                        articleId={id}
+                                        isLiked={data?.isLike}
+                                        isOwner={isOwner}
+                                    />
+                                </>
                             )}
                         </div>
                         <div className={styles.bottomInfo}>
@@ -147,7 +160,9 @@ const Article: React.FC = () => {
                                                             deleteArticle(id);
                                                             navigate(fromPage ? fromPage : '/');
                                                         }}
-                                                    />
+                                                        variant="secondary">
+                                                        <Delete />
+                                                    </ButtonDelete>
                                                 </>
                                             )}
                                         </ButtonGroup>

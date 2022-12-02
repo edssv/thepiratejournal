@@ -9,6 +9,7 @@ import { useGetCurrentUserQuery } from './redux';
 import './scss/styles.scss';
 
 const Home = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Home'));
+const Articles = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Articles'));
 const GamesPage = lazy(() => import(/* webpackChunkName: "GamesPage" */ './pages/Games'));
 const GamePage = lazy(() => import(/* webpackChunkName: "GamePage" */ './pages/GamePage'));
 const Profile = lazy(() => import(/* webpackChunkName: "Profile" */ './pages/Profile'));
@@ -32,6 +33,9 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Layout container={true} />}>
                     <Route index element={<Home />} />
+                    <Route path="/for_you" element={<Home />} />
+                    <Route path="/following" element={<Home />} />
+
                     <Route path="games" element={<GamesPage />} />
                     <Route path="games/metro-exodus" element={<GamePage />} />
                     <Route path="*" element={<NotFoundPage />} />
@@ -43,12 +47,14 @@ const App = () => {
                 </Route>
 
                 <Route element={<Layout container={false} />}>
+                    <Route path="search" element={<Articles />} />
+                    <Route path="search/:category" element={<Articles />} />
                     <Route path="articles/:id" element={<Article />} />
-                    <Route path="/users/:id" element={<Profile />} />
-                    <Route path="/users/:id/articles" element={<Profile />} />
-                    <Route path="/users/:id/appreciated" element={<Profile />} />
+                    <Route path="/users/:username" element={<Profile />} />
+                    <Route path="/users/:username/articles" element={<Profile />} />
+                    <Route path="/users/:username/appreciated" element={<Profile />} />
                     <Route element={<DraftsOutlet />}>
-                        <Route path="/users/:id/drafts" element={<Profile />} />
+                        <Route path="/users/:username/drafts" element={<Profile />} />
                     </Route>
                 </Route>
 

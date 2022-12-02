@@ -15,6 +15,8 @@ const userSchema = new Schema({
     isActivated: { type: Boolean, default: false },
     avatar: { type: String },
     activationLink: { type: String },
+    follow: [{ type: String, required: true }],
+    followers: [{ type: String, required: true }],
     info: { country: String, city: String },
     appreciated: [{ type: String, required: true }],
     time: { type: Number, default: new Date() },
@@ -131,8 +133,40 @@ userSchema.statics.appreciated = async function (userId, articleId, remove) {
         { $push: { appreciated: articleId } },
         { returnDocument: 'after' },
     );
+};
 
-    return;
+userSchema.statics.follow = async function (followerId, idolUsername) {
+    const idol = await this.findOne({ username: idolUsername });
+    const idolId = idol._id.toString();
+
+    await this.findOneAndUpdate(
+        { _id: followerId },
+        { $push: { follow: idolId } },
+        { returnDocument: 'after' },
+    );
+
+    await this.findOneAndUpdate(
+        { _id: idolId },
+        { $push: { followers: followerId } },
+        { returnDocument: 'after' },
+    );
+};
+
+userSchema.statics.unFollow = async function (followerId, idolUsername) {
+    const idol = await this.findOne({ username: idolUsername });
+    const idolId = idol._id.toString();
+
+    await this.findOneAndUpdate(
+        { _id: followerId },
+        { $pull: { follow: idolId } },
+        { returnDocument: 'after' },
+    );
+
+    await this.findOneAndUpdate(
+        { _id: idolId },
+        { $pull: { followers: followerId } },
+        { returnDocument: 'after' },
+    );
 };
 
 module.exports = model('User', userSchema);

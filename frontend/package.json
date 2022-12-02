@@ -1,7 +1,7 @@
 {
     "name": "client",
     "version": "0.1.0",
-    "proxy": "http://localhost:5000/",
+    "proxy": "http://194.67.121.62:5000/",
     "private": true,
     "dependencies": {
         "@adobe/react-spectrum": "^3.23.0",
@@ -21,8 +21,10 @@
         "dotenv": "^16.0.3",
         "editorjs-html": "^3.4.2",
         "lodash.debounce": "^4.0.8",
+        "query-string": "^7.1.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-editor-js": "^2.1.0",
         "react-error-boundary": "^3.1.4",
         "react-hook-form": "^7.38.0",
         "react-loading-skeleton": "^3.1.0",
@@ -30,6 +32,7 @@
         "react-redux": "^8.0.4",
         "react-router-dom": "^6.4.2",
         "react-scripts": "5.0.1",
+        "react-stately": "^3.19.0",
         "sass": "^1.55.0",
         "web-vitals": "^2.1.4"
     },
