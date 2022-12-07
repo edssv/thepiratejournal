@@ -19,6 +19,7 @@ const userSchema = new Schema({
     followers: [{ type: String, required: true }],
     info: { country: String, city: String },
     appreciated: [{ type: String, required: true }],
+    bookmarks: [{ type: String, required: true }],
     time: { type: Number, default: new Date() },
 });
 
@@ -102,6 +103,7 @@ userSchema.statics.getUser = async function (username) {
     const user = await this.findOne({ username });
     const articles = await Article.find({ 'author.username': username });
     const appreciated = await Article.find({ _id: { $in: user.appreciated } });
+    const bookmarks = await Article.find({ _id: { $in: user.bookmarks } });
     const drafts = await Draft.find({ 'author._id': user._id });
 
     return {
@@ -111,9 +113,11 @@ userSchema.statics.getUser = async function (username) {
             avatar: user.avatar,
             timestamp: user.time,
             info: user.info,
+            followersCount: user.followers.length,
         },
         articles,
         appreciated,
+        bookmarks,
         drafts,
     };
 };
@@ -165,6 +169,22 @@ userSchema.statics.unFollow = async function (followerId, idolUsername) {
     await this.findOneAndUpdate(
         { _id: idolId },
         { $pull: { followers: followerId } },
+        { returnDocument: 'after' },
+    );
+};
+
+userSchema.statics.addBookmark = async function (userId, articleId) {
+    await this.findOneAndUpdate(
+        { _id: userId },
+        { $push: { bookmarks: articleId } },
+        { returnDocument: 'after' },
+    );
+};
+
+userSchema.statics.removeBookmark = async function (userId, articleId) {
+    await this.findOneAndUpdate(
+        { _id: userId },
+        { $pull: { bookmarks: articleId } },
         { returnDocument: 'after' },
     );
 };

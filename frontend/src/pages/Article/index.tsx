@@ -5,7 +5,15 @@ import { convertDateLong } from '../../helpers';
 import { toHtml } from './toHtml';
 import { useAuth, useDocTitle } from '../../hooks';
 import { useMediaPredicate } from 'react-media-hook';
-import { Avatar, Overlay, ArticleStats, ButtonLike, ButtonDelete } from '../../components';
+import {
+    Avatar,
+    Overlay,
+    ArticleStats,
+    ButtonLike,
+    ButtonDelete,
+    ButtonFollow,
+    ButtonBookmark,
+} from '../../components';
 import { Button, ButtonGroup, Divider, Tooltip, TooltipTrigger, Well } from '@adobe/react-spectrum';
 
 // icons
@@ -52,7 +60,7 @@ const Article: React.FC = () => {
                         <div className={styles.top}>
                             <div className={styles.top__content}>
                                 <Link to={`/users/${authorname}`}>
-                                    <Avatar imageSrc={data?.author.avatar} width={42} />
+                                    <Avatar imageSrc={data?.author.avatar} width={40} />
                                 </Link>
                                 <div className={styles.text}>
                                     <h4 className={styles.article_title}>
@@ -65,11 +73,16 @@ const Article: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
+                            {!isOwner && (
+                                <ButtonFollow
+                                    username={authorname}
+                                    hasSubscription={data?.viewer.hasSubscription}></ButtonFollow>
+                            )}
                         </div>
 
                         <div className={styles.content__wrapper}>
                             <div className={styles.content}>
-                                <img src={data?.cover} alt="Обложка" />
+                                <img src={data?.cover} alt="Обложка" loading="lazy" />
                                 <h2>{data?.title}</h2>
                                 <div
                                     dangerouslySetInnerHTML={{
@@ -81,12 +94,12 @@ const Article: React.FC = () => {
                                 <>
                                     <ScrollControls
                                         articleId={id}
-                                        isLiked={data?.isLike}
+                                        isLiked={data?.viewer.isLike}
                                         isOwner={isOwner}
                                     />
                                     <StaticControls
                                         articleId={id}
-                                        isLiked={data?.isLike}
+                                        isLiked={data?.viewer.isLike}
                                         isOwner={isOwner}
                                     />
                                 </>
@@ -128,14 +141,13 @@ const Article: React.FC = () => {
                                                 </Button>
                                                 <Tooltip>Поделиться</Tooltip>
                                             </TooltipTrigger>
-                                            <TooltipTrigger delay={200} placement="left">
-                                                <Button variant="secondary">
-                                                    <BookmarkSingle size="XS" />
-                                                </Button>
-                                                <Tooltip>Сохранить в закладки</Tooltip>
-                                            </TooltipTrigger>
+                                            <ButtonBookmark
+                                                hasBookmark={data?.viewer.hasBookmark}
+                                                id={id}
+                                                tooltipPosition="left"
+                                            />
                                             <ButtonLike
-                                                isLiked={data?.isLike}
+                                                isLiked={data?.viewer.isLike}
                                                 id={id}
                                                 tooltipPosition="left"
                                             />

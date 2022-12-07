@@ -37,18 +37,28 @@ export const TabPanel: React.FC<TabPanelProps> = ({
                                 </span>
                             </Link>
                         </li>
-                        <Divider size="S" orientation="vertical" margin="0px 16px" height="25px" />
+
                         {user && (
-                            <li className={styles.tabMenu__tab}>
-                                <Link
-                                    to="/following"
-                                    onClick={() => setActiveSection('following')}
-                                    className={activeSection === 'following' ? styles.active : ''}>
-                                    <span className="icon-center">
-                                        <UserGroup size="S" marginEnd="2px" /> Подписки
-                                    </span>
-                                </Link>
-                            </li>
+                            <>
+                                <Divider
+                                    size="S"
+                                    orientation="vertical"
+                                    margin="0px 16px"
+                                    height="25px"
+                                />
+                                <li className={styles.tabMenu__tab}>
+                                    <Link
+                                        to="/following"
+                                        onClick={() => setActiveSection('following')}
+                                        className={
+                                            activeSection === 'following' ? styles.active : ''
+                                        }>
+                                        <span className="icon-center">
+                                            <UserGroup size="S" marginEnd="2px" /> Подписки
+                                        </span>
+                                    </Link>
+                                </li>
+                            </>
                         )}
                     </ul>
                 </div>

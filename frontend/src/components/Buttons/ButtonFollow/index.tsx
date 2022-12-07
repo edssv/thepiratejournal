@@ -1,10 +1,11 @@
-import { Tooltip, TooltipTrigger } from '@adobe/react-spectrum';
 import { Button } from '@react-spectrum/button';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../hooks';
 import { useFollowMutation, useUnFollowMutation } from '../../../redux';
 import { Tippy } from '../../Tippy';
 import { ButtonProgress } from '../ButtonProgress';
+import AddCircle from '@spectrum-icons/workflow/AddCircle';
+import Bell from '@spectrum-icons/workflow/Bell';
 
 interface ButtonFollowProps {
     username: string | undefined;
@@ -24,13 +25,12 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({ username, hasSubscri
     }, [hasSubscription]);
 
     const onClickButton = () => {
-        hasSubscription ? unFollow(username) : follow(username);
-        if (isFollow) {
-            unFollow(username);
+        if (hasSubscription) {
             setIsFollow(false);
+            unFollow(username);
         } else {
-            follow(username);
             setIsFollow(true);
+            follow(username);
         }
     };
 
@@ -41,7 +41,7 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({ username, hasSubscri
                 tooltipPosition="right"
                 title="Следи за обновлениями авторов"
                 paragraph="Чтобы отслеживать обновления авторов, войди в аккаунт.">
-                <Button variant="accent">Подписаться</Button>
+                <Button variant="accent"></Button>
             </Tippy>
         );
     }
@@ -51,7 +51,16 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({ username, hasSubscri
             onPress={onClickButton}
             variant={isFollow ? 'secondary' : 'accent'}
             style="fill">
-            {isFollow ? 'Подписка' : 'Подписаться'}
+            {isFollow ? (
+                <>
+                    <span>Подписка</span>
+                    <Bell marginStart="8px" />
+                </>
+            ) : (
+                <>
+                    <AddCircle marginEnd="8px" /> <span>Подписаться</span>
+                </>
+            )}
         </ButtonProgress>
     );
 };

@@ -16,7 +16,7 @@ const getUser = async (req, res) => {
     const currentUser = req.currentUser;
 
     try {
-        const { user, articles, appreciated, drafts } = await User.getUser(username);
+        const { user, articles, appreciated, drafts, bookmarks } = await User.getUser(username);
 
         let isOwner = false;
         let hasSubscription = false;
@@ -26,15 +26,18 @@ const getUser = async (req, res) => {
                 $and: [{ _id: user._id }, { followers: { $in: currentUser._id.toString() } }],
             });
             hasSubscription = hasSubscription.length !== 0 ? true : false;
-            console.log(hasSubscription);
         }
 
-        if (isOwner) return res.status(200).json({ user, articles, appreciated, drafts, isOwner });
+        if (isOwner)
+            return res
+                .status(200)
+                .json({ user, articles, appreciated, bookmarks, drafts, isOwner });
 
         res.status(200).json({
             user,
             articles,
             appreciated,
+
             viewer: { hasSubscription: hasSubscription },
         });
     } catch (error) {
@@ -70,4 +73,22 @@ const unFollow = async (req, res) => {
     }
 };
 
-module.exports = { getUsers, getUser, follow, unFollow };
+const bookmark = async (req, res) => {
+    const articleId = req.params.id;
+    const userId = req.user._id;
+    const method = req.method;
+
+    try {
+        if (method === 'POST') {
+            await User.addBookmark(userId, articleId);
+            return res.status(200).json({ message: 'Статья добавлена в закладки' });
+        } else if (method === 'DELETE') {
+            await User.removeBookmark(userId, articleId);
+            return res.status(200).json({ message: 'Статья удалена из закладок' });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+module.exports = { getUsers, getUser, follow, unFollow, bookmark };

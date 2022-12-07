@@ -55,12 +55,12 @@ export const ButtonLike: React.FC<IsLikeProps> = ({ isLiked, id, tooltipPosition
         <TooltipTrigger delay={200} placement={tooltipPosition}>
             <Button
                 onPress={isLike ? handleRemoveLike : handleSetLike}
-                variant={isLike ? 'negative' : !isLike && 'accent'}
-                style="fill"
+                variant={isLike ? 'secondary' : !isLike && 'accent'}
+                style={isLike ? 'outline' : 'fill'}
                 UNSAFE_style={{ width: width, height: width, borderRadius: '50%' }}>
-                <Heart />
+                <Heart color={isLike ? 'negative' : undefined} />
             </Button>
-            <Tooltip>Добавить в понравившиеся</Tooltip>
+            <Tooltip>{isLike ? 'Убрать из понравившихся' : 'Добавить в понравившиеся'}</Tooltip>
         </TooltipTrigger>
     );
 };

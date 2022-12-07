@@ -31,4 +31,15 @@
         position: absolute;
         right: 0;
     }
+
+    .fixed {
+        width: 100%;
+
+        @include breakpoint-down(lg) {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+        }
+    }
 }

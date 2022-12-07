@@ -1,18 +1,18 @@
-import { Button, Content, Heading, IllustratedMessage } from '@adobe/react-spectrum';
-import Error from '@spectrum-icons/illustrations/Error';
-import { useNavigate } from 'react-router-dom';
+import styles from './ErrorFallback.module.scss';
+
+import errorImage from '../../assets/img/500.svg';
 
 export const ErrorFallback = () => {
-    const navigate = useNavigate();
-
     return (
-        <IllustratedMessage height="100vh">
-            <Error />
-            <Heading>Ошибка 500 - Внутренняя ошибка сервера</Heading>
-            <Content>Что-то пошло не так. Пожалуйста, попробуйте позже.</Content>
-            <Button href="/" elementType="a" variant="overBackground" marginTop={18}>
-                Домой
-            </Button>
-        </IllustratedMessage>
+        <div className={styles.root}>
+            <div className={styles.content}>
+                <h3 className={styles.headline}>500 Внутренняя ошибка</h3>
+                <p>
+                    Что-то пошло не так.
+                    <br /> Пожалуйста, попробуйте позже.
+                </p>
+            </div>
+            <img src={errorImage} alt="Внутренняя ошибка" />
+        </div>
     );
 };

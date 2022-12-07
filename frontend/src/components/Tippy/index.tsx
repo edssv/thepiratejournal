@@ -1,3 +1,5 @@
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
     Button,
     ButtonGroup,
@@ -6,8 +8,8 @@ import {
     DialogTrigger,
     Heading,
 } from '@adobe/react-spectrum';
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+
+import styles from './Tippy.module.scss';
 
 interface TippyProps {
     children: any;
@@ -32,6 +34,7 @@ export const Tippy: React.FC<TippyProps> = ({
             {children}
             {(close) => (
                 <Dialog>
+                    <div className={styles.root}></div>
                     <Heading>{title}</Heading>
                     <Content>
                         <p>{paragraph}</p>

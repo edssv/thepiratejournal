@@ -26,7 +26,9 @@ export const ScrollControls: React.FC<ScrollControlsProps> = ({ articleId, isLik
     const [deleteArticle] = useDeleteArticleMutation();
 
     const [prevScrollPos, setPrevScrollPos] = useState(0);
-    const [visible, setVisible] = useState(true);
+    const screenHeight = window.screen.height;
+    const scrollYMax = document.documentElement.scrollHeight;
+    const [visible, setVisible] = useState(scrollYMax - screenHeight <= 900 ? false : true);
 
     const handleScroll = debounce(() => {
         const currentScrollPos = window.pageYOffset;

@@ -118,19 +118,31 @@ const getOne = async (req, res) => {
 
         if (!author) return res.status(200).json({ article, message: 'Автор статьи не найден' });
 
-        let isLike = '';
+        let isLike;
+        let hasSubscription;
+        let hasBookmark;
 
         if (currentUser) {
             isLike = await User.findOne({
                 _id: currentUser._id,
                 appreciated: { $in: article._id.toString() },
             });
+
+            hasSubscription = await User.find({
+                $and: [{ _id: author._id }, { followers: { $in: currentUser._id.toString() } }],
+            });
+            hasSubscription = hasSubscription.length !== 0 ? true : false;
+
+            hasBookmark = await User.find({
+                $and: [{ _id: currentUser._id }, { bookmarks: { $in: id } }],
+            });
+            hasBookmark = hasBookmark.length !== 0 ? true : false;
         }
 
         res.status(200).json({
             ...article._doc,
             author: { _id: author._id, username: author.username, avatar: author.avatar },
-            isLike: isLike ? true : false,
+            viewer: { hasSubscription: hasSubscription, hasBookmark: hasBookmark, isLike: isLike },
         });
     } catch (error) {
         res.status(400).json({ message: error.message });

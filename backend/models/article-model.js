@@ -97,11 +97,13 @@ articleSchema.statics.getAll = async function (section, currentUser) {
 };
 
 articleSchema.statics.searchArticles = async function (categoryName, sortType, searchValue) {
-    const findCategoryParams = {
+    const categoryParams = {
         'category.categoryName': categoryName ? categoryName : { $type: 'string' },
     };
-    const findSearchParams = { title: { $regex: searchValue ? searchValue : '' } };
-    const findParams = { $and: [findCategoryParams, findSearchParams] };
+    const searchParams = {
+        title: { $regex: searchValue ? searchValue.toLowerCase() : '' },
+    };
+    const findParams = { $and: [categoryParams, searchParams] };
     const sortParams =
         sortType === 'recent'
             ? { timestamp: -1 }

@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import {
-    useGetUserQuery,
-    Article,
-    Draft,
-    useFollowMutation,
-    useUnFollowMutation,
-} from '../../redux';
+import { useGetUserQuery, Article, Draft } from '../../redux';
 import { convertDateDayMonthYear, viewsSumCalc } from '../../helpers';
 import { DraftPreview, CreateModule, Avatar, ArticlePreview, Overlay } from '../../components';
 import { useDocTitle } from '../../hooks';
@@ -30,7 +24,7 @@ const Profile: React.FC = () => {
 
     const [list, setList] = useState(activeSection ? activeSection : 'articles');
 
-    const { data, isLoading, refetch } = useGetUserQuery(username);
+    const { data, isLoading, isFetching, refetch } = useGetUserQuery(username);
 
     if (isLoading) return <Overlay />;
 
@@ -45,6 +39,9 @@ const Profile: React.FC = () => {
         <ArticlePreview article={article} key={id} />
     ));
     const appreciatedList = data?.appreciated?.map((article: Article, id) => (
+        <ArticlePreview article={article} key={id} />
+    ));
+    const bookmarksList = data?.bookmarks?.map((article: Article, id) => (
         <ArticlePreview article={article} key={id} />
     ));
     const draftsList = data?.drafts?.map((draft: Draft, id) => (
@@ -78,14 +75,16 @@ const Profile: React.FC = () => {
                     <div className={styles.top__wrapper}>
                         <div className={styles.top__info}>
                             <h3 className={styles.info__headline}>{user?.username}</h3>
-                            <div className={styles.info__counters}></div>
-                            <div className={styles.location}>
+                            <div className={styles.info__counters}>
+                                Подписчики: <span>{data?.user.followersCount}</span>
+                            </div>
+                            {/* <div className={styles.location}>
                                 <Location size="XS" />{' '}
                                 {city && country
                                     ? `${city},
                                 ${country}`
                                     : 'Пиратский корабль'}
-                            </div>
+                            </div> */}
                         </div>
                         {!isOwner && (
                             <ButtonFollow
@@ -107,6 +106,12 @@ const Profile: React.FC = () => {
                         {appreciatedBlock()}{' '}
                         {isOwner && (
                             <>
+                                <Button
+                                    onPress={() => changeChapter('bookmarks')}
+                                    variant={list === 'bookmarks' ? 'primary' : 'secondary'}
+                                    style={list === 'bookmarks' ? 'fill' : 'outline'}>
+                                    Закладки
+                                </Button>
                                 <Divider
                                     orientation="vertical"
                                     alignSelf="center"
@@ -133,6 +138,16 @@ const Profile: React.FC = () => {
                     {list === 'appreciated' &&
                         (appreciatedList?.length !== 0 ? (
                             <div className="appreciated__list">{appreciatedList}</div>
+                        ) : (
+                            isOwner && (
+                                <div className="articles__list">
+                                    <CreateModule find />
+                                </div>
+                            )
+                        ))}
+                    {list === 'bookmarks' &&
+                        (bookmarksList?.length !== 0 ? (
+                            <div className="appreciated__list">{bookmarksList}</div>
                         ) : (
                             isOwner && (
                                 <div className="articles__list">

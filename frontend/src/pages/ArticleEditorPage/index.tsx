@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createReactEditorJS } from 'react-editor-js';
 import EditorJS from '@editorjs/editorjs';
-import debounce from 'lodash.debounce';
 import Configuration from './configuration';
-import { CoverWindow, Overlay, ButtonProgress } from '../../components';
+import { CoverWindow, Overlay } from '../../components';
 import { useAddArticleMutation, useEditArticleMutation, useGetArticleQuery } from '../../redux';
 import { Button, TooltipTrigger, Tooltip, ButtonGroup } from '@adobe/react-spectrum';
 import NotFoundPage from '../NotFound';

@@ -27,7 +27,7 @@ export interface Article {
     isPublished: boolean;
     views: { count: number };
     likes: { count: number };
-    isLike: boolean;
+    viewer: { hasSubscription: boolean; hasBookmark: boolean; isLike: boolean };
 }
 
 export const articleApi = api.injectEndpoints({

@@ -1,0 +1,40 @@
+@use '../../scss/util' as *;
+
+.root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 75vh;
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        text-align: center;
+
+        img {
+            @include breakpoint-down(sm) {
+                height: 380px;
+            }
+        }
+
+        .headline {
+            color: var(--spectrum-blue-900);
+            font-weight: 800;
+        }
+
+        p {
+            font-size: 36px;
+            font-weight: 700;
+
+            @include breakpoint-down(sm) {
+                font-size: 32px;
+            }
+        }
+
+        button {
+            cursor: pointer;
+        }
+    }
+}

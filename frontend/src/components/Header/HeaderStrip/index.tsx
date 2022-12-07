@@ -12,14 +12,17 @@ import {
     Tooltip,
     TooltipTrigger,
 } from '@adobe/react-spectrum';
+import { useMediaPredicate } from 'react-media-hook';
 
-import styles from './HeaderDesktop.module.scss';
+import styles from './HeaderStrip.module.scss';
 
 import LogOut from '@spectrum-icons/workflow/LogOut';
 import Draw from '@spectrum-icons/workflow/Draw';
 import logo from '../../../assets/img/logotype.png';
+import { OpenStateProps } from '../HamburgerMenu';
+import Search from '@spectrum-icons/workflow/Search';
 
-export const HeaderDesktop = () => {
+export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -31,32 +34,40 @@ export const HeaderDesktop = () => {
         navigate('/articles/new', { state: { from: location } });
     };
 
+    const isLaptop = useMediaPredicate('(max-width: 990.98px)');
+    const fromLaptop = useMediaPredicate('(min-width: 991px)');
+
     return (
-        <div className="container">
-            {' '}
-            <div className={styles.root}>
+        <div
+            className={`${styles.root} ${open ? styles.open : ''}`}
+            style={{ padding: fromLaptop ? '0 16px' : '' }}>
+            {fromLaptop ? (
                 <div className={styles.content}>
                     <div className={styles.content__left}>
                         <Link to="/" className={`${styles.logo} icon-center`}>
                             <>
                                 <img src={logo} alt="The Pirate Journal" />
-                                <span>
-                                    The Pirate <br />
-                                    Journal
-                                </span>
+                                {fromLaptop && (
+                                    <span>
+                                        The Pirate <br />
+                                        Journal
+                                    </span>
+                                )}
                             </>
                         </Link>
-                        <nav className={styles.nav}>
-                            <NavLink to="/search" className={styles.nav__link}>
-                                Статьи
-                            </NavLink>
-                            <NavLink to="/games" className={styles.nav__link}>
-                                Игры
-                            </NavLink>
-                            <NavLink to="/authors" className={styles.nav__link}>
-                                Авторы
-                            </NavLink>
-                        </nav>
+                        {fromLaptop && (
+                            <nav className={styles.nav}>
+                                <NavLink to="/search" className={styles.nav__link}>
+                                    Статьи
+                                </NavLink>
+                                <NavLink to="/games" className={styles.nav__link}>
+                                    Игры
+                                </NavLink>
+                                <NavLink to="/authors" className={styles.nav__link}>
+                                    Авторы
+                                </NavLink>
+                            </nav>
+                        )}
                     </div>
                     <div className={styles.content__right}>
                         {isLoading ? (
@@ -86,17 +97,45 @@ export const HeaderDesktop = () => {
                             </>
                         ) : (
                             <ButtonGroup>
-                                <Button href="/login" elementType="a" variant="cta" style="outline">
+                                <Button
+                                    href="/login"
+                                    elementType="a"
+                                    variant="accent"
+                                    style="outline">
                                     Войти
                                 </Button>
-                                <Button href="/login" elementType="a" variant="cta">
+                                <Button href="/signup" elementType="a" variant="accent">
                                     Зарегистрироваться
                                 </Button>
                             </ButtonGroup>
                         )}
                     </div>
                 </div>
-            </div>
+            ) : (
+                <div className={styles.mobile}>
+                    <div className={styles.left}>
+                        <button
+                            onClick={() => setOpen(!open)}
+                            className={`hamburgerMenuActivate
+                                ${open ? 'open' : ''}
+                            `}>
+                            <div className="hamburgerButton">
+                                <div className="hamburgerLine"></div>
+                                <div className="hamburgerLine"></div>
+                                <div className="hamburgerLine"></div>
+                            </div>
+                        </button>
+                        <Link to="/" className={`${styles.logo} icon-center`}>
+                            <img src={logo} alt="The Pirate Journal" />
+                        </Link>
+                    </div>
+                    <div className={styles.right}>
+                        <Link to="/search">
+                            <Search size="S" />
+                        </Link>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

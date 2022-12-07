@@ -16,6 +16,7 @@ root.render(
                 theme={lightTheme}
                 minHeight="100vh"
                 height={'auto'}
+                scale="medium"
                 locale="ru-RU"
                 UNSAFE_style={{ fontFamily: 'Roboto, sans-serif' }}>
                 <ErrorBoundary FallbackComponent={ErrorFallback}>

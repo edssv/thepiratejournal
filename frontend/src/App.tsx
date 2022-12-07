@@ -2,7 +2,7 @@ import { Suspense, lazy } from 'react';
 import { Routes, Route, useRoutes } from 'react-router-dom';
 import { Layout, Overlay } from './components';
 import { AuthOutlet, PrivateOutlet } from './helpers';
-import { DraftsOutlet } from './helpers/DraftsOutlet';
+import { DraftsAndBookmarksOutlet } from './helpers/DraftsAndBookmarksOutlet';
 import { useDocTitle } from './hooks/useDocTitle';
 import { useGetCurrentUserQuery } from './redux';
 
@@ -35,7 +35,6 @@ const App = () => {
                     <Route index element={<Home />} />
                     <Route path="/for_you" element={<Home />} />
                     <Route path="/following" element={<Home />} />
-
                     <Route path="games" element={<GamesPage />} />
                     <Route path="games/metro-exodus" element={<GamePage />} />
                     <Route path="*" element={<NotFoundPage />} />
@@ -53,8 +52,9 @@ const App = () => {
                     <Route path="/users/:username" element={<Profile />} />
                     <Route path="/users/:username/articles" element={<Profile />} />
                     <Route path="/users/:username/appreciated" element={<Profile />} />
-                    <Route element={<DraftsOutlet />}>
+                    <Route element={<DraftsAndBookmarksOutlet />}>
                         <Route path="/users/:username/drafts" element={<Profile />} />
+                        <Route path="/users/:username/bookmarks" element={<Profile />} />
                     </Route>
                 </Route>
 

@@ -1,0 +1,59 @@
+@use '../../../scss/util' as *;
+
+.root {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    height: 100vh;
+    width: 270px;
+    padding: 12px 0;
+    transform: translateX(-100%);
+    transition: transform 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+    background-color: var(--spectrum-global-color-gray-100);
+    will-change: transform;
+    z-index: 1;
+
+    .closeAndloginOrCreate {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 24px 0 0;
+    }
+
+    .nav {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+
+        &__link {
+            position: relative;
+            padding: 0 16px;
+            font-size: $fs-md;
+            font-weight: 600;
+
+            &::before {
+                background-color: var(--spectrum-global-color-gray-800);
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 4px;
+                width: 4px;
+                height: 18px;
+                opacity: 0;
+                transition: transform 0.15s, opacity 0.15s;
+            }
+
+            &:hover::before {
+                opacity: 1 !important;
+            }
+        }
+    }
+
+    .profile {
+        padding: 0 16px;
+    }
+
+    &.open {
+        transform: unset;
+    }
+}

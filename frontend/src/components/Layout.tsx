@@ -13,7 +13,7 @@ export const Layout: FC<LayoutProps> = ({ container }) => {
     return (
         <>
             <Header />
-            <main style={{ paddingTop: isLaptop ? '55px' : 'none' }}>
+            <main style={{ paddingTop: isLaptop ? '55px' : 'unset' }}>
                 <div className={container === true ? 'container' : ''}>
                     <Outlet />
                 </div>

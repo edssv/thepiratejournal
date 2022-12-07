@@ -13,10 +13,27 @@
             height: 100%;
             gap: 16px;
 
+            @include breakpoint-down(md) {
+                justify-content: center;
+            }
+
             &__tab {
                 height: 100%;
                 font-size: 18px;
                 font-weight: 700;
+
+                @include breakpoint-down(sm) {
+                    font-size: 15px;
+
+                    a {
+                        padding-bottom: 4px;
+                    }
+
+                    svg {
+                        height: 18px;
+                        width: 18px;
+                    }
+                }
 
                 a {
                     display: inline-block;
