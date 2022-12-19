@@ -12,7 +12,7 @@ const draftSchema = new Schema({
     blocks: {
         type: Array,
     },
-    created_on: { type: Number, default: new Date() },
+    created_on: { type: Number, required: true },
 });
 
 draftSchema.statics.creating = async function (authorId, authorUsername, title, cover, blocks) {
@@ -21,6 +21,7 @@ draftSchema.statics.creating = async function (authorId, authorUsername, title, 
         title,
         cover,
         blocks,
+        created_on: new Date(),
     });
 
     return draft;

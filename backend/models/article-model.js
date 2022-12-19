@@ -25,7 +25,7 @@ const articleSchema = new Schema({
             required: true,
         },
     },
-    created_on: { type: Number, default: new Date() },
+    created_on: { type: Number, required: true },
     views: {
         count: {
             type: Number,
@@ -56,6 +56,7 @@ articleSchema.statics.creating = async function (
         cover,
         blocks,
         category: { categoryName: category.categoryName, game: category.game },
+        created_on: new Date(),
     });
 
     return article;
