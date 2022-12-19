@@ -16,11 +16,12 @@ import { useMediaPredicate } from 'react-media-hook';
 
 import styles from './HeaderStrip.module.scss';
 
-import LogOut from '@spectrum-icons/workflow/LogOut';
+import { IoLogOutOutline } from 'react-icons/io5';
 import Draw from '@spectrum-icons/workflow/Draw';
 import logo from '../../../assets/img/logotype.png';
 import { OpenStateProps } from '../HamburgerMenu';
 import Search from '@spectrum-icons/workflow/Search';
+import { NotificationBlock } from './NotificationBlock';
 
 export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
     const location = useLocation();
@@ -79,9 +80,12 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                                     <Text>Создать статью</Text>
                                 </Button>
 
+                                <NotificationBlock />
+
                                 <Link to={`/users/${user.username}`}>
-                                    <Avatar imageSrc={user?.avatar} />
+                                    <Avatar imageSrc={user?.avatar} width={32} />
                                 </Link>
+
                                 <TooltipTrigger delay={200}>
                                     <ActionButton
                                         onPress={async () => {
@@ -90,7 +94,7 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                                         }}
                                         isQuiet
                                         UNSAFE_style={{ borderRadius: '50%' }}>
-                                        <LogOut />
+                                        <IoLogOutOutline size="1.6em" />
                                     </ActionButton>
                                     <Tooltip placement="bottom">Выйти из аккаунта</Tooltip>
                                 </TooltipTrigger>
@@ -130,6 +134,7 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                         </Link>
                     </div>
                     <div className={styles.right}>
+                        {user && <NotificationBlock />}
                         <Link to="/search">
                             <Search size="S" />
                         </Link>

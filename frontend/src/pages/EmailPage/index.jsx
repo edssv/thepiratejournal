@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useGoogleLogin } from 'react-google-login';
+import { gapi } from 'gapi-script';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { VisibilityToggle, CardLayout, ButtonProgress } from '../../components';
 import { useNetworkStatus, useDocTitle } from '../../hooks';
-import { useLoginMutation } from '../../redux';
+import { refreshTokenSetup } from '../../helpers';
+import { useCheckHaveAccountGoogleQuery, useLoginMutation } from '../../redux';
 
 import styles from './EmailPage.module.scss';
 
@@ -13,6 +16,46 @@ const EmailPage = () => {
     const location = useLocation();
     const { isOnline } = useNetworkStatus();
     const fromPage = location.state?.from?.pathname || '/';
+    const [profile, setProfile] = useState([]);
+
+    const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
+    const token = localStorage.getItem('token');
+
+    const { data, refetch } = useCheckHaveAccountGoogleQuery('', { skip: !token });
+
+    useEffect(() => {
+        const initClient = () => {
+            gapi.client.init({
+                clientId: clientId,
+                scope: '',
+            });
+        };
+        gapi.load('client:auth2', initClient);
+    });
+
+    const onSuccess = (res) => {
+        setProfile(res.profileObj);
+        refreshTokenSetup(res);
+        localStorage.setItem('token', res.tokenId);
+        refetch();
+    };
+
+    const onFailure = (err) => {
+        console.log('failed:', err);
+    };
+
+    const { signIn } = useGoogleLogin({
+        onSuccess,
+        onFailure,
+        clientId,
+        isSignedIn: true,
+        cookiePolicy: process.env.REACT_APP_CLIENT_URL,
+        accessType: 'offline',
+    });
+    const logOut = () => {
+        setProfile(null);
+    };
 
     const {
         register,
@@ -21,21 +64,21 @@ const EmailPage = () => {
     } = useForm({
         mode: 'all',
     });
-    const [login, { isError, isLoading }] = useLoginMutation();
-
+    const [login, { isError, isLoading, error }] = useLoginMutation();
+    if (isError) {
+        console.log('error', error.data.message);
+    }
     const onSubmit = async (formData) => {
         try {
             await login(formData).unwrap();
             navigate(fromPage);
-        } catch (error) {
-            console.log(error);
-        }
+        } catch (error) {}
     };
 
     const [passwordEye, setPasswordEye] = useState(false);
 
     return (
-        <CardLayout headline="Войти" toaster={!isOnline}>
+        <CardLayout>
             <section className={styles.root}>
                 <form onSubmit={handleSubmit(onSubmit)} className={styles.emailForm}>
                     <section className={styles.emailField}>
@@ -51,6 +94,7 @@ const EmailPage = () => {
                                     })}
                                     disabled={isLoading}
                                     className={`text-field  ${errors?.password && `is-invalid`}`}
+                                    type="email"
                                 />
                                 {errors?.email && (
                                     <label className="field-label error-label">
@@ -102,9 +146,9 @@ const EmailPage = () => {
                         </ButtonProgress>
                     </section>
                 </form>
-                <div className={styles.socials__separator}>Или</div>
+                {/* <div className={styles.socials__separator}>Или</div>
                 <section className={styles.social__buttons}>
-                    <Link to="#" className={styles.social__button}>
+                    <button onClick={signIn} className={styles.social__button}>
                         <svg
                             viewBox="0 0 1152 1152"
                             focusable="false"
@@ -125,7 +169,7 @@ const EmailPage = () => {
                                 fill="#ea4335"></path>
                         </svg>
                         <span>Продолжить с Google</span>
-                    </Link>
+                    </button>
 
                     <Link
                         to="#"
@@ -149,7 +193,7 @@ const EmailPage = () => {
                         </svg>{' '}
                         <span>Продолжить с Facebook</span>
                     </Link>
-                </section>
+                </section> */}
             </section>
         </CardLayout>
     );

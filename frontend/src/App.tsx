@@ -9,7 +9,7 @@ import { useGetCurrentUserQuery } from './redux';
 import './scss/styles.scss';
 
 const Home = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Home'));
-const Articles = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Articles'));
+const Articles = lazy(() => import(/* webpackChunkName: "Articles" */ './pages/Articles'));
 const GamesPage = lazy(() => import(/* webpackChunkName: "GamesPage" */ './pages/Games'));
 const GamePage = lazy(() => import(/* webpackChunkName: "GamePage" */ './pages/GamePage'));
 const Profile = lazy(() => import(/* webpackChunkName: "Profile" */ './pages/Profile'));
@@ -28,10 +28,17 @@ const App = () => {
     const token = localStorage.getItem('token');
     useGetCurrentUserQuery('', { skip: !token });
 
+    const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+    if (darkThemeMq.matches) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+
     return (
         <Suspense fallback={<Overlay />}>
             <Routes>
-                <Route path="/" element={<Layout container={true} />}>
+                <Route path="/" element={<Layout container />}>
                     <Route index element={<Home />} />
                     <Route path="/for_you" element={<Home />} />
                     <Route path="/following" element={<Home />} />

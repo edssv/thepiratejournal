@@ -2,5 +2,24 @@
     display: flex;
     align-items: center;
     justify-content: start;
-    height: 80px;
+    width: 100%;
+    margin-bottom: 24px;
+
+    .buttonGroup {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        .controls,
+        .ownerControls {
+            display: flex;
+            gap: 14px;
+
+            button {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+            }
+        }
+    }
 }

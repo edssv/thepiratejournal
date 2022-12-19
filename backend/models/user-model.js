@@ -20,6 +20,17 @@ const userSchema = new Schema({
     info: { country: String, city: String },
     appreciated: [{ type: String, required: true }],
     bookmarks: [{ type: String, required: true }],
+    notifications: [
+        {
+            action_key: { type: String, required: true },
+            created_on: { type: Number, default: new Date() },
+            actor: {
+                id: { type: String, required: true },
+                username: { type: String, required: true },
+                avatar: { type: String },
+            },
+        },
+    ],
     time: { type: Number, default: new Date() },
 });
 
@@ -58,6 +69,29 @@ userSchema.statics.signup = async function (username, email, password) {
         email,
         `${process.env.API_URL}/api/activate/${activationLink}`,
     );
+
+    return user;
+};
+
+userSchema.statics.signupGoogle = async function (name, email, username, googleId) {
+    // validation
+    if (!username) {
+        throw Error('Имя пользователя должно быть заполнено.');
+    }
+
+    // check exists
+    const existUsername = await this.findOne({ username });
+    const existEmail = await this.findOne({ email });
+
+    if (existUsername) {
+        throw Error('Данное имя пользователя уже занято');
+    }
+
+    if (existEmail) {
+        throw Error('Учетная запись с данным адресом электронной почты уже существует');
+    }
+
+    const user = await this.create({ username, email, password: hash, activationLink });
 
     return user;
 };
@@ -143,7 +177,7 @@ userSchema.statics.follow = async function (followerId, idolUsername) {
     const idol = await this.findOne({ username: idolUsername });
     const idolId = idol._id.toString();
 
-    await this.findOneAndUpdate(
+    const follower = await this.findOneAndUpdate(
         { _id: followerId },
         { $push: { follow: idolId } },
         { returnDocument: 'after' },
@@ -151,7 +185,19 @@ userSchema.statics.follow = async function (followerId, idolUsername) {
 
     await this.findOneAndUpdate(
         { _id: idolId },
-        { $push: { followers: followerId } },
+        {
+            $push: {
+                followers: followerId,
+                notifications: {
+                    action_key: 'followuser',
+                    actor: {
+                        id: follower._id,
+                        username: follower.username,
+                        avatar: follower.avatar,
+                    },
+                },
+            },
+        },
         { returnDocument: 'after' },
     );
 };
@@ -160,7 +206,7 @@ userSchema.statics.unFollow = async function (followerId, idolUsername) {
     const idol = await this.findOne({ username: idolUsername });
     const idolId = idol._id.toString();
 
-    await this.findOneAndUpdate(
+    const follower = await this.findOneAndUpdate(
         { _id: followerId },
         { $pull: { follow: idolId } },
         { returnDocument: 'after' },
@@ -168,7 +214,19 @@ userSchema.statics.unFollow = async function (followerId, idolUsername) {
 
     await this.findOneAndUpdate(
         { _id: idolId },
-        { $pull: { followers: followerId } },
+        {
+            $pull: {
+                followers: followerId,
+                notifications: {
+                    action_key: 'followuser',
+                    actor: {
+                        id: follower._id,
+                        username: follower.username,
+                        avatar: follower.avatar,
+                    },
+                },
+            },
+        },
         { returnDocument: 'after' },
     );
 };

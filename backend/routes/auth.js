@@ -8,6 +8,7 @@ const {
     activate,
     refresh,
     getCurrentUser,
+    checkHaveAccountGoogle,
 } = require('../controllers/auth-controller');
 const requireAuth = require('../middlewares/requireAuth');
 
@@ -18,6 +19,9 @@ router.post('/login', loginUser);
 
 // signup route
 router.post('/signup', signupUser);
+
+// signin check have account route
+router.get('/signin/domains/gmail.com/info', checkHaveAccountGoogle);
 
 // logout route
 router.post('/logout', logout);

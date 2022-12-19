@@ -106,14 +106,16 @@ $infoWidth: 768px;
                     }
                 }
                 .content {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 30px;
                     padding: 25px 0 15px;
                     font-size: $fs-lg;
                     line-height: 1.5;
                     word-break: break-word;
                     word-wrap: break-word;
+
+                    .articleHeadline {
+                        margin-top: 24px;
+                        font-size: 36px;
+                    }
 
                     img {
                         max-height: 960px;
@@ -123,10 +125,13 @@ $infoWidth: 768px;
                     }
 
                     &__blocks {
-                        display: flex;
-                        flex-direction: column;
-
-                        * {
+                        h1,
+                        h2,
+                        h3,
+                        h4,
+                        h5,
+                        h6,
+                        p {
                             margin: 1em 0;
                         }
 
@@ -221,6 +226,7 @@ $infoWidth: 768px;
                                 display: flex;
                                 flex-direction: column;
                                 margin-left: 0;
+                                gap: 16px;
 
                                 button {
                                     width: 45px;

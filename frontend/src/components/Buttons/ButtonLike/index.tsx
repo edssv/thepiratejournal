@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Tooltip, TooltipTrigger } from '@adobe/react-spectrum';
+import { Button, TooltipTrigger } from '@adobe/react-spectrum';
 import { useAuth } from '../../../hooks';
 import Heart from '@spectrum-icons/workflow/Heart';
 import { useLikeMutation, useRemoveLikeMutation } from '../../../redux';
 
 import styles from './ButtonLike.module.scss';
 import { Tippy } from '../../Tippy';
+import { Tooltip } from 'flowbite-react';
 
 interface IsLikeProps {
     isLiked: boolean | undefined;
@@ -52,7 +53,9 @@ export const ButtonLike: React.FC<IsLikeProps> = ({ isLiked, id, tooltipPosition
         );
     }
     return (
-        <TooltipTrigger delay={200} placement={tooltipPosition}>
+        <Tooltip
+            placement={tooltipPosition}
+            content={isLike ? 'Убрать из понравившихся' : 'Добавить в понравившиеся'}>
             <Button
                 onPress={isLike ? handleRemoveLike : handleSetLike}
                 variant={isLike ? 'secondary' : !isLike && 'accent'}
@@ -60,7 +63,6 @@ export const ButtonLike: React.FC<IsLikeProps> = ({ isLiked, id, tooltipPosition
                 UNSAFE_style={{ width: width, height: width, borderRadius: '50%' }}>
                 <Heart color={isLike ? 'negative' : undefined} />
             </Button>
-            <Tooltip>{isLike ? 'Убрать из понравившихся' : 'Добавить в понравившиеся'}</Tooltip>
-        </TooltipTrigger>
+        </Tooltip>
     );
 };

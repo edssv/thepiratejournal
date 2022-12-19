@@ -15,7 +15,7 @@ export interface Draft {
     title?: string;
     cover?: string;
     blocks?: Block[];
-    timestamp: string;
+    created_on: number;
 }
 export interface Article {
     _id: string;
@@ -23,7 +23,7 @@ export interface Article {
     title: string;
     cover: string;
     blocks: any;
-    timestamp: string;
+    created_on: number;
     isPublished: boolean;
     views: { count: number };
     likes: { count: number };

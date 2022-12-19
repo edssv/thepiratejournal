@@ -41,10 +41,18 @@ export const authApi = api.injectEndpoints({
             invalidatesTags: ['Articles'],
         }),
         getCurrentUser: builder.query({
-            query: () => `getCurrentUser`,
+            query: () => 'getCurrentUser',
+        }),
+        checkHaveAccountGoogle: builder.query({
+            query: () => 'signin/domains/gmail.com/info',
         }),
     }),
 });
 
-export const { useLoginMutation, useSignupMutation, useLogoutMutation, useGetCurrentUserQuery } =
-    authApi;
+export const {
+    useLoginMutation,
+    useSignupMutation,
+    useLogoutMutation,
+    useGetCurrentUserQuery,
+    useCheckHaveAccountGoogleQuery,
+} = authApi;

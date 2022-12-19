@@ -1,3 +1,7 @@
 @forward 'globals';
+@use '../scss/util' as *;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @import-normalize;

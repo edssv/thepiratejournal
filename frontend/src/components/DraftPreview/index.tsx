@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
+import moment from 'moment';
+import 'moment/locale/ru';
 import { Button } from '@react-spectrum/button';
-
-import styles from './DraftPreview.module.scss';
 import { Draft, useDeleteArticleMutation } from '../../redux/services/article';
 import Image from '@spectrum-icons/workflow/Image';
-import { convertDateMDHM } from '../../helpers';
-import { ButtonDelete, ButtonProgress } from '../Buttons';
+import { ButtonDelete } from '../Buttons';
 import { ArticleStats } from '../ArticleStats';
+
+import styles from './DraftPreview.module.scss';
 
 interface DraftPreviewProps {
     draft: Draft;
@@ -18,10 +18,10 @@ interface DraftPreviewProps {
 export const DraftPreview: React.FC<DraftPreviewProps> = ({ draft, refetch }) => {
     const navigate = useNavigate();
 
-    const [deleteDraft, { isLoading }] = useDeleteArticleMutation();
+    const [deleteDraft] = useDeleteArticleMutation();
 
-    const time = convertDateMDHM(draft.timestamp);
-
+    const time = moment(draft.created_on).fromNow();
+    console.log(time);
     return (
         <div className={styles.root}>
             <div className={styles.cover}>
@@ -34,7 +34,7 @@ export const DraftPreview: React.FC<DraftPreviewProps> = ({ draft, refetch }) =>
                                 <Image size="XXL" />
                             </div>
                         )}
-                        <img src={draft.cover} loading="lazy" />
+                        <img src={draft.cover} alt="Обложка" />
                     </div>
                     <div className={styles.cover__overlay}>
                         <div className={styles.controls}>
@@ -54,7 +54,7 @@ export const DraftPreview: React.FC<DraftPreviewProps> = ({ draft, refetch }) =>
                                 Удалить черновик
                             </ButtonDelete>
                             <span className={styles.timeModified}>
-                                {` Последнее изменение ${time}`}
+                                {` Последнее изменение: ${time}`}
                             </span>
                         </div>
                         <div className={styles.details}>

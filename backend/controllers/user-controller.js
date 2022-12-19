@@ -91,4 +91,39 @@ const bookmark = async (req, res) => {
     }
 };
 
-module.exports = { getUsers, getUser, follow, unFollow, bookmark };
+const getNotifications = async (req, res) => {
+    const userId = req.user._id;
+
+    try {
+        const { notifications } = await User.findById(userId, { notifications: 1, _id: 0 });
+
+        res.status(200).json({ notifications });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const deleteNotification = async (req, res) => {
+    const userId = req.user._id;
+    const notificationId = req.params.id;
+
+    try {
+        const notification = await User.findByIdAndUpdate(userId, {
+            $pull: { notifications: { _id: notificationId } },
+        });
+
+        res.status(200).json({ notification });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+module.exports = {
+    getUsers,
+    getUser,
+    follow,
+    unFollow,
+    bookmark,
+    getNotifications,
+    deleteNotification,
+};

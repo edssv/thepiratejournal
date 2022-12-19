@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Tooltip, TooltipTrigger } from '@adobe/react-spectrum';
+import { Button } from '@adobe/react-spectrum';
 import { useAuth } from '../../../hooks';
 import Heart from '@spectrum-icons/workflow/Heart';
 import {
@@ -12,15 +12,16 @@ import {
 import styles from './ButtonBookmark.module.scss';
 import { Tippy } from '../../Tippy';
 import BookmarkSingle from '@spectrum-icons/workflow/BookmarkSingle';
+import { Tooltip } from 'flowbite-react';
 
-interface IsLikeProps {
+interface IsBookmarkProps {
     hasBookmark: boolean | undefined;
     id: string | undefined;
     tooltipPosition?: any;
     width?: string | number;
 }
 
-export const ButtonBookmark: React.FC<IsLikeProps> = ({
+export const ButtonBookmark: React.FC<IsBookmarkProps> = ({
     hasBookmark,
     id,
     tooltipPosition,
@@ -62,7 +63,9 @@ export const ButtonBookmark: React.FC<IsLikeProps> = ({
         );
     }
     return (
-        <TooltipTrigger delay={200} placement={tooltipPosition}>
+        <Tooltip
+            placement={tooltipPosition}
+            content={bookmark ? 'Убрать из закладок' : 'Добавить в закладки'}>
             <Button
                 onPress={bookmark ? handleRemoveLike : handleSetLike}
                 variant={bookmark ? 'accent' : 'secondary'}
@@ -71,7 +74,6 @@ export const ButtonBookmark: React.FC<IsLikeProps> = ({
                 UNSAFE_style={{ width: width, height: width, borderRadius: '50%' }}>
                 <BookmarkSingle size="XS" />
             </Button>
-            <Tooltip>{bookmark ? 'Убрать из закладок' : 'Добавить в закладки'}</Tooltip>
-        </TooltipTrigger>
+        </Tooltip>
     );
 };

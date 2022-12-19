@@ -6,6 +6,7 @@ const articleSchema = new Schema({
         username: { type: String, required: true },
     },
     title: { type: String, required: true },
+    search_title: { type: String, required: true },
     cover: {
         type: String,
         required: true,
@@ -21,13 +22,10 @@ const articleSchema = new Schema({
         },
         game: {
             type: String,
-            // required: true,
+            required: true,
         },
     },
-    timestamp: {
-        type: String,
-        required: true,
-    },
+    created_on: { type: Number, default: new Date() },
     views: {
         count: {
             type: Number,
@@ -55,6 +53,7 @@ articleSchema.statics.creating = async function (
     const article = await this.create({
         author: { _id: authorId, username: authorUsername },
         title,
+        search_title: title.toLowerCase(),
         cover,
         blocks,
         category: { categoryName: category.categoryName, game: category.game },
@@ -73,12 +72,13 @@ articleSchema.statics.editing = async function (articleId, title, cover, blocks)
         { _id: articleId },
         {
             title: title,
+            search_title: title.toLowerCase(),
             cover: cover,
             blocks: blocks,
         },
     );
 
-    return;
+    return article;
 };
 
 articleSchema.statics.getAll = async function (section, currentUser) {
@@ -101,7 +101,7 @@ articleSchema.statics.searchArticles = async function (categoryName, sortType, s
         'category.categoryName': categoryName ? categoryName : { $type: 'string' },
     };
     const searchParams = {
-        title: { $regex: searchValue ? searchValue.toLowerCase() : '' },
+        search_title: { $regex: searchValue ? searchValue.toLowerCase() : '' },
     };
     const findParams = { $and: [categoryParams, searchParams] };
     const sortParams =
@@ -127,13 +127,13 @@ articleSchema.statics.getOne = async function (id) {
 };
 
 articleSchema.statics.like = async function (id, userId) {
-    await this.findOneAndUpdate(
+    const article = await this.findOneAndUpdate(
         { _id: id },
         { $push: { 'likes.users': userId }, $inc: { 'likes.count': 1 } },
         { returnDocument: 'after' },
     );
 
-    return;
+    return article;
 };
 
 articleSchema.statics.removeLike = async function (id, userId) {
@@ -142,8 +142,6 @@ articleSchema.statics.removeLike = async function (id, userId) {
         { $pull: { 'likes.users': userId }, $inc: { 'likes.count': -1 } },
         { returnDocument: 'after' },
     );
-
-    return;
 };
 
 module.exports = model('Article', articleSchema);

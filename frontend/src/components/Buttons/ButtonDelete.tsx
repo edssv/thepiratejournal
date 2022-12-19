@@ -1,6 +1,5 @@
 import React, { CSSProperties } from 'react';
 import { AlertDialog, Button, DialogTrigger } from '@adobe/react-spectrum';
-
 interface onPrimaryAction {
     onPrimaryAction?: any;
     children?: React.ReactNode;

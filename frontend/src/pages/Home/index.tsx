@@ -14,12 +14,17 @@ const Home = () => {
 
     const sectionFromUrl = location.pathname.split('/')[1];
     const [activeSection, setActiveSection] = useState(sectionFromUrl ? sectionFromUrl : 'for_you');
-    const { data, isLoading, isSuccess } = useGetArticlesQuery({
+    const { data, isLoading, isSuccess, isError } = useGetArticlesQuery({
         section: activeSection,
     });
 
-    const articlesList = data?.map((article: Article, id: number) =>
-        isLoading ? <ArticleSkeleton counts={12} /> : <ArticlePreview key={id} article={article} />,
+    const articlesList = isLoading ? (
+        <ArticleSkeleton counts={12} />
+    ) : isError ? (
+        <h3>Здесь появятся статьи для тебя</h3>
+    ) : (
+        isSuccess &&
+        data?.map((article: Article, id: number) => <ArticlePreview key={id} article={article} />)
     );
 
     const articles =

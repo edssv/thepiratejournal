@@ -18,15 +18,14 @@ import { DraftInfoDialog } from './DraftInfoDialog';
 
 interface ConfirmDialogProps {
     isDisabled: boolean;
-    onClickSave: any;
     isEditing?: boolean;
     articleCategory: React.Key | undefined;
     setArticleCategory: React.Dispatch<React.SetStateAction<React.Key | undefined>>;
-    // draftInfoDialog
     isLoadingDraft: boolean;
     isSuccessDraft: boolean;
     isErrorDraft: boolean;
     isDisabledDraft: boolean;
+    onClickSave: () => void;
     onPressDraft: (data: object) => void;
 }
 
@@ -36,7 +35,6 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
     isEditing,
     articleCategory,
     setArticleCategory,
-    //draftInfoDialog
     isLoadingDraft,
     isSuccessDraft,
     isErrorDraft,

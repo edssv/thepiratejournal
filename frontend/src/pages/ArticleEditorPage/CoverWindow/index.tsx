@@ -11,10 +11,10 @@ import styles from './CoverWindow.module.scss';
 type CoverWindowProps = {
     windowOpen?: boolean;
     uploadedUrl?: string;
-    setUploadedUrl: any;
-    onClickSave: any;
+    setUploadedUrl: React.Dispatch<React.SetStateAction<string | undefined>>;
+    onClickSave: () => void;
     selectedFile: any;
-    setSelectedFile: any;
+    setSelectedFile: React.Dispatch<React.SetStateAction<File | undefined>>;
     isEditing: boolean;
 };
 
@@ -43,6 +43,7 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({
 
         const formData = new FormData();
         formData.append('image', selectedFile);
+        console.log(selectedFile);
 
         addCover(formData);
     };
@@ -55,19 +56,17 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({
 
     useEffect(() => {
         if (data) setUploadedUrl(data.file.url);
-    }, [data]);
+    }, [data, setUploadedUrl]);
 
     const handleChange = async (event: any) => {
         setSelectedFile(event.target.files[0]);
     };
 
     const handleDeleteCover = () => {
-        if (selectedFile) {
-            setIsMounted(false);
-            setUploadedUrl('');
-            setSelectedFile('');
-            deleteCover(data.file);
-        }
+        setIsMounted(false);
+        setUploadedUrl(undefined);
+        setSelectedFile(undefined);
+        deleteCover(data.file);
     };
 
     // media
@@ -76,7 +75,7 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({
     return (
         <div className={styles.root}>
             <div className={styles.container}>
-                {selectedFile ? (
+                {selectedFile || uploadedUrl ? (
                     isLoading ? (
                         <div className="cdx-loader"></div>
                     ) : (

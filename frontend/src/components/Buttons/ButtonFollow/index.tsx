@@ -13,7 +13,7 @@ interface ButtonFollowProps {
 }
 
 export const ButtonFollow: React.FC<ButtonFollowProps> = ({ username, hasSubscription }) => {
-    const { user } = useAuth();
+    const { user, isLoading } = useAuth();
 
     const [follow, { isLoading: isLoadingFollow }] = useFollowMutation();
     const [unFollow, { isLoading: isLoadingUnFollow }] = useUnFollowMutation();
@@ -33,6 +33,15 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({ username, hasSubscri
             follow(username);
         }
     };
+    console.log(isLoading);
+
+    if (isLoading) {
+        return (
+            <Button variant="secondary" style="fill">
+                ''
+            </Button>
+        );
+    }
 
     if (!user) {
         return (
@@ -41,7 +50,9 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({ username, hasSubscri
                 tooltipPosition="right"
                 title="Следи за обновлениями авторов"
                 paragraph="Чтобы отслеживать обновления авторов, войди в аккаунт.">
-                <Button variant="accent"></Button>
+                <Button variant="accent">
+                    <AddCircle marginEnd="8px" /> <span>Подписаться</span>
+                </Button>
             </Tippy>
         );
     }

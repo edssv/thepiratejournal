@@ -33,11 +33,11 @@ export const Tippy: React.FC<TippyProps> = ({
         <DialogTrigger type="popover" mobileType="tray" offset={offset} placement={tooltipPosition}>
             {children}
             {(close) => (
-                <Dialog>
+                <Dialog UNSAFE_className={styles.tippyDialog}>
                     <div className={styles.root}></div>
-                    <Heading>{title}</Heading>
+                    <Heading UNSAFE_className={styles.headline}>{title}</Heading>
                     <Content>
-                        <p>{paragraph}</p>
+                        <p className={styles.text}>{paragraph}</p>
                     </Content>
                     <ButtonGroup>
                         <Button onPress={close} variant="secondary" staticColor="white">

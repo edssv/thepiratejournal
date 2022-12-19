@@ -4,7 +4,7 @@ import avatar from '../../assets/img/avatar.png';
 import styles from './Avatar.module.scss';
 
 interface AvatarProps {
-    imageSrc: string | undefined;
+    imageSrc?: string | undefined;
     width?: number;
 }
 

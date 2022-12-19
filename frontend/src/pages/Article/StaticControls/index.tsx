@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDeleteArticleMutation } from '../../../redux';
-import debounce from 'lodash.debounce';
-import { ButtonDelete, ButtonLike } from '../../../components';
-import { Button, ButtonGroup, Divider } from '@adobe/react-spectrum';
-import BookmarkSingle from '@spectrum-icons/workflow/BookmarkSingle';
+import { ButtonBookmark, ButtonDelete, ButtonLike } from '../../../components';
+import { Button } from '@adobe/react-spectrum';
 import Delete from '@spectrum-icons/workflow/Delete';
 import Edit from '@spectrum-icons/workflow/Edit';
 import Reply from '@spectrum-icons/workflow/Reply';
@@ -14,10 +12,16 @@ import styles from './StaticControls.module.scss';
 interface StaticControlsProps {
     articleId: string | undefined;
     isLiked: boolean | undefined;
+    hasBookmark: boolean | undefined;
     isOwner: boolean | undefined;
 }
 
-export const StaticControls: React.FC<StaticControlsProps> = ({ articleId, isLiked, isOwner }) => {
+export const StaticControls: React.FC<StaticControlsProps> = ({
+    articleId,
+    isLiked,
+    hasBookmark,
+    isOwner,
+}) => {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -27,37 +31,38 @@ export const StaticControls: React.FC<StaticControlsProps> = ({ articleId, isLik
 
     return (
         <div className={styles.root}>
-            <ButtonGroup orientation="horizontal" UNSAFE_className={styles.buttonGroup}>
-                <ButtonLike isLiked={isLiked} id={articleId} tooltipPosition="left" />
-                <Button variant="secondary">
-                    <BookmarkSingle size="XS" />
-                </Button>
-                <Button variant="secondary">
-                    <Reply />
-                </Button>
+            <div className={styles.buttonGroup}>
+                <div className={styles.controls}>
+                    <ButtonLike isLiked={isLiked} id={articleId} tooltipPosition="left" />
+                    <ButtonBookmark hasBookmark={hasBookmark} id={articleId} />
+                    <Button variant="secondary">
+                        <Reply />
+                    </Button>
+                </div>
                 {isOwner && (
                     <>
-                        <Divider size="S" orientation="vertical" margin="0px 16px" />
-                        <Button
-                            variant="secondary"
-                            onPress={() =>
-                                navigate(`/articles/${articleId}/edit`, {
-                                    state: { from: location },
-                                })
-                            }>
-                            <Edit />
-                        </Button>
-                        <ButtonDelete
-                            onPrimaryAction={() => {
-                                deleteArticle(articleId);
-                                navigate(fromPage ? fromPage : '/');
-                            }}
-                            variant="secondary">
-                            <Delete />
-                        </ButtonDelete>
+                        <div className={styles.ownerControls}>
+                            <Button
+                                variant="secondary"
+                                onPress={() =>
+                                    navigate(`/articles/${articleId}/edit`, {
+                                        state: { from: location },
+                                    })
+                                }>
+                                <Edit />
+                            </Button>
+                            <ButtonDelete
+                                onPrimaryAction={() => {
+                                    deleteArticle(articleId);
+                                    navigate(fromPage ? fromPage : '/');
+                                }}
+                                variant="secondary">
+                                <Delete />
+                            </ButtonDelete>
+                        </div>
                     </>
                 )}
-            </ButtonGroup>
+            </div>
         </div>
     );
 };

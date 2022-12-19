@@ -30,6 +30,16 @@
             top: 30px;
             align-items: center;
         }
+
+        .barRightButtons {
+            display: flex;
+            gap: 16px;
+
+            @include breakpoint-down(sm) {
+                flex-direction: column;
+                align-items: end;
+            }
+        }
     }
 
     .container {
@@ -54,6 +64,7 @@
                 background-color: transparent;
                 max-width: 656px;
                 width: 100%;
+                padding: 0;
                 border: none;
                 resize: none;
                 outline: 0 !important;
@@ -66,6 +77,10 @@
                 &::placeholder {
                     color: var(--spectrum-global-color-gray-600);
                 }
+
+                &:focus {
+                    box-shadow: none;
+                }
             }
         }
     }
@@ -73,7 +88,8 @@
 
 :global {
     .ce-header {
-        margin-bottom: 35px;
+        margin-bottom: 24px;
+        padding: 0;
         font-weight: 700;
 
         &::placeholder {

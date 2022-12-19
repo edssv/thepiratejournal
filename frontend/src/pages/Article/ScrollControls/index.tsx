@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDeleteArticleMutation } from '../../../redux';
 import debounce from 'lodash.debounce';
-import { ButtonDelete, ButtonLike } from '../../../components';
+import { ButtonBookmark, ButtonDelete, ButtonLike } from '../../../components';
 import { Button, ButtonGroup, Divider } from '@adobe/react-spectrum';
 import BookmarkSingle from '@spectrum-icons/workflow/BookmarkSingle';
 import Delete from '@spectrum-icons/workflow/Delete';
@@ -14,10 +14,16 @@ import styles from './ScrollControls.module.scss';
 interface ScrollControlsProps {
     articleId: string | undefined;
     isLiked: boolean | undefined;
+    hasBookmark: boolean | undefined;
     isOwner: boolean | undefined;
 }
 
-export const ScrollControls: React.FC<ScrollControlsProps> = ({ articleId, isLiked, isOwner }) => {
+export const ScrollControls: React.FC<ScrollControlsProps> = ({
+    articleId,
+    isLiked,
+    hasBookmark,
+    isOwner,
+}) => {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -56,9 +62,16 @@ export const ScrollControls: React.FC<ScrollControlsProps> = ({ articleId, isLik
 
     return (
         <div className={styles.root} style={{ transform: visible ? 'unset' : 'translateY(100%)' }}>
-            <ButtonGroup orientation="horizontal" UNSAFE_className={styles.buttonGroup}>
+            <div className={styles.buttonGroup}>
+                <div className={styles.controls}>
+                    <ButtonLike isLiked={isLiked} id={articleId} tooltipPosition="left" />
+                    <ButtonBookmark hasBookmark={hasBookmark} id={articleId} />
+                    <Button variant="secondary">
+                        <Reply />
+                    </Button>
+                </div>
                 {isOwner && (
-                    <>
+                    <div className={styles.ownerControls}>
                         <Button
                             variant="secondary"
                             onPress={() =>
@@ -76,18 +89,9 @@ export const ScrollControls: React.FC<ScrollControlsProps> = ({ articleId, isLik
                             variant="secondary">
                             <Delete />
                         </ButtonDelete>
-                        <Divider size="S" orientation="vertical" margin="0px 16px" />
-                    </>
+                    </div>
                 )}
-                <Button variant="secondary">
-                    <Reply />
-                </Button>
-                <Button variant="secondary">
-                    <BookmarkSingle size="XS" />
-                </Button>
-
-                <ButtonLike isLiked={isLiked} id={articleId} tooltipPosition="left" />
-            </ButtonGroup>
+            </div>
         </div>
     );
 };

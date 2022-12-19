@@ -14,7 +14,7 @@ export const Layout: FC<LayoutProps> = ({ container }) => {
         <>
             <Header />
             <main style={{ paddingTop: isLaptop ? '55px' : 'unset' }}>
-                <div className={container === true ? 'container' : ''}>
+                <div className={container === true ? 'container-fluid' : ''}>
                     <Outlet />
                 </div>
             </main>

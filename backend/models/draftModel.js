@@ -12,25 +12,15 @@ const draftSchema = new Schema({
     blocks: {
         type: Array,
     },
-    timestamp: {
-        type: String,
-    },
+    created_on: { type: Number, default: new Date() },
 });
 
-draftSchema.statics.creating = async function (
-    authorId,
-    authorUsername,
-    title,
-    cover,
-    blocks,
-    time,
-) {
+draftSchema.statics.creating = async function (authorId, authorUsername, title, cover, blocks) {
     const draft = await this.create({
         author: { _id: authorId, username: authorUsername },
         title,
         cover,
         blocks,
-        timestamp: time,
     });
 
     return draft;

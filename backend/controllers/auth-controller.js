@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const tokenModel = require('../models/token-model');
 const tokenService = require('../service/token-service');
 const authService = require('../service/auth-service');
+const googleAuth = require('../helpers/googleAuth');
 
 const createToken = (_id) => {
     return jwt.sign({ _id }, process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' });
@@ -127,4 +128,24 @@ const getCurrentUser = async (req, res) => {
     }
 };
 
-module.exports = { signupUser, loginUser, logout, activate, refresh, getCurrentUser };
+const checkHaveAccountGoogle = async (req, res) => {
+    const { authorization } = req.headers;
+    const token = authorization.split(' ')[1];
+
+    try {
+        const obj = await googleAuth(token);
+        console.log('obj', obj);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+module.exports = {
+    signupUser,
+    loginUser,
+    logout,
+    activate,
+    refresh,
+    getCurrentUser,
+    checkHaveAccountGoogle,
+};

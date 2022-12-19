@@ -65,11 +65,13 @@
         }
     }
 }
+
 .cover {
     width: 100%;
     height: 380px;
     position: relative;
-    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
     background-position: center;
     border-radius: $br-xs;
 

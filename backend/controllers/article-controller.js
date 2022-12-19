@@ -1,21 +1,15 @@
 const Article = require('../models/article-model');
 const Draft = require('../models/draftModel');
 const User = require('../models/user-model');
+const { likeNotification } = require('../service/notification-service');
 
 const creating = async (req, res) => {
     const authorId = req.user._id;
     const authorUsername = req.user.username;
-    const { intent, title, cover, blocks, category, time, saveFromDraft, draftId } = req.body;
+    const { intent, title, cover, blocks, category, saveFromDraft, draftId } = req.body;
     try {
         if (intent === 'draft') {
-            const draft = await Draft.creating(
-                authorId,
-                authorUsername,
-                title,
-                cover,
-                blocks,
-                time,
-            );
+            const draft = await Draft.creating(authorId, authorUsername, title, cover, blocks);
             return res.json(draft);
         }
 
@@ -26,7 +20,6 @@ const creating = async (req, res) => {
             cover,
             blocks,
             category,
-            time,
         );
 
         if (saveFromDraft) {
@@ -151,11 +144,12 @@ const getOne = async (req, res) => {
 
 const like = async (req, res) => {
     const articleId = req.params.id;
-    const userId = req.user._id;
+    const user = req.user;
 
     try {
-        await Article.like(articleId, userId);
-        await User.appreciated(userId, articleId);
+        const article = await Article.like(articleId, user._id);
+        await User.appreciated(user._id, articleId);
+        await likeNotification(article.author._id, user);
 
         res.status(200).json({ message: 'Спасибо за оценку!' });
     } catch (error) {

@@ -4,11 +4,9 @@
         border-radius: 8px;
 
         .spectrum-Dialog_6d8b48 {
-            max-width: 336px;
-            box-shadow: 0 1px 6px rgb(0 0 0 / 20%);
-            background-color: var(--spectrum-global-color-static-blue-600);
-            padding: 16px;
-            border-radius: 8px;
+            &:focus-visible {
+                outline: none;
+            }
 
             .spectrum-Dialog-grid_6d8b48 {
                 display: block !important;
@@ -17,11 +15,6 @@
                     margin-bottom: 8px;
                     font-size: 18px;
                     font-weight: 700;
-                }
-
-                .spectrum-Dialog-heading_6d8b48,
-                p {
-                    color: white;
                 }
 
                 .spectrum-ButtonGroup_b10c2f {
@@ -35,5 +28,24 @@
                 fill: var(--spectrum-global-color-static-blue-600) !important;
             }
         }
+    }
+}
+
+.tippyDialog {
+    max-width: 336px;
+    box-shadow: 0 1px 6px rgb(0 0 0 / 20%);
+    background-color: var(--spectrum-global-color-static-blue-600);
+    padding: 16px;
+    border-radius: 8px;
+    color: #ffffff;
+
+    @media (max-width: 701px) {
+        max-width: 100%;
+        border-radius: 0;
+    }
+
+    .headline,
+    .text {
+        color: #ffffff;
     }
 }

@@ -3,7 +3,6 @@ const fs = require('fs');
 
 const storage = multer.memoryStorage({
     destination: (req, file, cb) => {
-        console.log(file);
         if (!fs.existsSync('uploads')) {
             fs.mkdirSync('uploads');
         }

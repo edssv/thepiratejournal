@@ -16,7 +16,7 @@ const Articles = () => {
     const [sortType, setSortType] = React.useState<React.Key>(sortFromUrl ? sortFromUrl : '');
     const [searchValue, setSearchValue] = useState(searchFromUrl ? decodeURI(searchFromUrl) : '');
     const [queryParams, setQueryParams] = useState('');
-    const { data, isLoading, isFetching } = useSearchArticlesQuery({
+    const { data, isLoading, isFetching, isError, isSuccess } = useSearchArticlesQuery({
         category: selectCategory,
         queryParams,
     });
@@ -24,7 +24,10 @@ const Articles = () => {
     const articlesList =
         isLoading || isFetching ? (
             <ArticleSkeleton counts={12} />
+        ) : isError ? (
+            <h2>Здесь появятся статьи для тебя</h2>
         ) : (
+            isSuccess &&
             data?.map((article: Article, id: number) => (
                 <ArticlePreview key={id} article={article} />
             ))

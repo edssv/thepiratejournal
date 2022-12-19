@@ -1,4 +1,4 @@
-export const convertDateLong = (timestamp: string | undefined) => {
+export const convertDateLong = (timestamp: number | undefined) => {
     const date = Number(timestamp);
     const dateObj = new Date(date);
 
@@ -8,7 +8,7 @@ export const convertDateLong = (timestamp: string | undefined) => {
     return `${monthDay} в ${hourMinute}`;
 };
 
-export const convertDateShort = (timestamp: string | undefined) => {
+export const convertDateShort = (timestamp: number | undefined) => {
     const date = Number(timestamp);
     const dateObj = new Date(date);
 
@@ -20,7 +20,7 @@ export const convertDateShort = (timestamp: string | undefined) => {
     return dateShort;
 };
 
-export const convertDateDayMonthYear = (timestamp: string | undefined) => {
+export const convertDateDayMonthYear = (timestamp: number | undefined) => {
     const date = Number(timestamp);
     const dateObj = new Date(date);
 
@@ -33,7 +33,7 @@ export const convertDateDayMonthYear = (timestamp: string | undefined) => {
     return dateDayMonthYear;
 };
 
-export const convertDateMDHM = (timestamp: string | undefined) => {
+export const convertDateMDHM = (timestamp: number | undefined) => {
     const date = Number(timestamp);
     const dateObj = new Date(date);
 

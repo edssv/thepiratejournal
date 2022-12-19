@@ -36,7 +36,7 @@ const Signup = () => {
     const [passwordEye, setPasswordEye] = useState(false);
 
     return (
-        <CardLayout headline="Создать учетную запись" toaster={!isOnline}>
+        <CardLayout>
             <div className={styles.root}>
                 <section className={styles.social__buttons}>
                     <Link to="#" className={styles.social__button}>
@@ -79,7 +79,7 @@ const Signup = () => {
                                         message: 'Максимум 16 символов.',
                                     },
                                 })}
-                                disabled={isLoading ? true : false}
+                                disabled={isLoading}
                                 type="text"
                                 className={`text-field ${errors?.username && `is-invalid`}`}
                             />
@@ -106,7 +106,7 @@ const Signup = () => {
                                         value: 32,
                                     },
                                 })}
-                                disabled={isLoading ? true : false}
+                                disabled={isLoading}
                                 type="email"
                                 className={`text-field  ${errors?.email && `is-invalid`}`}
                             />
@@ -135,7 +135,7 @@ const Signup = () => {
                                             value: 20,
                                         },
                                     })}
-                                    disabled={isLoading ? true : false}
+                                    disabled={isLoading}
                                     className={`text-field ${
                                         isValidating === true ? `is-valid` : ''
                                     } ${errors?.password && `is-invalid`}`}

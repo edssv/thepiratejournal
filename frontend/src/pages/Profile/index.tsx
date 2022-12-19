@@ -4,14 +4,11 @@ import { useGetUserQuery, Article, Draft } from '../../redux';
 import { convertDateDayMonthYear, viewsSumCalc } from '../../helpers';
 import { DraftPreview, CreateModule, Avatar, ArticlePreview, Overlay } from '../../components';
 import { useDocTitle } from '../../hooks';
-import { ActionButton, Button, ButtonGroup, Divider, Text } from '@adobe/react-spectrum';
-
-// icons
-import Location from '@spectrum-icons/workflow/Location';
-import Heart from '@spectrum-icons/workflow/Heart';
+import { Button, ButtonGroup, Divider } from '@adobe/react-spectrum';
 
 import styles from './Profile.module.scss';
 import { ButtonFollow } from '../../components/Buttons/ButtonFollow';
+import { UploadAvatar } from './UploadAvatar';
 
 const Profile: React.FC = () => {
     const { username } = useParams();
@@ -24,7 +21,7 @@ const Profile: React.FC = () => {
 
     const [list, setList] = useState(activeSection ? activeSection : 'articles');
 
-    const { data, isLoading, isFetching, refetch } = useGetUserQuery(username);
+    const { data, isLoading, refetch } = useGetUserQuery(username);
 
     if (isLoading) return <Overlay />;
 
@@ -86,6 +83,7 @@ const Profile: React.FC = () => {
                                     : 'Пиратский корабль'}
                             </div> */}
                         </div>
+                        {isOwner && <UploadAvatar />}
                         {!isOwner && (
                             <ButtonFollow
                                 username={username}

@@ -8,6 +8,7 @@ const router = require('./routes/index');
 const usersRoutes = require('./routes/users');
 const authRoutes = require('./routes/auth');
 const articlesRoutes = require('./routes/articles');
+const uploadsRoutes = require('./routes/uploads');
 const errorMiddleware = require('./middlewares/error-middleware');
 
 const PORT = process.env.PORT || 5000;
@@ -29,6 +30,7 @@ app.use('/api', router);
 app.use('/api', usersRoutes);
 app.use('/api', authRoutes);
 app.use('/api', articlesRoutes);
+app.use('/api', uploadsRoutes);
 
 app.use(express.static(path.join(__dirname, 'uploads')));
 

@@ -39,14 +39,12 @@ const ArticleEditorPage = () => {
 
     const isMobile = useMediaPredicate('(max-width: 768px)');
 
-    const [selectedFile, setSelectedFile] = useState(false);
-    const [uploadedUrl, setUploadedUrl] = useState<string | undefined>();
-    const [textareaValue, setTextareaValue] = useState<string | undefined>();
-    const [blocks, setBlocks] = useState();
+    const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
+    const [uploadedUrl, setUploadedUrl] = useState<string | undefined>(undefined);
+    const [textareaValue, setTextareaValue] = useState<string | undefined>(undefined);
+    const [blocks, setBlocks] = useState<{ data: {}; id: string; type: string }[]>([]);
     const [formStatus, setFormStatus] = useState<'unchanged' | 'modified' | 'saved'>('unchanged');
     const [articleCategory, setArticleCategory] = useState<React.Key>();
-
-    const ReactEditorJS = createReactEditorJS();
     const [editor, setEditor] = useState<IEditorJS>();
 
     // const saveDraft = useCallback(
@@ -60,7 +58,6 @@ const ArticleEditorPage = () => {
         if (isEditing || isDraft) {
             const editorjs = new EditorJS(Configuration(data?.blocks));
             setTextareaValue(data?.title);
-            setSelectedFile(data?.cover ? true : false);
             setUploadedUrl(data?.cover);
             setEditor(editorjs);
             setBlocks(data?.blocks);
@@ -68,7 +65,7 @@ const ArticleEditorPage = () => {
             const editorjs = new EditorJS(Configuration());
             setEditor(editorjs);
         }
-    }, [data]);
+    }, [data, isDraft, isEditing]);
 
     useEffect(() => {
         const handler = (event: BeforeUnloadEvent) => {
@@ -157,7 +154,7 @@ const ArticleEditorPage = () => {
                     </Button>
                     <Tooltip placement="right">Вернуться назад</Tooltip>
                 </TooltipTrigger>
-                <ButtonGroup align="end">
+                <div className={styles.barRightButtons}>
                     {!isEditing && (
                         <DraftInfoDialog
                             onPress={saveDraft}
@@ -167,8 +164,9 @@ const ArticleEditorPage = () => {
                             isDisabled={isSaving}
                         />
                     )}
+
                     <ConfirmDialog
-                        isDisabled={selectedFile && textareaValue ? false : true}
+                        isDisabled={!(uploadedUrl && textareaValue)}
                         onClickSave={onClickSave}
                         isEditing={isEditing}
                         articleCategory={articleCategory}
@@ -179,7 +177,7 @@ const ArticleEditorPage = () => {
                         isErrorDraft={isErrorSave}
                         isDisabledDraft={isSaving}
                     />
-                </ButtonGroup>
+                </div>
             </div>
             <div className={styles.container}>
                 <form

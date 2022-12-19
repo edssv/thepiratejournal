@@ -15,4 +15,16 @@
     text-align: center;
     transition: background-color 450ms ease-in-out, transform 350ms ease,
         border-top-color 450ms ease-in-out;
+
+    .buttonGroup {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        .controls,
+        .ownerControls {
+            display: flex;
+            gap: 14px;
+        }
+    }
 }

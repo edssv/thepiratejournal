@@ -14,7 +14,7 @@ import {
     ButtonFollow,
     ButtonBookmark,
 } from '../../components';
-import { Button, ButtonGroup, Divider, Tooltip, TooltipTrigger, Well } from '@adobe/react-spectrum';
+import { Button, ButtonGroup, Divider, Well } from '@adobe/react-spectrum';
 
 // icons
 import BookmarkSingle from '@spectrum-icons/workflow/BookmarkSingle';
@@ -26,6 +26,7 @@ import Delete from '@spectrum-icons/workflow/Delete';
 import { ScrollControls } from './ScrollControls';
 import { StaticControls } from './StaticControls';
 import NotFoundPage from '../NotFound';
+import { Tooltip } from 'flowbite-react';
 
 const Article: React.FC = () => {
     useDocTitle('Статья');
@@ -50,7 +51,7 @@ const Article: React.FC = () => {
     const authorId = data?.author._id;
     const isOwner = user?.id === authorId;
 
-    const date = convertDateLong(data?.timestamp);
+    const date = convertDateLong(data?.created_on);
 
     return (
         <div className={styles.root}>
@@ -83,7 +84,7 @@ const Article: React.FC = () => {
                         <div className={styles.content__wrapper}>
                             <div className={styles.content}>
                                 <img src={data?.cover} alt="Обложка" loading="lazy" />
-                                <h2>{data?.title}</h2>
+                                <h2 className={styles.articleHeadline}>{data?.title}</h2>
                                 <div
                                     dangerouslySetInnerHTML={{
                                         __html: toHtml(data?.blocks),
@@ -95,11 +96,13 @@ const Article: React.FC = () => {
                                     <ScrollControls
                                         articleId={id}
                                         isLiked={data?.viewer.isLike}
+                                        hasBookmark={data?.viewer.hasBookmark}
                                         isOwner={isOwner}
                                     />
                                     <StaticControls
                                         articleId={id}
                                         isLiked={data?.viewer.isLike}
+                                        hasBookmark={data?.viewer.hasBookmark}
                                         isOwner={isOwner}
                                     />
                                 </>
@@ -132,15 +135,13 @@ const Article: React.FC = () => {
                                         <Link to={`/users/${authorname}`}>
                                             <Avatar imageSrc={data?.author.avatar} width={45} />
                                         </Link>
-                                        <ButtonGroup
-                                            orientation="vertical"
-                                            UNSAFE_className={styles.buttonGroup}>
-                                            <TooltipTrigger delay={200} placement="left">
+                                        <div className={styles.buttonGroup}>
+                                            <Tooltip placement="left" content="Поделиться">
                                                 <Button variant="secondary">
                                                     <Reply />
                                                 </Button>
-                                                <Tooltip>Поделиться</Tooltip>
-                                            </TooltipTrigger>
+                                            </Tooltip>
+
                                             <ButtonBookmark
                                                 hasBookmark={data?.viewer.hasBookmark}
                                                 id={id}
@@ -154,8 +155,11 @@ const Article: React.FC = () => {
 
                                             {isOwner && (
                                                 <>
-                                                    <Divider size="S" margin="16px 0px" />
-                                                    <TooltipTrigger delay={200} placement="left">
+                                                    <Divider size="S" />
+
+                                                    <Tooltip
+                                                        placement="left"
+                                                        content="Редактировать">
                                                         <Button
                                                             variant="secondary"
                                                             onPress={() =>
@@ -165,8 +169,8 @@ const Article: React.FC = () => {
                                                             }>
                                                             <Edit />
                                                         </Button>
-                                                        <Tooltip>Редактировать</Tooltip>
-                                                    </TooltipTrigger>
+                                                    </Tooltip>
+
                                                     <ButtonDelete
                                                         onPrimaryAction={() => {
                                                             deleteArticle(id);
@@ -177,7 +181,7 @@ const Article: React.FC = () => {
                                                     </ButtonDelete>
                                                 </>
                                             )}
-                                        </ButtonGroup>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

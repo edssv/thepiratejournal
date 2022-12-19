@@ -5,7 +5,6 @@ import type { RootState } from '../store';
 
 type AuthState = {
     user: User | null;
-    isLoading: boolean;
 };
 
 const slice = createSlice({
@@ -51,16 +50,11 @@ const slice = createSlice({
             })
 
             // getCurrentUser
-            .addMatcher(authApi.endpoints.getCurrentUser.matchPending, (state) => {
-                state.isLoading = true;
-            })
+            .addMatcher(authApi.endpoints.getCurrentUser.matchPending, (state) => {})
             .addMatcher(authApi.endpoints.getCurrentUser.matchFulfilled, (state, { payload }) => {
                 state.user = payload.user;
-                state.isLoading = false;
             })
-            .addMatcher(authApi.endpoints.getCurrentUser.matchRejected, (state) => {
-                state.isLoading = false;
-            });
+            .addMatcher(authApi.endpoints.getCurrentUser.matchRejected, (state) => {});
     },
 });
 
@@ -69,4 +63,3 @@ export const { tokenReceived, loggedOut } = slice.actions;
 export default slice.reducer;
 
 export const selectCurrentUser = (state: RootState) => state.auth.user;
-export const selectIsLoading = (state: RootState) => state.auth.isLoading;

@@ -17,7 +17,7 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
     const id = article._id;
     const author = article.author.username;
     const cover = article.cover;
-    const timestamp = article.timestamp;
+    const timestamp = article.created_on;
     const viewsCount = article.views.count;
     const likesCount = article.likes.count;
 

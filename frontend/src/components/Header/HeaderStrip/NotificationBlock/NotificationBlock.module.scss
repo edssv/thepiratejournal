@@ -1,0 +1,18 @@
+@use '../../../../scss/util' as *;
+
+.dialog {
+    @media (min-width: 701px) {
+        padding: 12px 16px 16px 16px;
+    }
+
+    .headline {
+        font-size: 16px !important;
+        font-weight: 600 !important;
+    }
+
+    .notificationList {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+}

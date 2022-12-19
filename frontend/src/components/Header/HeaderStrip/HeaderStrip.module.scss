@@ -80,19 +80,11 @@
         &__right {
             display: flex;
             align-items: center;
-            gap: 24px;
+            gap: 16px;
 
-            .profile {
+            .userControls {
                 display: flex;
-                align-items: center;
-                gap: $gap-md;
-                &__img {
-                    width: 38px;
-                    height: 38px;
-                    border-radius: 50%;
-                }
-                &__name {
-                }
+                gap: 8px;
             }
         }
     }
@@ -114,6 +106,9 @@
         }
 
         .right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             padding-right: 16px;
         }
     }

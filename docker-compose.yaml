@@ -2,9 +2,15 @@ version: '3.8'
 services:
     mongodb:
         image: 'mongo'
+        restart: always
+        ports:
+            - '27017:27017'
 
     backend:
-        build: ./backend
+        restart: always
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
         ports:
             - '5000:5000'
         volumes:
@@ -14,10 +20,25 @@ services:
             - mongodb
 
     frontend:
-        build: ./frontend
+        restart: always
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
         ports:
-            - '80:80'
+            - '3000:3000'
         stdin_open: true
         tty: true
         depends_on:
             - backend
+
+    nginx:
+        restart: always
+        depends_on:
+            - backend
+            - frontend
+        build:
+            context: ./nginx
+            dockerfile: Dockerfile.dev
+        ports:
+            - '80:80'
+            - '443:443'
