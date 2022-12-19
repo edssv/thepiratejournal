@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useGoogleLogin } from 'react-google-login';
+// import { useGoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { VisibilityToggle, CardLayout, ButtonProgress } from '../../components';
@@ -24,38 +24,38 @@ const EmailPage = () => {
 
     const { data, refetch } = useCheckHaveAccountGoogleQuery('', { skip: !token });
 
-    useEffect(() => {
-        const initClient = () => {
-            gapi.client.init({
-                clientId: clientId,
-                scope: '',
-            });
-        };
-        gapi.load('client:auth2', initClient);
-    });
+    // useEffect(() => {
+    //     const initClient = () => {
+    //         gapi.client.init({
+    //             clientId: clientId,
+    //             scope: '',
+    //         });
+    //     };
+    //     gapi.load('client:auth2', initClient);
+    // });
 
-    const onSuccess = (res) => {
-        setProfile(res.profileObj);
-        refreshTokenSetup(res);
-        localStorage.setItem('token', res.tokenId);
-        refetch();
-    };
+    // const onSuccess = (res) => {
+    //     setProfile(res.profileObj);
+    //     refreshTokenSetup(res);
+    //     localStorage.setItem('token', res.tokenId);
+    //     refetch();
+    // };
 
-    const onFailure = (err) => {
-        console.log('failed:', err);
-    };
+    // const onFailure = (err) => {
+    //     console.log('failed:', err);
+    // };
 
-    const { signIn } = useGoogleLogin({
-        onSuccess,
-        onFailure,
-        clientId,
-        isSignedIn: true,
-        cookiePolicy: process.env.REACT_APP_CLIENT_URL,
-        accessType: 'offline',
-    });
-    const logOut = () => {
-        setProfile(null);
-    };
+    // const { signIn } = useGoogleLogin({
+    //     onSuccess,
+    //     onFailure,
+    //     clientId,
+    //     isSignedIn: true,
+    //     cookiePolicy: process.env.REACT_APP_CLIENT_URL,
+    //     accessType: 'offline',
+    // });
+    // const logOut = () => {
+    //     setProfile(null);
+    // };
 
     const {
         register,
@@ -64,10 +64,9 @@ const EmailPage = () => {
     } = useForm({
         mode: 'all',
     });
+
     const [login, { isError, isLoading, error }] = useLoginMutation();
-    if (isError) {
-        console.log('error', error.data.message);
-    }
+
     const onSubmit = async (formData) => {
         try {
             await login(formData).unwrap();
