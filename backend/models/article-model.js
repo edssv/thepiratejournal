@@ -48,7 +48,6 @@ articleSchema.statics.creating = async function (
     cover,
     blocks,
     category,
-    time,
 ) {
     const article = await this.create({
         author: { _id: authorId, username: authorUsername },
@@ -57,7 +56,6 @@ articleSchema.statics.creating = async function (
         cover,
         blocks,
         category: { categoryName: category.categoryName, game: category.game },
-        timestamp: time,
     });
 
     return article;
