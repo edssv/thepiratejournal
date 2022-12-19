@@ -2,12 +2,12 @@ version: '3.8'
 services:
     mongodb:
         image: 'mongo'
-        restart: always
+        restart: on-failure
         ports:
             - '27017:27017'
 
     backend:
-        restart: always
+        restart: on-failure
         build:
             context: ./backend
             dockerfile: Dockerfile
@@ -20,7 +20,7 @@ services:
             - mongodb
 
     frontend:
-        restart: always
+        restart: on-failure
         build:
             context: ./frontend
             dockerfile: Dockerfile
@@ -32,7 +32,7 @@ services:
             - backend
 
     nginx:
-        restart: always
+        restart: on-failure
         depends_on:
             - backend
             - frontend
