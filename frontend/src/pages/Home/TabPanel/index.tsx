@@ -32,20 +32,15 @@ export const TabPanel: React.FC<TabPanelProps> = ({
                                 to="/for_you"
                                 onClick={() => setActiveSection('for_you')}
                                 className={activeSection === 'for_you' ? styles.active : ''}>
-                                <span className="icon-center">
-                                    <Compass size="S" marginEnd="2px" /> Обзор
-                                </span>
+                                <div className={styles.tabIcon}>
+                                    <span className="material-symbols-outlined">explore</span>{' '}
+                                    <span>Обзор</span>
+                                </div>
                             </Link>
                         </li>
 
                         {user && (
                             <>
-                                <Divider
-                                    size="S"
-                                    orientation="vertical"
-                                    margin="0px 16px"
-                                    height="25px"
-                                />
                                 <li className={styles.tabMenu__tab}>
                                     <Link
                                         to="/following"
@@ -53,9 +48,10 @@ export const TabPanel: React.FC<TabPanelProps> = ({
                                         className={
                                             activeSection === 'following' ? styles.active : ''
                                         }>
-                                        <span className="icon-center">
-                                            <UserGroup size="S" marginEnd="2px" /> Подписки
-                                        </span>
+                                        <div className={styles.tabIcon}>
+                                            <span className="material-symbols-outlined">group</span>{' '}
+                                            <span>Подписки</span>
+                                        </div>
                                     </Link>
                                 </li>
                             </>

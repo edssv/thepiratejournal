@@ -1,12 +1,9 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useMediaPredicate } from 'react-media-hook';
 import debounce from 'lodash.debounce';
 
 import styles from './SearchBar.module.scss';
-
-import Search from '@spectrum-icons/workflow/Search';
-
 interface SearchBarProps {
     selectCategory: string;
     setSelectCategory: React.Dispatch<React.SetStateAction<string>>;
@@ -45,7 +42,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         <div className={styles.root}>
             <div className={styles.searchWrap}>
                 <div className={styles.inputWrap}>
-                    <Search width="50px" />
+                    <span className="material-symbols-outlined">search</span>
                     <form action="/search/articles">
                         <input
                             type="search"

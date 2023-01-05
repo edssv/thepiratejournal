@@ -15,17 +15,24 @@ const articleSchema = new Schema({
         type: Array,
         required: true,
     },
+    tags: [{ type: String, required: true }],
     category: {
-        categoryName: {
+        category_name: {
             type: String,
             required: true,
         },
         game: {
             type: String,
-            required: true,
         },
     },
     created_on: { type: Number, required: true },
+    comments: [
+        {
+            author: { type: String, required: true },
+            text: { type: String, required: true },
+            created_on: { type: Number, required: true },
+        },
+    ],
     views: {
         count: {
             type: Number,
@@ -47,6 +54,7 @@ articleSchema.statics.creating = async function (
     title,
     cover,
     blocks,
+    tags,
     category,
 ) {
     const article = await this.create({
@@ -55,14 +63,15 @@ articleSchema.statics.creating = async function (
         search_title: title.toLowerCase(),
         cover,
         blocks,
-        category: { categoryName: category.categoryName, game: category.game },
+        tags: tags,
+        category: { category_name: category.category_name, game: category.game },
         created_on: new Date(),
     });
 
     return article;
 };
 
-articleSchema.statics.editing = async function (articleId, title, cover, blocks) {
+articleSchema.statics.editing = async function (articleId, title, cover, blocks, tags, category) {
     if (!title || !cover || !blocks) {
         throw Error('Заголовок обложка и блоки обязательны.');
     }
@@ -74,6 +83,8 @@ articleSchema.statics.editing = async function (articleId, title, cover, blocks)
             search_title: title.toLowerCase(),
             cover: cover,
             blocks: blocks,
+            tags: tags,
+            category: category,
         },
     );
 
@@ -97,7 +108,7 @@ articleSchema.statics.getAll = async function (section, currentUser) {
 
 articleSchema.statics.searchArticles = async function (categoryName, sortType, searchValue) {
     const categoryParams = {
-        'category.categoryName': categoryName ? categoryName : { $type: 'string' },
+        'category.category_name': categoryName ? categoryName : { $type: 'string' },
     };
     const searchParams = {
         search_title: { $regex: searchValue ? searchValue.toLowerCase() : '' },
@@ -105,7 +116,7 @@ articleSchema.statics.searchArticles = async function (categoryName, sortType, s
     const findParams = { $and: [categoryParams, searchParams] };
     const sortParams =
         sortType === 'recent'
-            ? { timestamp: -1 }
+            ? { created_on: -1 }
             : sortType === 'appreciations'
             ? { 'likes.count': -1 }
             : { 'views.count': -1 };
@@ -121,8 +132,13 @@ articleSchema.statics.getOne = async function (id) {
         { $inc: { 'views.count': 1 } },
         { returnDocument: 'after' },
     );
+    // const comments = article.comments.map(async (item) => {
+    //     await userModel.find({ _id: item.author });
+    // });
 
-    return article;
+    const comments = article.comments.sort((a, b) => (a.created_on > b.created_on ? -1 : 1));
+
+    return { ...article._doc, comments: comments };
 };
 
 articleSchema.statics.like = async function (id, userId) {
@@ -141,6 +157,30 @@ articleSchema.statics.removeLike = async function (id, userId) {
         { $pull: { 'likes.users': userId }, $inc: { 'likes.count': -1 } },
         { returnDocument: 'after' },
     );
+};
+
+articleSchema.statics.addComment = async function (id, userId, commentText) {
+    if (!commentText) {
+        throw new Error('Комментарий пустой.');
+    }
+
+    const article = await this.findOneAndUpdate(
+        { _id: id },
+        { $push: { comments: { author: userId, text: commentText, created_on: new Date() } } },
+        { returnDocument: 'after' },
+    );
+
+    return article;
+};
+
+articleSchema.statics.removeComment = async function (id, userId, commentId) {
+    const article = await this.findOneAndUpdate(
+        { _id: id },
+        { $pull: { comments: { _id: commentId } } },
+        { returnDocument: 'after' },
+    );
+
+    return article;
 };
 
 module.exports = model('Article', articleSchema);

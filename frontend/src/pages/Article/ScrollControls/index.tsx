@@ -2,30 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDeleteArticleMutation } from '../../../redux';
 import debounce from 'lodash.debounce';
-import { ButtonBookmark, ButtonDelete, ButtonLike } from '../../../components';
-import { Button, ButtonGroup, Divider } from '@adobe/react-spectrum';
-import BookmarkSingle from '@spectrum-icons/workflow/BookmarkSingle';
-import Delete from '@spectrum-icons/workflow/Delete';
-import Edit from '@spectrum-icons/workflow/Edit';
-import Reply from '@spectrum-icons/workflow/Reply';
+import { ButtonBookmark, ButtonDelete, ButtonLike, ButtonShare } from '../Buttons';
 
 import styles from './ScrollControls.module.scss';
+import { Button } from '../../../components';
+import { useArticle } from '../../../hooks';
 
 interface ScrollControlsProps {
-    articleId: string | undefined;
-    isLiked: boolean | undefined;
     hasBookmark: boolean | undefined;
     isOwner: boolean | undefined;
 }
 
-export const ScrollControls: React.FC<ScrollControlsProps> = ({
-    articleId,
-    isLiked,
-    hasBookmark,
-    isOwner,
-}) => {
+export const ScrollControls: React.FC<ScrollControlsProps> = ({ hasBookmark, isOwner }) => {
     const navigate = useNavigate();
     const location = useLocation();
+
+    const { article } = useArticle();
 
     const fromPage = location?.state?.from?.pathname;
 
@@ -64,30 +56,31 @@ export const ScrollControls: React.FC<ScrollControlsProps> = ({
         <div className={styles.root} style={{ transform: visible ? 'unset' : 'translateY(100%)' }}>
             <div className={styles.buttonGroup}>
                 <div className={styles.controls}>
-                    <ButtonLike isLiked={isLiked} id={articleId} tooltipPosition="left" />
-                    <ButtonBookmark hasBookmark={hasBookmark} id={articleId} />
-                    <Button variant="secondary">
-                        <Reply />
-                    </Button>
+                    <ButtonLike tooltipPosition="left" variant="text" />
+
+                    <ButtonBookmark />
+                    <ButtonShare />
                 </div>
                 {isOwner && (
                     <div className={styles.ownerControls}>
                         <Button
-                            variant="secondary"
-                            onPress={() =>
-                                navigate(`/articles/${articleId}/edit`, {
+                            icon
+                            onClick={() =>
+                                navigate(`/articles/${article._id}/edit`, {
                                     state: { from: location },
                                 })
-                            }>
-                            <Edit />
+                            }
+                            variant="text">
+                            <span className="material-symbols-outlined">edit</span>
                         </Button>
                         <ButtonDelete
                             onPrimaryAction={() => {
-                                deleteArticle(articleId);
+                                deleteArticle(article._id);
                                 navigate(fromPage ? fromPage : '/');
                             }}
-                            variant="secondary">
-                            <Delete />
+                            icon
+                            variant="text">
+                            <span className="material-symbols-outlined">delete</span>
                         </ButtonDelete>
                     </div>
                 )}

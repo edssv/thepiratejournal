@@ -12,6 +12,7 @@ html {
     min-height: 100vh;
     font-size: 100%;
     font-family: 'Roboto', sans-serif !important;
+    transition: 'all 0.3s linear';
 }
 
 body,
@@ -76,6 +77,10 @@ input {
     outline: none !important;
 }
 
+textarea {
+    font-family: Roboto, sans-serif;
+}
+
 // // Helper classes
 
 .container-fluid {
@@ -124,8 +129,13 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: $gap-xs;
+    gap: 6px;
     width: fit-content;
+}
+
+.circle-center {
+    display: flex;
+    justify-content: center;
 }
 
 .hidden {
@@ -143,7 +153,6 @@ input {
     display: block;
     padding: 4px 0 5px;
     font-size: $fs-xs;
-
     font-weight: 500;
     line-height: 1.3;
 }
@@ -162,15 +171,15 @@ input {
     border-color: var(--spectrum-global-color-gray-300) !important;
     border-width: 0 0 1px !important;
     outline: 0;
-    background-color: var(--spectrum-global-color-gray-100) !important;
+    background-color: var(--md-sys-color-surface) !important;
     transition: border-color 0.13s ease-in-out, box-shadow 0.13s ease-in-out,
         -webkit-box-shadow 0.13s ease-in-out;
 
     &:focus {
         outline: none !important;
-        border-color: var(--link-color);
+        border-color: var(--md-sys-color-primary);
         -webkit-box-shadow: 0 1px 0 var(--link-color);
-        box-shadow: 0 1px 0 var(--link-color) !important;
+        box-shadow: 0 1px 0 var(--md-sys-color-primary) !important;
     }
 
     &.is-invalid,
@@ -181,7 +190,6 @@ input {
 
     &.is-invalid {
         padding-right: 41px;
-
         border-color: var(--error-color);
         background-size: 18px 18px;
         background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='18' width='18'%3E%3Cpath d='M8.564 1.289L.2 16.256A.5.5 0 0 0 .636 17h16.728a.5.5 0 0 0 .5-.5.494.494 0 0 0-.064-.244L9.436 1.289a.5.5 0 0 0-.872 0zM10 14.75a.25.25 0 0 1-.25.25h-1.5a.25.25 0 0 1-.25-.25v-1.5a.25.25 0 0 1 .25-.25h1.5a.25.25 0 0 1 .25.25zm0-3a.25.25 0 0 1-.25.25h-1.5a.25.25 0 0 1-.25-.25v-6a.25.25 0 0 1 .25-.25h1.5a.25.25 0 0 1 .25.25z' fill='%23ec5b62'/%3E%3C/svg%3E");

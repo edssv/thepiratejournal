@@ -4,24 +4,14 @@ import { useAuth } from '../../../hooks';
 import { useLogoutMutation } from '../../../redux';
 import { Avatar } from '../../Avatar';
 import { HeaderSkeleton } from '../HeaderSkeleton';
-import {
-    ActionButton,
-    Button,
-    ButtonGroup,
-    Text,
-    Tooltip,
-    TooltipTrigger,
-} from '@adobe/react-spectrum';
+import { ButtonGroup, Tooltip, TooltipTrigger } from '@adobe/react-spectrum';
 import { useMediaPredicate } from 'react-media-hook';
-
-import styles from './HeaderStrip.module.scss';
-
-import { IoLogOutOutline } from 'react-icons/io5';
-import Draw from '@spectrum-icons/workflow/Draw';
 import logo from '../../../assets/img/logotype.png';
 import { OpenStateProps } from '../HamburgerMenu';
-import Search from '@spectrum-icons/workflow/Search';
 import { NotificationBlock } from './NotificationBlock';
+
+import styles from './HeaderStrip.module.scss';
+import { Button } from '../../Buttons';
 
 export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
     const location = useLocation();
@@ -35,7 +25,6 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
         navigate('/articles/new', { state: { from: location } });
     };
 
-    const isLaptop = useMediaPredicate('(max-width: 990.98px)');
     const fromLaptop = useMediaPredicate('(min-width: 991px)');
 
     return (
@@ -75,9 +64,9 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                             <HeaderSkeleton />
                         ) : user ? (
                             <>
-                                <Button onPress={onClickWrite} variant="secondary">
-                                    <Draw />
-                                    <Text>Создать статью</Text>
+                                <Button onClick={onClickWrite} variant="filledTonal">
+                                    <span className="material-symbols-outlined">edit</span>Создать
+                                    статью
                                 </Button>
 
                                 <NotificationBlock />
@@ -87,57 +76,45 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                                 </Link>
 
                                 <TooltipTrigger delay={200}>
-                                    <ActionButton
-                                        onPress={async () => {
+                                    <Button
+                                        icon
+                                        variant="text"
+                                        onClick={async () => {
                                             await logout('');
                                             navigate('/login');
-                                        }}
-                                        isQuiet
-                                        UNSAFE_style={{ borderRadius: '50%' }}>
-                                        <IoLogOutOutline size="1.6em" />
-                                    </ActionButton>
+                                        }}>
+                                        <span className="material-symbols-outlined">logout</span>
+                                    </Button>
                                     <Tooltip placement="bottom">Выйти из аккаунта</Tooltip>
                                 </TooltipTrigger>
                             </>
                         ) : (
-                            <ButtonGroup>
-                                <Button
-                                    href="/login"
-                                    elementType="a"
-                                    variant="accent"
-                                    style="outline">
+                            <>
+                                <Button onClick={() => navigate('/login')} variant="filledTonal">
                                     Войти
                                 </Button>
-                                <Button href="/signup" elementType="a" variant="accent">
+                                <Button onClick={() => navigate('/signup')} variant="filled">
                                     Зарегистрироваться
                                 </Button>
-                            </ButtonGroup>
+                            </>
                         )}
                     </div>
                 </div>
             ) : (
                 <div className={styles.mobile}>
                     <div className={styles.left}>
-                        <button
-                            onClick={() => setOpen(!open)}
-                            className={`hamburgerMenuActivate
-                                ${open ? 'open' : ''}
-                            `}>
-                            <div className="hamburgerButton">
-                                <div className="hamburgerLine"></div>
-                                <div className="hamburgerLine"></div>
-                                <div className="hamburgerLine"></div>
-                            </div>
-                        </button>
+                        <Button icon variant="text" onClick={() => setOpen(!open)}>
+                            <span className="material-symbols-outlined">menu</span>
+                        </Button>
                         <Link to="/" className={`${styles.logo} icon-center`}>
                             <img src={logo} alt="The Pirate Journal" />
                         </Link>
                     </div>
                     <div className={styles.right}>
                         {user && <NotificationBlock />}
-                        <Link to="/search">
-                            <Search size="S" />
-                        </Link>
+                        <Button icon variant="text" onClick={() => navigate('/search')}>
+                            <span className="material-symbols-outlined">search</span>
+                        </Button>
                     </div>
                 </div>
             )}

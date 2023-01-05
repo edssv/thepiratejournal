@@ -10,7 +10,8 @@
         "@editorjs/header": "^2.6.2",
         "@editorjs/image": "^2.6.2",
         "@editorjs/list": "^1.7.0",
-        "@react-spectrum/button": "^3.11.0",
+        "@emotion/styled": "^11.10.5",
+        "@headlessui/react": "^1.7.7",
         "@reduxjs/toolkit": "^1.8.6",
         "@spectrum-icons/illustrations": "^3.5.0",
         "@spectrum-icons/workflow": "^4.0.3",
@@ -22,11 +23,8 @@
         "editorjs-html": "^3.4.2",
         "flowbite": "^1.5.4",
         "flowbite-react": "^0.3.7",
-        "gapi-script": "^1.2.0",
-        "ionicons": "^6.0.4",
         "lodash.debounce": "^4.0.8",
         "moment": "^2.29.4",
-        "pretty-time": "^1.1.0",
         "query-string": "^7.1.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
@@ -36,6 +34,7 @@
         "react-icons": "^4.7.1",
         "react-loading-skeleton": "^3.1.0",
         "react-media-hook": "^0.5.0",
+        "react-popper": "^2.3.0",
         "react-redux": "^8.0.4",
         "react-router-dom": "^6.4.2",
         "react-scripts": "5.0.1",
@@ -44,7 +43,7 @@
         "web-vitals": "^2.1.4"
     },
     "scripts": {
-        "start": "react-scripts --max-old-space-size=536 start",
+        "start": "react-scripts --max-old-space-size=636 start",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
@@ -73,8 +72,6 @@
         "@editorjs/marker": "^1.2.2",
         "@editorjs/quote": "^2.4.0",
         "@editorjs/warning": "^1.2.0",
-        "autoprefixer": "^10.4.13",
-        "postcss": "^8.4.19",
-        "tailwindcss": "^3.2.4"
+        "autoprefixer": "^10.4.13"
     }
 }

@@ -15,26 +15,26 @@
 
         img {
             @include breakpoint-down(sm) {
-                height: 380px;
+                height: 280px;
             }
         }
 
         .headline {
-            color: var(--spectrum-blue-900);
-            font-weight: 800;
+            color: var(--md-sys-color-primary);
+            font-weight: 700;
         }
 
         p {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: 700;
 
             @include breakpoint-down(sm) {
-                font-size: 32px;
+                font-size: 28px;
             }
         }
 
         button {
-            cursor: pointer;
+            margin-top: 24px;
         }
     }
 }

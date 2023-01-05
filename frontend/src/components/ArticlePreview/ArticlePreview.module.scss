@@ -71,8 +71,8 @@
                 font-size: $fs-sm;
                 overflow: hidden;
                 max-width: 100%;
-
                 text-overflow: ellipsis;
+                color: var(--spectrum-global-color-gray-600);
             }
         }
 

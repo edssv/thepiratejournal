@@ -2,13 +2,12 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import 'moment/locale/ru';
-import { Button } from '@react-spectrum/button';
 import { Draft, useDeleteArticleMutation } from '../../redux/services/article';
 import Image from '@spectrum-icons/workflow/Image';
-import { ButtonDelete } from '../Buttons';
 import { ArticleStats } from '../ArticleStats';
 
 import styles from './DraftPreview.module.scss';
+import { Button, ButtonDelete } from '../Buttons';
 
 interface DraftPreviewProps {
     draft: Draft;
@@ -21,7 +20,7 @@ export const DraftPreview: React.FC<DraftPreviewProps> = ({ draft, refetch }) =>
     const [deleteDraft] = useDeleteArticleMutation();
 
     const time = moment(draft.created_on).fromNow();
-    console.log(time);
+
     return (
         <div className={styles.root}>
             <div className={styles.cover}>
@@ -39,18 +38,15 @@ export const DraftPreview: React.FC<DraftPreviewProps> = ({ draft, refetch }) =>
                     <div className={styles.cover__overlay}>
                         <div className={styles.controls}>
                             <Button
-                                onPress={() => navigate(`/drafts/${draft._id}/edit`)}
-                                variant="accent"
-                                marginBottom="10px">
+                                onClick={() => navigate(`/drafts/${draft._id}/edit`)}
+                                variant="filled">
                                 Продолжить создание
                             </Button>
                             <ButtonDelete
                                 onPrimaryAction={() => {
                                     deleteDraft(draft._id).then(refetch(draft._id));
                                 }}
-                                variant="primary"
-                                staticColor="white"
-                                style="fill">
+                                variant="filledTonal">
                                 Удалить черновик
                             </ButtonDelete>
                             <span className={styles.timeModified}>

@@ -1,37 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createReactEditorJS } from 'react-editor-js';
-import EditorJS from '@editorjs/editorjs';
-import Configuration from './configuration';
-import { CoverWindow, Overlay } from '../../components';
-import { useAddArticleMutation, useEditArticleMutation, useGetArticleQuery } from '../../redux';
-import { Button, TooltipTrigger, Tooltip, ButtonGroup } from '@adobe/react-spectrum';
+import { Button, Overlay } from '../../components';
+import {
+    resetMutableArticle,
+    setBlocks,
+    setTitle,
+    useAddArticleMutation,
+    useEditArticleMutation,
+    useGetMutableArticleQuery,
+} from '../../redux';
+import { i18n, EDITOR_JS_TOOLS } from './EditorJs';
+import debounce from 'lodash.debounce';
 import NotFoundPage from '../NotFound';
-import { useDocTitle } from '../../hooks';
+import { useArticle, useDocTitle, useAppDispatch } from '../../hooks';
 import { useMediaPredicate } from 'react-media-hook';
-import { resizeTextareaHeight } from './resizeTextareaFunction';
-
-import styles from './ArticleEditorPage.module.scss';
-import { ConfirmDialog } from './ConfirmDialog';
+import { resizeTextareaHeight } from '../../helpers';
+import { ConfirmDialog } from './ConfirmDialog/ConfirmDialog';
 import { DraftInfoDialog } from './DraftInfoDialog';
 
-interface IEditorJS {
-    save: any;
-    onChange?: any;
-}
+import styles from './ArticleEditorPage.module.scss';
 
 const ArticleEditorPage = () => {
     const location = useLocation();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const fromPage = location?.state?.from?.pathname;
     const { id } = useParams();
+
     const isDraft = Boolean(location.pathname.split('/')[1] === 'drafts');
     const isEditing = isDraft ? false : Boolean(id);
+    const [mode, setMode] = useState<'isNew' | 'isEditing' | 'isDraft'>(
+        isDraft ? 'isDraft' : isEditing ? 'isEditing' : 'isNew',
+    );
+    useDocTitle(mode === 'isNew' || 'isDraft' ? 'Новая статья' : 'Изменение статьи');
+    const { mutableArticle } = useArticle();
 
-    useDocTitle(!isEditing ? 'Новая статья' : 'Изменение статьи');
+    const editorCore = useRef<any>(null);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const [formStatus, setFormStatus] = useState<'unchanged' | 'modified' | 'saved'>('unchanged');
 
-    const { data, isLoading, isError } = useGetArticleQuery(id, {
-        skip: !isEditing && !isDraft,
+    const { data, isLoading, isError } = useGetMutableArticleQuery(id, {
+        skip: mode === 'isNew',
+        refetchOnMountOrArgChange: true,
     });
     const [addArticle, { isLoading: isSaving, isSuccess: isSuccessSave, isError: isErrorSave }] =
         useAddArticleMutation();
@@ -39,33 +50,27 @@ const ArticleEditorPage = () => {
 
     const isMobile = useMediaPredicate('(max-width: 768px)');
 
-    const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
-    const [uploadedUrl, setUploadedUrl] = useState<string | undefined>(undefined);
-    const [textareaValue, setTextareaValue] = useState<string | undefined>(undefined);
-    const [blocks, setBlocks] = useState<{ data: {}; id: string; type: string }[]>([]);
-    const [formStatus, setFormStatus] = useState<'unchanged' | 'modified' | 'saved'>('unchanged');
-    const [articleCategory, setArticleCategory] = useState<React.Key>();
-    const [editor, setEditor] = useState<IEditorJS>();
-
-    // const saveDraft = useCallback(
-    //     debounce((data) => {
-    //         console.log(data);
-    //     }, 150),
-    //     [],
-    // );
+    const ReactEditorJS = createReactEditorJS();
 
     useEffect(() => {
-        if (isEditing || isDraft) {
-            const editorjs = new EditorJS(Configuration(data?.blocks));
-            setTextareaValue(data?.title);
-            setUploadedUrl(data?.cover);
-            setEditor(editorjs);
-            setBlocks(data?.blocks);
-        } else {
-            const editorjs = new EditorJS(Configuration());
-            setEditor(editorjs);
+        if (location.pathname.split('/')[2] === 'new') {
+            setMode('isNew');
+            dispatch(
+                resetMutableArticle({
+                    _id: '',
+                    title: '',
+                    cover: '',
+                    blocks: [],
+                    tags: [],
+                    category: { category_name: '', game: '' },
+                }),
+            );
+
+            if (textareaRef.current) {
+                textareaRef.current.value = '';
+            }
         }
-    }, [data, isDraft, isEditing]);
+    }, [mode, location, dispatch, data]);
 
     useEffect(() => {
         const handler = (event: BeforeUnloadEvent) => {
@@ -84,54 +89,38 @@ const ArticleEditorPage = () => {
         return () => {};
     }, [formStatus]);
 
+    const handleInitialize = useCallback((instance: any) => {
+        editorCore.current = instance;
+    }, []);
+
+    const handleSave = useCallback(async () => {
+        const savedData = await editorCore.current?.save();
+        dispatch(setBlocks(savedData));
+    }, [dispatch]);
+
+    const autoSave = useCallback(
+        debounce(() => {
+            handleSave();
+        }, 150),
+        [],
+    );
+
     if (isLoading) return <Overlay />;
-    if (isEditing && isError) return <NotFoundPage />;
+    if (isError && mode === 'isEditing') return <NotFoundPage />;
 
-    const onChangeEditor = () => {
-        editor?.save().then((outputData: object) => {
-            const formData = Object.assign(
-                { entry: outputData, textareaValue },
-                { autoSave: true },
-            );
-            saveDraft(formData);
-        });
+    const saveArticle = async () => {
+        const formData = Object.assign(
+            { saveFromDraft: isDraft, draftId: isDraft && id },
+            { intent: 'publish' },
+            mutableArticle,
+        );
+        mode === 'isEditing' ? editArticle({ formData, id }) : addArticle(formData);
     };
 
-    const saveArticle = () => {
-        editor
-            ?.save()
-            .then((outputData: any) => {
-                const formData = Object.assign(
-                    outputData,
-                    { saveFromDraft: isDraft, draftId: isDraft && id },
-                    { intent: 'publish' },
-                    { title: textareaValue },
-                    { cover: uploadedUrl },
-                    { category: { categoryName: articleCategory, game: 'Warface' } },
-                );
-                isEditing ? editArticle({ formData, id }) : addArticle(formData);
-            })
-            .catch((error: ErrorCallback) => {
-                console.log('Saving failed: ', error);
-            });
-    };
-
-    const saveDraft = (data: object) => {
-        editor
-            ?.save()
-            .then((outputData: any) => {
-                const formData = Object.assign(
-                    outputData,
-                    { intent: 'draft' },
-                    { title: textareaValue },
-                    { cover: uploadedUrl },
-                );
-                addArticle(formData);
-                setFormStatus('saved');
-            })
-            .catch((error: ErrorCallback) => {
-                console.log('Saving failed: ', error);
-            });
+    const saveDraft = async () => {
+        const formData = Object.assign({ intent: 'draft' }, mutableArticle);
+        addArticle(formData);
+        setFormStatus('saved');
     };
 
     const onClickSave = () => {
@@ -144,16 +133,13 @@ const ArticleEditorPage = () => {
     return (
         <div className={styles.root}>
             <div className={styles.top_bar}>
-                <TooltipTrigger delay={200}>
-                    <Button
-                        onPress={() =>
-                            navigate(fromPage && fromPage !== location.pathname ? fromPage : '/')
-                        }
-                        variant="secondary">
-                        Отмена
-                    </Button>
-                    <Tooltip placement="right">Вернуться назад</Tooltip>
-                </TooltipTrigger>
+                <Button
+                    onClick={() =>
+                        navigate(fromPage && fromPage !== location.pathname ? fromPage : '/')
+                    }
+                    variant="outlined">
+                    Отмена
+                </Button>
                 <div className={styles.barRightButtons}>
                     {!isEditing && (
                         <DraftInfoDialog
@@ -164,13 +150,9 @@ const ArticleEditorPage = () => {
                             isDisabled={isSaving}
                         />
                     )}
-
                     <ConfirmDialog
-                        isDisabled={!(uploadedUrl && textareaValue)}
                         onClickSave={onClickSave}
-                        isEditing={isEditing}
-                        articleCategory={articleCategory}
-                        setArticleCategory={setArticleCategory}
+                        mode={mode}
                         onPressDraft={saveDraft}
                         isLoadingDraft={isSaving}
                         isSuccessDraft={isSuccessSave}
@@ -182,7 +164,7 @@ const ArticleEditorPage = () => {
             <div className={styles.container}>
                 <form
                     onChange={(e) => {
-                        if (textareaValue !== '') {
+                        if (mutableArticle?.title !== '') {
                             setFormStatus('modified');
                         } else {
                             setFormStatus('unchanged');
@@ -190,27 +172,40 @@ const ArticleEditorPage = () => {
                     }}>
                     <div className={styles.textarea__wrapper}>
                         <textarea
+                            ref={textareaRef}
                             maxLength={68}
                             autoFocus={true}
                             placeholder={
                                 isMobile ? 'Дай мне имя' : 'Как корабль назовёшь так он и поплывёт'
                             }
                             className={styles.writingHeader}
-                            value={textareaValue}
-                            onChange={(e) => setTextareaValue(e.target.value)}
+                            value={mutableArticle?.title}
+                            onChange={(e) => dispatch(setTitle(e.target.value))}
                             style={{ height: 42 }}
                         />
                     </div>
-                    <CoverWindow
-                        uploadedUrl={uploadedUrl}
-                        setUploadedUrl={setUploadedUrl}
-                        onClickSave={onClickSave}
-                        selectedFile={selectedFile}
-                        setSelectedFile={setSelectedFile}
-                        isEditing={isEditing}
-                    />
-                    <div id="editorjs" onChange={() => console.log('p')} />
-                    {/* <ReactEditorJS onChange={() => console.log('p')} defaultValue={blocks} /> */}
+                    {(isEditing || isDraft) && mutableArticle?.blocks ? (
+                        <ReactEditorJS
+                            onInitialize={handleInitialize}
+                            placeholder="Давай напишем классную статью!"
+                            defaultValue={{
+                                blocks: mutableArticle?.blocks,
+                            }}
+                            tools={EDITOR_JS_TOOLS}
+                            i18n={i18n}
+                            onChange={autoSave}
+                        />
+                    ) : (
+                        mode === 'isNew' && (
+                            <ReactEditorJS
+                                onInitialize={handleInitialize}
+                                placeholder="Давай напишем классную статью!"
+                                tools={EDITOR_JS_TOOLS}
+                                i18n={i18n}
+                                onChange={autoSave}
+                            />
+                        )
+                    )}
                 </form>
             </div>
         </div>

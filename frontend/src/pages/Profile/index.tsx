@@ -1,36 +1,41 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useLocation, useParams } from 'react-router-dom';
 import { useGetUserQuery, Article, Draft } from '../../redux';
-import { convertDateDayMonthYear, viewsSumCalc } from '../../helpers';
+import { convertDateDayMonthYear } from '../../helpers';
 import { DraftPreview, CreateModule, Avatar, ArticlePreview, Overlay } from '../../components';
 import { useDocTitle } from '../../hooks';
-import { Button, ButtonGroup, Divider } from '@adobe/react-spectrum';
 
 import styles from './Profile.module.scss';
 import { ButtonFollow } from '../../components/Buttons/ButtonFollow';
 import { UploadAvatar } from './UploadAvatar';
 
+const navListData = [
+    { activeSection: 'articles', text: 'Статьи', icon: 'book' },
+    { activeSection: 'appreciated', text: 'Оценки', icon: 'favorite' },
+    { activeSection: 'bookmarks', text: 'Закладки', icon: 'bookmarks' },
+    { activeSection: 'drafts', text: 'Черновики', icon: 'edit_document' },
+];
+
 const Profile: React.FC = () => {
     const { username } = useParams();
     useDocTitle(username);
     const location = useLocation();
-    const navigate = useNavigate();
 
-    const activeSection = location.pathname.split('/')[3];
-    console.log(activeSection);
+    const activeSection = location.pathname.split('/')[3] ?? 'articles';
 
     const [list, setList] = useState(activeSection ? activeSection : 'articles');
 
     const { data, isLoading, refetch } = useGetUserQuery(username);
+
+    useEffect(() => {
+        setList(activeSection);
+    }, [activeSection]);
 
     if (isLoading) return <Overlay />;
 
     const user = data?.user;
     const articles = data?.articles;
     const isOwner = data?.isOwner;
-    const views = viewsSumCalc(articles);
-    const city = user?.info.city;
-    const country = user?.info.country;
 
     const articlesList = articles?.map((article: Article, id) => (
         <ArticlePreview article={article} key={id} />
@@ -45,23 +50,28 @@ const Profile: React.FC = () => {
         <DraftPreview draft={draft} refetch={refetch} key={id} />
     ));
 
-    const appreciatedBlock = () => {
-        if (appreciatedList?.length === 0 && !isOwner) return '';
-        if ((appreciatedList?.length === 0 && isOwner) || appreciatedList?.length !== 0)
-            return (
-                <Button
-                    onPress={() => changeChapter('appreciated')}
-                    variant={list === 'appreciated' ? 'primary' : 'secondary'}
-                    style={list === 'appreciated' ? 'fill' : 'outline'}>
-                    Оценки
-                </Button>
-            );
-    };
-
-    const changeChapter = (chapter: string) => {
-        setList(chapter);
-        navigate(`/users/${username}/${chapter}`);
-    };
+    const navListItems = navListData.map((item, i) => (
+        <li key={i}>
+            <NavLink
+                to={`/users/${username}/${item.activeSection}`}
+                className={({ isActive }) =>
+                    [
+                        styles.navLink,
+                        isActive ||
+                        (activeSection === 'articles' && item.activeSection === 'articles')
+                            ? styles.active
+                            : undefined,
+                    ]
+                        .filter(Boolean)
+                        .join(' ')
+                }>
+                <span className={styles.tabLabel}>
+                    <span className="material-symbols-outlined">{item.icon}</span>
+                    {item.text}
+                </span>
+            </NavLink>
+        </li>
+    ));
 
     const date = convertDateDayMonthYear(user?.timestamp);
     return (
@@ -75,13 +85,13 @@ const Profile: React.FC = () => {
                             <div className={styles.info__counters}>
                                 Подписчики: <span>{data?.user.followersCount}</span>
                             </div>
-                            {/* <div className={styles.location}>
-                                <Location size="XS" />{' '}
-                                {city && country
-                                    ? `${city},
-                                ${country}`
+                            <div className={styles.location}>
+                                <span className="material-symbols-outlined">location_on</span>
+                                {data?.user.info.city && data?.user.info.country
+                                    ? `${data?.user.info.city},
+                                ${data?.user.info.country}`
                                     : 'Пиратский корабль'}
-                            </div> */}
+                            </div>
                         </div>
                         {isOwner && <UploadAvatar />}
                         {!isOwner && (
@@ -94,38 +104,11 @@ const Profile: React.FC = () => {
                     <span className={styles.signupDate}>Дата регистрации: {date}</span>
                 </div>
                 <section className={`${styles.articlesSection} articles`}>
-                    <ButtonGroup flex UNSAFE_className={styles.buttonGroup}>
-                        <Button
-                            onPress={() => changeChapter('articles')}
-                            variant={list === 'articles' ? 'primary' : 'secondary'}
-                            style={list === 'articles' ? 'fill' : 'outline'}>
-                            Статьи
-                        </Button>
-                        {appreciatedBlock()}{' '}
-                        {isOwner && (
-                            <>
-                                <Button
-                                    onPress={() => changeChapter('bookmarks')}
-                                    variant={list === 'bookmarks' ? 'primary' : 'secondary'}
-                                    style={list === 'bookmarks' ? 'fill' : 'outline'}>
-                                    Закладки
-                                </Button>
-                                <Divider
-                                    orientation="vertical"
-                                    alignSelf="center"
-                                    size="S"
-                                    height="20px"
-                                    margin="0 10px"
-                                />{' '}
-                                <Button
-                                    onPress={() => changeChapter('drafts')}
-                                    variant={list === 'drafts' ? 'primary' : 'secondary'}
-                                    style={list === 'drafts' ? 'fill' : 'outline'}>
-                                    Черновики
-                                </Button>
-                            </>
-                        )}
-                    </ButtonGroup>
+                    <nav>
+                        <ul className={styles.tabList}>
+                            {isOwner ? navListItems : [navListItems[0], navListItems[1]]}
+                        </ul>
+                    </nav>
                     {list === 'articles' && (
                         <div className="articles__list">
                             {articlesList?.length !== 0

@@ -1,8 +1,7 @@
-import { ActionButton, Button, Content, Heading, IllustratedMessage } from '@adobe/react-spectrum';
-import NotFound from '@spectrum-icons/illustrations/NotFound';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '../../components';
 
-import notFoundImage from '../../assets/img/404-computer.svg';
+import notFoundImage from '../../assets/img/404-computer.png';
 
 import styles from './NotFound.module.scss';
 
@@ -11,12 +10,12 @@ const NotFoundPage = () => {
     return (
         <div className={styles.root}>
             <div className={styles.content}>
-                <img src={notFoundImage} />
-                <h3 className={styles.headline}>404 Not Found</h3>
+                <img src={notFoundImage} alt="Не найдено" />
+                <h4 className={styles.headline}>404 Not Found</h4>
                 <p>Упс! Эта страница не существует.</p>
-                <ActionButton onPress={() => navigate('/')} marginTop={18}>
+                <Button onClick={() => navigate('/')} variant="filledTonal">
                     Вернуться домой
-                </ActionButton>
+                </Button>
             </div>
         </div>
     );

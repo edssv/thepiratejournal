@@ -1,0 +1,36 @@
+@use '../../../scss/util' as *;
+
+.plateContent {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .itemHeadline {
+        margin-bottom: 6px;
+    }
+}
+
+.buttonGroup {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 64px;
+    @include breakpoint-down(sm) {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: 16px;
+    }
+
+    .buttonGroupConfirm {
+        display: flex;
+        gap: 8px;
+    }
+
+    button {
+        height: 36px;
+    }
+}

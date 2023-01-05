@@ -18,7 +18,6 @@ export const CardLayout: React.FC<CardLayoutProps> = ({ children, headline }) =>
     const location = useLocation();
 
     const activeSection = location.pathname.split('/')[1];
-    console.log(location);
 
     const isLaptop = useMediaPredicate('(max-width: 1279px)');
     const isMobile = useMediaPredicate('(max-width: 510px)');

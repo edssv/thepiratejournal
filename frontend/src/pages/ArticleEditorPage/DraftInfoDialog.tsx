@@ -1,16 +1,7 @@
 import React, { useState } from 'react';
-import {
-    ActionButton,
-    Button,
-    Content,
-    Dialog,
-    DialogTrigger,
-    Divider,
-    Heading,
-    Text,
-} from '@adobe/react-spectrum';
-import { ButtonProgress } from '../../components';
 import { Toast } from 'flowbite-react';
+import { useMediaPredicate } from 'react-media-hook';
+import { Button } from '../../components';
 
 interface DraftInfoDialogProps {
     isLoading: boolean;
@@ -34,17 +25,30 @@ export const DraftInfoDialog: React.FC<DraftInfoDialogProps> = ({
         setOpen(true);
     };
 
+    const isMobile = useMediaPredicate('(max-width: 551px)');
+
     return (
         <>
-            <ButtonProgress
-                onPress={onClickButton}
-                isLoading={isLoading}
-                isDisabled={isDisabled}
-                variant="primary">
-                Сохранить как черновик
-            </ButtonProgress>
+            {isMobile ? (
+                <Button
+                    onClick={onClickButton}
+                    isLoading={isLoading}
+                    disabled={isDisabled}
+                    variant="filledTonal">
+                    <span className="material-symbols-outlined">save_as</span> Черновик
+                </Button>
+            ) : (
+                <Button
+                    onClick={onClickButton}
+                    isLoading={isLoading}
+                    disabled={isDisabled}
+                    variant="filledTonal">
+                    Сохранить как черновик
+                </Button>
+            )}
+
             {isOpen && isSuccess ? (
-                <Toast className="fixed bottom-5">
+                <Toast className="fixed bottom-5 z-50">
                     <div className="flex !items-start">
                         <div className="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
                             <svg

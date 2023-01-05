@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 // Create our baseQuery instance
@@ -38,8 +38,6 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
     }
     return result;
 };
-
-const baseQueryWithRetry = retry(baseQuery, { maxRetries: 0 });
 
 /**
  * Create a base API to inject endpoints into elsewhere.

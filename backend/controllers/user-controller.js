@@ -21,11 +21,11 @@ const getUser = async (req, res) => {
         let isOwner = false;
         let hasSubscription = false;
         if (currentUser) {
-            isOwner = user._id.toString() === currentUser._id.toString() ? true : false;
+            isOwner = user._id.toString() === currentUser._id.toString();
             hasSubscription = await User.find({
                 $and: [{ _id: user._id }, { followers: { $in: currentUser._id.toString() } }],
             });
-            hasSubscription = hasSubscription.length !== 0 ? true : false;
+            hasSubscription = hasSubscription.length !== 0;
         }
 
         if (isOwner)
@@ -37,7 +37,6 @@ const getUser = async (req, res) => {
             user,
             articles,
             appreciated,
-
             viewer: { hasSubscription: hasSubscription },
         });
     } catch (error) {
@@ -48,7 +47,6 @@ const getUser = async (req, res) => {
 const follow = async (req, res) => {
     const followerId = req.user.id;
     const idolUsername = req.params.username;
-    console.log(followerId);
 
     try {
         await User.follow(followerId, idolUsername);
@@ -62,7 +60,6 @@ const follow = async (req, res) => {
 const unFollow = async (req, res) => {
     const followerId = req.user.id;
     const idolUsername = req.params.username;
-    console.log(followerId);
 
     try {
         await User.unFollow(followerId, idolUsername);

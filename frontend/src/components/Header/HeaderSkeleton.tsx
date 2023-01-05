@@ -12,7 +12,7 @@ export const HeaderSkeleton = () => {
                     circle
                     width={32}
                     height={32}
-                    count={3}
+                    count={4}
                     inline
                     style={{ marginLeft: '8px', marginRight: '8px' }}
                 />

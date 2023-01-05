@@ -4,17 +4,22 @@ $infoWidth: 768px;
 
 .root {
     min-height: calc(100vh - $header-height);
-    background-color: var(--spectrum-well-background-color);
-    .shot_container {
-        .shot_content {
-            padding: 20px 16px;
-            position: relative;
+    background-color: var(--md-sys-color-surface);
 
+    .shot_container {
+        .shot_content,
+        .shotOther {
+            position: relative;
+            padding: 20px 16px;
             @include breakpoint(lg) {
-                padding: 20px 120px;
+                padding: 20px 120px 20px;
                 transition: padding 0.25s linear;
                 transition-delay: 0.15s;
             }
+        }
+
+        .shot_content {
+            background-color: var(--md-sys-color-surface1);
 
             .shot_content_container {
                 display: flex;
@@ -83,18 +88,9 @@ $infoWidth: 768px;
                             }
                         }
                     }
-
-                    .controls {
-                        position: relative;
-                        button {
-                            width: 40px;
-                            height: 40px;
-                            border-radius: 50%;
-                        }
-                    }
                 }
                 .content__wrapper {
-                    max-width: 752px;
+                    max-width: 768px;
 
                     .button {
                         display: block;
@@ -148,54 +144,18 @@ $infoWidth: 768px;
                             transition: color 0.25s, border-bottom-color 0.25s;
                         }
                     }
-
-                    .img__wrapper {
-                    }
-                }
-
-                .bottomInfo {
-                    max-width: $infoWidth;
-                    width: 100%;
-
-                    .well {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 12px;
-                        width: 100%;
-                        padding: 20px;
-
-                        .articleTitle {
-                            font-size: 18px;
-                        }
-
-                        .dateAndStats {
-                            display: flex;
-                            justify-content: space-between;
-                        }
-
-                        .date {
-                            font-weight: 500;
-                        }
-
-                        .author {
-                            display: flex;
-                            align-items: center;
-                            gap: 12px;
-
-                            .authorName {
-                                font-size: 16px;
-                                font-weight: 500;
-                            }
-                        }
-                    }
                 }
 
                 .shot_sidebar {
+                    visibility: hidden;
                     position: absolute;
                     top: 0;
                     right: 0;
                     height: 100%;
                     z-index: 2;
+                    @include breakpoint(lg) {
+                        visibility: visible;
+                    }
 
                     .shot_controls_wrapper {
                         position: absolute;
@@ -228,11 +188,79 @@ $infoWidth: 768px;
                                 margin-left: 0;
                                 gap: 16px;
 
-                                button {
-                                    width: 45px;
-                                    height: 45px;
-                                    border-radius: 50%;
+                                span {
+                                    font-size: 18px;
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .shotOther {
+            display: flex;
+            justify-content: center;
+
+            &Container {
+                max-width: 1120px;
+                width: 100%;
+
+                .bottom {
+                    width: 100%;
+
+                    .well {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 24px;
+                        width: 100%;
+                        margin-bottom: 24px;
+                        padding: 20px 4px;
+
+                        .top {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+
+                            .articleTitle {
+                                font-size: 18px;
+                            }
+
+                            .author {
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+
+                                &Info {
+                                    display: flex;
+                                    flex-direction: column;
+
+                                    .authorName {
+                                        font-size: 16px;
+                                        font-weight: 500;
+                                    }
+
+                                    .subscribersCount {
+                                        font-size: 12px;
+                                        color: var(--md-sys-color-on-surface-variant);
+                                    }
+                                }
+                            }
+                        }
+                        .dateAndStats {
+                            display: flex;
+                            gap: 8px;
+                            padding: 12px;
+                            border-radius: 12px;
+                            background-color: var(--md-sys-color-surface-variant);
+                            font-weight: 500;
+
+                            @include breakpoint(lg) {
+                                flex-direction: column;
+                                gap: 0;
+                                padding: 0;
+                                text-align: right;
+                                background-color: unset;
                             }
                         }
                     }

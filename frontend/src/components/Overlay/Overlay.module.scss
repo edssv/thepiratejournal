@@ -8,5 +8,11 @@
     width: 80px;
     height: 80px;
     transform: translate(-40px, -40px);
-    z-index: 999;
+    z-index: 2;
+}
+
+:global {
+    .spectrum-CircleLoader-fill_7c1153 {
+        border-color: var(--md-sys-color-primary);
+    }
 }

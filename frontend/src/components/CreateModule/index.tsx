@@ -1,10 +1,9 @@
-import { Button } from '@react-spectrum/button';
-import AddCircle from '@spectrum-icons/workflow/AddCircle';
-import Search from '@spectrum-icons/workflow/Search';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import Search from '@spectrum-icons/workflow/Search';
 
 import styles from './CreateModule.module.scss';
+import { Button } from '../Buttons';
 
 interface CreateModuleProps {
     create?: boolean;
@@ -15,7 +14,7 @@ interface CreateModuleProps {
 export const CreateModule: React.FC<CreateModuleProps> = ({ create, find, draft }) => {
     const navigate = useNavigate();
 
-    const findButton = <Button variant="secondary">Найти статьи</Button>;
+    const findButton = <Button variant="outlined">Найти статьи</Button>;
 
     return (
         <div className={styles.root}>
@@ -25,18 +24,18 @@ export const CreateModule: React.FC<CreateModuleProps> = ({ create, find, draft 
                         <div className={styles.iconAndHeading}>
                             <div className={styles.icon}>
                                 {create || draft ? (
-                                    <AddCircle size="M" color="informative" />
+                                    <span className="material-symbols-outlined">add_circle</span>
                                 ) : (
                                     find && <Search color="informative" />
                                 )}
                             </div>
                             <Button
-                                onPress={() =>
+                                onClick={() =>
                                     create || draft
                                         ? navigate('/articles/new')
                                         : navigate('/articles')
                                 }
-                                variant="secondary">
+                                variant="outlined">
                                 {create || draft ? 'Написать статью' : 'Найти статьи'}
                             </Button>
                         </div>

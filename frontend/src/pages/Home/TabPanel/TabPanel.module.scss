@@ -2,23 +2,26 @@
 
 .root {
     .tabMenu__wrapper {
-        height: 37px;
         padding-top: 5px;
-        border-bottom: 1px solid var(--spectrum-well-border-color);
-        @include breakpoint(sm) {
-            height: 48px;
+        border-bottom: 1px solid var(--md-sys-color-surface-variant);
+        @include breakpoint-down(md) {
+            height: 64px;
         }
+        @include breakpoint(lg) {
+            height: 40px;
+        }
+
         .tabMenu {
             display: flex;
             height: 100%;
-            gap: 16px;
+            gap: 36px;
 
             @include breakpoint-down(md) {
-                justify-content: center;
+                justify-content: space-around;
+                gap: unset;
             }
 
             &__tab {
-                height: 100%;
                 font-size: 18px;
                 font-weight: 700;
 
@@ -38,11 +41,30 @@
                 a {
                     display: inline-block;
                     height: 100%;
-                    color: var(--spectrum-global-color-gray-600);
+                    color: var(--md-sys-color-on-surface-variant);
 
                     &.active {
-                        border-bottom: 2px solid var(--spectrum-global-color-gray-900);
-                        color: var(--spectrum-global-color-gray-900) !important;
+                        border-bottom: 3px solid var(--md-sys-color-primary);
+                        border-radius: 3px 3px 0 0;
+                        color: var(--md-sys-color-primary) !important;
+                        font-variation-settings: 'FILL' 1;
+                    }
+
+                    &:active {
+                        color: var(--md-sys-color-primary);
+                    }
+
+                    .tabIcon {
+                        display: flex;
+                        align-items: center;
+                        @include breakpoint-down(md) {
+                            flex-direction: column;
+                        }
+                        @include breakpoint(lg) {
+                            gap: 8px;
+                            padding-bottom: 10px;
+                            height: 20px;
+                        }
                     }
                 }
             }

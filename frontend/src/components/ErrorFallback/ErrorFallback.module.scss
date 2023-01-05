@@ -25,8 +25,8 @@
         }
 
         .headline {
-            color: var(--spectrum-blue-900);
-            font-weight: 800;
+            color: var(--md-sys-color-primary);
+            font-weight: 700;
             @include breakpoint-down(sm) {
                 font-size: 18px;
             }

@@ -1,15 +1,23 @@
 const Article = require('../models/article-model');
 const Draft = require('../models/draftModel');
 const User = require('../models/user-model');
-const { likeNotification } = require('../service/notification-service');
+const { likeNotification, commentNotification } = require('../service/notification-service');
 
 const creating = async (req, res) => {
     const authorId = req.user._id;
     const authorUsername = req.user.username;
-    const { intent, title, cover, blocks, category, saveFromDraft, draftId } = req.body;
+    const { intent, title, cover, blocks, tags, category, saveFromDraft, draftId } = req.body;
     try {
         if (intent === 'draft') {
-            const draft = await Draft.creating(authorId, authorUsername, title, cover, blocks);
+            const draft = await Draft.creating(
+                authorId,
+                authorUsername,
+                title,
+                cover,
+                blocks,
+                tags,
+                category,
+            );
             return res.json(draft);
         }
 
@@ -19,6 +27,7 @@ const creating = async (req, res) => {
             title,
             cover,
             blocks,
+            tags,
             category,
         );
 
@@ -50,9 +59,9 @@ const remove = async (req, res) => {
 
 const editing = async (req, res) => {
     const articleId = req.params.id;
-    const { title, cover, blocks } = req.body;
+    const { title, cover, blocks, tags, category } = req.body;
     try {
-        await Article.editing(articleId, title, cover, blocks);
+        await Article.editing(articleId, title, cover, blocks, tags, category);
         res.status(200).json({ message: 'Статья обновлена' });
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -124,18 +133,39 @@ const getOne = async (req, res) => {
             hasSubscription = await User.find({
                 $and: [{ _id: author._id }, { followers: { $in: currentUser._id.toString() } }],
             });
-            hasSubscription = hasSubscription.length !== 0 ? true : false;
+            hasSubscription = hasSubscription.length !== 0;
 
             hasBookmark = await User.find({
                 $and: [{ _id: currentUser._id }, { bookmarks: { $in: id } }],
             });
-            hasBookmark = hasBookmark.length !== 0 ? true : false;
+            hasBookmark = hasBookmark.length !== 0;
+        }
+
+        const comments = [];
+        for (let i = 0; i < article.comments.length; i++) {
+            comments.push({
+                comment: article.comments[i],
+                author: await User.findOne(
+                    { _id: article.comments[i].author },
+                    { username: 1, avatar: 1 },
+                ),
+            });
         }
 
         res.status(200).json({
-            ...article._doc,
-            author: { _id: author._id, username: author.username, avatar: author.avatar },
-            viewer: { hasSubscription: hasSubscription, hasBookmark: hasBookmark, isLike: isLike },
+            ...article,
+            comments,
+            author: {
+                _id: author._id,
+                username: author.username,
+                avatar: author.avatar,
+                subscribers_count: author.followers.length,
+            },
+            viewer: {
+                hasSubscription: hasSubscription,
+                hasBookmark: hasBookmark,
+                isLike: Boolean(isLike),
+            },
         });
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -171,4 +201,44 @@ const removeLike = async (req, res) => {
     }
 };
 
-module.exports = { creating, remove, editing, getAll, searchArticles, getOne, like, removeLike };
+const addComment = async (req, res) => {
+    const articleId = req.params.id;
+    const user = req.user;
+    const { commentText } = req.body;
+
+    try {
+        const article = await Article.addComment(articleId, user._id, commentText);
+        await commentNotification(article.author._id, user);
+
+        res.status(200).json({ message: 'Спасибо за комментарий!' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const removeComment = async (req, res) => {
+    const articleId = req.params.id;
+    const user = req.user;
+    const { commentId } = req.body;
+
+    try {
+        await Article.removeComment(articleId, user._id, commentId);
+
+        res.status(200).json({ message: 'Комментарий удален!' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+module.exports = {
+    creating,
+    remove,
+    editing,
+    getAll,
+    searchArticles,
+    getOne,
+    like,
+    removeLike,
+    addComment,
+    removeComment,
+};

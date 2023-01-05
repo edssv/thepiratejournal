@@ -4,9 +4,14 @@ export interface Block {
     id: string;
     type: string;
     data: {
-        level: number;
+        level?: number;
         text: string;
     };
+}
+
+export interface Comment {
+    comment: { _id: string; author: string; text: string; created_on: number };
+    author: { _id: string; username: string; avatar: string };
 }
 
 export interface Draft {
@@ -19,12 +24,15 @@ export interface Draft {
 }
 export interface Article {
     _id: string;
-    author: { _id: string; username: string; avatar: string };
+    author: { _id: string; username: string; avatar: string; subscribers_count: number };
     title: string;
     cover: string;
     blocks: any;
+    tags: [];
+    category: { category_name: string; game: string };
     created_on: number;
     isPublished: boolean;
+    comments: Comment[];
     views: { count: number };
     likes: { count: number };
     viewer: { hasSubscription: boolean; hasBookmark: boolean; isLike: boolean };
@@ -34,6 +42,10 @@ export const articleApi = api.injectEndpoints({
     endpoints: (build) => ({
         getArticle: build.query<Article, string | undefined>({
             query: (id) => `articles/${id}`,
+            providesTags: ['Articles'],
+        }),
+        getMutableArticle: build.query<Article, string | undefined>({
+            query: (id) => `articles/edit/${id}`,
             providesTags: ['Articles'],
         }),
         getArticles: build.query({
@@ -93,11 +105,27 @@ export const articleApi = api.injectEndpoints({
                 method: 'PATCH',
             }),
         }),
+        addComment: build.mutation({
+            query: ({ commentText, id }) => ({
+                url: `articles/${id}/comments/add`,
+                method: 'PATCH',
+                body: { commentText: commentText },
+            }),
+            invalidatesTags: ['Articles'],
+        }),
+        removeComment: build.mutation({
+            query: ({ commentId, id }) => ({
+                url: `articles/${id}/comments/remove`,
+                method: 'PATCH',
+                body: { commentId: commentId },
+            }),
+        }),
     }),
 });
 
 export const {
     useGetArticleQuery,
+    useGetMutableArticleQuery,
     useGetArticlesQuery,
     useSearchArticlesQuery,
     useAddCoverMutation,
@@ -107,4 +135,6 @@ export const {
     useDeleteArticleMutation,
     useAddArticleMutation,
     useEditArticleMutation,
+    useAddCommentMutation,
+    useRemoveCommentMutation,
 } = articleApi;

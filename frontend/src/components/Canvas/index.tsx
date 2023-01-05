@@ -15,13 +15,7 @@ export const Canvas: React.FC<CanvasProps> = ({ children }) => {
     const fromDesktop = useMediaPredicate('(min-width: 1280px)');
 
     return (
-        <div
-            className={styles.root}
-            style={
-                fromMobile
-                    ? { backgroundImage: `url(${background})` }
-                    : { backgroundImage: 'unset' }
-            }>
+        <div className={styles.root}>
             <section className={styles.background}>
                 <div className={styles.inner}>
                     {fromDesktop && (

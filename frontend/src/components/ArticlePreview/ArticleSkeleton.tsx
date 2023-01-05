@@ -17,7 +17,7 @@ export const ArticleSkeleton: React.FC<ArticleSkeletonProps> = ({ counts }) => {
                     .map((_, i) => (
                         <div className={styles.root} key={i}>
                             <SkeletonTheme
-                                baseColor="var(--spectrum-global-color-gray-200)"
+                                baseColor="var(--md-sys-color-surface-variant)"
                                 enableAnimation={false}>
                                 <Skeleton borderRadius={8} height={172} />
                                 <Skeleton width="90%" height={20} style={{ marginTop: '10px' }} />

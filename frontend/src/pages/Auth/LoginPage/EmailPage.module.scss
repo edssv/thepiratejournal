@@ -1,0 +1,87 @@
+@use '../../../scss/util/' as *;
+
+.root {
+    width: 100%;
+
+    .emailForm {
+        .emailField {
+            margin-bottom: 21px;
+            .instructions {
+                line-height: 27px;
+
+                a {
+                    color: var(--md-sys-color-primary);
+                }
+            }
+
+            .fields {
+                display: flex;
+                flex-direction: column;
+                gap: $gap-lg;
+                margin-top: 32px;
+
+                .password__field {
+                    position: relative;
+
+                    svg {
+                        height: 18px;
+                        width: 18px;
+                    }
+                }
+            }
+        }
+        .submit {
+            display: flex;
+            justify-content: end;
+        }
+    }
+
+    .socials__separator {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 24px 0 26px 0;
+
+        &:before,
+        &:after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--spectrum-global-color-gray-300);
+        }
+
+        &:before {
+            margin-right: 0.5em;
+        }
+
+        &::after {
+            margin-left: 0.5em;
+        }
+    }
+    .social__buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        .social__button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 15px;
+            min-height: 56px;
+            border-radius: 100px;
+            border: 2px solid var(--spectrum-global-color-gray-300);
+
+            svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            span {
+                font-weight: 700;
+                font-size: $fs-sm;
+            }
+        }
+    }
+}

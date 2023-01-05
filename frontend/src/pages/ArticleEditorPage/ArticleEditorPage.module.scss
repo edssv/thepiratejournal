@@ -15,6 +15,7 @@
         display: flex;
         justify-content: space-between;
         align-items: start;
+        z-index: 2;
 
         @include breakpoint(lg) {
             position: sticky;
@@ -41,10 +42,9 @@
         max-width: 968px;
 
         .textarea__wrapper {
-            width: 100%;
-
             display: flex;
             justify-content: center;
+            width: 100%;
             margin: 32px 0 24px;
 
             @include breakpoint(md) {
@@ -87,190 +87,203 @@
             font-weight: 700;
         }
     }
-    #editorjs {
-        .codex-editor__redactor {
-            font-size: 16px;
-            word-break: break-word;
-            .ce-block {
-                &__content {
-                    max-width: 752px;
-                }
-                &--selected {
-                    .ce-block__content {
-                        background-color: var(--spectrum-blue-100);
-                    }
+
+    .codex-editor__redactor {
+        font-size: 16px;
+        word-break: break-word;
+        .ce-block {
+            &__content {
+                max-width: 752px;
+            }
+            &--selected {
+                .ce-block__content {
+                    background-color: var(--spectrum-blue-100);
                 }
             }
         }
-        .ce-toolbar {
-            &__content {
-                max-width: 752px;
+    }
+    .ce-toolbar {
+        &__content {
+            max-width: 752px;
 
-                .ce-toolbar__actions {
-                    opacity: 1;
+            .ce-toolbar__actions {
+                opacity: 1;
 
-                    .ce-toolbar__plus,
-                    .ce-toolbar__settings-btn {
+                .ce-toolbar__plus,
+                .ce-toolbar__settings-btn {
+                    color: currentColor;
+
+                    &:hover {
+                        background-color: rgba(
+                            var(--md-sys-color-secondary-containerChannel),
+                            calc(1 - var(--md-sys-state-hover-state-layer-opacity))
+                        );
+
+                        .icon {
+                            color: var(--md-sys-color-on-secondary-container);
+                        }
+                    }
+                }
+                .ce-toolbar__plus {
+                    width: 32px;
+                    height: 32px;
+                    border: none;
+                    border-radius: 50%;
+                    box-shadow: none;
+                    background-color: var(--md-sys-color-secondary-container);
+
+                    .icon {
+                        color: var(--md-sys-color-on-secondary-container);
+                    }
+                }
+                .ce-toolbar__settings-btn {
+                }
+
+                .ce-toolbox {
+                    left: 50px;
+                    top: -24px;
+
+                    .ce-popover {
+                        background-color: var(--spectrum-global-color-gray-100);
+                        border: none;
+                        @media (min-width: 651px) {
+                            box-shadow: unset;
+                            background-color: unset;
+                            border: unset;
+                            padding: 12px;
+                        }
+
+                        .cdx-search-field {
+                            display: none;
+                        }
+
+                        &__items {
+                            display: flex;
+                            gap: 8px;
+                            flex-wrap: wrap;
+                            align-items: start;
+
+                            @media (min-width: 651px) {
+                                flex-wrap: nowrap;
+                            }
+
+                            .ce-popover__item {
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                text-align: center;
+                                flex-basis: 30%;
+
+                                &:hover {
+                                    background-color: unset;
+                                    color: var(--spectrum-global-color-gray-100);
+
+                                    .ce-popover__item-icon {
+                                        border-color: unset;
+                                    }
+
+                                    .ce-popover__item-label {
+                                        visibility: visible;
+                                        color: var(--spectrum-global-color-gray-800);
+                                    }
+                                }
+
+                                &--focused {
+                                    background-color: unset !important;
+                                    box-shadow: unset;
+
+                                    // .ce-popover__item-icon {
+                                    //     background-color: var(--spectrum-blue-800);
+                                    //     color: var(--spectrum-global-color-gray-100);
+                                    // }
+                                }
+
+                                &-label {
+                                    margin-top: 8px;
+                                    font-size: 14px;
+                                    @media (min-width: 651px) {
+                                        visibility: hidden;
+                                        position: absolute;
+                                        bottom: -2px;
+                                        justify-content: center;
+                                        font-size: 12px;
+                                        font-weight: 600;
+                                    }
+
+                                    &::after {
+                                        content: unset;
+                                    }
+                                }
+                                &-icon {
+                                    margin: 0;
+                                    width: 40px;
+                                    height: 40px;
+                                    background-color: inherit;
+                                    color: var(--md-sys-color-on-secondary-container);
+                                    border: none;
+                                    border-radius: 50%;
+                                    background-color: var(--md-sys-color-secondary-container);
+                                    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
+
+                                    &:hover {
+                                        background-color: rgba(
+                                            var(--md-sys-color-secondary-containerChannel),
+                                            calc(
+                                                1 - var(--md-sys-state-pressed-state-layer-opacity)
+                                            )
+                                        );
+                                        color: var(--md-sys-color-on-secondary-container);
+                                    }
+
+                                    svg {
+                                        height: 16px;
+                                        width: 16px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .ce-settings {
+                    color: currentColor;
+                    background-color: var(--spectrum-blue-100);
+
+                    .icon {
+                        color: var(--spectrum-blue-900);
+                    }
+                    border: none;
+
+                    &__button,
+                    .cdx-settings-button {
                         color: currentColor;
 
                         &:hover {
-                            background-color: var(--spectrum-accent-background-color-default);
+                            background-color: rgba(
+                                var(--md-sys-color-secondary-containerChannel),
+                                calc(1 - var(--md-sys-state-hover-state-layer-opacity))
+                            );
 
                             .icon {
-                                color: var(--spectrum-global-color-gray-100);
-                            }
-                        }
-                    }
-                    .ce-toolbar__plus {
-                        width: 32px;
-                        height: 32px;
-                        border: none;
-                        border-radius: 50%;
-                        box-shadow: none;
-                        background-color: var(--spectrum-blue-100);
-
-                        .icon {
-                            color: var(--spectrum-blue-900);
-                        }
-                    }
-                    .ce-toolbar__settings-btn {
-                    }
-
-                    .ce-toolbox {
-                        left: 50px;
-                        top: -24px;
-
-                        .ce-popover {
-                            background-color: var(--spectrum-global-color-gray-100);
-                            border: none;
-                            @media (min-width: 651px) {
-                                box-shadow: unset;
-                                background-color: unset;
-                                border: unset;
-                                padding: 12px;
-                            }
-
-                            .cdx-search-field {
-                                display: none;
-                            }
-
-                            &__items {
-                                display: flex;
-                                gap: 8px;
-                                flex-wrap: wrap;
-                                align-items: start;
-
-                                @media (min-width: 651px) {
-                                    flex-wrap: nowrap;
-                                }
-
-                                .ce-popover__item {
-                                    display: flex;
-                                    flex-direction: column;
-                                    align-items: center;
-                                    justify-content: center;
-                                    text-align: center;
-                                    flex-basis: 30%;
-
-                                    &:hover {
-                                        background-color: unset;
-                                        color: var(--spectrum-global-color-gray-100);
-
-                                        .ce-popover__item-icon {
-                                            border-color: unset;
-                                        }
-
-                                        .ce-popover__item-label {
-                                            visibility: visible;
-                                            color: var(--spectrum-global-color-gray-800);
-                                        }
-                                    }
-
-                                    &--focused {
-                                        background-color: unset !important;
-                                        box-shadow: unset;
-
-                                        // .ce-popover__item-icon {
-                                        //     background-color: var(--spectrum-blue-800);
-                                        //     color: var(--spectrum-global-color-gray-100);
-                                        // }
-                                    }
-
-                                    &-label {
-                                        margin-top: 8px;
-                                        font-size: 14px;
-                                        @media (min-width: 651px) {
-                                            visibility: hidden;
-                                            position: absolute;
-                                            bottom: -2px;
-                                            justify-content: center;
-                                            font-size: 12px;
-                                            font-weight: 600;
-                                        }
-
-                                        &::after {
-                                            content: unset;
-                                        }
-                                    }
-                                    &-icon {
-                                        margin: 0;
-                                        width: 40px;
-                                        height: 40px;
-                                        background-color: inherit;
-                                        color: var(--spectrum-blue-900);
-                                        border: none;
-                                        border-radius: 50%;
-                                        background-color: var(--spectrum-blue-100);
-                                        transition: cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
-
-                                        &:hover {
-                                            background-color: var(--spectrum-blue-800);
-                                            color: var(--spectrum-global-color-gray-100);
-                                        }
-
-                                        svg {
-                                            height: 16px;
-                                            width: 16px;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    .ce-settings {
-                        color: currentColor;
-                        background-color: var(--spectrum-blue-100);
-
-                        .icon {
-                            color: var(--spectrum-blue-900);
-                        }
-                        border: none;
-
-                        &__button,
-                        .cdx-settings-button {
-                            color: currentColor;
-
-                            &:hover {
-                                background-color: var(--spectrum-blue-800);
-
-                                .icon {
-                                    color: var(--spectrum-global-color-gray-100);
-                                }
+                                color: var(--md-sys-color-on-secondary-container);
                             }
                         }
                     }
                 }
             }
         }
+    }
 
-        .codex-editor--toolbox-opened .ce-toolbar--opened {
-            .ce-toolbar__plus {
-                background-color: var(--spectrum-blue-900);
+    .codex-editor--toolbox-opened .ce-toolbar--opened {
+        .ce-toolbar__plus {
+            background-color: rgba(
+                var(--md-sys-color-secondary-containerChannel),
+                calc(1 - var(--md-sys-state-pressed-state-layer-opacity))
+            );
 
-                .icon {
-                    color: var(--spectrum-global-color-gray-100);
-                }
+            .icon {
+                color: var(--md-sys-color-on-secondary-container);
             }
         }
     }

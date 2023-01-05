@@ -1,0 +1,139 @@
+@use '../../../scss/util' as *;
+
+.root {
+    width: 100%;
+    padding: 0 4px;
+
+    .top {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        font-variation-settings: 'wght' 300, 'GRAD' 0;
+    }
+
+    .postContainer {
+        padding-top: 24px;
+
+        .commentPostContainer {
+            display: flex;
+            gap: 24px;
+
+            &.active {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .userInfo {
+                display: flex;
+                gap: 12px;
+                font-size: 16px;
+            }
+
+            .commentPost {
+                width: 100%;
+
+                .commentContainer {
+                    width: 100%;
+                    margin-bottom: 8px;
+
+                    textarea {
+                        width: 100%;
+                        padding-bottom: 3.5px;
+                        border: none;
+                        border-bottom: 1px solid var(--md-sys-color-surface-variant);
+                        outline: none;
+                        background-color: transparent;
+                        resize: none;
+                        font-size: 14px;
+                        font-weight: 400;
+                        line-height: 20px;
+
+                        &:focus {
+                            box-shadow: 0 2px 0 var(--md-sys-color-primary) !important;
+                        }
+                    }
+                    .buttonGroup {
+                        display: flex;
+                        align-items: center;
+                        justify-content: end;
+                        gap: 8px;
+                        margin-top: 16px;
+                    }
+                }
+            }
+        }
+    }
+
+    .commentsListContainer {
+        padding-top: 32px;
+
+        .commentsList {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            .commentsListItem {
+                display: flex;
+                justify-content: space-between;
+
+                &:hover {
+                    .actionMenu {
+                        visibility: visible;
+                    }
+                }
+
+                .actionMenu {
+                    visibility: hidden;
+                }
+
+                .commentContainer {
+                    display: flex;
+                    gap: 24px;
+                    min-width: 0;
+
+                    .commentTextContainer {
+                        overflow: hidden;
+
+                        .commentUserDateWrap {
+                            .username {
+                                font-weight: 700;
+                                margin-right: 2px;
+                            }
+
+                            .commentDate {
+                                font-size: 11px;
+
+                                &::before {
+                                    content: '•';
+                                    margin: 0px 4px 0px 2px;
+                                }
+                            }
+                        }
+
+                        .commentText {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 4;
+                            display: -webkit-box;
+                            word-break: break-word;
+                        }
+
+                        .overflowTextButton {
+                            font-family: Roboto, sans-serif;
+                            font-size: 14px;
+                            font-weight: 500;
+                            line-height: 20px;
+                            color: var(--md-sys-color-secondary);
+
+                            &:hover {
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

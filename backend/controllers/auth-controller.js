@@ -134,7 +134,6 @@ const checkHaveAccountGoogle = async (req, res) => {
 
     try {
         const obj = await googleAuth(token);
-        console.log('obj', obj);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

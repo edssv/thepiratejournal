@@ -41,4 +41,5 @@ services:
             dockerfile: Dockerfile.dev
         ports:
             - '80:80'
+            - '81:81'
             - '443:443'

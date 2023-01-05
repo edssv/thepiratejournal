@@ -16,7 +16,7 @@
     display: flex;
     align-items: center;
     height: $header-height;
-    background-color: var(--spectrum-global-color-gray-100);
+    background-color: var(--md-sys-color-background);
     z-index: 9;
 
     &::before {

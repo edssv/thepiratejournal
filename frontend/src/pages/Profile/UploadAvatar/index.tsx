@@ -1,5 +1,5 @@
-import { Button } from '@react-spectrum/button';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Button } from '../../../components';
 import { useUploadAvatarMutation } from '../../../redux';
 
 export const UploadAvatar = () => {
@@ -7,18 +7,6 @@ export const UploadAvatar = () => {
     const [selectedFile, setSelectedFile] = useState();
 
     const [uploadAvatar] = useUploadAvatarMutation();
-
-    const handleUpload = async () => {
-        if (!selectedFile) {
-            return alert('Пожалуйста выберите изображение');
-        }
-
-        const formData = new FormData();
-        formData.append('image', selectedFile);
-        console.log(formData);
-
-        uploadAvatar(formData);
-    };
 
     const handlePick = () => {
         filePicker.current?.click();
@@ -29,14 +17,25 @@ export const UploadAvatar = () => {
     };
 
     useEffect(() => {
+        const handleUpload = async () => {
+            if (!selectedFile) {
+                return alert('Пожалуйста выберите изображение');
+            }
+
+            const formData = new FormData();
+            formData.append('image', selectedFile);
+
+            uploadAvatar(formData);
+        };
+
         if (selectedFile) {
             handleUpload();
-            console.log(selectedFile);
         }
-    }, [selectedFile]);
+    }, [selectedFile, uploadAvatar]);
+
     return (
         <div>
-            <Button onPress={handlePick} variant="accent">
+            <Button onClick={handlePick} variant="filledTonal">
                 Изменить аватар
             </Button>
             <input
