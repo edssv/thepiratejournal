@@ -64,7 +64,7 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                             <HeaderSkeleton />
                         ) : user ? (
                             <>
-                                <Button onClick={onClickWrite} variant="filledTonal">
+                                <Button onClick={onClickWrite} variant="filled">
                                     <span className="material-symbols-outlined">edit</span>Создать
                                     статью
                                 </Button>

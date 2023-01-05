@@ -49,7 +49,7 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                 </Button>
                 {user ? (
                     <>
-                        <Button onClick={onClickWrite} variant="filledTonal">
+                        <Button onClick={onClickWrite} variant="filled">
                             Создать статью
                         </Button>
                     </>
@@ -99,7 +99,7 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                         await logout('');
                         navigate('/login');
                     }}
-                    variant="filled"
+                    variant="filledTonal"
                     style={{ marginLeft: '16px' }}>
                     Выйти
                 </Button>
