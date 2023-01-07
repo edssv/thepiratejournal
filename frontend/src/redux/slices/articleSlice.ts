@@ -17,7 +17,7 @@ const slice = createSlice({
             cover: '',
             blocks: [],
             tags: [],
-            category: { category_name: '', game: '' },
+            category: { name: '', game: '', key: '' },
         },
     } as ArticleState,
     reducers: {
@@ -41,8 +41,7 @@ const slice = createSlice({
             state.mutableArticle.tags = payload;
         },
         setArticleCategory: (state, { payload }) => {
-            console.log(payload);
-            state.mutableArticle.category.category_name = payload;
+            state.mutableArticle.category = payload;
         },
     },
     extraReducers: (builder) => {

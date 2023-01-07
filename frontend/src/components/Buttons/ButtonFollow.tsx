@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../hooks';
 import { useFollowMutation, useUnFollowMutation } from '../../redux';
-import { ActionDialog } from '../ActionDialog';
+import { DialogTrigger, ActionDialog } from '../Dialogs';
 import { Tippy } from '../Tippy';
 import { Button } from './Button';
 
@@ -18,7 +18,8 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({
 }) => {
     const { user, isLoading } = useAuth();
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOpenTippy, setIsOpenTippy] = useState<boolean>(false);
 
     const [follow, { isLoading: isLoadingFollow }] = useFollowMutation();
     const [unFollow, { isLoading: isLoadingUnFollow }] = useUnFollowMutation();
@@ -30,8 +31,8 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({
     }, [hasSubscription]);
 
     const handleFollow = () => {
-        setIsOpen(true);
-        setTimeout(() => setIsOpen(false), 3000);
+        setIsOpenTippy(true);
+        setTimeout(() => setIsOpenTippy(false), 3000);
 
         if (isFollow) {
             setIsFollow(false);
@@ -77,8 +78,9 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({
             {isFollow ? (
                 <>
                     <Button
+                        onClick={() => setIsOpen(true)}
+                        isActive={isOpen}
                         icon={configuration === 'icon'}
-                        onClick={handleFollow}
                         variant="filledTonal">
                         {configuration === 'iconWithText' ? (
                             <>
@@ -91,10 +93,22 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({
                             'Подписка'
                         )}
                     </Button>
-                    <ActionDialog
+                    <DialogTrigger
+                        title="Отписаться от автора"
+                        description="Ты точно хочешь отписаться от автора?"
+                        primaryActionLabel="Отписаться"
+                        onPrimaryAction={() => {
+                            handleFollow();
+                            setIsOpen(false);
+                        }}
+                        cancelLabel="Отмена"
+                        onCancel={() => setIsOpen(false)}
                         isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                        actionText="Ты подписался на автора."
+                        setIsOpen={setIsOpen}></DialogTrigger>
+                    <ActionDialog
+                        isOpen={isOpenTippy}
+                        setIsOpen={setIsOpenTippy}
+                        actionText="Ты подписался на автора"
                     />
                 </>
             ) : (
@@ -112,9 +126,9 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({
                         )}
                     </Button>
                     <ActionDialog
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                        actionText="Ты отписался от автора."
+                        isOpen={isOpenTippy}
+                        setIsOpen={setIsOpenTippy}
+                        actionText="Ты отписался от автора"
                     />
                 </>
             )}

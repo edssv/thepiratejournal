@@ -17,6 +17,7 @@
         transition: opacity 0.25s linear;
         pointer-events: none;
     }
+
     &.open::after {
         opacity: 1;
         pointer-events: unset;

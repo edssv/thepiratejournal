@@ -27,6 +27,10 @@
         text-transform: var(--md-sys-typescale-label-large-text-transform);
         text-decoration: var(--md-sys-typescale-label-large-text-decoration);
     }
+
+    &.isActive {
+        filter: brightness(0.75);
+    }
 }
 
 .iconButton,

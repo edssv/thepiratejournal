@@ -60,18 +60,15 @@
                     margin-top: 3px;
                 }
 
-                .tagCloseIcon {
-                    display: block;
-                    width: 16px;
-                    height: 16px;
-                    line-height: 16px;
-                    text-align: center;
-                    font-size: 14px;
+                .tagCloseButton {
+                    width: 18px;
+                    height: 18px;
                     margin-left: 8px;
                     color: var(--md-sys-color-primary);
-                    border-radius: 50%;
 
-                    cursor: pointer;
+                    span {
+                        font-size: 18px;
+                    }
                 }
             }
         }

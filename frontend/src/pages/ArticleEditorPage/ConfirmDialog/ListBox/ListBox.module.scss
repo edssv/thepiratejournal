@@ -1,0 +1,64 @@
+@use '../../../../scss/util' as *;
+
+.root {
+    position: relative;
+
+    .listBoxButton {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-width: 240px;
+        padding: 6px 12px;
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-radius: 8px;
+        font-size: 14px;
+        line-height: 20px;
+
+        &:active {
+            border-color: var(--md-sys-color-primary);
+        }
+
+        span {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--md-sys-color-outline);
+            margin-right: -5px;
+        }
+    }
+
+    .listBoxOptions {
+        position: absolute;
+        top: 38px;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-width: 240px;
+        width: 100%;
+        background-color: var(--md-sys-color-surface);
+        color: var(--md-sys-color-on-surface);
+        box-shadow: var(--md-sys-elevation-2);
+        border-radius: 4px;
+        z-index: 1;
+
+        .listBoxOption {
+            .optionContent {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 6px 12px 6px 44px;
+                font-size: 14px;
+                line-height: 20px;
+
+                &.selected {
+                    padding: 6px 12px 6px;
+                    background-color: var(--md-sys-color-secondary-container);
+                    font-weight: 500;
+                    span {
+                        font-weight: 400;
+                    }
+                }
+            }
+        }
+    }
+}

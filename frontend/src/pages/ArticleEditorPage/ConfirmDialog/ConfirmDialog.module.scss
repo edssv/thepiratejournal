@@ -3,10 +3,11 @@
 .plateContent {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 24px;
 
     .itemHeadline {
-        margin-bottom: 6px;
+        margin-bottom: 8px;
+        font-size: 14px;
     }
 }
 

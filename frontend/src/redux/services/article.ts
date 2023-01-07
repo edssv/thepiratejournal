@@ -29,7 +29,7 @@ export interface Article {
     cover: string;
     blocks: any;
     tags: [];
-    category: { category_name: string; game: string };
+    category: { name: string; game: string; key: string };
     created_on: number;
     isPublished: boolean;
     comments: Comment[];

@@ -30,15 +30,18 @@
                     justify-content: center;
                     padding: 40px 24px 6px 24px;
 
-                    .headline {
-                        font-size: 16px;
-                        font-weight: 400;
+                    .placeholderPicture {
+                        span {
+                            font-size: 48px;
+                        }
+                        color: var(--md-sys-color-primary);
                     }
 
-                    p {
+                    .headline {
+                        margin-top: 16px;
                         font-size: 14px;
-                        margin-top: 8px;
-                        color: var(--spectrum-global-color-gray-600);
+                        font-weight: 400;
+                        color: var(--md-sys-color-primary);
                     }
 
                     ul {
@@ -65,12 +68,10 @@
 .coverContainer {
     width: fit-content;
     max-height: 280px;
-
     position: relative;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    border-radius: $br-xs;
 
     &:hover {
         .closeBtn {
@@ -83,6 +84,7 @@
         height: inherit;
         width: 100%;
         object-fit: contain;
+        border-radius: 8px;
     }
 
     .closeBtn {

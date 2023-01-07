@@ -1,6 +1,7 @@
 import { darkTheme, lightTheme, Provider } from '@adobe/react-spectrum';
 import { Suspense, lazy, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import 'material-symbols';
 import { Layout, Overlay } from './components';
 import { AuthOutlet, PrivateOutlet } from './helpers';
 import { DraftsAndBookmarksOutlet } from './helpers/DraftsAndBookmarksOutlet';

@@ -5,4 +5,14 @@
     font-size: 14px;
     font-weight: 600;
     color: var(--spectrum-global-color-gray-500);
+
+    .iconAndCount {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        span {
+            font-size: 14px;
+            font-variation-settings: 'FILL' 1, 'GRAD' 200;
+        }
+    }
 }

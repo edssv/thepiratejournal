@@ -1,4 +1,4 @@
-export { ActionDialog } from './ActionDialog';
+export { ActionDialog } from './Dialogs/ActionDialog';
 export { ArticlePreview } from './ArticlePreview';
 export { ArticleSkeleton } from './ArticlePreview/ArticleSkeleton';
 export { ArticleStats } from './ArticleStats';
@@ -17,4 +17,6 @@ export { Toaster } from './Toaster';
 // Buttons
 export * from './Buttons';
 
+// Dialogs
+export * from './Dialogs';
 export { Layout } from './Layout';

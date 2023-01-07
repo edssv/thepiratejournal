@@ -14,8 +14,9 @@ const draftSchema = new Schema({
     },
     tags: [{ type: String }],
     category: {
-        category_name: String,
+        name: String,
         game: String,
+        key: String,
     },
     created_on: { type: Number, required: true },
 });

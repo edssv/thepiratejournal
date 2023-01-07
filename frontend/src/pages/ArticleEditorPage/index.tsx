@@ -44,9 +44,6 @@ const ArticleEditorPage = () => {
         skip: mode === 'isNew',
         refetchOnMountOrArgChange: true,
     });
-    const [addArticle, { isLoading: isSaving, isSuccess: isSuccessSave, isError: isErrorSave }] =
-        useAddArticleMutation();
-    const [editArticle] = useEditArticleMutation();
 
     const isMobile = useMediaPredicate('(max-width: 768px)');
 
@@ -62,7 +59,6 @@ const ArticleEditorPage = () => {
                     cover: '',
                     blocks: [],
                     tags: [],
-                    category: { category_name: '', game: '' },
                 }),
             );
 
@@ -108,26 +104,6 @@ const ArticleEditorPage = () => {
     if (isLoading) return <Overlay />;
     if (isError && mode === 'isEditing') return <NotFoundPage />;
 
-    const saveArticle = async () => {
-        const formData = Object.assign(
-            { saveFromDraft: isDraft, draftId: isDraft && id },
-            { intent: 'publish' },
-            mutableArticle,
-        );
-        mode === 'isEditing' ? editArticle({ formData, id }) : addArticle(formData);
-    };
-
-    const saveDraft = async () => {
-        const formData = Object.assign({ intent: 'draft' }, mutableArticle);
-        addArticle(formData);
-        setFormStatus('saved');
-    };
-
-    const onClickSave = () => {
-        saveArticle();
-        navigate(-1);
-    };
-
     resizeTextareaHeight();
 
     return (
@@ -141,24 +117,8 @@ const ArticleEditorPage = () => {
                     Отмена
                 </Button>
                 <div className={styles.barRightButtons}>
-                    {!isEditing && (
-                        <DraftInfoDialog
-                            onPress={saveDraft}
-                            isLoading={isSaving}
-                            isSuccess={isSuccessSave}
-                            isError={isErrorSave}
-                            isDisabled={isSaving}
-                        />
-                    )}
-                    <ConfirmDialog
-                        onClickSave={onClickSave}
-                        mode={mode}
-                        onPressDraft={saveDraft}
-                        isLoadingDraft={isSaving}
-                        isSuccessDraft={isSuccessSave}
-                        isErrorDraft={isErrorSave}
-                        isDisabledDraft={isSaving}
-                    />
+                    {!isEditing && <DraftInfoDialog setFormStatus={setFormStatus} />}
+                    <ConfirmDialog mode={mode} setFormStatus={setFormStatus} />
                 </div>
             </div>
             <div className={styles.container}>

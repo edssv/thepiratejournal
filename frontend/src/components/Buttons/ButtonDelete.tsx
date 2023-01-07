@@ -1,6 +1,6 @@
-import React from 'react';
-import { AlertDialog, DialogTrigger } from '@adobe/react-spectrum';
+import React, { useState } from 'react';
 import { Button, Variant } from '..';
+import { DialogTrigger } from '../Dialogs';
 interface onPrimaryAction {
     onPrimaryAction?: any;
     children?: React.ReactNode;
@@ -14,25 +14,25 @@ export const ButtonDelete: React.FC<onPrimaryAction> = ({
     variant,
     icon,
 }) => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+
     return (
-        <DialogTrigger>
-            <Button icon={icon} variant={variant}>
+        <>
+            <Button onClick={() => setIsOpen(true)} icon={icon} variant={variant}>
                 {children}
             </Button>
-            {(close) => (
-                <AlertDialog
-                    variant="destructive"
-                    title="Удаление статьи"
-                    primaryActionLabel="Удалить"
-                    onPrimaryAction={() => {
-                        onPrimaryAction();
-                        close();
-                    }}
-                    cancelLabel="Отмена"
-                    onCancel={close}>
-                    Вы действительно хотите удалить статью?
-                </AlertDialog>
-            )}
-        </DialogTrigger>
+            <DialogTrigger
+                title="Удаление статьи"
+                description="Вы действительно хотите удалить статью?"
+                primaryActionLabel="Удалить"
+                onPrimaryAction={() => {
+                    onPrimaryAction();
+                    setIsOpen(false);
+                }}
+                cancelLabel="Отмена"
+                onCancel={() => setIsOpen(false)}
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}></DialogTrigger>
+        </>
     );
 };

@@ -1,11 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './TabPanel.module.scss';
-import { Divider } from '@adobe/react-spectrum';
-import Compass from '@spectrum-icons/workflow/Compass';
-import UserGroup from '@spectrum-icons/workflow/UserGroup';
 import { useAuth } from '../../../hooks';
 import { Overlay } from '../../../components';
+
+import styles from './TabPanel.module.scss';
 
 interface TabPanelProps {
     children?: React.ReactNode;

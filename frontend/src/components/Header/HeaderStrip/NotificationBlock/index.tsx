@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Popover } from '@headlessui/react';
 import moment from 'moment';
 import 'moment/locale/ru';
@@ -8,6 +8,7 @@ import {
     useDeleteNotificationMutation,
     useGetNotificationsQuery,
 } from '../../../../redux';
+import { useOnClickOutside } from '../../../../hooks';
 import { Link } from 'react-router-dom';
 import AddCircle from '@spectrum-icons/workflow/AddCircle';
 import Heart from '@spectrum-icons/workflow/Heart';
@@ -66,9 +67,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
                     <Link to={`/users/${username}`}>
                         <Avatar imageSrc={avatarSrc} width={48} />
                     </Link>
-                    <span className="inline-flex absolute right-0 bottom-0 justify-center items-center w-5 h-5 bg-white rounded-full notificationAvatarIcon">
-                        {notificationIcon()}
-                    </span>
+                    <span className="notificationAvatarIcon">{notificationIcon()}</span>
                 </div>
                 <div className="notificationTextContainer">
                     <Link to={`/users/${username}`} className="notificationUsername">
@@ -86,13 +85,17 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
 };
 
 export const NotificationBlock = () => {
+    const panelRef = useRef(null);
+
     const { data } = useGetNotificationsQuery(undefined);
 
     const setOverflowBody = () => {
         if (document.body.style.overflow === 'hidden') {
-            document.body.style.overflow = '';
+            return (document.body.style.overflow = '');
         } else document.body.style.overflow = 'hidden';
     };
+
+    useOnClickOutside(panelRef, setOverflowBody);
 
     const notificationList = data?.notifications.map((notification: Notification, id) => (
         <NotificationItem
@@ -110,7 +113,7 @@ export const NotificationBlock = () => {
             <Popover.Button as={Button} icon variant="text" onClick={setOverflowBody}>
                 <span className="material-symbols-outlined">notifications</span>
             </Popover.Button>
-            <Popover.Panel className="popoverPanel">
+            <Popover.Panel ref={panelRef} className="popoverPanel">
                 <Popover.Button
                     as={Button}
                     icon

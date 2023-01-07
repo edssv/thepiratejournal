@@ -99,27 +99,12 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({
                     <div className={styles.placeholder}>
                         <div className={styles.uploader} onClick={handlePick}>
                             <div className={styles.placeholder__content}>
-                                <ImageAdd
-                                    size="XL"
-                                    marginBottom={12}
-                                    UNSAFE_style={{ color: 'var(--md-sys-color-primary)' }}
-                                />
-
+                                <div className={styles.placeholderPicture}>
+                                    <span className="material-symbols-outlined">
+                                        add_photo_alternate
+                                    </span>
+                                </div>
                                 <div className={styles.headline}>Нажми, чтобы выбрать файл</div>
-                                {!isMobile && (
-                                    <>
-                                        <p>Рекомендуется 1600x1200 или выше. Максимум 8МБ</p>
-                                        <ul>
-                                            <li>
-                                                Изображения высокого разрешения (png, jpg, webp)
-                                            </li>
-                                            <li>
-                                                Загружай только те медиафайлы, на которые у тебя
-                                                есть права
-                                            </li>
-                                        </ul>
-                                    </>
-                                )}
                             </div>
                             <input
                                 ref={filePicker}

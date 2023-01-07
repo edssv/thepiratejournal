@@ -1,17 +1,16 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Tooltip, TooltipTrigger } from '@adobe/react-spectrum';
+import { useMediaPredicate } from 'react-media-hook';
 import { useAuth } from '../../../hooks';
 import { useLogoutMutation } from '../../../redux';
-import { Avatar } from '../../Avatar';
+import { Avatar, Button } from '../../';
 import { HeaderSkeleton } from '../HeaderSkeleton';
-import { ButtonGroup, Tooltip, TooltipTrigger } from '@adobe/react-spectrum';
-import { useMediaPredicate } from 'react-media-hook';
 import logo from '../../../assets/img/logotype.png';
 import { OpenStateProps } from '../HamburgerMenu';
 import { NotificationBlock } from './NotificationBlock';
 
 import styles from './HeaderStrip.module.scss';
-import { Button } from '../../Buttons';
 
 export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
     const location = useLocation();
@@ -29,7 +28,7 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
 
     return (
         <div
-            className={`${styles.root} ${open ? styles.open : ''}`}
+            className={`${styles.root} ${open && styles.open}`}
             style={{ padding: fromLaptop ? '0 16px' : '' }}>
             {fromLaptop ? (
                 <div className={styles.content}>

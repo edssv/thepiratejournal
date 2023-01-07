@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Variant } from '../../../components';
-import { useAppDispatch, useArticle, useAuth } from '../../../hooks';
-import { setLike, useLikeMutation, useRemoveLikeMutation } from '../../../redux';
+import { useArticle, useAuth } from '../../../hooks';
+import { useLikeMutation, useRemoveLikeMutation } from '../../../redux';
 import { Tippy } from '../../../components/Tippy';
-import { ActionDialog } from '../../../components/ActionDialog';
+import { ActionDialog } from '../../../components/Dialogs/ActionDialog';
 
 interface IsLikeProps {
     tooltipPosition?: any;
@@ -13,7 +13,6 @@ interface IsLikeProps {
 }
 
 export const ButtonLike: React.FC<IsLikeProps> = ({ children, tooltipPosition, variant }) => {
-    const dispatch = useAppDispatch();
     const { user } = useAuth();
     const { article, isLike } = useArticle();
 
@@ -60,6 +59,7 @@ export const ButtonLike: React.FC<IsLikeProps> = ({ children, tooltipPosition, v
                 </span>
                 {children}
             </Button>
+
             <ActionDialog
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}

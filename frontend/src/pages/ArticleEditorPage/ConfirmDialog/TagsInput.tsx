@@ -1,8 +1,6 @@
 import { setTags } from '../../../redux';
 import { useAppDispatch, useArticle } from '../../../hooks';
 
-import { RiCloseCircleFill } from 'react-icons/ri';
-
 import styles from './TagsInput.module.scss';
 
 export const TagsInput = () => {
@@ -20,16 +18,16 @@ export const TagsInput = () => {
     };
     return (
         <div className={styles.root}>
-            <span className={styles.label}>Теги</span>
             <div className={styles.tagsInput}>
                 <ul className={styles.tagsList}>
                     {mutableArticle?.tags?.map((tag, index) => (
                         <li key={index} className={styles.tag}>
                             <span className={styles.tagTitle}>{tag}</span>
-                            <RiCloseCircleFill
-                                className={styles.tagCloseIcon}
-                                onClick={() => removeTags(index)}
-                            />
+                            <button
+                                className={styles.tagCloseButton}
+                                onClick={() => removeTags(index)}>
+                                <span className="material-symbols-outlined">cancel</span>
+                            </button>
                         </li>
                     ))}
                 </ul>
@@ -37,7 +35,7 @@ export const TagsInput = () => {
                 <input
                     type="text"
                     onKeyUp={(event) => (event.key === 'Enter' ? addTags(event) : null)}
-                    placeholder="Добавь теги..."
+                    placeholder="Добавь теги"
                 />
             </div>
         </div>

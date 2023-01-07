@@ -17,12 +17,16 @@ const articleSchema = new Schema({
     },
     tags: [{ type: String, required: true }],
     category: {
-        category_name: {
+        name: {
             type: String,
             required: true,
         },
         game: {
             type: String,
+        },
+        key: {
+            type: String,
+            required: true,
         },
     },
     created_on: { type: Number, required: true },
@@ -64,7 +68,7 @@ articleSchema.statics.creating = async function (
         cover,
         blocks,
         tags: tags,
-        category: { category_name: category.category_name, game: category.game },
+        category: category,
         created_on: new Date(),
     });
 
@@ -108,7 +112,7 @@ articleSchema.statics.getAll = async function (section, currentUser) {
 
 articleSchema.statics.searchArticles = async function (categoryName, sortType, searchValue) {
     const categoryParams = {
-        'category.category_name': categoryName ? categoryName : { $type: 'string' },
+        'category.key': categoryName ? categoryName : { $type: 'string' },
     };
     const searchParams = {
         search_title: { $regex: searchValue ? searchValue.toLowerCase() : '' },

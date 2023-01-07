@@ -8,8 +8,10 @@ export type Variant = 'elevated' | 'filled' | 'filledTonal' | 'outlined' | 'text
 export interface ButtonOwnProps<E extends ElementType = ElementType> {
     children?: any;
     isLoading?: boolean;
+    isActive?: boolean;
     variant?: Variant;
     icon?: boolean;
+    className?: string | undefined;
     as?: E;
 }
 
@@ -20,9 +22,11 @@ const defaultElement = 'button';
 
 export function Button<E extends ElementType = typeof defaultElement>({
     isLoading,
+    isActive,
     children,
     variant,
     icon,
+    className,
     as,
     ...otherProps
 }: ButtonProps<E>) {
@@ -141,7 +145,7 @@ export function Button<E extends ElementType = typeof defaultElement>({
                 (Array.isArray(children) && children[1] !== undefined
                     ? styles.iconButtonWithText
                     : styles.iconButton)
-            } label-large`}
+            } ${className} ${isActive && styles.isActive} label-large`}
             {...otherProps}>
             {isLoading && <ProgressCircle isIndeterminate size="S" />}
             {children}
