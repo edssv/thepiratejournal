@@ -34,9 +34,6 @@ services:
     nginx:
         image: 'jc21/nginx-proxy-manager:latest'
         restart: unless-stopped
-        build:
-            dockerfile: Dockerfile.dev
-            context: ./nginx
         ports:
             - '80:80'
             - '81:81'
@@ -47,3 +44,6 @@ services:
         volumes:
             - ./data:/data
             - ./letsencrypt:/etc/letsencrypt
+        build:
+            dockerfile: Dockerfile.dev
+            context: ./nginx
