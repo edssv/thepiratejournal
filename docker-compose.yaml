@@ -16,8 +16,8 @@ services:
         volumes:
             - ./backend:/app
             - /app/node_modules
-        depends_on:
-            - mongodb
+        # depends_on:
+        #     - mongodb
 
     frontend:
         restart: on-failure
