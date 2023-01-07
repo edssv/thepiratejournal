@@ -1,10 +1,10 @@
 version: '3.8'
 services:
-    mongodb:
-        image: 'mongo'
-        restart: on-failure
-        ports:
-            - '27017:27017'
+    # mongodb:
+    #     image: 'mongo'
+    #     restart: on-failure
+    #     ports:
+    #         - '27017:27017'
 
     backend:
         restart: on-failure
