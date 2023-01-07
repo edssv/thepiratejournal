@@ -32,17 +32,15 @@ services:
             - backend
 
     nginx:
+        image: 'jc21/nginx-proxy-manager:latest'
         restart: on-failure
-        depends_on:
-            - backend
-            - frontend
-        build:
-            context: ./nginx
-            dockerfile: Dockerfile.dev
-        volumes:
-            - ./data:/data
-            - ./letsencrypt:/etc/letsencrypt
         ports:
             - '80:80'
             - '81:81'
             - '443:443'
+        depends_on:
+            - backend
+            - frontend
+        volumes:
+            - ./data:/data
+            - ./letsencrypt:/etc/letsencrypt
