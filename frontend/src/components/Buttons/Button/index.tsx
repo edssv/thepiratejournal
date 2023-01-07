@@ -1,4 +1,4 @@
-import { ComponentProps, ElementType } from 'react';
+import React, { ComponentProps, ElementType } from 'react';
 import styled from '@emotion/styled';
 import { ProgressCircle } from '@adobe/react-spectrum';
 
@@ -38,14 +38,13 @@ export function Button<E extends ElementType = typeof defaultElement>({
     const outlined = variant === 'outlined';
     const text = variant === 'text';
 
-    // console.log(Array.isArray(children) && children.find((item) => item === undefined));
-
     const BtnPrimary = styled.button`
         ${text && 'min-width: 48px'};
-        padding: ${children.length === 2
+        padding: ${(Array.isArray(children) && children[1] !== null) ||
+        children.type === React.Fragment
             ? '0 24px 0 16px'
             : text
-            ? children.length === 2
+            ? (Array.isArray(children) && children[1] !== null) || children.type === React.Fragment
                 ? '0 16px 0 12px'
                 : '0 12px'
             : '0 24px'};
@@ -138,11 +137,12 @@ export function Button<E extends ElementType = typeof defaultElement>({
             );
         }
     `;
+
     return (
         <BtnPrimary
             className={`${styles.button} ${
                 icon &&
-                (Array.isArray(children) && children[1] !== undefined
+                (Array.isArray(children) && children[1] !== null
                     ? styles.iconButtonWithText
                     : styles.iconButton)
             } ${className} ${isActive && styles.isActive} label-large`}

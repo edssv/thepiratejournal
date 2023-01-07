@@ -33,7 +33,10 @@ services:
 
     nginx:
         image: 'jc21/nginx-proxy-manager:latest'
-        restart: on-failure
+        restart: unless-stopped
+        build:
+            dockerfile: Dockerfile.dev
+            context: ./nginx
         ports:
             - '80:80'
             - '81:81'

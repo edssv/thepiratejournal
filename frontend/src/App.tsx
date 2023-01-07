@@ -1,4 +1,4 @@
-import { darkTheme, lightTheme, Provider } from '@adobe/react-spectrum';
+import { lightTheme, Provider } from '@adobe/react-spectrum';
 import { Suspense, lazy, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import 'material-symbols';

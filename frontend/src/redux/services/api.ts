@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { BaseQueryFn, FetchArgs, FetchBaseQueryError, retry } from '@reduxjs/toolkit/query';
 
 // Create our baseQuery instance
 const baseQuery = fetchBaseQuery({
@@ -16,20 +16,22 @@ const baseQuery = fetchBaseQuery({
     },
 });
 
+const baseQueryWithRetry = retry(baseQuery, { maxRetries: 2 });
+
 const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
     args,
     api,
     extraOptions,
 ) => {
-    let result = await baseQuery(args, api, extraOptions);
+    let result = await baseQueryWithRetry(args, api, extraOptions);
     if (result.error && result.error.status === 401) {
         // try to get a new token
-        const refreshResult = await baseQuery('/refresh', api, extraOptions);
+        const refreshResult = await baseQueryWithRetry('/refresh', api, extraOptions);
         if (refreshResult.data) {
             // store the new token
             api.dispatch({ type: 'auth/tokenReceived', payload: refreshResult.data });
             // retry the initial query
-            result = await baseQuery(args, api, extraOptions);
+            result = await baseQueryWithRetry(args, api, extraOptions);
         } else {
             api.dispatch({
                 type: 'auth/loggedOut',

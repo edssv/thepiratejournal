@@ -56,8 +56,7 @@ export const ScrollControls: React.FC<ScrollControlsProps> = ({ hasBookmark, isO
         <div className={styles.root} style={{ transform: visible ? 'unset' : 'translateY(100%)' }}>
             <div className={styles.buttonGroup}>
                 <div className={styles.controls}>
-                    <ButtonLike tooltipPosition="left" variant="text" />
-
+                    <ButtonLike variant="text" />
                     <ButtonBookmark />
                     <ButtonShare />
                 </div>

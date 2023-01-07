@@ -57,7 +57,7 @@ export const ButtonLike: React.FC<IsLikeProps> = ({ children, tooltipPosition, v
                     style={{ fontVariationSettings: isLike ? '"FILL" 1' : '' }}>
                     favorite
                 </span>
-                {children}
+                {children ? children : null}
             </Button>
 
             <ActionDialog
