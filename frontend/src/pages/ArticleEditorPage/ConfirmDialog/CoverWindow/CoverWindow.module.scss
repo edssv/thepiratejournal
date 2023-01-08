@@ -43,22 +43,6 @@
                         font-weight: 400;
                         color: var(--md-sys-color-primary);
                     }
-
-                    ul {
-                        font-size: 14px;
-                        color: var(--spectrum-global-color-gray-600);
-                        margin-top: 16px;
-                        @include breakpoint(md) {
-                            display: flex;
-                            flex-direction: column;
-                            margin-top: 40px;
-                        }
-
-                        li {
-                            margin-left: 16px;
-                            line-height: 28px;
-                        }
-                    }
                 }
             }
         }

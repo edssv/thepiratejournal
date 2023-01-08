@@ -8,7 +8,7 @@
         display: flex;
         justify-content: start;
         background-color: var(--md-sys-color-surface);
-        border: 1px solid var(--spectrum-global-color-gray-300);
+        border: 1px solid var(--md-sys-color-outline-variant);
         border-radius: 999px;
         z-index: 3;
 
@@ -37,16 +37,11 @@
                     appearance: none;
                     background: transparent;
                     border: none;
-                    color: var(--spectrum-global-color-gray-800);
                     font-size: 22px;
                     font-weight: 800;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
-
-                    &::placeholder {
-                        color: var(--spectrum-global-color-gray-500);
-                    }
 
                     &:focus {
                         outline: none;
@@ -57,12 +52,12 @@
         }
 
         .tabTrigger {
-            border-left: 1px solid var(--spectrum-global-color-gray-300);
+            border-left: 1px solid var(--md-sys-color-outline-variant);
 
             &::after {
                 border-left: 4px solid transparent;
                 border-right: 4px solid transparent;
-                border-top: 4px solid var(--spectrum-global-color-gray-900);
+                border-top: 4px solid black;
                 content: '';
                 height: 0;
                 position: absolute;
@@ -81,8 +76,7 @@
                 border-radius: 999px;
                 font-size: 15px;
                 font-weight: 600;
-                background-color: var(--spectrum-global-color-gray-100);
-                background: none !important;
+                background-color: transparent;
 
                 &:focus {
                     outline: none;
@@ -98,7 +92,7 @@
         .tabNavigation {
             display: flex;
             align-items: center;
-            border-left: 1px solid var(--spectrum-global-color-gray-300);
+            border-left: 1px solid var(--md-sys-color-outline-variant);
             border-bottom-right-radius: 999px;
             border-top-right-radius: 999px;
             background-color: var(--md-sys-color-surface-variant);
@@ -123,7 +117,7 @@
 
                         &.active {
                             background-color: var(--md-sys-color-primary);
-                            color: var(--spectrum-global-color-gray-100);
+                            color: var(--md-sys-color-on-primary);
                         }
                     }
                 }

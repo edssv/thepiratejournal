@@ -60,7 +60,7 @@
                     line-height: $header-height;
 
                     &::after {
-                        background-color: var(--spectrum-global-color-gray-800);
+                        background-color: var(--md-sys-color-inverse-surface);
                         content: '';
                         height: 2px;
                         left: 0;

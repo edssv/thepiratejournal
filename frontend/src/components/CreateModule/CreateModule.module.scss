@@ -1,11 +1,12 @@
 @use '../../scss/util' as *;
 
 .root {
-    background-color: var(--spectrum-global-color-gray-100);
-    border: 1px dashed var(--spectrum-global-color-gray-300);
+    background-color: var(--md-sys-color-surface);
+    border: 1px dashed var(--md-sys-color-outline-variant);
     border-radius: 4px;
     text-align: center;
     transition: background-color 0.15s linear;
+
     .wrapper {
         height: 0;
         padding-top: 78.22%;
@@ -57,10 +58,7 @@
                 .text {
                     font-size: 14px;
                     padding: 0 5% 15px;
-
-                    p {
-                        color: var(--spectrum-global-color-gray-600);
-                    }
+                    color: var(--md-sys-color-secondary-text);
                 }
             }
         }

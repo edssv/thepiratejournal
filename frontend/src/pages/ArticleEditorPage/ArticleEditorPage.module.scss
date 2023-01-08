@@ -66,7 +66,7 @@
                 color: currentColor;
 
                 &::placeholder {
-                    color: var(--spectrum-global-color-gray-600);
+                    color: var(--md-sys-color-secondary-text);
                 }
 
                 &:focus {
@@ -97,7 +97,7 @@
             }
             &--selected {
                 .ce-block__content {
-                    background-color: var(--spectrum-blue-100);
+                    background-color: var(--md-sys-color-secondary-container);
                 }
             }
         }
@@ -144,7 +144,7 @@
                     top: -24px;
 
                     .ce-popover {
-                        background-color: var(--spectrum-global-color-gray-100);
+                        background-color: var(--md-sys-color-on-secondary);
                         border: none;
                         @media (min-width: 651px) {
                             box-shadow: unset;
@@ -177,7 +177,7 @@
 
                                 &:hover {
                                     background-color: unset;
-                                    color: var(--spectrum-global-color-gray-100);
+                                    color: var(--md-sys-color-on-secondary);
 
                                     .ce-popover__item-icon {
                                         border-color: unset;
@@ -185,18 +185,13 @@
 
                                     .ce-popover__item-label {
                                         visibility: visible;
-                                        color: var(--spectrum-global-color-gray-800);
+                                        color: var(--md-sys-color-on-secondary-container);
                                     }
                                 }
 
                                 &--focused {
                                     background-color: unset !important;
                                     box-shadow: unset;
-
-                                    // .ce-popover__item-icon {
-                                    //     background-color: var(--spectrum-blue-800);
-                                    //     color: var(--spectrum-global-color-gray-100);
-                                    // }
                                 }
 
                                 &-label {
@@ -248,10 +243,10 @@
 
                 .ce-settings {
                     color: currentColor;
-                    background-color: var(--spectrum-blue-100);
+                    background-color: var(--md-sys-color-surface);
 
                     .icon {
-                        color: var(--spectrum-blue-900);
+                        color: var(--md-sys-color-primary);
                     }
                     border: none;
 

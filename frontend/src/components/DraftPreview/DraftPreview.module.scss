@@ -10,7 +10,6 @@
             width: 100%;
             border-radius: 4px;
             padding-top: 78.22%;
-            background-color: var(--spectrum-global-color-gray-200);
 
             .cover__content {
                 position: absolute;
@@ -61,7 +60,6 @@
                 position: absolute;
                 left: 0;
                 top: 0;
-                color: var(--spectrum-global-color-gray-100);
                 opacity: 0;
                 will-change: auto;
                 transition: opacity cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;

@@ -72,7 +72,7 @@
                 overflow: hidden;
                 max-width: 100%;
                 text-overflow: ellipsis;
-                color: var(--spectrum-global-color-gray-600);
+                color: var(--md-sys-color-on-surface);
             }
         }
 
@@ -82,7 +82,7 @@
             height: fit-content;
             font-size: 14px;
             font-weight: 600;
-            color: var(--spectrum-global-color-gray-500);
+            color: var(--md-sys-color-on-surface);
         }
     }
 }

@@ -13,6 +13,8 @@ html {
     font-size: 100%;
     font-family: 'Roboto', sans-serif !important;
     transition: 'all 0.3s linear';
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
 }
 
 body,
@@ -27,6 +29,10 @@ main {
 
 body {
     touch-action: pan-x pan-y;
+}
+
+span {
+    font-size: 14px;
 }
 
 a {
@@ -57,20 +63,11 @@ ul {
     list-style: none;
 }
 
-.tp-text {
-    font-size: $fs-sm;
-    color: var(--transparent-color);
-}
-
 button {
     background-color: unset;
     border: none;
     width: fit-content;
     cursor: pointer;
-
-    &.spectrum-Button_e2d99e {
-        cursor: pointer;
-    }
 }
 
 input {
@@ -164,7 +161,7 @@ textarea {
 }
 .error-label {
     padding-top: 8px;
-    color: var(--spectrum-global-color-red-500);
+    color: var(--md-sys-color-error);
     font-size: 14px;
 }
 
@@ -173,19 +170,19 @@ textarea {
     height: 28px;
     font-size: 16px;
     line-height: 1.15;
-    padding: 0 !important;
-    border-color: var(--spectrum-global-color-gray-300) !important;
-    border-width: 0 0 1px !important;
+    padding: 0;
+    border-color: var(--md-sys-color-outline-variant);
+    border-width: 0 0 1px;
     outline: 0;
-    background-color: var(--md-sys-color-surface) !important;
+    background-color: var(--md-sys-color-surface);
     transition: border-color 0.13s ease-in-out, box-shadow 0.13s ease-in-out,
         -webkit-box-shadow 0.13s ease-in-out;
 
     &:focus {
-        outline: none !important;
+        outline: none;
         border-color: var(--md-sys-color-primary);
         -webkit-box-shadow: 0 1px 0 var(--link-color);
-        box-shadow: 0 1px 0 var(--md-sys-color-primary) !important;
+        box-shadow: 0 1px 0 var(--md-sys-color-primary);
     }
 
     &.is-invalid,
@@ -196,12 +193,12 @@ textarea {
 
     &.is-invalid {
         padding-right: 41px;
-        border-color: var(--error-color);
+        border-color: var(--md-sys-color-error);
         background-size: 18px 18px;
         background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='18' width='18'%3E%3Cpath d='M8.564 1.289L.2 16.256A.5.5 0 0 0 .636 17h16.728a.5.5 0 0 0 .5-.5.494.494 0 0 0-.064-.244L9.436 1.289a.5.5 0 0 0-.872 0zM10 14.75a.25.25 0 0 1-.25.25h-1.5a.25.25 0 0 1-.25-.25v-1.5a.25.25 0 0 1 .25-.25h1.5a.25.25 0 0 1 .25.25zm0-3a.25.25 0 0 1-.25.25h-1.5a.25.25 0 0 1-.25-.25v-6a.25.25 0 0 1 .25-.25h1.5a.25.25 0 0 1 .25.25z' fill='%23ec5b62'/%3E%3C/svg%3E");
 
         &:focus {
-            box-shadow: 0 1px 0 var(--error-color);
+            box-shadow: 0 1px 0 var(--md-sys-color-error);
         }
     }
 

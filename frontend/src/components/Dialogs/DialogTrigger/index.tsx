@@ -7,7 +7,7 @@ import styles from './DialogTrigger.module.scss';
 
 interface DialogTriggerProps {
     title: string;
-    description?: string;
+    description?: any;
     primaryActionLabel?: string;
     onPrimaryAction?: () => void;
     cancelLabel?: string;

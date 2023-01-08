@@ -1,4 +1,3 @@
-import { lightTheme, Provider } from '@adobe/react-spectrum';
 import { Suspense, lazy, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import 'material-symbols';
@@ -48,51 +47,39 @@ const App = () => {
     }, [mode]);
 
     return (
-        <Provider
-            theme={lightTheme}
-            colorScheme={mode}
-            minHeight="100vh"
-            height={'auto'}
-            scale="medium"
-            locale="ru-RU"
-            UNSAFE_style={{
-                fontFamily: 'Roboto, sans-serif',
-                backgroundColor: 'var(--md-sys-color-background)',
-            }}>
-            <Suspense fallback={<Overlay />}>
-                <Routes>
-                    <Route path="/" element={<Layout container />}>
-                        <Route index element={<Home />} />
-                        <Route path="/for_you" element={<Home />} />
-                        <Route path="/following" element={<Home />} />
-                        <Route path="*" element={<NotFoundPage />} />
-                        <Route element={<PrivateOutlet />}>
-                            <Route path="/articles/new" element={<ArticleEditorPage />} />
-                            <Route path="/articles/:id/edit" element={<ArticleEditorPage />} />
-                            <Route path="/drafts/:id/edit" element={<ArticleEditorPage />} />
-                        </Route>
+        <Suspense fallback={<Overlay />}>
+            <Routes>
+                <Route path="/" element={<Layout container />}>
+                    <Route index element={<Home />} />
+                    <Route path="/for_you" element={<Home />} />
+                    <Route path="/following" element={<Home />} />
+                    <Route path="*" element={<NotFoundPage />} />
+                    <Route element={<PrivateOutlet />}>
+                        <Route path="/articles/new" element={<ArticleEditorPage />} />
+                        <Route path="/articles/:id/edit" element={<ArticleEditorPage />} />
+                        <Route path="/drafts/:id/edit" element={<ArticleEditorPage />} />
                     </Route>
+                </Route>
 
-                    <Route element={<Layout container={false} />}>
-                        <Route path="search" element={<Articles />} />
-                        <Route path="search/:category" element={<Articles />} />
-                        <Route path="articles/:id" element={<Article />} />
-                        <Route path="/users/:username" element={<Profile />} />
-                        <Route path="/users/:username/articles" element={<Profile />} />
-                        <Route path="/users/:username/appreciated" element={<Profile />} />
-                        <Route element={<DraftsAndBookmarksOutlet />}>
-                            <Route path="/users/:username/drafts" element={<Profile />} />
-                            <Route path="/users/:username/bookmarks" element={<Profile />} />
-                        </Route>
+                <Route element={<Layout container={false} />}>
+                    <Route path="search" element={<Articles />} />
+                    <Route path="search/:category" element={<Articles />} />
+                    <Route path="articles/:id" element={<Article />} />
+                    <Route path="/users/:username" element={<Profile />} />
+                    <Route path="/users/:username/articles" element={<Profile />} />
+                    <Route path="/users/:username/appreciated" element={<Profile />} />
+                    <Route element={<DraftsAndBookmarksOutlet />}>
+                        <Route path="/users/:username/drafts" element={<Profile />} />
+                        <Route path="/users/:username/bookmarks" element={<Profile />} />
                     </Route>
+                </Route>
 
-                    <Route element={<AuthOutlet />}>
-                        <Route path="/login" element={<EmailPage />} />
-                        <Route path="/signup" element={<Signup />} />
-                    </Route>
-                </Routes>
-            </Suspense>
-        </Provider>
+                <Route element={<AuthOutlet />}>
+                    <Route path="/login" element={<EmailPage />} />
+                    <Route path="/signup" element={<Signup />} />
+                </Route>
+            </Routes>
+        </Suspense>
     );
 };
 export default App;

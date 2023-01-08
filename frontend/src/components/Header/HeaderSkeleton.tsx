@@ -1,4 +1,3 @@
-import React from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
@@ -6,7 +5,7 @@ export const HeaderSkeleton = () => {
     return (
         <div style={{ display: 'flex' }}>
             <SkeletonTheme
-                baseColor="var(--spectrum-global-color-gray-200)"
+                baseColor="var(--md-sys-color-secondary-container)"
                 enableAnimation={false}>
                 <Skeleton
                     circle

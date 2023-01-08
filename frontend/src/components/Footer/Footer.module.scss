@@ -1,6 +1,10 @@
 @use '../../scss/util' as *;
 
 .stickyFooter {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
     .wrapper {
         display: flex;
         align-items: center;

@@ -20,8 +20,6 @@
     z-index: 9;
 
     &::before {
-        background-color: var(--spectrum-well-border-color);
-        color-scheme: light;
         bottom: 0;
         content: '';
         height: 1px;

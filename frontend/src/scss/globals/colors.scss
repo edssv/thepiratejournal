@@ -182,6 +182,8 @@
 }
 
 :root.light {
+    /* Secondary text */
+    --md-sys-color-secondary-text: var(--md-ref-palette-neutral40);
     /* Surface tint */
     --md-sys-color-surface-tint: var(--md-sys-color-primary);
     /* Surface tint color */
@@ -257,6 +259,8 @@
 }
 
 :root.dark {
+    /* Secondary text */
+    --md-sys-color-secondary-text: var(--md-ref-palette-neutral60);
     /* Surface tint */
     --md-sys-color-surface-tint: var(--md-sys-color-primary);
     /* Surface tint color */
