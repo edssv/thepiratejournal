@@ -27,7 +27,7 @@ services:
             - /app/node_modules
             - ./client:/app
         links:
-            - api
+            - backend
 
     nginx:
         image: 'jc21/nginx-proxy-manager:latest'
