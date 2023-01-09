@@ -12,9 +12,7 @@ html {
     min-height: 100vh;
     font-size: 100%;
     font-family: 'Roboto', sans-serif !important;
-    transition: 'all 0.3s linear';
-    background-color: var(--md-sys-color-surface);
-    color: var(--md-sys-color-on-surface);
+    transition: all 0.3s linear;
 }
 
 body,
@@ -29,6 +27,8 @@ main {
 
 body {
     touch-action: pan-x pan-y;
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
 }
 
 span {
@@ -68,10 +68,16 @@ button {
     border: none;
     width: fit-content;
     cursor: pointer;
+    color: var(--md-sys-color-on-surface);
 }
 
 input {
     outline: none !important;
+    color: var(--md-sys-color-on-surface);
+
+    &::placeholder {
+        color: var(--md-sys-color-on-surface);
+    }
 }
 
 textarea {
@@ -112,7 +118,7 @@ textarea {
     &__list {
         display: grid;
         flex-wrap: wrap;
-        gap: 20px;
+        gap: 8px;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 
         @media (min-width: 1600px) {

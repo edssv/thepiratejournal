@@ -6,7 +6,7 @@
         left: 0;
         right: 0;
         display: flex;
-        justify-content: start;
+        justify-content: flex-start;
         background-color: var(--md-sys-color-surface);
         border: 1px solid var(--md-sys-color-outline-variant);
         border-radius: 999px;
@@ -15,7 +15,7 @@
         .inputWrap {
             display: flex;
             align-items: center;
-            justify-content: start;
+            justify-content: flex-start;
             height: 50px;
             width: 100%;
 

@@ -32,7 +32,8 @@ app.use('/api', authRoutes);
 app.use('/api', articlesRoutes);
 app.use('/api', uploadsRoutes);
 
-app.use(express.static(path.join(__dirname, 'uploads')));
+app.use(express.static('../frontend/build'));
+app.use(express.static('./uploads'));
 
 // connect to db
 const start = async () => {

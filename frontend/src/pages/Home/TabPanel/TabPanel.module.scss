@@ -57,6 +57,11 @@
                     .tabIcon {
                         display: flex;
                         align-items: center;
+
+                        .tabIconText {
+                            font-size: 16px;
+                        }
+
                         @include breakpoint-down(md) {
                             flex-direction: column;
                         }

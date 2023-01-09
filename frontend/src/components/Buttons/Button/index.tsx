@@ -6,7 +6,7 @@ import styles from './Button.module.scss';
 
 export type Variant = 'elevated' | 'filled' | 'filledTonal' | 'outlined' | 'text';
 export interface ButtonOwnProps<E extends ElementType = ElementType> {
-    children?: any;
+    children: any;
     isLoading?: boolean;
     isActive?: boolean;
     variant?: Variant;
@@ -84,22 +84,22 @@ export function Button<E extends ElementType = typeof defaultElement>({
         ${outlined && 'outline: 1px solid var(--md-sys-color-outline)'};
 
         :disabled {
-            background-color: ${text ? '' : 'rgba(var(--md-sys-color-on-surfaceChannel), 0.12)'};
+            background-color: ${text ? '' : 'rgba(var(--md-sys-color-on-surfaceChannel) / 0.12)'};
             color: ${text
                 ? 'var(--md-sys-color-on-surface)'
-                : 'rgba(var(--md-sys-color-on-surfaceChannel), 0.38)'};
+                : 'rgba(var(--md-sys-color-on-surfaceChannel) / 0.38)'};
             box-shadow: none;
-            ${outlined && 'outline-color: rgba(var(--md-sys-color-on-surfaceChannel), 0.12)'}
+            ${outlined && 'outline-color: rgba(var(--md-sys-color-on-surfaceChannel) / 0.12)'}
             ${text && 'opacity: 38%'}
         }
 
         :hover {
             background-color: rgba(
                 ${filledTonal
-                    ? 'var(--md-sys-color-secondary-containerChannel), calc(1 - var(--md-sys-state-hover-state-layer-opacity))'
+                    ? 'var(--md-sys-color-secondary-containerChannel) / calc(1 - var(--md-sys-state-hover-state-layer-opacity))'
                     : filled
-                    ? 'var(--md-sys-color-primaryChannel), calc(1 - var(--md-sys-state-hover-state-layer-opacity))'
-                    : 'var(--md-sys-color-primaryChannel), var(--md-sys-state-hover-state-layer-opacity)'}
+                    ? 'var(--md-sys-color-primaryChannel) / calc(1 - var(--md-sys-state-hover-state-layer-opacity))'
+                    : 'var(--md-sys-color-primaryChannel) / var(--md-sys-state-hover-state-layer-opacity)'}
             );
             color: ${elevated
                 ? 'var(--md-sys-color-primary)'

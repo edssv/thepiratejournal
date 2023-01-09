@@ -25,156 +25,191 @@
     --md-ref-palette-error99: #fffbf9ff;
     /* Error 100 */
     --md-ref-palette-error100: #ffffffff;
-    /* Tertiary 0 */
-    --md-ref-palette-tertiary0: #000000ff;
-    /* Tertiary 10 */
-    --md-ref-palette-tertiary10: #31111dff;
-    /* Tertiary 20 */
-    --md-ref-palette-tertiary20: #492532ff;
-    /* Tertiary 30 */
-    --md-ref-palette-tertiary30: #633b48ff;
-    /* Tertiary 40 */
-    --md-ref-palette-tertiary40: #7d5260ff;
-    /* Tertiary 50 */
-    --md-ref-palette-tertiary50: #986977ff;
-    /* Tertiary 60 */
-    --md-ref-palette-tertiary60: #b58392ff;
-    /* Tertiary 70 */
-    --md-ref-palette-tertiary70: #d29dacff;
-    /* Tertiary 80 */
-    --md-ref-palette-tertiary80: #efb8c8ff;
-    /* Tertiary 90 */
-    --md-ref-palette-tertiary90: #ffd8e4ff;
-    /* Tertiary 95 */
-    --md-ref-palette-tertiary95: #ffecf1ff;
-    /* Tertiary 99 */
-    --md-ref-palette-tertiary99: #fffbfaff;
-    /* Tertiary 100 */
-    --md-ref-palette-tertiary100: #ffffffff;
-    /* Secondary 0 */
-    --md-ref-palette-secondary0: #000000ff;
-    /* Secondary 10 */
-    --md-ref-palette-secondary10: #1d192bff;
-    /* Secondary 10 channel */
-    --md-ref-palette-secondary10Channel: 29, 25, 43;
-    /* Secondary 20 */
-    --md-ref-palette-secondary20: #332d41ff;
-    /* Secondary 30 */
-    --md-ref-palette-secondary30: #4a4458ff;
-    /* Secondary 30 channel*/
-    --md-ref-palette-secondary30Channel: 74, 68, 88;
-    /* Secondary 40 */
-    --md-ref-palette-secondary40: #625b71ff;
-    /* Secondary 50 */
-    --md-ref-palette-secondary50: #7a7289ff;
-    /* Secondary 60 */
-    --md-ref-palette-secondary60: #958da5ff;
-    /* Secondary 70 */
-    --md-ref-palette-secondary70: #b0a7c0ff;
-    /* Secondary 80 */
-    --md-ref-palette-secondary80: #ccc2dcff;
-    /* Secondary 90 */
-    --md-ref-palette-secondary90: #e8def8ff;
-    /* Secondary 90 channel*/
-    --md-ref-palette-secondary90Channel: 232, 222, 248;
-    /* Secondary 95 */
-    --md-ref-palette-secondary95: #f6edffff;
-    /* Secondary 99 */
-    --md-ref-palette-secondary99: #fffbfeff;
-    /* Secondary 100 */
-    --md-ref-palette-secondary100: #ffffffff;
-    /* Primary 0 */
-    --md-ref-palette-primary0: #000000ff;
-    /* Primary 10 */
-    --md-ref-palette-primary10: #21005dff;
-    /* Primary 20 */
-    --md-ref-palette-primary20: #381e72ff;
-    /* Primary 20 channel*/
-    --md-ref-palette-primary20Channel: 56, 30, 114;
-    /* Primary 30 */
-    --md-ref-palette-primary30: #4f378bff;
-    /* Primary 40 */
-    --md-ref-palette-primary40: #6750a4;
-    /* Primary channel 40 */
-    --md-ref-palette-primaryChannel40: 103, 80, 164;
-    /* Primary 50 */
-    --md-ref-palette-primary50: #7f67beff;
-    /* Primary 60 */
-    --md-ref-palette-primary60: #9a82dbff;
-    /* Primary 70 */
-    --md-ref-palette-primary70: #b69df8ff;
-    /* Primary 80 */
-    --md-ref-palette-primary80: #d0bcffff;
-    /* Primary channel 80  */
-    --md-ref-palette-primaryChannel80: 208, 188, 255;
-    /* Primary 90 */
-    --md-ref-palette-primary90: #eaddffff;
-    /* Primary 95 */
-    --md-ref-palette-primary95: #f6edffff;
-    /* Primary 99 */
-    --md-ref-palette-primary99: #fffbfeff;
-    /* Primary 100 */
-    --md-ref-palette-primary100: #ffffffff;
-    /* Primary 100 channel */
-    --md-ref-palette-primary100Channel: 255, 255, 255;
-    /* Neutral Variant 0 */
-    --md-ref-palette-neutral-variant0: #000000ff;
-    /* Neutral Variant 10 */
-    --md-ref-palette-neutral-variant10: #1d1a22ff;
-    /* Neutral Variant 10 */
-    --md-ref-palette-neutral-variant10: #1d1a22ff;
-    /* Neutral Variant 20 */
-    --md-ref-palette-neutral-variant20: #322f37ff;
-    /* Neutral Variant 30 */
-    --md-ref-palette-neutral-variant30: #49454fff;
-    /* Neutral Variant 40 */
-    --md-ref-palette-neutral-variant40: #605d66ff;
-    /* Neutral Variant 50 */
-    --md-ref-palette-neutral-variant50: #79747eff;
-    /* Neutral Variant 60 */
-    --md-ref-palette-neutral-variant60: #938f99ff;
-    /* Neutral Variant 70 */
-    --md-ref-palette-neutral-variant70: #aea9b4ff;
-    /* Neutral Variant 80 */
-    --md-ref-palette-neutral-variant80: #cac4d0ff;
-    /* Neutral Variant 90 */
-    --md-ref-palette-neutral-variant90: #e7e0ecff;
-    /* Neutral Variant 95 */
-    --md-ref-palette-neutral-variant95: #f5eefaff;
-    /* Neutral Variant 99 */
-    --md-ref-palette-neutral-variant99: #fffbfeff;
-    /* Neutral Variant 100 */
-    --md-ref-palette-neutral-variant100: #ffffffff;
-    /* Neutral 0 */
-    --md-ref-palette-neutral0: #000000ff;
-    /* Neutral 10 */
-    --md-ref-palette-neutral10: #1c1b1fff;
-    /* Neutral channel 10 */
-    --md-ref-palette-neutralChannel10: 28, 27, 31;
-    /* Neutral 20 */
-    --md-ref-palette-neutral20: #313033ff;
-    /* Neutral 30 */
-    --md-ref-palette-neutral30: #484649ff;
-    /* Neutral 40 */
-    --md-ref-palette-neutral40: #605d62ff;
-    /* Neutral 50 */
-    --md-ref-palette-neutral50: #787579ff;
-    /* Neutral 60 */
-    --md-ref-palette-neutral60: #939094ff;
-    /* Neutral 70 */
-    --md-ref-palette-neutral70: #aeaaaeff;
-    /* Neutral 80 */
-    --md-ref-palette-neutral80: #c9c5caff;
-    /* Neutral 90 */
-    --md-ref-palette-neutral90: #e6e1e5ff;
-    /* Neutral channel 90 */
-    --md-ref-palette-neutralChannel90: 230, 225, 229;
-    /* Neutral 95 */
-    --md-ref-palette-neutral95: #f4eff4ff;
-    /* Neutral 99 */
-    --md-ref-palette-neutral99: #fffbfeff;
-    /* Neutral 100 */
-    --md-ref-palette-neutral100: #ffffffff;
+    /* Tertiary */
+    --md-ref-palette-tertiary0: #000000;
+    --md-ref-palette-tertiary0-rgb: 0 0 0;
+    --md-ref-palette-tertiary5: #1c0824;
+    --md-ref-palette-tertiary5-rgb: 28 8 36;
+    --md-ref-palette-tertiary10: #27132f;
+    --md-ref-palette-tertiary10-rgb: 39 19 47;
+    --md-ref-palette-tertiary15: #321e3a;
+    --md-ref-palette-tertiary15-rgb: 50 30 58;
+    --md-ref-palette-tertiary20: #3e2846;
+    --md-ref-palette-tertiary20-rgb: 62 40 70;
+    --md-ref-palette-tertiary25: #493351;
+    --md-ref-palette-tertiary25-rgb: 73 51 81;
+    --md-ref-palette-tertiary30: #553f5d;
+    --md-ref-palette-tertiary30-rgb: 85 63 93;
+    --md-ref-palette-tertiary35: #624a69;
+    --md-ref-palette-tertiary35-rgb: 98 74 105;
+    --md-ref-palette-tertiary40: #6e5676;
+    --md-ref-palette-tertiary40-rgb: 110 86 118;
+    --md-ref-palette-tertiary50: #886e90;
+    --md-ref-palette-tertiary50-rgb: 136 110 144;
+    --md-ref-palette-tertiary60: #a387aa;
+    --md-ref-palette-tertiary60-rgb: 163 135 170;
+    --md-ref-palette-tertiary70: #bea2c6;
+    --md-ref-palette-tertiary70-rgb: 190 162 198;
+    --md-ref-palette-tertiary80: #dbbde2;
+    --md-ref-palette-tertiary80-rgb: 219 189 226;
+    --md-ref-palette-tertiary90: #f8d8ff;
+    --md-ref-palette-tertiary90-rgb: 248 216 255;
+    --md-ref-palette-tertiary95: #feebff;
+    --md-ref-palette-tertiary95-rgb: 254 235 255;
+    --md-ref-palette-tertiary98: #fff7fb;
+    --md-ref-palette-tertiary98-rgb: 255 247 251;
+    --md-ref-palette-tertiary99: #fffbff;
+    --md-ref-palette-tertiary99-rgb: 255 251 255;
+    --md-ref-palette-tertiary100: #ffffff;
+    --md-ref-palette-tertiary100-rgb: 255 255 255;
+    /* Secondary */
+    --md-ref-palette-secondary0: #000000;
+    --md-ref-palette-secondary0-rgb: 0 0 0;
+    --md-ref-palette-secondary5: #071120;
+    --md-ref-palette-secondary5-rgb: 7 17 32;
+    --md-ref-palette-secondary10: #121c2b;
+    --md-ref-palette-secondary10-rgb: 18 28 43;
+    --md-ref-palette-secondary15: #1c2636;
+    --md-ref-palette-secondary15-rgb: 28 38 54;
+    --md-ref-palette-secondary20: #273141;
+    --md-ref-palette-secondary20-rgb: 39 49 65;
+    --md-ref-palette-secondary25: #323c4c;
+    --md-ref-palette-secondary25-rgb: 50 60 76;
+    --md-ref-palette-secondary30: #3d4758;
+    --md-ref-palette-secondary30-rgb: 61 71 88;
+    --md-ref-palette-secondary35: #495364;
+    --md-ref-palette-secondary35-rgb: 73 83 100;
+    --md-ref-palette-secondary40: #555f71;
+    --md-ref-palette-secondary40-rgb: 85 95 113;
+    --md-ref-palette-secondary50: #6d778a;
+    --md-ref-palette-secondary50-rgb: 109 119 138;
+    --md-ref-palette-secondary60: #8791a5;
+    --md-ref-palette-secondary60-rgb: 135 145 165;
+    --md-ref-palette-secondary70: #a1acc0;
+    --md-ref-palette-secondary70-rgb: 161 172 192;
+    --md-ref-palette-secondary80: #bdc7dc;
+    --md-ref-palette-secondary80-rgb: 189 199 220;
+    --md-ref-palette-secondary90: #d9e3f8;
+    --md-ref-palette-secondary90-rgb: 217 227 248;
+    --md-ref-palette-secondary95: #ebf1ff;
+    --md-ref-palette-secondary95-rgb: 235 241 255;
+    --md-ref-palette-secondary98: #f9f9ff;
+    --md-ref-palette-secondary98-rgb: 249 249 255;
+    --md-ref-palette-secondary99: #fdfbff;
+    --md-ref-palette-secondary99-rgb: 253 251 255;
+    --md-ref-palette-secondary100: #ffffff;
+    --md-ref-palette-secondary100-rgb: 255 255 255;
+    /*primary*/
+    --md-ref-palette-primary0: #000000;
+    --md-ref-palette-primary0-rgb: 0 0 0;
+    --md-ref-palette-primary5: #001128;
+    --md-ref-palette-primary5-rgb: 0 17 40;
+    --md-ref-palette-primary10: #001c3b;
+    --md-ref-palette-primary10-rgb: 0 28 59;
+    --md-ref-palette-primary15: #00264d;
+    --md-ref-palette-primary15-rgb: 0 38 77;
+    --md-ref-palette-primary20: #003060;
+    --md-ref-palette-primary20-rgb: 0 48 96;
+    --md-ref-palette-primary25: #003b73;
+    --md-ref-palette-primary25-rgb: 0 59 115;
+    --md-ref-palette-primary30: #004787;
+    --md-ref-palette-primary30-rgb: 0 71 135;
+    --md-ref-palette-primary35: #0a5399;
+    --md-ref-palette-primary35-rgb: 10 83 153;
+    --md-ref-palette-primary40: #215fa6;
+    --md-ref-palette-primary40-rgb: 33 95 166;
+    --md-ref-palette-primary50: #4178c1;
+    --md-ref-palette-primary50-rgb: 65 120 193;
+    --md-ref-palette-primary60: #5d92dd;
+    --md-ref-palette-primary60-rgb: 93 146 221;
+    --md-ref-palette-primary70: #79adf9;
+    --md-ref-palette-primary70-rgb: 121 173 249;
+    --md-ref-palette-primary80: #a6c8ff;
+    --md-ref-palette-primary80-rgb: 166 200 255;
+    --md-ref-palette-primary90: #d5e3ff;
+    --md-ref-palette-primary90-rgb: 213 227 255;
+    --md-ref-palette-primary95: #ebf1ff;
+    --md-ref-palette-primary95-rgb: 235 241 255;
+    --md-ref-palette-primary98: #f9f9ff;
+    --md-ref-palette-primary98-rgb: 249 249 255;
+    --md-ref-palette-primary99: #fdfbff;
+    --md-ref-palette-primary99-rgb: 253 251 255;
+    --md-ref-palette-primary100: #ffffff;
+    --md-ref-palette-primary100-rgb: 255 255 255;
+    /* Neutral Variant */
+    --md-ref-palette-neutral-variant0: #000000;
+    --md-ref-palette-neutral-variant0-rgb: 0 0 0;
+    --md-ref-palette-neutral-variant5: #0d1117;
+    --md-ref-palette-neutral-variant5-rgb: 13 17 23;
+    --md-ref-palette-neutral-variant10: #181c22;
+    --md-ref-palette-neutral-variant10-rgb: 24 28 34;
+    --md-ref-palette-neutral-variant15: #22262d;
+    --md-ref-palette-neutral-variant15-rgb: 34 38 45;
+    --md-ref-palette-neutral-variant20: #2d3038;
+    --md-ref-palette-neutral-variant20-rgb: 45 48 56;
+    --md-ref-palette-neutral-variant25: #383b43;
+    --md-ref-palette-neutral-variant25-rgb: 56 59 67;
+    --md-ref-palette-neutral-variant30: #43474e;
+    --md-ref-palette-neutral-variant30-rgb: 67 71 78;
+    --md-ref-palette-neutral-variant35: #4f525a;
+    --md-ref-palette-neutral-variant35-rgb: 79 82 90;
+    --md-ref-palette-neutral-variant40: #5b5e66;
+    --md-ref-palette-neutral-variant40-rgb: 91 94 102;
+    --md-ref-palette-neutral-variant50: #74777f;
+    --md-ref-palette-neutral-variant50-rgb: 116 119 127;
+    --md-ref-palette-neutral-variant60: #8d9199;
+    --md-ref-palette-neutral-variant60-rgb: 141 145 153;
+    --md-ref-palette-neutral-variant70: #a8abb4;
+    --md-ref-palette-neutral-variant70-rgb: 168 171 180;
+    --md-ref-palette-neutral-variant80: #c4c6cf;
+    --md-ref-palette-neutral-variant80-rgb: 196 198 207;
+    --md-ref-palette-neutral-variant90: #e0e2ec;
+    --md-ref-palette-neutral-variant90-rgb: 224 226 236;
+    --md-ref-palette-neutral-variant95: #eef0fa;
+    --md-ref-palette-neutral-variant95-rgb: 238 240 250;
+    --md-ref-palette-neutral-variant98: #f9f9ff;
+    --md-ref-palette-neutral-variant98-rgb: 249 249 255;
+    --md-ref-palette-neutral-variant99: #fdfbff;
+    --md-ref-palette-neutral-variant99-rgb: 253 251 255;
+    --md-ref-palette-neutral-variant100: #ffffff;
+    --md-ref-palette-neutral-variant100-rgb: 255 255 255;
+    /* Neutral */
+    --md-ref-palette-neutral0: #000000;
+    --md-ref-palette-neutral0-rgb: 0 0 0;
+    --md-ref-palette-neutral5: #101114;
+    --md-ref-palette-neutral5-rgb: 16 17 20;
+    --md-ref-palette-neutral10: #1a1c1e;
+    --md-ref-palette-neutral10-rgb: 26 28 30;
+    --md-ref-palette-neutral15: #252629;
+    --md-ref-palette-neutral15-rgb: 37 38 41;
+    --md-ref-palette-neutral20: #2f3033;
+    --md-ref-palette-neutral20-rgb: 47 48 51;
+    --md-ref-palette-neutral25: #3a3b3e;
+    --md-ref-palette-neutral25-rgb: 58 59 62;
+    --md-ref-palette-neutral30: #46474a;
+    --md-ref-palette-neutral30-rgb: 70 71 74;
+    --md-ref-palette-neutral35: #515256;
+    --md-ref-palette-neutral35-rgb: 81 82 86;
+    --md-ref-palette-neutral40: #5e5e62;
+    --md-ref-palette-neutral40-rgb: 94 94 98;
+    --md-ref-palette-neutral50: #76777a;
+    --md-ref-palette-neutral50-rgb: 118 119 122;
+    --md-ref-palette-neutral60: #909094;
+    --md-ref-palette-neutral60-rgb: 144 144 148;
+    --md-ref-palette-neutral70: #ababae;
+    --md-ref-palette-neutral70-rgb: 171 171 174;
+    --md-ref-palette-neutral80: #c7c6ca;
+    --md-ref-palette-neutral80-rgb: 199 198 202;
+    --md-ref-palette-neutral90: #e3e2e6;
+    --md-ref-palette-neutral90-rgb: 227 226 230;
+    --md-ref-palette-neutral95: #f1f0f4;
+    --md-ref-palette-neutral95-rgb: 241 240 244;
+    --md-ref-palette-neutral98: #faf9fd;
+    --md-ref-palette-neutral98-rgb: 250 249 253;
+    --md-ref-palette-neutral99: #fdfbff;
+    --md-ref-palette-neutral99-rgb: 253 251 255;
+    --md-ref-palette-neutral100: #ffffff;
+    --md-ref-palette-neutral100-rgb: 255 255 255;
     /* Black */
     --md-ref-palette-black: #000000ff;
     /* White */
@@ -223,23 +258,23 @@
     /* On surface */
     --md-sys-color-on-surface: var(--md-ref-palette-neutral10);
     /* On surface channel*/
-    --md-sys-color-on-surfaceChannel: var(--md-ref-palette-neutralChannel10);
+    --md-sys-color-on-surfaceChannel: var(--md-ref-palette-neutral10-rgb);
     /* Surface Variant */
     --md-sys-color-surface-variant: var(--md-ref-palette-neutral-variant90);
     /* Surface */
     --md-sys-color-surface: var(--md-ref-palette-neutral99);
     /* Surface 1 */
-    --md-sys-color-surface1: rgba(var(--md-ref-palette-neutralChannel90), 0.05);
+    --md-sys-color-surface1: rgba(var(--md-ref-palette-neutral-variant90-rgb), 0.05);
     /* On secondary container */
     --md-sys-color-on-secondary-container: var(--md-ref-palette-secondary10);
     /* On secondary container channel */
-    --md-sys-color-on-secondary-containerChannel: var(--md-ref-palette-secondary10Channel);
+    --md-sys-color-on-secondary-containerChannel: var(--md-ref-palette-secondary10-rgb);
     /* On secondary */
     --md-sys-color-on-secondary: var(--md-ref-palette-secondary100);
     /* Secondary container */
     --md-sys-color-secondary-container: var(--md-ref-palette-secondary90);
     /* Secondary container channel*/
-    --md-sys-color-secondary-containerChannel: var(--md-ref-palette-secondary90Channel);
+    --md-sys-color-secondary-containerChannel: var(--md-ref-palette-secondary90-rgb);
     /* Secondary */
     --md-sys-color-secondary: var(--md-ref-palette-secondary40);
     /* Inverse primary */
@@ -249,13 +284,13 @@
     /* On primary */
     --md-sys-color-on-primary: var(--md-ref-palette-primary100);
     /* On primary channel*/
-    --md-sys-color-on-primaryChannel: var(--md-ref-palette-primary100Channel);
+    --md-sys-color-on-primaryChannel: var(--md-ref-palette-primary100-rgb);
     /* Primary container */
     --md-sys-color-primary-container: var(--md-ref-palette-primary90);
     /* Primary */
     --md-sys-color-primary: var(--md-ref-palette-primary40);
     /* Primary channel*/
-    --md-sys-color-primaryChannel: var(--md-ref-palette-primaryChannel40);
+    --md-sys-color-primaryChannel: var(--md-ref-palette-primary40-rgb);
 }
 
 :root.dark {
@@ -300,7 +335,7 @@
     /* On surface */
     --md-sys-color-on-surface: var(--md-ref-palette-neutral90);
     /* On surface channel*/
-    --md-sys-color-on-surfaceChannel: var(--md-ref-palette-neutralChannel90);
+    --md-sys-color-on-surfaceChannel: var(--md-ref-palette-neutral90-rgb);
     /* Surface Variant */
     --md-sys-color-surface-variant: var(--md-ref-palette-neutral-variant30);
     /* Surface */
@@ -308,13 +343,13 @@
     /* On secondary container */
     --md-sys-color-on-secondary-container: var(--md-ref-palette-secondary90);
     /* On secondary container channel */
-    --md-sys-color-on-secondary-containerChannel: var(--md-ref-palette-secondary90Channel);
+    --md-sys-color-on-secondary-containerChannel: var(--md-ref-palette-secondary90-rgb);
     /* On secondary */
     --md-sys-color-on-secondary: var(--md-ref-palette-secondary20);
     /* Secondary container */
     --md-sys-color-secondary-container: var(--md-ref-palette-secondary30);
     /* Secondary container channel*/
-    --md-sys-color-secondary-containerChannel: var(--md-ref-palette-secondary30Channel);
+    --md-sys-color-secondary-containerChannel: var(--md-ref-palette-secondary30-rgb);
     /* Secondary */
     --md-sys-color-secondary: var(--md-ref-palette-secondary80);
     /* Inverse primary */
@@ -324,11 +359,19 @@
     /* On primary */
     --md-sys-color-on-primary: var(--md-ref-palette-primary20);
     /* On primary channel*/
-    --md-sys-color-on-primaryChannel: var(--md-ref-palette-primary20Channel);
+    --md-sys-color-on-primaryChannel: var(--md-ref-palette-primary20-rgb);
     /* Primary container */
     --md-sys-color-primary-container: var(--md-ref-palette-primary30);
     /* Primary */
     --md-sys-color-primary: var(--md-ref-palette-primary80);
     /* Primary channel */
-    --md-sys-color-primaryChannel: var(--md-ref-palette-primaryChannel80);
+    --md-sys-color-primaryChannel: var(--md-ref-palette-primary80-rgb);
+}
+
+:root {
+    --md-sys-color-surface-1: rgb(var(--md-sys-color-primaryChannel) / 0.05);
+    --md-sys-color-surface-2: rgb(var(--md-sys-color-primaryChannel) / 0.08);
+    --md-sys-color-surface-3: rgb(var(--md-sys-color-primaryChannel) / 0.11);
+    --md-sys-color-surface-4: rgb(var(--md-sys-color-primaryChannel) / 0.12);
+    --md-sys-color-surface-5: rgb(var(--md-sys-color-primaryChannel) / 0.14);
 }

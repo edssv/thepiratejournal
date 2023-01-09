@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Tooltip, TooltipTrigger } from '@adobe/react-spectrum';
 import { useMediaPredicate } from 'react-media-hook';
-import { useAuth } from '../../../hooks';
+import { useAuth, useThemeMode } from '../../../hooks';
 import { useLogoutMutation } from '../../../redux';
 import { Avatar, Button } from '../../';
 import { HeaderSkeleton } from '../HeaderSkeleton';
@@ -17,6 +17,7 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
     const navigate = useNavigate();
 
     const { user, isLoading } = useAuth();
+    const { mode, handleTheme } = useThemeMode();
 
     const [logout] = useLogoutMutation();
 
@@ -96,6 +97,15 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                                     Зарегистрироваться
                                 </Button>
                             </>
+                        )}{' '}
+                        {!isLoading && (
+                            <Button onClick={handleTheme} icon variant="outlined">
+                                {mode === 'dark' ? (
+                                    <span className="material-symbols-outlined">light_mode</span>
+                                ) : (
+                                    <span className="material-symbols-outlined">dark_mode</span>
+                                )}
+                            </Button>
                         )}
                     </div>
                 </div>

@@ -14,5 +14,9 @@
         display: flex;
         flex-direction: column;
         gap: 16px;
+
+        .notificationActionText {
+            font-size: 14px;
+        }
     }
 }

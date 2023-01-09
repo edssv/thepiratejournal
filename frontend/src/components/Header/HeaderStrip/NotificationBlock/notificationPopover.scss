@@ -47,7 +47,7 @@
         .notificationList {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 18px;
 
             .notificationListItem {
                 display: flex;
@@ -59,6 +59,7 @@
 
                     .notificationAvatarContainer {
                         position: relative;
+
                         .notificationAvatarIcon {
                             position: absolute;
                             right: -5px;
@@ -67,15 +68,21 @@
                             width: 20px;
                             height: 20px;
                             background-color: var(--md-sys-color-surface);
+                            color: var(--md-sys-color-primary);
                             border-radius: 50%;
                         }
                     }
                     .notificationTextContainer {
                         .notificationUsername {
+                            display: inline-block;
+                            margin-bottom: 2px;
                             font-weight: 500;
                         }
+
                         .notificationActionText {
+                            font-size: 14px;
                         }
+
                         .notificationTimeText {
                             font-size: 12px;
                             color: var(--md-sys-color-primary);

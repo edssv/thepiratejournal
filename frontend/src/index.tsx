@@ -1,17 +1,10 @@
 import ReactDOM from 'react-dom/client';
-import { store } from './redux/store';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import {
-    Provider as SpectrumProvider,
-    lightTheme,
-    darkTheme,
-    defaultTheme,
-} from '@adobe/react-spectrum';
 import { ErrorBoundary } from 'react-error-boundary';
+import { store } from './redux/store';
 import App from './App';
-
-import { ErrorFallback } from './components/ErrorFallback';
+import { ErrorFallback } from './components';
 
 const root = ReactDOM.createRoot(document.getElementById('App') as HTMLElement);
 

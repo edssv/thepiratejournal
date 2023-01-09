@@ -5,9 +5,9 @@ import { VisibilityToggle, CardLayout, Button } from '../../../components';
 import { useNetworkStatus, useDocTitle } from '../../../hooks';
 import { useLoginMutation } from '../../../redux';
 
-import styles from './EmailPage.module.scss';
+import styles from './LoginPage.module.scss';
 
-const EmailPage = () => {
+const LoginPage = () => {
     useDocTitle('Войти');
     const navigate = useNavigate();
     const location = useLocation();
@@ -156,4 +156,4 @@ const EmailPage = () => {
     );
 };
 
-export default EmailPage;
+export default LoginPage;

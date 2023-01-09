@@ -1,7 +1,7 @@
 {
     "name": "client",
     "version": "0.1.0",
-    "proxy": "http://localhost:5000/",
+    "proxy": "http://194.67.121.62:5000/",
     "private": true,
     "dependencies": {
         "@adobe/react-spectrum": "^3.23.0",
@@ -13,8 +13,6 @@
         "@emotion/styled": "^11.10.5",
         "@headlessui/react": "^1.7.7",
         "@reduxjs/toolkit": "^1.8.6",
-        "@spectrum-icons/illustrations": "^3.5.0",
-        "@spectrum-icons/workflow": "^4.0.3",
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^13.4.0",
         "@testing-library/user-event": "^13.5.0",

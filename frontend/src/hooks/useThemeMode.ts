@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 export const useThemeMode = () => {
     const theme: 'light' | 'dark' =

@@ -14,7 +14,7 @@
         width: 100%;
         display: flex;
         justify-content: space-between;
-        align-items: start;
+        align-items: flex-start;
         z-index: 2;
 
         @include breakpoint(lg) {
@@ -161,7 +161,7 @@
                             display: flex;
                             gap: 8px;
                             flex-wrap: wrap;
-                            align-items: start;
+                            align-items: flex-start;
 
                             @media (min-width: 651px) {
                                 flex-wrap: nowrap;

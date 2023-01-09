@@ -32,7 +32,7 @@ export const TabPanel: React.FC<TabPanelProps> = ({
                                 className={activeSection === 'for_you' ? styles.active : ''}>
                                 <div className={styles.tabIcon}>
                                     <span className="material-symbols-outlined">explore</span>{' '}
-                                    <span>Обзор</span>
+                                    <span className={styles.tabIconText}>Обзор</span>
                                 </div>
                             </Link>
                         </li>
@@ -48,7 +48,7 @@ export const TabPanel: React.FC<TabPanelProps> = ({
                                         }>
                                         <div className={styles.tabIcon}>
                                             <span className="material-symbols-outlined">group</span>{' '}
-                                            <span>Подписки</span>
+                                            <span className={styles.tabIconText}>Подписки</span>
                                         </div>
                                     </Link>
                                 </li>

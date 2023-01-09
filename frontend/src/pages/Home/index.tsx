@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Article, useGetArticlesQuery } from '../../redux';
 import { useDocTitle } from '../../hooks/useDocTitle';
 import { ArticlePreview, ArticleSkeleton } from '../../components';
+import { ArticlePreview as Ap } from '../../components/ArticlePreview copy';
 import { HomeSectionPrompt } from './HomeSectionPrompt';
 import { TabPanel } from './TabPanel';
 
@@ -23,8 +24,7 @@ const Home = () => {
     ) : isError ? (
         <h3>Здесь появятся статьи для тебя</h3>
     ) : (
-        isSuccess &&
-        data?.map((article: Article, id: number) => <ArticlePreview key={id} article={article} />)
+        isSuccess && data?.map((article: Article, id: number) => <Ap key={id} article={article} />)
     );
 
     const articles =

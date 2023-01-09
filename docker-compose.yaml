@@ -20,16 +20,14 @@ services:
         #     - mongodb
 
     frontend:
-        restart: on-failure
         build:
-            context: ./frontend
             dockerfile: Dockerfile
-        ports:
-            - '3000:3000'
-        stdin_open: true
-        tty: true
-        depends_on:
-            - backend
+            context: ./frontend
+        volumes:
+            - /app/node_modules
+            - ./client:/app
+        links:
+            - api
 
     nginx:
         image: 'jc21/nginx-proxy-manager:latest'
