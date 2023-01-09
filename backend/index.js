@@ -32,7 +32,7 @@ app.use('/api', authRoutes);
 app.use('/api', articlesRoutes);
 app.use('/api', uploadsRoutes);
 
-app.use(express.static('../../frontend/app/build'));
+app.use(express.static('../../frontend:/app/build'));
 app.use(express.static('./uploads'));
 
 // connect to db

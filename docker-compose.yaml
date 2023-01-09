@@ -30,12 +30,14 @@ services:
             - backend
 
     nginx:
-        image: 'jc21/nginx-proxy-manager:latest'
         restart: unless-stopped
+        build:
+            dockerfile: Dockerfile
+            context: ./nginx
         ports:
             - '80:80'
             - '81:81'
             - '443:443'
-        volumes:
-            - ./data:/data
-            - ./letsencrypt:/etc/letsencrypt
+        # volumes:
+        #     - ./data:/data
+        #     - ./letsencrypt:/etc/letsencrypt
