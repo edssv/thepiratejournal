@@ -14,8 +14,8 @@ services:
         volumes:
             - ./backend:/app
             - /app/node_modules
-        # depends_on:
-        #     - mongodb
+        ports:
+            - '5000:5000'
 
     frontend:
         build:
@@ -24,18 +24,17 @@ services:
         volumes:
             - /app/node_modules
             - ./frontend:/app
-        links:
-            - backend
-
-    nginx:
-        restart: unless-stopped
-        build:
-            dockerfile: Dockerfile
-            context: ./nginx
         ports:
             - '80:80'
-            - '81:81'
-            - '443:443'
-        # volumes:
-        #     - ./data:/data
-        #     - ./letsencrypt:/etc/letsencrypt
+
+    nginx:
+        app:
+            image: 'jc21/nginx-proxy-manager:latest'
+            restart: unless-stopped
+            ports:
+                - '80:80'
+                - '81:81'
+                - '443:443'
+            volumes:
+                - ./data:/data
+                - ./letsencrypt:/etc/letsencrypt
