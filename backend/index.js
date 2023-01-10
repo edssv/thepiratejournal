@@ -33,7 +33,7 @@ app.use('/api', articlesRoutes);
 app.use('/api', uploadsRoutes);
 
 // app.use(express.static('../frontend/build'));
-app.use(express.static('./uploads'));
+app.use(express.static('uploads'));
 
 // app.get('*', function (req, res) {
 //     res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
