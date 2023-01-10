@@ -14,9 +14,7 @@ services:
     frontend:
         build:
             dockerfile: Dockerfile
-            context:
-                - ./frontend
-                - ./nginx
+            context: ./frontend
 
         volumes:
             - /app/node_modules
