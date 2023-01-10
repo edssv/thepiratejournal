@@ -1,6 +1,6 @@
 FROM node as Production
 
-WORKDIR /usr/src/backend
+WORKDIR /app
 
 COPY package.json .
 
@@ -8,4 +8,4 @@ RUN npm install --omit=dev
 
 COPY . .
 
-CMD [ "npm", "run", "build" ]
+CMD ['sh', '-c', "npm", "run", "build" ]

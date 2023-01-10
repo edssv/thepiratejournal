@@ -1,6 +1,6 @@
 FROM node as Production
 
-WORKDIR /usr/src/frontend
+WORKDIR /app
 
 COPY package.json .
 
@@ -10,4 +10,4 @@ COPY . .
 
 RUN npm run build
 
-CMD [ "npm run start:production" ]
+CMD ['sh', '-c', "npm run start:production" ]
