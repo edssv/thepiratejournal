@@ -12,6 +12,7 @@ services:
             - '5000:5000'
 
     frontend:
+        restart: on-failure
         build:
             dockerfile: Dockerfile
             context: ./frontend
