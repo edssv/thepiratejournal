@@ -1,34 +1,32 @@
 version: '3.8'
 services:
     backend:
-        restart: on-failure
+        restart: unless-stopped
         build:
             context: ./backend
+            target: production
             dockerfile: Dockerfile
-        volumes:
-            - ./backend:/app
-            - /app/node_modules
         ports:
             - '5000:5000'
 
     frontend:
-        restart: on-failure
+        restart: unless-stopped
         build:
-            dockerfile: Dockerfile
             context: ./frontend
-
-        volumes:
-            - /app/node_modules
-            - ./frontend:/app
+            target: production
+            dockerfile: Dockerfile
         ports:
-            - '80:80'
-            - '443:443'
+            - '3000:3000'
+        depends_on:
+            - backend
 
     nginx:
         image: 'jc21/nginx-proxy-manager:latest'
         restart: unless-stopped
         ports:
+            - '80:80'
             - '81:81'
+            - '443:443'
         volumes:
             - ./data:/data
             - ./letsencrypt:/etc/letsencrypt
