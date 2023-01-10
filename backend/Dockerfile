@@ -1,13 +1,11 @@
-FROM node as Production
+FROM node
 
-ENV NODE_END=production
+WORKDIR '/app'
 
-WORKDIR /usr/src/backend
-
-COPY package.json .
+COPY ./package.json ./
 
 RUN npm install --omit=dev
 
 COPY . .
 
-CMD ['sh', '-c', "npm", "run", "build" ]
+CMD ["npm", "run", "build" ]
