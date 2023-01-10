@@ -13,6 +13,8 @@ services:
 
     frontend:
         restart: unless-stopped
+        environment:
+            - HOST=value
         build:
             context: ./frontend
             dockerfile: Dockerfile
