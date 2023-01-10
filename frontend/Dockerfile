@@ -1,6 +1,8 @@
-FROM node
+FROM node as Production
 
-WORKDIR '/app'
+ENV NODE_ENV=production
+
+WORKDIR /usr/src/frontend
 
 COPY ./package.json . /
 

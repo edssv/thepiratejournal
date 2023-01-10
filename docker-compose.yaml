@@ -3,24 +3,18 @@ services:
     backend:
         restart: unless-stopped
         build:
-            context: ./backend
+            context: backend
+            target: production
             dockerfile: Dockerfile
-        volumes:
-            - /app/node_modules
-            - ./backend:/app
         ports:
             - '5000:5000'
 
     frontend:
         restart: unless-stopped
-        environment:
-            - HOST=value
         build:
-            context: ./frontend
+            context: frontend
+            target: production
             dockerfile: Dockerfile
-        volumes:
-            - /app/node_modules
-            - ./frontend:/app
         ports:
             - '3000:3000'
         depends_on:
