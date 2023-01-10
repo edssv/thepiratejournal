@@ -1,6 +1,6 @@
 FROM node as Production
 
-WORKDIR /app
+WORKDIR /usr/src/frontend
 
 COPY package.json .
 
