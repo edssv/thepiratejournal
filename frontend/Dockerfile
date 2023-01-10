@@ -1,5 +1,7 @@
 FROM node as Production
 
+ENV NODE_END=production
+
 WORKDIR /usr/src/frontend
 
 COPY package.json .
