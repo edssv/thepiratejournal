@@ -40,10 +40,10 @@ export const DialogTrigger = ({
                         <Dialog.Overlay className={styles.dialogOverlay} />
                     </motion.div>
                     <motion.div
-                        initial={{ x: 500 }}
-                        animate={{ x: 0 }}
-                        exit={{ x: -500 }}
-                        transition={{ duration: 0.2 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.05 }}
                         style={{ zIndex: 1 }}>
                         {' '}
                         <Dialog.Panel className={styles.dialogPanel}>

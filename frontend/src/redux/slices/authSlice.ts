@@ -34,9 +34,7 @@ const slice = createSlice({
                 state.user = payload.user;
                 localStorage.setItem('token', payload.token);
             })
-            .addMatcher(authApi.endpoints.signup.matchRejected, (state, action) => {
-                console.log('rejected', action);
-            })
+            .addMatcher(authApi.endpoints.signup.matchRejected, (state, action) => {})
 
             // logout
             .addMatcher(authApi.endpoints.logout.matchFulfilled, (state, { payload }) => {

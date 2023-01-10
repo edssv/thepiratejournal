@@ -2,15 +2,14 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import 'moment/locale/ru';
+import { MoonLoader } from 'react-spinners';
 import { useArticle, useAuth } from '../../../hooks';
-
 import { Avatar, Button } from '../../../components';
 import { resizeTextareaHeight, declinationSubstance } from '../../../helpers';
 import { useAddCommentMutation, useRemoveCommentMutation } from '../../../redux';
 import { MoreButtonDialog } from './MoreButtonDialog';
 
 import styles from './CommentsBlock.module.scss';
-import { ProgressCircle } from '@adobe/react-spectrum';
 
 export const CommentsBlock = () => {
     const navigate = useNavigate();
@@ -46,40 +45,33 @@ export const CommentsBlock = () => {
                 (event.target.documentElement.scrollTop + window.innerHeight) <
             100
         ) {
-            console.log(true);
+            return;
         }
     };
 
     const commentsItems = article.comments.map((item, index) => (
-        <>
-            <li key={index} className={styles.commentsListItem}>
-                <div className={styles.commentContainer}>
-                    <Avatar imageSrc={item.author.avatar} width={40} />
-                    <div className={styles.commentTextContainer}>
-                        <div className={styles.commentUserDateWrap}>
-                            <span className={styles.username}>{item.author.username}</span>
-                            <span className={styles.commentDate}>
-                                {moment(item.comment.created_on).fromNow()}
-                            </span>
-                        </div>
-                        <div className={styles.commentText}>{item.comment.text}</div>
-                        <button className={styles.overflowTextButton}></button>
+        <li key={index} className={styles.commentsListItem}>
+            <div className={styles.commentContainer}>
+                <Avatar imageSrc={item.author.avatar} width={40} />
+                <div className={styles.commentTextContainer}>
+                    <div className={styles.commentUserDateWrap}>
+                        <span className={styles.username}>{item.author.username}</span>
+                        <span className={styles.commentDate}>
+                            {moment(item.comment.created_on).fromNow()}
+                        </span>
                     </div>
+                    <div className={styles.commentText}>{item.comment.text}</div>
+                    <button className={styles.overflowTextButton}></button>
                 </div>
-                {user?.id === item.author._id && (
-                    <MoreButtonDialog
-                        item={item}
-                        index={index}
-                        removeComment={() => handleRemoveComment(item, index)}
-                    />
-                )}
-            </li>
-            {isLoadingRemove && index && (
-                <div className="circle-center">
-                    <ProgressCircle size="M" isIndeterminate />
-                </div>
+            </div>
+            {user?.id === item.author._id && (
+                <MoreButtonDialog
+                    item={item}
+                    index={index}
+                    removeComment={() => handleRemoveComment(item, index)}
+                />
             )}
-        </>
+        </li>
     ));
 
     resizeTextareaHeight();
@@ -93,7 +85,7 @@ export const CommentsBlock = () => {
             <div className={styles.postContainer}>
                 {isLoading ? (
                     <div className="circle-center">
-                        <ProgressCircle size="M" isIndeterminate />
+                        <MoonLoader size="24px" speedMultiplier={0.9} />
                     </div>
                 ) : !isActiveInput ? (
                     <div className={styles.commentPostContainer}>

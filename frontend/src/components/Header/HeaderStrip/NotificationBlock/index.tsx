@@ -10,9 +10,6 @@ import {
 } from '../../../../redux';
 import { useOnClickOutside } from '../../../../hooks';
 import { Link } from 'react-router-dom';
-import AddCircle from '@spectrum-icons/workflow/AddCircle';
-import Heart from '@spectrum-icons/workflow/Heart';
-import Comment from '@spectrum-icons/workflow/Comment';
 
 import './notificationPopover.scss';
 
@@ -48,13 +45,13 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
 
     const notificationIcon = () => {
         if (action_key === 'followuser') {
-            return <AddCircle color="informative" size="S" />;
+            return <span className="material-symbols-outlined">add_circle</span>;
         }
         if (action_key === 'commentarticle') {
-            return <Comment color="informative" size="S" />;
+            return <span className="material-symbols-outlined">forum</span>;
         }
         if (action_key === 'likearticle') {
-            return <Heart color="informative" size="S" />;
+            return <span className="material-symbols-outlined">favorite</span>;
         }
     };
 
@@ -85,7 +82,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
 };
 
 export const NotificationBlock = () => {
-    const panelRef = useRef(null);
+    const panelRef = useRef<HTMLDivElement>(null);
 
     const { data } = useGetNotificationsQuery(undefined);
 

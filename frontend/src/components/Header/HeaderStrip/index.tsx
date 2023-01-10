@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Tooltip, TooltipTrigger } from '@adobe/react-spectrum';
 import { useMediaPredicate } from 'react-media-hook';
 import { useAuth, useThemeMode } from '../../../hooks';
 import { useLogoutMutation } from '../../../redux';
@@ -75,18 +74,15 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                                     <Avatar imageSrc={user?.avatar} width={32} />
                                 </Link>
 
-                                <TooltipTrigger delay={200}>
-                                    <Button
-                                        icon
-                                        variant="text"
-                                        onClick={async () => {
-                                            await logout('');
-                                            navigate('/login');
-                                        }}>
-                                        <span className="material-symbols-outlined">logout</span>
-                                    </Button>
-                                    <Tooltip placement="bottom">Выйти из аккаунта</Tooltip>
-                                </TooltipTrigger>
+                                <Button
+                                    icon
+                                    variant="text"
+                                    onClick={async () => {
+                                        await logout('');
+                                        navigate('/login');
+                                    }}>
+                                    <span className="material-symbols-outlined">logout</span>
+                                </Button>
                             </>
                         ) : (
                             <>

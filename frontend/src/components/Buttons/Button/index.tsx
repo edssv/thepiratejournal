@@ -1,6 +1,6 @@
 import React, { ComponentProps, ElementType } from 'react';
 import styled from '@emotion/styled';
-import { ProgressCircle } from '@adobe/react-spectrum';
+import { MoonLoader } from 'react-spinners';
 
 import styles from './Button.module.scss';
 
@@ -147,7 +147,13 @@ export function Button<E extends ElementType = typeof defaultElement>({
                     : styles.iconButton)
             } ${className} ${isActive && styles.isActive} label-large`}
             {...otherProps}>
-            {isLoading && <ProgressCircle isIndeterminate size="S" />}
+            {isLoading && (
+                <MoonLoader
+                    size="12px"
+                    color="var(--md-sys-color-on-primary)"
+                    speedMultiplier={0.7}
+                />
+            )}
             {children}
         </BtnPrimary>
     );

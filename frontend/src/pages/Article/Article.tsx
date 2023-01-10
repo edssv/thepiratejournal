@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useMediaPredicate } from 'react-media-hook';
-import { Divider } from '@adobe/react-spectrum';
 import { useDeleteArticleMutation, useGetArticleQuery } from '../../redux';
 import { convertDateLong, declinationSubstance } from '../../helpers';
 import {
@@ -103,8 +102,6 @@ const Article: React.FC = () => {
 
                                             {isOwner && (
                                                 <>
-                                                    <Divider size="S" />
-
                                                     <Button
                                                         icon
                                                         variant="filledTonal"

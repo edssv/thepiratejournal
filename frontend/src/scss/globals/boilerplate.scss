@@ -82,6 +82,11 @@ input {
 
 textarea {
     font-family: Roboto, sans-serif;
+    color: var(--md-sys-color-on-surface);
+
+    &::placeholder {
+        color: var(--md-sys-color-on-surface);
+    }
 }
 
 // // Helper classes

@@ -22,7 +22,6 @@ const slice = createSlice({
     } as ArticleState,
     reducers: {
         setLike: (state, { payload }) => {
-            console.log(payload);
             state.article.viewer.isLike = payload;
         },
         resetMutableArticle: (state, { payload }) => {
@@ -80,7 +79,6 @@ const slice = createSlice({
 
             // comments
             .addMatcher(articleApi.endpoints.removeComment.matchFulfilled, (state, { payload }) => {
-                console.log(payload);
                 state.article.comments.splice(payload.index, 1);
             });
     },

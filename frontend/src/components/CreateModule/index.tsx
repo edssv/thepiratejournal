@@ -1,9 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Search from '@spectrum-icons/workflow/Search';
+import { Button } from '../';
 
 import styles from './CreateModule.module.scss';
-import { Button } from '../Buttons';
 
 interface CreateModuleProps {
     create?: boolean;
@@ -26,7 +25,9 @@ export const CreateModule: React.FC<CreateModuleProps> = ({ create, find, draft 
                                 {create || draft ? (
                                     <span className="material-symbols-outlined">add_circle</span>
                                 ) : (
-                                    find && <Search color="informative" />
+                                    find && (
+                                        <span className="material-symbols-outlined">search</span>
+                                    )
                                 )}
                             </div>
                             <Button

@@ -3,11 +3,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { setCover, useAddCoverMutation, useDeleteCoverMutation } from '../../../../redux';
 import { useMediaPredicate } from 'react-media-hook';
 import { useAppDispatch, useArticle } from '../../../../hooks';
-import Delete from '@spectrum-icons/workflow/Delete';
-import ImageAdd from '@spectrum-icons/workflow/ImageAdd';
+import { Button } from '../../../../components';
 
 import styles from './CoverWindow.module.scss';
-import { Button } from '../../../../components';
 
 type CoverWindowProps = {
     selectedFile: any;

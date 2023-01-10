@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createReactEditorJS } from 'react-editor-js';
+import debounce from 'lodash.debounce';
+import { useMediaPredicate } from 'react-media-hook';
 import { Button, Overlay } from '../../components';
 import {
     resetMutableArticle,
@@ -11,12 +13,10 @@ import {
     useGetMutableArticleQuery,
 } from '../../redux';
 import { i18n, EDITOR_JS_TOOLS } from './EditorJs';
-import debounce from 'lodash.debounce';
 import NotFoundPage from '../NotFound';
 import { useArticle, useDocTitle, useAppDispatch } from '../../hooks';
-import { useMediaPredicate } from 'react-media-hook';
 import { resizeTextareaHeight } from '../../helpers';
-import { ConfirmDialog } from './ConfirmDialog/ConfirmDialog';
+import { ConfirmDialog } from './ConfirmDialog';
 import { DraftInfoDialog } from './DraftInfoDialog';
 
 import styles from './ArticleEditorPage.module.scss';
@@ -25,8 +25,8 @@ const ArticleEditorPage = () => {
     const location = useLocation();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const fromPage = location?.state?.from?.pathname;
     const { id } = useParams();
+    const fromPage = location?.state?.from?.pathname;
 
     const isDraft = Boolean(location.pathname.split('/')[1] === 'drafts');
     const isEditing = isDraft ? false : Boolean(id);
@@ -82,7 +82,7 @@ const ArticleEditorPage = () => {
             };
         }
 
-        return () => {};
+        return;
     }, [formStatus]);
 
     const handleInitialize = useCallback((instance: any) => {

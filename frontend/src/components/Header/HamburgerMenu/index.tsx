@@ -1,10 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth, useOnClickOutside, useThemeMode } from '../../../hooks';
 import { useLogoutMutation } from '../../../redux';
-import { Flex } from '@adobe/react-spectrum';
-import { Avatar } from '../../Avatar';
-import { Button } from '../../Buttons';
+import { Avatar, Button } from '../../';
 
 import styles from './HamburgerMenu.module.scss';
 
@@ -38,23 +36,8 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
         navigate('/articles/new', { state: { from: location } });
     };
 
-    // useEffect(() => {
-    //     const handleClick = (event: any) => {
-    //         event.stopPropagation();
-    //     };
-
-    //     if (overlayRef && overlayRef.current?.contains(event?.target)) {
-    //         overlayRef?.current?.addEventListener('click', handleClick);
-    //         console.log('da');
-    //         return function cleanup() {
-    //             overlayRef?.current?.removeEventListener('scroll', handleClick);
-    //         };
-    //     }
-    // }, [open]);
-
     return (
         <>
-            {/* {open && <div className="overlay"></div>} */}
             <div ref={ref} className={`${styles.root}  ${open && styles.open}`}>
                 <div className={styles.closeAndloginOrCreate}>
                     <Button
@@ -102,10 +85,10 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                 {user && (
                     <div className={styles.profile}>
                         <Link to={`/users/${user.username}`} onClick={() => setOpen(false)}>
-                            <Flex gap="14px" alignItems="center">
+                            <div className={styles.avatarAndUsername}>
                                 <Avatar imageSrc={user?.avatar} width={38} />
                                 <span>{user.username}</span>
-                            </Flex>
+                            </div>
                         </Link>
                     </div>
                 )}

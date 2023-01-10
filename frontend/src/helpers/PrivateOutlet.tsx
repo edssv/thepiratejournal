@@ -1,7 +1,6 @@
 import React from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { DialogContainer } from '@adobe/react-spectrum';
 import { DialogTrigger, Overlay } from '../components';
 
 export const PrivateOutlet = () => {

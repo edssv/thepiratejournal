@@ -83,6 +83,11 @@
                 width: 100%;
                 height: 100%;
 
+                .avatarAndHeadline {
+                    display: flex;
+                    gap: 16px;
+                }
+
                 .headline {
                     display: block;
                     font-size: 22px;

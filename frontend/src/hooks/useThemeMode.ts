@@ -7,7 +7,6 @@ export const useThemeMode = () => {
             : 'dark' || (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
 
     const [mode, setMode] = useState<'light' | 'dark'>(theme);
-    console.log(mode);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     function handleTheme() {

@@ -1,11 +1,5 @@
 version: '3.8'
 services:
-    # mongodb:
-    #     image: 'mongo'
-    #     restart: on-failure
-    #     ports:
-    #         - '27017:27017'
-
     backend:
         restart: on-failure
         build:
@@ -20,7 +14,10 @@ services:
     frontend:
         build:
             dockerfile: Dockerfile
-            context: ./frontend
+            context:
+                - ./frontend
+                - ./nginx
+
         volumes:
             - /app/node_modules
             - ./frontend:/app
@@ -33,7 +30,6 @@ services:
         restart: unless-stopped
         ports:
             - '81:81'
-
         volumes:
             - ./data:/data
             - ./letsencrypt:/etc/letsencrypt

@@ -2,12 +2,10 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import 'moment/locale/ru';
-import { Draft, useDeleteArticleMutation } from '../../redux/services/article';
-import Image from '@spectrum-icons/workflow/Image';
-import { ArticleStats } from '../ArticleStats';
+import { Draft, useDeleteArticleMutation } from '../../redux';
+import { ArticleStats, Button, ButtonDelete } from '../';
 
 import styles from './DraftPreview.module.scss';
-import { Button, ButtonDelete } from '../Buttons';
 
 interface DraftPreviewProps {
     draft: Draft;
@@ -30,7 +28,7 @@ export const DraftPreview: React.FC<DraftPreviewProps> = ({ draft, refetch }) =>
                             <div className={styles.backgroundColor}></div>
                         ) : (
                             <div className={styles.backgroundImage}>
-                                <Image size="XXL" />
+                                <span className="material-symbols-outlined">image</span>
                             </div>
                         )}
                         <img src={draft.cover} alt="Обложка" />

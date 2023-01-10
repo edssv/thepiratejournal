@@ -15,8 +15,6 @@ export const ListBoxPicker = () => {
 
     const [selectedCategory, setSelectedCategory] = useState(mutableArticle?.category || {});
 
-    console.log(selectedCategory);
-
     return (
         <Listbox value={selectedCategory} onChange={setSelectedCategory}>
             <div className="listBox">
