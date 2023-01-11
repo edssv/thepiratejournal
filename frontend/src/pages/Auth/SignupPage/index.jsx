@@ -35,7 +35,7 @@ const Signup = () => {
         <CardLayout>
             <div className={styles.root}>
                 <div className={styles.instructions}>
-                    <p style={{ fontWeight: 700 }}>Зарегистрируйтесь с помощью электронной почты</p>
+                    {/* <p style={{ fontWeight: 700 }}>Зарегистрируйтесь с помощью электронной почты</p> */}
                     <p>
                         У вас уже есть учетная запись? <Link to="/login">Войти</Link>
                     </p>
