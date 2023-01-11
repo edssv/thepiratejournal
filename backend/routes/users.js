@@ -15,7 +15,7 @@ const requireAuth = require('../middlewares/requireAuth');
 
 const router = express.Router();
 
-router.get('/users', getUsers);
+// router.get('/users', getUsers);
 router.get('/users/:username', checkUser, getUser);
 
 // follow routes
