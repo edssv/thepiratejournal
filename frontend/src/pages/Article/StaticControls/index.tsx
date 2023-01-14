@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog } from '@headlessui/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     useAddBookmarkMutation,

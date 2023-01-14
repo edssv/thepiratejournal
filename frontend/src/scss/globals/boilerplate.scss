@@ -29,6 +29,7 @@ body {
     touch-action: pan-x pan-y;
     background-color: var(--md-sys-color-surface);
     color: var(--md-sys-color-on-surface);
+    transition: background-color 0.15s, color 0.25s;
 }
 
 span {
@@ -127,7 +128,7 @@ textarea {
     &__list {
         display: grid;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 24px;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 
         @media (min-width: 1600px) {
@@ -140,6 +141,17 @@ textarea {
         flex-wrap: wrap;
         gap: 40px;
         grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+}
+
+.AiryArticlesList {
+    display: grid;
+    flex-wrap: wrap;
+    gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+
+    @media (min-width: 1600px) {
+        grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
     }
 }
 

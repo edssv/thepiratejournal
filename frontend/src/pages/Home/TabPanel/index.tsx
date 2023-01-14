@@ -56,7 +56,7 @@ export const TabPanel: React.FC<TabPanelProps> = ({
                         )}
                     </ul>
                 </div>
-                <ul className="articles__list">{children}</ul>
+                <ul className="AiryArticlesList">{children}</ul>
             </section>
         </div>
     );

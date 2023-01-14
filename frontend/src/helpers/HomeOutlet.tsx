@@ -1,5 +1,5 @@
 import Articles from '../pages/Articles';
-import Home from '../pages/Home';
+import { Home } from '../pages/Home';
 import { Overlay } from '../components';
 import { useAuth } from '../hooks';
 

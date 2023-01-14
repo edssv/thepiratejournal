@@ -1,17 +1,17 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { convertDateShort } from '../../helpers/convertDate';
-import { Article } from '../../redux/services/article';
-import { ArticleStats } from '../ArticleStats';
-import { Avatar } from '../Avatar';
+import { convertDateShort } from '../../../helpers/convertDate';
+import { Article } from '../../../redux/services/article';
+import { ArticleStats } from '../../../components/ArticleStats';
+import { Avatar } from '../../../components/Avatar';
 
-import styles from './ArticlePreview.module.scss';
+import styles from './AiryArticlePreview.module.scss';
 
 interface ArticlePreviewProps {
     article: Article;
 }
 
-export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
+export const AiryArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
     const location = useLocation();
 
     const title = article.title;

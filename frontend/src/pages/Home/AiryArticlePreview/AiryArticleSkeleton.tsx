@@ -2,26 +2,22 @@ import React from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
-import styles from './ArticleSkeleton.module.scss';
-
 interface ArticleSkeletonProps {
     counts: number;
 }
 
-export const ArticleSkeleton: React.FC<ArticleSkeletonProps> = ({ counts }) => {
+export const AiryArticleSkeleton: React.FC<ArticleSkeletonProps> = ({ counts }) => {
     return (
         <>
             {counts &&
                 Array(counts)
                     .fill(0)
                     .map((_, i) => (
-                        <div className={styles.root} key={i}>
+                        <div key={i}>
                             <SkeletonTheme
                                 baseColor="var(--md-sys-color-surface-variant)"
                                 enableAnimation={false}>
-                                <Skeleton borderRadius={8} height={172} />
-                                <Skeleton width="90%" height={20} style={{ marginTop: '10px' }} />
-                                <Skeleton width="30%" height={20} style={{ marginTop: '10px' }} />
+                                <Skeleton borderRadius={24} height={312} />
                             </SkeletonTheme>
                         </div>
                     ))}

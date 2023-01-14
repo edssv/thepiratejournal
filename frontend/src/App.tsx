@@ -2,15 +2,13 @@ import { Suspense, lazy, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import 'material-symbols';
 import { Layout, Overlay } from './components';
-import { AuthOutlet, PrivateOutlet } from './helpers';
-import { DraftsAndBookmarksOutlet } from './helpers/DraftsAndBookmarksOutlet';
-import { useThemeMode } from './hooks';
-import { useDocTitle } from './hooks/useDocTitle';
+import { AuthOutlet, PrivateOutlet, DraftsAndBookmarksOutlet } from './helpers';
+import { useThemeMode, useDocTitle } from './hooks';
 import { useGetCurrentUserQuery } from './redux';
 
 import './scss/styles.scss';
 
-const Home = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Home'));
+const Home = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Home/Home'));
 const Articles = lazy(() => import(/* webpackChunkName: "Articles" */ './pages/Articles'));
 const Profile = lazy(() => import(/* webpackChunkName: "Profile" */ './pages/Profile'));
 const Article = lazy(() => import(/* webpackChunkName: "Article" */ './pages/Article/Article'));

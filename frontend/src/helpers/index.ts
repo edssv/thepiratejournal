@@ -4,6 +4,7 @@ export {
     convertDateDayMonthYear,
     convertDateMDHM,
 } from './convertDate';
+export { DraftsAndBookmarksOutlet } from './DraftsAndBookmarksOutlet';
 export { refreshTokenSetup } from './refreshTokenSetup';
 export { AuthOutlet } from './AuthOutlet';
 export { declinationSubstance } from './declinationSubstance';

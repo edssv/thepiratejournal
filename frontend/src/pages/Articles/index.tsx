@@ -6,7 +6,7 @@ import { Article, useSearchArticlesQuery } from '../../redux';
 import styles from './Articles.module.scss';
 import { SearchHeader } from './SearchHeader';
 
-const Articles = () => {
+export default function Articles() {
     const location = useLocation();
 
     const sectionFromUrl = location.pathname.split('/')[2];
@@ -50,6 +50,4 @@ const Articles = () => {
             </ul>
         </div>
     );
-};
-
-export default Articles;
+}

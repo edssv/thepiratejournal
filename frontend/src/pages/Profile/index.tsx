@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 import { useGetUserQuery, Article, Draft } from '../../redux';
-import { convertDateDayMonthYear } from '../../helpers';
-import { DraftPreview, CreateModule, Avatar, ArticlePreview, Overlay } from '../../components';
 import { useDocTitle } from '../../hooks';
+import { convertDateDayMonthYear } from '../../helpers';
+import {
+    DraftPreview,
+    CreateModule,
+    Avatar,
+    ArticlePreview,
+    Overlay,
+    ButtonFollow,
+} from '../../components';
+
+import { UploadAvatar } from './UploadAvatar';
 
 import styles from './Profile.module.scss';
-import { ButtonFollow } from '../../components/Buttons/ButtonFollow';
-import { UploadAvatar } from './UploadAvatar';
 
 const navListData = [
     { activeSection: 'articles', text: 'Статьи', icon: 'book' },
