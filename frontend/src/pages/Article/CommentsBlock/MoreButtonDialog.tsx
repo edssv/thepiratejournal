@@ -36,7 +36,7 @@ export const MoreButtonDialog = ({ item, index, removeComment }: MoreButtonDialo
                             transition={{ duration: 0.2 }}>
                             <Dialog.Overlay className="MenuDropdownOverlay" />
                         </motion.div>
-                        <motion.div style={{ y: 50 }} animate={{ y: 0 }} exit={{ y: 250 }}>
+                        <motion.div exit={{ y: 250 }}>
                             <Dialog.Panel className="MenuDropdownPanel">
                                 <div className="MenuDropdownItems elevation-2">
                                     <div
