@@ -5,6 +5,7 @@
     left: 0;
     bottom: 0;
     margin: 16px;
+    z-index: 999;
 
     @include breakpoint-down(sm) {
         width: calc(100% - 32px);

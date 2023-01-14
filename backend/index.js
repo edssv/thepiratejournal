@@ -32,7 +32,7 @@ app.use('/api', authRoutes);
 app.use('/api', articlesRoutes);
 app.use('/api', uploadsRoutes);
 
-app.use('/api/*.jpg', express.static(path.join(__dirname, 'uploads')));
+app.use('/api', express.static(path.join(__dirname, 'uploads')));
 
 // connect to db
 const start = () => {

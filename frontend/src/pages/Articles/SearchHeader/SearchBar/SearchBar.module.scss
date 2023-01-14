@@ -57,7 +57,7 @@
             &::after {
                 border-left: 4px solid transparent;
                 border-right: 4px solid transparent;
-                border-top: 4px solid black;
+                border-top: 4px solid var(--md-sys-color-on-surface);
                 content: '';
                 height: 0;
                 position: absolute;

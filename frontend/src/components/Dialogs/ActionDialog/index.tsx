@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dialog } from '@headlessui/react';
+import ReactDOM from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import styles from './ActionDialog.module.scss';
@@ -17,22 +17,23 @@ export const ActionDialog: React.FC<ActionDialogProps> = ({
     isOpen,
     setIsOpen,
 }) => {
-    return (
+    const portalRoot = document.getElementById('portal-root') || new HTMLElement();
+
+    return ReactDOM.createPortal(
         <AnimatePresence>
             {isOpen && (
-                <Dialog open={isOpen} onClose={() => setIsOpen(false)} className={styles.root}>
+                <div className={styles.root}>
                     <motion.div
                         style={{ y: 50, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: 50, opacity: 0 }}>
-                        <Dialog.Panel className={styles.dialogPanel}>
-                            <Dialog.Description className={styles.actionText}>
-                                {actionText}
-                            </Dialog.Description>
-                        </Dialog.Panel>
+                        <div className={styles.dialogPanel}>
+                            <p className={styles.actionText}>{actionText}</p>
+                        </div>
                     </motion.div>
-                </Dialog>
+                </div>
             )}
-        </AnimatePresence>
+        </AnimatePresence>,
+        portalRoot,
     );
 };
