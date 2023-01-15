@@ -65,6 +65,9 @@ services:
             net:
                 ipv4_address: 172.18.0.2
 
+volumes:
+    db:
+
 networks:
     net:
         driver: bridge
