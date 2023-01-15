@@ -9,7 +9,7 @@ services:
         ports:
             - '5000:5000'
         networks:
-            default:
+            tpj.net:
                 ipv4_address: 172.17.0.5
 
     frontend:
@@ -23,7 +23,7 @@ services:
         depends_on:
             - backend
         networks:
-            default:
+            tpj.net:
                 ipv4_address: 172.17.0.4
 
     nginx:
@@ -37,11 +37,11 @@ services:
             - ./data:/data
             - ./letsencrypt:/etc/letsencrypt
         networks:
-            default:
+            tpj.net:
                 ipv4_address: 172.17.0.3
 
 networks:
-    default:
+    tpj.net:
         driver: bridge
         ipam:
             driver: default
