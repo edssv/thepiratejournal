@@ -11,6 +11,9 @@ services:
             - 27017:27017
         volumes:
             - db:/data/db
+        networks:
+            net:
+                ipv4_address: 172.18.0.5
 
     backend:
         restart: unless-stopped
