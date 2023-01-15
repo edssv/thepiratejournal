@@ -8,7 +8,7 @@ services:
             - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
             - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
         ports:
-            - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
+            - 27017:27017
         volumes:
             - db:/data/db
 
@@ -20,7 +20,6 @@ services:
             dockerfile: Dockerfile
         ports:
             - '5000:5000'
-
         env_file: ./.env
         environment:
             - DB_HOST=194.67.121.62
