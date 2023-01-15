@@ -14,6 +14,8 @@ const errorMiddleware = require('./middlewares/error-middleware');
 const PORT = process.env.PORT || 5000;
 const app = express();
 
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = process.env;
+
 // middleware
 app.use(errorMiddleware);
 app.use(express.json());
@@ -37,10 +39,13 @@ app.use('/api', express.static(path.join(__dirname, 'uploads')));
 // connect to db
 const start = () => {
     try {
-        mongoose.connect(process.env.DB_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        mongoose.connect(
+            `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?authSource=admin`,
+            {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+            },
+        );
         app.listen(PORT, () => console.log(`Server started on PORT = ${PORT}`));
     } catch (e) {
         console.log(e);

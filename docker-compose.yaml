@@ -1,5 +1,20 @@
 version: '3.8'
 services:
+    mongodb:
+        image: mongo
+        restart: unless-stopped
+        env_file: ./backend/.env
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
+            - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
+        ports:
+            - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
+        volumes:
+            - db:/data/db
+        networks:
+            net:
+                ipv4_address: 172.18.0.5
+
     backend:
         restart: unless-stopped
         build:
