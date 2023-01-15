@@ -31,7 +31,6 @@ services:
             - DB_PASSWORD=$MONGODB_PASSWORD
             - DB_NAME=$MONGODB_DATABASE
             - DB_PORT=$MONGODB_DOCKER_PORT
-            - CLIENT_ORIGIN=$CLIENT_ORIGIN
         depends_on:
             - mongodb
         networks:
