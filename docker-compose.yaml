@@ -10,7 +10,7 @@ services:
             - '5000:5000'
         networks:
             default:
-                ipv4_address: 192.168.64.2
+                ipv4_address: 172.17.0.5
 
     frontend:
         restart: unless-stopped
@@ -24,7 +24,7 @@ services:
             - backend
         networks:
             default:
-                ipv4_address: 192.168.64.4
+                ipv4_address: 172.17.0.4
 
     nginx:
         image: 'jc21/nginx-proxy-manager:latest'
@@ -38,4 +38,14 @@ services:
             - ./letsencrypt:/etc/letsencrypt
         networks:
             default:
-                ipv4_address: 192.168.64.3
+                ipv4_address: 172.17.0.3
+
+networks:
+    default:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.17.0.0/24
+        driver_opts:
+            com.docker.network.bridge.name: common-bridge
