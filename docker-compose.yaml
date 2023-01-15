@@ -24,7 +24,7 @@ services:
         ports:
             - '5000:5000'
         volumes:
-            - media:/data/media
+            - media:/usr/src/backend/media
         depends_on:
             - mongodb
         networks:
