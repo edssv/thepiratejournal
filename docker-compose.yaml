@@ -11,9 +11,6 @@ services:
             - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
         volumes:
             - db:/data/db
-        networks:
-            net:
-                ipv4_address: 172.18.0.5
 
     backend:
         restart: unless-stopped
