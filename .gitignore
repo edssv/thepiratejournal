@@ -11,9 +11,7 @@
 # production
 /frontend/build
 
-/backend/uploads/*.jpg
-/backend/uploads/*.png
-/backend/uploads/*.webp
+/backend/media
 
 # misc
 .DS_Store

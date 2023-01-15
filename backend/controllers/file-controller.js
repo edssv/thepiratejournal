@@ -9,7 +9,7 @@ const uploadFile = async (req, res) => {
 
         const timestamp = Date.now();
         const ref = timestamp + '-' + originalname;
-        const directory = path.join(`uploads/${ref}`);
+        const directory = path.join(`media/${ref}`);
 
         await sharp(buffer).resize(1600).jpeg({ quality: 70 }).toFile(directory);
 
@@ -49,7 +49,7 @@ const uploadAvatar = async (req, res) => {
 
         const timestamp = Date.now();
         const ref = timestamp + '-' + originalname;
-        const directory = path.join(`uploads/${ref}`);
+        const directory = path.join(`media/${ref}`);
 
         await sharp(buffer).resize(1200).jpeg({ quality: 60 }).toFile(directory);
 

@@ -23,6 +23,8 @@ services:
             dockerfile: Dockerfile
         ports:
             - '5000:5000'
+        volumes:
+            - media:/data/media
         depends_on:
             - mongodb
         networks:
@@ -59,6 +61,7 @@ services:
 
 volumes:
     db:
+    media:
 
 networks:
     net:

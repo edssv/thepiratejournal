@@ -1,7 +1,7 @@
 {
     "name": "client",
     "version": "0.1.0",
-    "proxy": "https://thepirate.press/api",
+    "proxy": "http://localhost:5000/api",
     "private": true,
     "dependencies": {
         "@editorjs/delimiter": "^1.2.0",
