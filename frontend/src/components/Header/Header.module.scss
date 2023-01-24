@@ -20,7 +20,7 @@
     z-index: 9;
 
     &::before {
-        background-color: var(--md-sys-color-surface-variant);
+        background-color: rgba(var(--md-sys-color-on-surfaceChannel) / 0.05);
         bottom: 0;
         content: '';
         height: 1px;

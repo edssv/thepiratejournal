@@ -37,6 +37,7 @@ const ArticleEditorPage = () => {
     const { mutableArticle } = useArticle();
 
     const editorCore = useRef<any>(null);
+    const articleContentRef = useRef<HTMLDivElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [formStatus, setFormStatus] = useState<'unchanged' | 'modified' | 'saved'>('unchanged');
 
@@ -118,12 +119,16 @@ const ArticleEditorPage = () => {
                 </Button>
                 <div className={styles.barRightButtons}>
                     {!isEditing && <DraftInfoDialog setFormStatus={setFormStatus} />}
-                    <ConfirmDialog mode={mode} setFormStatus={setFormStatus} />
+                    <ConfirmDialog
+                        mode={mode}
+                        setFormStatus={setFormStatus}
+                        articleContentRef={articleContentRef}
+                    />
                 </div>
             </div>
-            <div className={styles.container}>
+            <div ref={articleContentRef} className={styles.container}>
                 <form
-                    onChange={(e) => {
+                    onChange={() => {
                         if (mutableArticle?.title !== '') {
                             setFormStatus('modified');
                         } else {

@@ -3,10 +3,16 @@ const Article = require('../models/article-model');
 
 const compareAuthor = async (req, res, next) => {
     const articleId = req.params.id;
+
     try {
         const article = await Article.findById(articleId);
         const draft = await Draft.findById(articleId);
         const editorId = req.user._id.toString();
+        const editorRole = req.user.user_role;
+
+        if (editorRole === 'Admin') {
+            return next();
+        }
 
         if (!editorId) {
             return res.status(400).json({ message: 'Системе не удалось вас распознать.' });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useMediaPredicate } from 'react-media-hook';
 import { useDeleteArticleMutation, useGetArticleQuery } from '../../redux';
@@ -16,6 +16,7 @@ import {
 import { useArticle, useAuth, useDocTitle } from '../../hooks';
 
 import { Avatar, Button, Overlay, ButtonFollow } from '../../components';
+import { SuggestionsBlock } from './SuggestionsBlock';
 import NotFoundPage from '../NotFound';
 
 import styles from './Article.module.scss';
@@ -26,11 +27,12 @@ const Article: React.FC = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { user } = useAuth();
+    const articleContentRef = useRef<HTMLDivElement>(null);
 
     // media
     const isTablet = useMediaPredicate('(max-width: 990.98px)');
 
-    const { data, isLoading, isError } = useGetArticleQuery(id, {
+    const { data, isLoading, isFetching, isError } = useGetArticleQuery(id, {
         refetchOnMountOrArgChange: true,
     });
     const [deleteArticle] = useDeleteArticleMutation();
@@ -42,9 +44,11 @@ const Article: React.FC = () => {
 
     const fromPage = location?.state?.from?.pathname;
 
-    const authorname = data?.author.username ?? 'deleted';
-    const authorId = data?.author._id;
+    const authorname = data?.author?.username || 'deleted';
+    const authorId = data?.author?._id || 'deleted';
+    const avatarSrc = data?.author?.avatar;
     const isOwner = user?.id === authorId;
+    const isAdmin = user?.role === 'Admin';
 
     const date = convertDateLong(data?.created_on);
 
@@ -56,31 +60,70 @@ const Article: React.FC = () => {
                         <div className={styles.top}>
                             <div className={styles.top__content}>
                                 <Link to={`/users/${authorname}`}>
-                                    <Avatar imageSrc={data?.author.avatar} width={40} />
+                                    <Avatar imageSrc={avatarSrc && avatarSrc} width={48} />
                                 </Link>
                                 <div className={styles.text}>
-                                    <h4 className={styles.article_title}>
-                                        {data?.title ?? 'Без названия'}
-                                    </h4>
                                     <div className={styles.authorNameAndDate}>
                                         <Link to={`/users/${authorname}`}>
                                             <div className={styles.authorName}>{authorname}</div>
                                         </Link>
+                                        <span>
+                                            {declinationSubstance(article.reading_time, 'minutes')}{' '}
+                                            чтения
+                                        </span>
                                     </div>
                                 </div>
                             </div>
-                            {!isOwner && (
+                            {!isOwner && isTablet && (
                                 <ButtonFollow
-                                    configuration={isTablet ? 'icon' : 'iconWithText'}
+                                    configuration="icon"
                                     username={authorname}
                                     hasSubscription={data?.viewer.hasSubscription}></ButtonFollow>
+                            )}
+                            {!isTablet && (
+                                <div className={styles.shot_sidebar}>
+                                    <div className={styles.shot_controls_wrapper}>
+                                        <div className={styles.shot_controls}>
+                                            <div className={styles.buttonGroup}>
+                                                <ButtonBookmark />
+                                                <ButtonLike />
+                                                {(isOwner || isAdmin) && (
+                                                    <>
+                                                        <Button
+                                                            icon
+                                                            onClick={() =>
+                                                                navigate(`/articles/${id}/edit`, {
+                                                                    state: { from: location },
+                                                                })
+                                                            }>
+                                                            <span className="material-symbols-outlined">
+                                                                edit
+                                                            </span>
+                                                        </Button>
+
+                                                        <ButtonDelete
+                                                            onPrimaryAction={() => {
+                                                                deleteArticle(id);
+                                                                navigate(fromPage ? fromPage : '/');
+                                                            }}
+                                                            icon>
+                                                            <span className="material-symbols-outlined">
+                                                                delete
+                                                            </span>
+                                                        </ButtonDelete>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             )}
                         </div>
 
                         <div className={styles.content__wrapper}>
-                            <div className={styles.content}>
+                            <div ref={articleContentRef} className={styles.content}>
                                 <img src={data?.cover} alt="Обложка" loading="lazy" />
-                                <h2 className={styles.articleHeadline}>{data?.title}</h2>
+                                <h1 className={styles.articleHeadline}>{data?.title}</h1>
                                 <div
                                     dangerouslySetInnerHTML={{
                                         __html: toHtml(data?.blocks),
@@ -88,97 +131,37 @@ const Article: React.FC = () => {
                                     className={styles.content__blocks}></div>
                             </div>
                         </div>
-                        {!isTablet && (
-                            <div className={styles.shot_sidebar}>
-                                <div className={styles.shot_controls_wrapper}>
-                                    <div className={styles.shot_controls}>
-                                        <Link to={`/users/${authorname}`}>
-                                            <Avatar imageSrc={data?.author.avatar} width={45} />
-                                        </Link>
-                                        <div className={styles.buttonGroup}>
-                                            <ButtonShare variant="filledTonal" />
-                                            <ButtonBookmark variant="filledTonal" />
-                                            <ButtonLike variant="filledTonal" />
-
-                                            {isOwner && (
-                                                <>
-                                                    <Button
-                                                        icon
-                                                        variant="filledTonal"
-                                                        onClick={() =>
-                                                            navigate(`/articles/${id}/edit`, {
-                                                                state: { from: location },
-                                                            })
-                                                        }>
-                                                        <span className="material-symbols-outlined">
-                                                            edit
-                                                        </span>
-                                                    </Button>
-
-                                                    <ButtonDelete
-                                                        onPrimaryAction={() => {
-                                                            deleteArticle(id);
-                                                            navigate(fromPage ? fromPage : '/');
-                                                        }}
-                                                        icon
-                                                        variant="outlined">
-                                                        <span className="material-symbols-outlined">
-                                                            delete
-                                                        </span>
-                                                    </ButtonDelete>
-                                                </>
-                                            )}
-                                        </div>
+                    </div>
+                    {!isTablet && (
+                        <div className={styles.authorPanelContainer}>
+                            <div className={styles.authorPanel}>
+                                <div className={styles.authorInfo}>
+                                    <Avatar imageSrc={data?.author.avatar} width={80} />
+                                    <span className={styles.authorName}>
+                                        {data?.author.username}
+                                    </span>
+                                    <span className={styles.subscribersCount}>
+                                        {declinationSubstance(
+                                            article.author.subscribers_count,
+                                            'subscribers',
+                                        )}
+                                    </span>
+                                    <div className={styles.actionButtons}>
+                                        {!isOwner && (
+                                            <ButtonFollow
+                                                configuration="iconWithText"
+                                                username={data?.author.username}
+                                                hasSubscription={data?.viewer.hasSubscription}
+                                            />
+                                        )}
                                     </div>
                                 </div>
                             </div>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
                 <div className={styles.shotOther}>
                     <div className={styles.shotOtherContainer}>
-                        <div className={styles.bottom}>
-                            <div className={styles.well}>
-                                <div className={styles.top}>
-                                    <div className={styles.author}>
-                                        <Link to={`/users/${authorname}`}>
-                                            <Avatar imageSrc={data?.author.avatar} width={42} />
-                                        </Link>
-                                        <div className={styles.authorInfo}>
-                                            <span className={styles.authorName}>{authorname}</span>
-                                            <span className={styles.subscribersCount}>
-                                                {declinationSubstance(
-                                                    article.author.subscribers_count,
-                                                    'subscribers',
-                                                )}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    {isTablet ? (
-                                        <StaticControls isOwner={isOwner} />
-                                    ) : (
-                                        <div className={styles.dateAndStats}>
-                                            <span>
-                                                {declinationSubstance(
-                                                    article?.views.count,
-                                                    'views',
-                                                )}
-                                            </span>
-                                            <span className={styles.date}>{date}</span>
-                                        </div>
-                                    )}
-                                </div>
-
-                                {isTablet && (
-                                    <div className={styles.dateAndStats}>
-                                        <span>
-                                            {declinationSubstance(article?.views.count, 'views')}
-                                        </span>
-                                        <span className={styles.date}>{date}</span>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
                         {isTablet && (
                             <>
                                 <ScrollControls
@@ -188,7 +171,63 @@ const Article: React.FC = () => {
                             </>
                         )}
 
-                        <CommentsBlock />
+                        <div className={styles.commentsAndSuggestions}>
+                            <div className={styles.articleInfoAndComments}>
+                                <div className={styles.bottom}>
+                                    <div className={styles.well}>
+                                        <div className={styles.top}>
+                                            <div className={styles.author}>
+                                                <Link to={`/users/${authorname}`}>
+                                                    <Avatar
+                                                        imageSrc={data?.author.avatar}
+                                                        width={42}
+                                                    />
+                                                </Link>
+                                                <div className={styles.authorInfo}>
+                                                    <span className={styles.authorName}>
+                                                        {authorname}
+                                                    </span>
+                                                    <span className={styles.subscribersCount}>
+                                                        {declinationSubstance(
+                                                            article.author.subscribers_count,
+                                                            'subscribers',
+                                                        )}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            {isTablet ? (
+                                                <StaticControls isOwner={isOwner} />
+                                            ) : (
+                                                <div className={styles.dateAndStats}>
+                                                    <span>
+                                                        {declinationSubstance(
+                                                            article?.views.count,
+                                                            'views',
+                                                        )}
+                                                    </span>
+                                                    <span className={styles.date}>{date}</span>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {isTablet && (
+                                            <div className={styles.dateAndStats}>
+                                                <span>
+                                                    {declinationSubstance(
+                                                        article?.views.count,
+                                                        'views',
+                                                    )}
+                                                </span>
+                                                <span className={styles.date}>{date}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                {!isTablet && <CommentsBlock />}
+                            </div>
+                            <SuggestionsBlock />
+                            {isTablet && <CommentsBlock />}
+                        </div>
                     </div>
                 </div>
             </div>

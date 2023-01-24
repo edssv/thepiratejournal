@@ -20,7 +20,7 @@ export const ListBoxPicker = () => {
             <div className="listBox">
                 <Listbox.Button placeholder="Выбери категорию" className="listBoxButton">
                     {selectedCategory.name}
-                    <span className="material-symbols-outlined">unfold_more</span>
+                    <span className="material-symbols-outlined unfoldMoreIcon">unfold_more</span>
                 </Listbox.Button>
                 <Listbox.Options className="listBoxOptions">
                     {categories.map((category) => (

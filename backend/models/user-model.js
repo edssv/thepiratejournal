@@ -9,6 +9,7 @@ const Article = require('./article-model');
 const Draft = require('../models/draftModel');
 
 const userSchema = new Schema({
+    user_role: String,
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
@@ -135,7 +136,9 @@ userSchema.statics.refresh = async function (refreshToken) {
 
 userSchema.statics.getUser = async function (username) {
     const user = await this.findOne({ username });
-    const articles = await Article.find({ 'author.username': username });
+    const articles = await Article.find({
+        $and: [{ 'author.username': username }, { isPublished: true }],
+    });
     const appreciated = await Article.find({ _id: { $in: user.appreciated } });
     const bookmarks = await Article.find({ _id: { $in: user.bookmarks } });
     const drafts = await Draft.find({ 'author._id': user._id });

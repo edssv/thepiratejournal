@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useMediaPredicate } from 'react-media-hook';
 import { useNavigate } from 'react-router-dom';
 import { ActionDialog, Button } from '../../../components';
+import { readingTimeFunction } from '../../../helpers';
 import { useArticle } from '../../../hooks';
 import { useAddArticleMutation, useEditArticleMutation } from '../../../redux';
 
 interface ConfirmButtonProps {
     mode: 'isNew' | 'isEditing' | 'isDraft';
+    articleContentRef?: React.Ref<HTMLDivElement>;
 }
 
-export const ConfirmButton = ({ mode }: ConfirmButtonProps) => {
+export const ConfirmButton = ({ mode, articleContentRef }: ConfirmButtonProps) => {
     const navigate = useNavigate();
 
     const { mutableArticle } = useArticle();
@@ -28,6 +30,7 @@ export const ConfirmButton = ({ mode }: ConfirmButtonProps) => {
                 draftId: mode === 'isDraft' && mutableArticle._id,
             },
             { intent: 'publish' },
+            { readingTime: readingTimeFunction(articleContentRef) },
             mutableArticle,
         );
         mode === 'isEditing'

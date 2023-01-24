@@ -11,7 +11,7 @@ interface onPrimaryAction {
 export const ButtonDelete: React.FC<onPrimaryAction> = ({
     onPrimaryAction,
     children,
-    variant,
+    variant = 'text',
     icon,
 }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);

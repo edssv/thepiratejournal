@@ -12,16 +12,20 @@ import { ConfirmButton } from './ConfirmButton';
 interface ConfirmDialogProps {
     mode: 'isNew' | 'isEditing' | 'isDraft';
     setFormStatus: (value: React.SetStateAction<'unchanged' | 'modified' | 'saved'>) => void;
+    articleContentRef?: React.Ref<HTMLDivElement>;
 }
 
-export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ mode, setFormStatus }) => {
+export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
+    mode,
+    setFormStatus,
+    articleContentRef,
+}) => {
     const { mutableArticle } = useArticle();
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
 
     const isMobile = useMediaPredicate('(max-width: 551px)');
-    const isMobileSmall = useMediaPredicate('(max-width: 397px)');
 
     return (
         <>
@@ -63,7 +67,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ mode, setFormStatu
                     )}
                     <div className={styles.buttonGroupConfirm}>
                         <DraftInfoDialog setFormStatus={setFormStatus} />
-                        <ConfirmButton mode={mode} />
+                        <ConfirmButton mode={mode} articleContentRef={articleContentRef} />
                     </div>
                 </div>
             </MyDialogTrigger>

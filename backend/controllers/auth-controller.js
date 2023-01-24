@@ -117,6 +117,7 @@ const getCurrentUser = async (req, res) => {
 
         res.status(200).json({
             user: {
+                role: user.user_role,
                 id: user._id,
                 username: user.username,
                 avatar: user.avatar,

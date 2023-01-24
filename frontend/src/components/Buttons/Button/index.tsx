@@ -11,6 +11,7 @@ export interface ButtonOwnProps<E extends ElementType = ElementType> {
     isActive?: boolean;
     variant?: Variant;
     icon?: boolean;
+    color?: string;
     className?: string | undefined;
     as?: E;
 }
@@ -24,8 +25,9 @@ export function Button<E extends ElementType = typeof defaultElement>({
     isLoading,
     isActive,
     children,
-    variant,
+    variant = 'text',
     icon,
+    color,
     className,
     as,
     ...otherProps
@@ -70,7 +72,9 @@ export function Button<E extends ElementType = typeof defaultElement>({
             : text
             ? 'box-shadow: var(--md-sys-elevation-level0), var(--md-sys-color-shadow)'
             : ''};
-        color: ${elevated
+        color: ${color
+            ? color
+            : elevated
             ? 'var(--md-sys-color-primary)'
             : filled
             ? 'var(--md-sys-color-on-primary)'
@@ -81,6 +85,7 @@ export function Button<E extends ElementType = typeof defaultElement>({
             : text
             ? 'var(--md-sys-color-primary)'
             : ''};
+
         ${outlined && 'outline: 1px solid var(--md-sys-color-outline)'};
 
         :disabled {
@@ -148,11 +153,7 @@ export function Button<E extends ElementType = typeof defaultElement>({
             } ${className} ${isActive && styles.isActive} label-large`}
             {...otherProps}>
             {isLoading && (
-                <MoonLoader
-                    size="12px"
-                    color="var(--md-sys-color-on-primary)"
-                    speedMultiplier={0.7}
-                />
+                <MoonLoader size="14px" color="var(--md-sys-color-primary)" speedMultiplier={0.7} />
             )}
             {children}
         </BtnPrimary>

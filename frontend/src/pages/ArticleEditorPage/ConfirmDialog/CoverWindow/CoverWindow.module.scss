@@ -15,7 +15,13 @@
 
 .root {
     .container {
+        height: 240px;
+
         .placeholder {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             .uploader {
                 position: relative;
                 height: auto;
@@ -50,10 +56,10 @@
 }
 
 .coverContainer {
-    width: fit-content;
-    max-height: 280px;
+    width: 100%;
+    max-height: 240px;
     position: relative;
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 
@@ -67,7 +73,7 @@
         max-height: inherit;
         height: inherit;
         width: 100%;
-        object-fit: contain;
+        object-fit: cover;
         border-radius: 8px;
     }
 

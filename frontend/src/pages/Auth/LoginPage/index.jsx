@@ -96,7 +96,7 @@ const LoginPage = () => {
                     <section className={styles.submit}>
                         <Button
                             isLoading={isLoading}
-                            isDisabled={!isOnline || isLoading}
+                            disabled={!isOnline || isLoading}
                             variant="filled"
                             type="submit">
                             Войти

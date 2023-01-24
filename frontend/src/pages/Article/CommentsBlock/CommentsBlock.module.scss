@@ -1,6 +1,7 @@
 @use '../../../scss/util' as *;
 
 .root {
+    max-width: 1120px;
     width: 100%;
     padding: 0 4px;
 
@@ -86,54 +87,12 @@
                 .actionMenu {
                     visibility: hidden;
                 }
-
-                .commentContainer {
-                    display: flex;
-                    gap: 16px;
-                    min-width: 0;
-
-                    .commentTextContainer {
-                        overflow: hidden;
-
-                        .commentUserDateWrap {
-                            .username {
-                                font-weight: 700;
-                                margin-right: 2px;
-                            }
-
-                            .commentDate {
-                                font-size: 11px;
-
-                                &::before {
-                                    content: '•';
-                                    margin: 0px 4px 0px 2px;
-                                }
-                            }
-                        }
-
-                        .commentText {
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            -webkit-box-orient: vertical;
-                            -webkit-line-clamp: 4;
-                            display: -webkit-box;
-                            word-break: break-word;
-                        }
-
-                        .overflowTextButton {
-                            font-family: Roboto, sans-serif;
-                            font-size: 14px;
-                            font-weight: 500;
-                            line-height: 20px;
-                            color: var(--md-sys-color-secondary);
-
-                            &:hover {
-                                text-decoration: underline;
-                            }
-                        }
-                    }
-                }
             }
         }
+    }
+
+    .loaderContainer {
+        display: flex;
+        justify-content: center;
     }
 }

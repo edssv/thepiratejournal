@@ -1,6 +1,8 @@
+const { ObjectId } = require('mongodb');
 const { Schema, model } = require('mongoose');
 
 const articleSchema = new Schema({
+    isPublished: Boolean,
     author: {
         _id: { type: String, required: true },
         username: { type: String, required: true },
@@ -29,12 +31,12 @@ const articleSchema = new Schema({
             required: true,
         },
     },
+    reading_time: { type: Number, required: true },
     created_on: { type: Number, required: true },
     comments: [
         {
-            author: { type: String, required: true },
-            text: { type: String, required: true },
-            created_on: { type: Number, required: true },
+            type: Object,
+            required: true,
         },
     ],
     views: {
@@ -60,8 +62,10 @@ articleSchema.statics.creating = async function (
     blocks,
     tags,
     category,
+    readingTime,
 ) {
     const article = await this.create({
+        isPublished: true,
         author: { _id: authorId, username: authorUsername },
         title,
         search_title: title.toLowerCase(),
@@ -69,13 +73,22 @@ articleSchema.statics.creating = async function (
         blocks,
         tags: tags,
         category: category,
+        reading_time: readingTime,
         created_on: new Date(),
     });
 
     return article;
 };
 
-articleSchema.statics.editing = async function (articleId, title, cover, blocks, tags, category) {
+articleSchema.statics.editing = async function (
+    articleId,
+    title,
+    cover,
+    blocks,
+    tags,
+    category,
+    readingTime,
+) {
     if (!title || !cover || !blocks) {
         throw Error('Заголовок обложка и блоки обязательны.');
     }
@@ -89,6 +102,7 @@ articleSchema.statics.editing = async function (articleId, title, cover, blocks,
             blocks: blocks,
             tags: tags,
             category: category,
+            reading_time: readingTime,
         },
     );
 
@@ -98,30 +112,33 @@ articleSchema.statics.editing = async function (articleId, title, cover, blocks,
 articleSchema.statics.getAll = async function (section, currentUser) {
     if (section === 'following') {
         const followList = currentUser.follow;
-        const articles = await this.find({ 'author._id': { $in: followList } });
+        const articles = await this.find({
+            $and: [{ 'author._id': { $in: followList } }, { isPublished: true }],
+        });
 
         return articles;
     }
 
     if (section === 'for_you') {
-        const articles = await this.find().exec();
+        const articles = await this.find({ isPublished: true }).exec();
 
         return articles;
     }
 };
 
-articleSchema.statics.searchArticles = async function (categoryName, sortType, searchValue) {
+articleSchema.statics.searchArticles = async function (categoryName, query) {
     const categoryParams = {
-        'category.key': categoryName ? categoryName : { $type: 'string' },
+        'category.key': categoryName && categoryName !== 'all' ? categoryName : { $type: 'string' },
     };
     const searchParams = {
-        search_title: { $regex: searchValue ? searchValue.toLowerCase() : '' },
+        search_title: { $regex: query.search ? query.search.toLowerCase() : '' },
     };
-    const findParams = { $and: [categoryParams, searchParams] };
+
+    const findParams = { $and: [categoryParams, searchParams, { isPublished: true }] };
     const sortParams =
-        sortType === 'recent'
+        query.sort === 'recent'
             ? { created_on: -1 }
-            : sortType === 'appreciations'
+            : query.sort === 'appreciations'
             ? { 'likes.count': -1 }
             : { 'views.count': -1 };
 
@@ -136,13 +153,36 @@ articleSchema.statics.getOne = async function (id) {
         { $inc: { 'views.count': 1 } },
         { returnDocument: 'after' },
     );
-    // const comments = article.comments.map(async (item) => {
-    //     await userModel.find({ _id: item.author });
-    // });
 
-    const comments = article.comments.sort((a, b) => (a.created_on > b.created_on ? -1 : 1));
+    return { ...article._doc, comments: [] };
+};
 
-    return { ...article._doc, comments: comments };
+articleSchema.statics.getComments = async function (articleId, query) {
+    const { comments } = await this.findOne({ _id: articleId }, { comments: 1, _id: 0 });
+    const totalCount = comments.length ?? 0;
+
+    const skip = query.page * query.limit;
+    // const comments = article.comments.sort((a, b) => (a.created_on > b.created_on ? -1 : 1));
+    const limitComments = comments.slice(skip, Number(skip) + Number(query.limit));
+
+    return { limitComments, totalCount };
+};
+
+articleSchema.statics.getSuggestions = async function (articleId, categoryName, query) {
+    const gameParams = { 'category.game': query.game ?? '' };
+    const findParams = {
+        $and: [{ isPublished: true } && categoryName === 'similar' ? gameParams : {}],
+    };
+
+    const articles = await this.find(findParams);
+    const filterArticles = articles.filter((item) => item._id.toString() !== articleId);
+    const totalCount = filterArticles.length;
+
+    const skip = query.page * query.limit;
+
+    const limitArticles = filterArticles.slice(skip, Number(skip) + Number(query.limit));
+
+    return { limitArticles, totalCount };
 };
 
 articleSchema.statics.like = async function (id, userId) {
@@ -163,28 +203,37 @@ articleSchema.statics.removeLike = async function (id, userId) {
     );
 };
 
-articleSchema.statics.addComment = async function (id, userId, commentText) {
-    if (!commentText) {
-        throw new Error('Комментарий пустой.');
-    }
-
+articleSchema.statics.addComment = async function (articleId, commentId) {
     const article = await this.findOneAndUpdate(
-        { _id: id },
-        { $push: { comments: { author: userId, text: commentText, created_on: new Date() } } },
+        { _id: articleId },
+        { $push: { comments: commentId } },
         { returnDocument: 'after' },
     );
 
     return article;
 };
 
-articleSchema.statics.removeComment = async function (id, userId, commentId) {
+articleSchema.statics.removeComment = async function (articleId, commentId) {
     const article = await this.findOneAndUpdate(
-        { _id: id },
-        { $pull: { comments: { _id: commentId } } },
+        { _id: articleId },
+        { $pull: { comments: ObjectId(commentId) } },
         { returnDocument: 'after' },
     );
-
     return article;
+};
+
+articleSchema.statics.likeComment = async function (articleId, userId, commentId) {
+    const { comments } = await this.findOne({ _id: articleId }, { comments: 1, _id: 0 });
+
+    const necessaryComment = comments.find((item) => item._id.toString() === commentId);
+
+    necessaryComment.likes.push(userId);
+
+    // await this.findOneAndUpdate(
+    //     { _id: articleId },
+    //     { $push: { comments: { $elemMatch: { _id: commentId: {necessaryComment} }} } },
+    //     { returnDocument: 'after' },
+    // );
 };
 
 module.exports = model('Article', articleSchema);

@@ -1,6 +1,6 @@
-type SubstanceType = 'comments' | 'subscribers' | 'views';
+type SubstanceType = 'comments' | 'subscribers' | 'views' | 'minutes';
 
-export const getNoun = (number: number, one: string, two: string, five: string) => {
+function getNoun(number: number, one: string, two: string, five: string) {
     let n = Math.abs(number);
     n %= 100;
     if (n >= 5 && n <= 20) {
@@ -14,7 +14,7 @@ export const getNoun = (number: number, one: string, two: string, five: string) 
         return two;
     }
     return five;
-};
+}
 
 export const declinationSubstance = (number: number, type: SubstanceType) => {
     if (type === 'comments') {
@@ -25,5 +25,8 @@ export const declinationSubstance = (number: number, type: SubstanceType) => {
     }
     if (type === 'views') {
         return number + ' ' + getNoun(number, 'просмотр', 'просмотра', 'просмотров');
+    }
+    if (type === 'minutes') {
+        return number + ' ' + getNoun(number, 'минута', 'минуты', 'минут');
     }
 };

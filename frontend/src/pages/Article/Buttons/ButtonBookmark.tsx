@@ -31,18 +31,16 @@ export const ButtonBookmark: React.FC<IsBookmarkProps> = ({ tooltipPosition, var
     return (
         <>
             {!user ? (
-                <>
-                    <Tippy
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                        tooltipPosition={tooltipPosition}
-                        title={'Добавляй в закладки'}
-                        description={'Чтобы добавлять статьи в закладки, войди в аккаунт.'}>
-                        <Button icon variant={variant ?? 'text'} onClick={() => setIsOpen(true)}>
-                            <span className="material-symbols-outlined">bookmark</span>
-                        </Button>
-                    </Tippy>
-                </>
+                <Tippy
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                    tooltipPosition={tooltipPosition}
+                    title={'Добавляй в закладки'}
+                    description={'Чтобы добавлять статьи в закладки, войди в аккаунт.'}>
+                    <Button icon variant={variant ?? 'text'} onClick={() => setIsOpen(true)}>
+                        <span className="material-symbols-outlined">bookmark</span>
+                    </Button>
+                </Tippy>
             ) : (
                 <>
                     <Button

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Variant } from '../../../components';
+import { ActionDialog, Button, Variant, Tippy } from '../../../components';
 import { useArticle, useAuth } from '../../../hooks';
 import { useLikeMutation, useRemoveLikeMutation } from '../../../redux';
-import { Tippy } from '../../../components/Tippy';
-import { ActionDialog } from '../../../components/Dialogs/ActionDialog';
 
 interface IsLikeProps {
     tooltipPosition?: any;
@@ -12,7 +10,11 @@ interface IsLikeProps {
     children?: React.ReactNode;
 }
 
-export const ButtonLike: React.FC<IsLikeProps> = ({ children, tooltipPosition, variant }) => {
+export const ButtonLike: React.FC<IsLikeProps> = ({
+    children,
+    tooltipPosition,
+    variant = 'text',
+}) => {
     const { user } = useAuth();
     const { article, isLike } = useArticle();
 
@@ -41,7 +43,7 @@ export const ButtonLike: React.FC<IsLikeProps> = ({ children, tooltipPosition, v
                     tooltipPosition={tooltipPosition}
                     title={'Добавляй в избранное'}
                     description="Чтобы добавлять статьи в понравившиеся, войди в аккаунт.">
-                    <Button icon variant={variant ?? 'text'} onClick={() => setIsOpen(true)}>
+                    <Button icon variant={variant} onClick={() => setIsOpen(true)}>
                         <span className="material-symbols-outlined">favorite</span>
                         {children}
                     </Button>

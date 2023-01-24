@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { Dialog, Menu } from '@headlessui/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMediaPredicate } from 'react-media-hook';
@@ -21,6 +21,7 @@ export const MoreButtonDialog = ({ item, index, removeComment }: MoreButtonDialo
             <Button
                 icon
                 variant="text"
+                color="var(--md-sys-color-on-surface)"
                 onClick={() => {
                     setIsOpen(true);
                 }}>
@@ -57,7 +58,7 @@ export const MoreButtonDialog = ({ item, index, removeComment }: MoreButtonDialo
         </>
     ) : (
         <Menu as="div" className="MenuDropdown">
-            <Menu.Button as={Button} icon variant="text">
+            <Menu.Button as={Button} icon variant="text" color="var(--md-sys-color-on-surface)">
                 <span className="material-symbols-outlined">more_vert</span>
             </Menu.Button>
             <div className="MenuDropdownPanel">

@@ -4,10 +4,12 @@
     position: relative;
 
     .listBoxButton {
+        position: relative;
         display: flex;
         justify-content: space-between;
         align-items: center;
         min-width: 240px;
+        min-height: 34px;
         padding: 6px 12px;
         border: 1px solid var(--md-sys-color-outline-variant);
         border-radius: 8px;
@@ -23,6 +25,11 @@
             font-weight: 500;
             color: var(--md-sys-color-outline);
             margin-right: -5px;
+        }
+
+        .unfoldMoreIcon {
+            position: absolute;
+            right: 12px;
         }
     }
 

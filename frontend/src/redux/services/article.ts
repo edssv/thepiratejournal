@@ -10,8 +10,15 @@ export interface Block {
 }
 
 export interface Comment {
-    comment: { _id: string; author: string; text: string; created_on: number };
+    comment: {
+        _id: string;
+        author: string;
+        text: string;
+        created_on: number;
+        likes: { count: number; users: [] };
+    };
     author: { _id: string; username: string; avatar: string };
+    viewer: { isLike: boolean };
 }
 
 export interface Draft {
@@ -30,18 +37,44 @@ export interface Article {
     blocks: any;
     tags: [];
     category: { name: string; game: string; key: string };
+    reading_time: number;
     created_on: number;
     isPublished: boolean;
-    comments: Comment[];
+    comments: { list: Comment[]; totalCount: number };
     views: { count: number };
     likes: { count: number };
-    viewer: { hasSubscription: boolean; hasBookmark: boolean; isLike: boolean };
+    viewer: {
+        hasSubscription: boolean;
+        hasBookmark: boolean;
+        isLike: boolean;
+    };
+    suggestions: {
+        articles: {
+            all: { list: Article[]; totalCount: number };
+            similar: { list: Article[]; totalCount: number };
+        };
+    };
 }
 
 export const articleApi = api.injectEndpoints({
     endpoints: (build) => ({
         getArticle: build.query<Article, string | undefined>({
             query: (id) => `articles/${id}`,
+            providesTags: ['Articles'],
+        }),
+        getComments: build.query<
+            { commentsList: Comment[]; totalCount: number },
+            { id: string; queryParams: string }
+        >({
+            query: ({ id, queryParams }) => `articles/${id}/comments?${queryParams}`,
+            providesTags: ['Articles'],
+        }),
+        getSuggestions: build.query<
+            { articles: Article[]; totalCount: number; categoryName: 'all' | 'similar' },
+            { id: string; category: 'all' | 'similar'; queryParams: string }
+        >({
+            query: ({ id, category, queryParams }) =>
+                `articles/${id}/suggestions/${category}?${queryParams}`,
             providesTags: ['Articles'],
         }),
         getMutableArticle: build.query<Article, string | undefined>({
@@ -111,13 +144,26 @@ export const articleApi = api.injectEndpoints({
                 method: 'PATCH',
                 body: { commentText: commentText },
             }),
-            invalidatesTags: ['Articles'],
         }),
         removeComment: build.mutation({
-            query: ({ commentId, id }) => ({
+            query: ({ commentId, id, index }) => ({
                 url: `articles/${id}/comments/remove`,
+                method: 'DELETE',
+                body: { commentId: commentId, id, index },
+            }),
+        }),
+        likeComment: build.mutation({
+            query: ({ commentId, articleId, index }) => ({
+                url: `articles/${articleId}/comments/${commentId}/like`,
                 method: 'PATCH',
-                body: { commentId: commentId },
+                body: { index },
+            }),
+        }),
+        removeLikeComment: build.mutation({
+            query: ({ commentId, articleId, index }) => ({
+                url: `articles/${articleId}/comments/${commentId}/removelike`,
+                method: 'PATCH',
+                body: { index },
             }),
         }),
     }),
@@ -125,6 +171,8 @@ export const articleApi = api.injectEndpoints({
 
 export const {
     useGetArticleQuery,
+    useGetCommentsQuery,
+    useGetSuggestionsQuery,
     useGetMutableArticleQuery,
     useGetArticlesQuery,
     useSearchArticlesQuery,
@@ -137,4 +185,6 @@ export const {
     useEditArticleMutation,
     useAddCommentMutation,
     useRemoveCommentMutation,
+    useLikeCommentMutation,
+    useRemoveLikeCommentMutation,
 } = articleApi;

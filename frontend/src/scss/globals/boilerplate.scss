@@ -147,7 +147,7 @@ textarea {
 .AiryArticlesList {
     display: grid;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 16px;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 
     @media (min-width: 1600px) {
@@ -210,6 +210,10 @@ textarea {
         border-color: var(--md-sys-color-primary);
         -webkit-box-shadow: 0 1px 0 var(--link-color);
         box-shadow: 0 1px 0 var(--md-sys-color-primary);
+    }
+
+    &:disabled {
+        opacity: 0.25;
     }
 
     &.is-invalid,

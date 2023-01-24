@@ -1,19 +1,19 @@
 import Header from '@editorjs/header';
-import ImageTool from '@editorjs/image';
+import Image from '@editorjs/simple-image';
 import List from '@editorjs/list';
 import Delimiter from '@editorjs/delimiter';
 import Marker from '@editorjs/marker';
 import InlineCode from '@editorjs/inline-code';
-import Warning from '@editorjs/warning';
+// import Warning from '@editorjs/warning';
 
 export const EDITOR_JS_TOOLS = {
     header: {
         class: Header,
-        config: { levels: [3, 4], defaultLevel: 3 },
+        config: { levels: [2, 3], defaultLevel: 2 },
     },
 
     image: {
-        class: ImageTool,
+        class: Image,
         config: {
             endpoints: {
                 byFile: `${process.env.REACT_APP_API_URL}/upload`, // Your backend file uploader endpoint
@@ -25,13 +25,13 @@ export const EDITOR_JS_TOOLS = {
     delimiter: Delimiter,
     marker: Marker,
     inlineCode: InlineCode,
-    warning: {
-        class: Warning,
-        inlineToolbar: true,
-        shortcut: 'CMD+SHIFT+W',
-        config: {
-            titlePlaceholder: 'Title',
-            messagePlaceholder: 'Message',
-        },
-    },
+    // warning: {
+    //     class: Warning,
+    //     inlineToolbar: true,
+    //     shortcut: 'CMD+SHIFT+W',
+    //     config: {
+    //         titlePlaceholder: 'Title',
+    //         messagePlaceholder: 'Message',
+    //     },
+    // },
 };

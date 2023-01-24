@@ -142,7 +142,7 @@ const Signup = () => {
                     <section className={styles.submit}>
                         <Button
                             isLoading={isLoading}
-                            isDisabled={!isOnline || isLoading}
+                            disabled={!isOnline || isLoading}
                             type="submit"
                             variant="filled">
                             Создать

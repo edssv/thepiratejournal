@@ -118,20 +118,24 @@ const Profile: React.FC = () => {
                     </nav>
                     {list === 'articles' && (
                         <div className="articles__list">
-                            {articlesList?.length !== 0
-                                ? articlesList
-                                : isOwner && <CreateModule create />}
+                            {articlesList?.length !== 0 ? (
+                                articlesList
+                            ) : isOwner ? (
+                                <CreateModule create />
+                            ) : (
+                                <h4>Пользователь не опубликовал ни одной статьи</h4>
+                            )}
                         </div>
                     )}
                     {list === 'appreciated' &&
                         (appreciatedList?.length !== 0 ? (
                             <div className="appreciated__list">{appreciatedList}</div>
+                        ) : isOwner ? (
+                            <div className="articles__list">
+                                <CreateModule find />
+                            </div>
                         ) : (
-                            isOwner && (
-                                <div className="articles__list">
-                                    <CreateModule find />
-                                </div>
-                            )
+                            <h4>Пользователь не оценил ни одной статьи</h4>
                         ))}
                     {list === 'bookmarks' &&
                         (bookmarksList?.length !== 0 ? (

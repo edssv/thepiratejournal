@@ -4,7 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import { DialogTrigger, Overlay } from '../components';
 
 export const PrivateOutlet = () => {
-    const { user, isLoading } = useAuth();
+    const { user, isLoading, isAdmin } = useAuth();
     let [isOpen, setOpen] = React.useState(!user || !user.isActivated);
 
     const location = useLocation();
@@ -29,7 +29,7 @@ export const PrivateOutlet = () => {
             </>
         );
 
-    if (user && !user.isActivated)
+    if (user && !user.isActivated && !isAdmin)
         return (
             <>
                 <DialogTrigger

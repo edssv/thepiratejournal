@@ -1,5 +1,5 @@
-const Draft = require('../models/draftModel');
 const Article = require('../models/article-model');
+const Comment = require('../models/comment-model');
 
 const compareCommentAuthor = async (req, res, next) => {
     const articleId = req.params.id;
@@ -8,13 +8,14 @@ const compareCommentAuthor = async (req, res, next) => {
 
     try {
         const article = await Article.findOne({
-            $and: [{ _id: articleId }, { 'comments._id': commentId }],
+            $and: [{ _id: articleId }, { 'comments[]': commentId }],
         });
+
         if (!article) {
             return res.status(400).json({ message: 'Не удалось найти статью.' });
         }
 
-        const { author } = [...article.comments].find((item) => item._id == commentId);
+        const { author } = await Comment.findOne({ _id: commentId });
 
         if (userId !== author) {
             return res.status(400).json({ message: 'Вы не являетесь автором комментария.' });
