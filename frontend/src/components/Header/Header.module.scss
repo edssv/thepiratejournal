@@ -9,17 +9,14 @@
 
 .root {
     position: relative;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     display: flex;
     align-items: center;
     height: $header-height;
     background-color: var(--md-sys-color-background);
     z-index: 9;
 
-    &::before {
+    &::before,
+    .fixed::before {
         background-color: rgba(var(--md-sys-color-on-surfaceChannel) / 0.05);
         bottom: 0;
         content: '';
@@ -39,6 +36,7 @@
             left: 0;
             right: 0;
             top: 0;
+            background-color: var(--md-sys-color-background);
         }
     }
 }

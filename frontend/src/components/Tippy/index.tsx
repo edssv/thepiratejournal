@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, PropsWithChildren, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import styles from './Tippy.module.scss';
@@ -8,7 +8,6 @@ import { usePopper } from 'react-popper';
 import { useMediaPredicate } from 'react-media-hook';
 
 interface TippyProps {
-    children?: any;
     tooltipPosition: any;
     description: string;
     title: string;
@@ -17,21 +16,15 @@ interface TippyProps {
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Tippy: React.FC<TippyProps> = ({
+export const Tippy: React.FC<PropsWithChildren<TippyProps>> = ({
     children,
-    tooltipPosition,
     description,
     title,
-    offset,
     isOpen,
     setIsOpen,
 }) => {
     const navigate = useNavigate();
     const location = useLocation();
-
-    let [referenceElement, setReferenceElement] = useState(null);
-    let [popperElement, setPopperElement] = useState(null);
-    let { styles: poperStyles, attributes } = usePopper(referenceElement, popperElement);
 
     const fromLaptop = useMediaPredicate('(min-width: 991px)');
 

@@ -4,14 +4,7 @@ import { createReactEditorJS } from 'react-editor-js';
 import debounce from 'lodash.debounce';
 import { useMediaPredicate } from 'react-media-hook';
 import { Button, Overlay } from '../../components';
-import {
-    resetMutableArticle,
-    setBlocks,
-    setTitle,
-    useAddArticleMutation,
-    useEditArticleMutation,
-    useGetMutableArticleQuery,
-} from '../../redux';
+import { resetMutableArticle, setBlocks, setTitle, useGetMutableArticleQuery } from '../../redux';
 import { i18n, EDITOR_JS_TOOLS } from './EditorJs';
 import NotFoundPage from '../NotFound';
 import { useArticle, useDocTitle, useAppDispatch } from '../../hooks';
@@ -28,8 +21,8 @@ const ArticleEditorPage = () => {
     const { id } = useParams();
     const fromPage = location?.state?.from?.pathname;
 
-    const isDraft = Boolean(location.pathname.split('/')[1] === 'drafts');
-    const isEditing = isDraft ? false : Boolean(id);
+    const isDraft = location.pathname.split('/')[1] === 'drafts';
+    const isEditing = !isDraft && Boolean(id);
     const [mode, setMode] = useState<'isNew' | 'isEditing' | 'isDraft'>(
         isDraft ? 'isDraft' : isEditing ? 'isEditing' : 'isNew',
     );
@@ -41,7 +34,7 @@ const ArticleEditorPage = () => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [formStatus, setFormStatus] = useState<'unchanged' | 'modified' | 'saved'>('unchanged');
 
-    const { data, isLoading, isError } = useGetMutableArticleQuery(id, {
+    const { data, isLoading, isError } = useGetMutableArticleQuery(id ?? '', {
         skip: mode === 'isNew',
         refetchOnMountOrArgChange: true,
     });
@@ -129,7 +122,7 @@ const ArticleEditorPage = () => {
             <div ref={articleContentRef} className={styles.container}>
                 <form
                     onChange={() => {
-                        if (mutableArticle?.title !== '') {
+                        if (mutableArticle?.title) {
                             setFormStatus('modified');
                         } else {
                             setFormStatus('unchanged');

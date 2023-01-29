@@ -24,7 +24,7 @@ const NotFoundPage = lazy(() => import(/* webpackChunkName: "NotFoundPage" */ '.
 const App = () => {
     useDocTitle('');
     const token = localStorage.getItem('token');
-    useGetCurrentUserQuery('', { pollingInterval: 3 * 60 * 1000, skip: !token });
+    useGetCurrentUserQuery('', { skip: !token });
 
     const { mode } = useThemeMode();
 

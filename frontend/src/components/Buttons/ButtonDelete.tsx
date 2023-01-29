@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React, { PropsWithChildren, useState } from 'react';
 import { Button, Variant } from '..';
 import { DialogTrigger } from '../Dialogs';
-interface onPrimaryAction {
+interface ButtonDeleteProps {
     onPrimaryAction?: any;
-    children?: React.ReactNode;
     icon?: boolean;
     variant?: Variant;
 }
 
-export const ButtonDelete: React.FC<onPrimaryAction> = ({
+export const ButtonDelete: React.FC<PropsWithChildren<ButtonDeleteProps>> = ({
     onPrimaryAction,
     children,
     variant = 'text',

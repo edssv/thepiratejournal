@@ -1,19 +1,14 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useMediaPredicate } from 'react-media-hook';
 import { Toaster } from '../Toaster';
+import { useNetworkStatus } from '../../hooks';
+
 import logo from '../../assets/img/logotype.png';
 
 import styles from './CardLayout.module.scss';
-import { useMediaPredicate } from 'react-media-hook';
-import { useNetworkStatus } from '../../hooks';
-import { useLocation } from 'react-router-dom';
 
-type CardLayoutProps = {
-    children: any;
-    headline: string;
-    toaster?: boolean;
-};
-
-export const CardLayout: React.FC<CardLayoutProps> = ({ children, headline }) => {
+export const CardLayout: React.FC<PropsWithChildren> = ({ children }) => {
     const { isOnline } = useNetworkStatus();
     const location = useLocation();
 

@@ -8,6 +8,8 @@
 # testing
 /coverage
 
+readme.md
+
 # production
 /frontend/build
 

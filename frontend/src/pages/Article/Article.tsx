@@ -1,22 +1,23 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useMediaPredicate } from 'react-media-hook';
 import { useDeleteArticleMutation, useGetArticleQuery } from '../../redux';
 import { convertDateLong, declinationSubstance } from '../../helpers';
+import { useArticle, useAuth, useDocTitle } from '../../hooks';
+import { Avatar, Button, Overlay, ButtonFollow } from '../../components';
 import {
     ButtonBookmark,
     ButtonDelete,
     ButtonLike,
-    ButtonShare,
     toHtml,
     ScrollControls,
     StaticControls,
+    Sidebar,
+    PrimarySuggestionsBlock,
     CommentsBlock,
+    TableOfContents,
 } from './';
-import { useArticle, useAuth, useDocTitle } from '../../hooks';
 
-import { Avatar, Button, Overlay, ButtonFollow } from '../../components';
-import { SuggestionsBlock } from './SuggestionsBlock';
 import NotFoundPage from '../NotFound';
 
 import styles from './Article.module.scss';
@@ -28,11 +29,11 @@ const Article: React.FC = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
     const articleContentRef = useRef<HTMLDivElement>(null);
+    const [isOpenSidebar, setOpenSidebar] = useState(false);
 
-    // media
     const isTablet = useMediaPredicate('(max-width: 990.98px)');
 
-    const { data, isLoading, isFetching, isError } = useGetArticleQuery(id, {
+    const { data, isLoading, isError } = useGetArticleQuery(id ?? '', {
         refetchOnMountOrArgChange: true,
     });
     const [deleteArticle] = useDeleteArticleMutation();
@@ -60,66 +61,59 @@ const Article: React.FC = () => {
                         <div className={styles.top}>
                             <div className={styles.top__content}>
                                 <Link to={`/users/${authorname}`}>
-                                    <Avatar imageSrc={avatarSrc && avatarSrc} width={48} />
+                                    <Avatar imageSrc={avatarSrc} width={48} />
                                 </Link>
                                 <div className={styles.text}>
-                                    <div className={styles.authorNameAndDate}>
-                                        <Link to={`/users/${authorname}`}>
-                                            <div className={styles.authorName}>{authorname}</div>
-                                        </Link>
-                                        <span>
-                                            {declinationSubstance(article.reading_time, 'minutes')}{' '}
-                                            чтения
-                                        </span>
-                                    </div>
+                                    <Link to={`/users/${authorname}`}>
+                                        <div className={styles.authorName}>{authorname}</div>
+                                    </Link>
+                                    <span className={styles.readingTime}>
+                                        {declinationSubstance(article.reading_time, 'minutes')}{' '}
+                                        чтения
+                                    </span>
                                 </div>
                             </div>
-                            {!isOwner && isTablet && (
-                                <ButtonFollow
-                                    configuration="icon"
-                                    username={authorname}
-                                    hasSubscription={data?.viewer.hasSubscription}></ButtonFollow>
-                            )}
-                            {!isTablet && (
-                                <div className={styles.shot_sidebar}>
-                                    <div className={styles.shot_controls_wrapper}>
-                                        <div className={styles.shot_controls}>
-                                            <div className={styles.buttonGroup}>
-                                                <ButtonBookmark />
-                                                <ButtonLike />
-                                                {(isOwner || isAdmin) && (
-                                                    <>
-                                                        <Button
-                                                            icon
-                                                            onClick={() =>
-                                                                navigate(`/articles/${id}/edit`, {
-                                                                    state: { from: location },
-                                                                })
-                                                            }>
-                                                            <span className="material-symbols-outlined">
-                                                                edit
-                                                            </span>
-                                                        </Button>
 
-                                                        <ButtonDelete
-                                                            onPrimaryAction={() => {
-                                                                deleteArticle(id);
-                                                                navigate(fromPage ? fromPage : '/');
-                                                            }}
-                                                            icon>
-                                                            <span className="material-symbols-outlined">
-                                                                delete
-                                                            </span>
-                                                        </ButtonDelete>
-                                                    </>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div className={styles.shot_controls}>
+                                <div className={styles.buttonGroup}>
+                                    {!isOwner && <ButtonBookmark />}
+                                    {!isOwner && isTablet && (
+                                        <ButtonFollow
+                                            configuration="icon"
+                                            username={authorname}
+                                            hasSubscription={data?.viewer.hasSubscription}
+                                        />
+                                    )}
+                                    {!isTablet && <ButtonLike />}
+                                    {(isOwner || isAdmin) && (
+                                        <>
+                                            <Button
+                                                icon
+                                                onClick={() =>
+                                                    navigate(`/articles/${id}/edit`, {
+                                                        state: { from: location },
+                                                    })
+                                                }>
+                                                <span className="material-symbols-outlined">
+                                                    edit
+                                                </span>
+                                            </Button>
+
+                                            <ButtonDelete
+                                                onPrimaryAction={() => {
+                                                    deleteArticle(id);
+                                                    navigate(fromPage ? fromPage : '/');
+                                                }}
+                                                icon>
+                                                <span className="material-symbols-outlined">
+                                                    delete
+                                                </span>
+                                            </ButtonDelete>
+                                        </>
+                                    )}
                                 </div>
-                            )}
+                            </div>
                         </div>
-
                         <div className={styles.content__wrapper}>
                             <div ref={articleContentRef} className={styles.content}>
                                 <img src={data?.cover} alt="Обложка" loading="lazy" />
@@ -131,6 +125,70 @@ const Article: React.FC = () => {
                                     className={styles.content__blocks}></div>
                             </div>
                         </div>
+                        <div id="articleBottom" className={styles.shotOther}>
+                            <div className={styles.shotOtherContainer}>
+                                <div className={styles.commentsAndSuggestions}>
+                                    <div className={styles.articleInfoAndComments}>
+                                        <div className={styles.bottom}>
+                                            <div className={styles.well}>
+                                                <div className={styles.top}>
+                                                    <div className={styles.author}>
+                                                        <Link to={`/users/${authorname}`}>
+                                                            <Avatar
+                                                                imageSrc={data?.author.avatar}
+                                                                width={42}
+                                                            />
+                                                        </Link>
+                                                        <div className={styles.authorInfo}>
+                                                            <span className={styles.authorName}>
+                                                                {authorname}
+                                                            </span>
+                                                            <span
+                                                                className={styles.subscribersCount}>
+                                                                {declinationSubstance(
+                                                                    article.author
+                                                                        .subscribers_count,
+                                                                    'subscribers',
+                                                                )}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    {isTablet ? (
+                                                        <StaticControls isOwner={isOwner} />
+                                                    ) : (
+                                                        <div className={styles.dateAndStats}>
+                                                            <span>
+                                                                {declinationSubstance(
+                                                                    article?.views.count,
+                                                                    'views',
+                                                                )}
+                                                            </span>
+                                                            <span className={styles.date}>
+                                                                {date}
+                                                            </span>
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                                {isTablet && (
+                                                    <div className={styles.dateAndStats}>
+                                                        <span>
+                                                            {declinationSubstance(
+                                                                article?.views.count,
+                                                                'views',
+                                                            )}
+                                                        </span>
+                                                        <span className={styles.date}>{date}</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {isTablet && <PrimarySuggestionsBlock />}
+                                </div>
+                            </div>
+                        </div>
+                        <ScrollControls setOpenSidebar={setOpenSidebar} />
                     </div>
                     {!isTablet && (
                         <div className={styles.authorPanelContainer}>
@@ -156,81 +214,23 @@ const Article: React.FC = () => {
                                         )}
                                     </div>
                                 </div>
+                                {!isTablet && (
+                                    <>
+                                        <TableOfContents />
+                                        <PrimarySuggestionsBlock />
+                                    </>
+                                )}
                             </div>
                         </div>
                     )}
                 </div>
-                <div className={styles.shotOther}>
-                    <div className={styles.shotOtherContainer}>
-                        {isTablet && (
-                            <>
-                                <ScrollControls
-                                    hasBookmark={data?.viewer.hasBookmark}
-                                    isOwner={isOwner}
-                                />
-                            </>
-                        )}
-
-                        <div className={styles.commentsAndSuggestions}>
-                            <div className={styles.articleInfoAndComments}>
-                                <div className={styles.bottom}>
-                                    <div className={styles.well}>
-                                        <div className={styles.top}>
-                                            <div className={styles.author}>
-                                                <Link to={`/users/${authorname}`}>
-                                                    <Avatar
-                                                        imageSrc={data?.author.avatar}
-                                                        width={42}
-                                                    />
-                                                </Link>
-                                                <div className={styles.authorInfo}>
-                                                    <span className={styles.authorName}>
-                                                        {authorname}
-                                                    </span>
-                                                    <span className={styles.subscribersCount}>
-                                                        {declinationSubstance(
-                                                            article.author.subscribers_count,
-                                                            'subscribers',
-                                                        )}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            {isTablet ? (
-                                                <StaticControls isOwner={isOwner} />
-                                            ) : (
-                                                <div className={styles.dateAndStats}>
-                                                    <span>
-                                                        {declinationSubstance(
-                                                            article?.views.count,
-                                                            'views',
-                                                        )}
-                                                    </span>
-                                                    <span className={styles.date}>{date}</span>
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        {isTablet && (
-                                            <div className={styles.dateAndStats}>
-                                                <span>
-                                                    {declinationSubstance(
-                                                        article?.views.count,
-                                                        'views',
-                                                    )}
-                                                </span>
-                                                <span className={styles.date}>{date}</span>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                                {!isTablet && <CommentsBlock />}
-                            </div>
-                            <SuggestionsBlock />
-                            {isTablet && <CommentsBlock />}
-                        </div>
-                    </div>
-                </div>
             </div>
+            <Sidebar
+                isOpenSidebar={isOpenSidebar}
+                setOpenSidebar={setOpenSidebar}
+                title={`Комментарии (${article.comments.totalCount})`}>
+                <CommentsBlock />
+            </Sidebar>
         </div>
     );
 };

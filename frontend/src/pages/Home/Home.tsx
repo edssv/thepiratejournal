@@ -6,42 +6,54 @@ import { AiryArticlePreview, AiryArticleSkeleton, HomeSectionPrompt, TabPanel } 
 
 import styles from './Home.module.scss';
 
+export enum HomeSection {
+    ForYou = 'for_you',
+    Following = 'following',
+}
+
 export default function Home() {
     useDocTitle('');
     const location = useLocation();
 
     const sectionFromUrl = location.pathname.split('/')[1];
-    const [activeSection, setActiveSection] = useState(sectionFromUrl ? sectionFromUrl : 'for_you');
+    const [activeSection, setActiveSection] = useState<HomeSection>(
+        sectionFromUrl === (HomeSection.ForYou || HomeSection.Following)
+            ? sectionFromUrl
+            : HomeSection.ForYou,
+    );
     const { data, isLoading, isSuccess, isError } = useGetArticlesQuery({
         section: activeSection,
+        queryParams: `limit=15&page=0`,
     });
 
-    const articlesList = isLoading ? (
-        <AiryArticleSkeleton counts={12} />
-    ) : isError ? (
-        <h3>Здесь появятся статьи для тебя</h3>
-    ) : (
-        isSuccess &&
-        data?.map((article: Article, id: number) => (
-            <AiryArticlePreview key={id} article={article} />
-        ))
-    );
+    const articlesList = () => {
+        if (isLoading) return <AiryArticleSkeleton counts={12} />;
+        if (isError) return <h3>Здесь появятся статьи для тебя</h3>;
+        if (isSuccess) {
+            return data?.map((article: Article, id: number) => (
+                <AiryArticlePreview key={id} article={article} />
+            ));
+        }
+    };
 
-    const articles =
-        activeSection === 'for_you' ? (
-            articlesList
-        ) : activeSection === 'following' && !data && isSuccess ? (
-            <HomeSectionPrompt
-                headline="Ты еще не подписан ни на одного автора."
-                text="Подписавшись на автора, ты увидишь все его проекты, которые автор делает доступными для подписчиков."
-            />
-        ) : (
-            articlesList
-        );
+    const articles = () => {
+        if (activeSection === 'for_you') {
+            return articlesList();
+        }
+        if (activeSection === 'following' && isSuccess && !data) {
+            return (
+                <HomeSectionPrompt
+                    headline="Ты еще не подписан ни на одного автора."
+                    text="Подписавшись на автора, ты увидишь все его проекты, которые автор делает доступными для подписчиков."
+                />
+            );
+        } else return articlesList();
+    };
+
     return (
         <div className={styles.root}>
             <TabPanel activeSection={activeSection} setActiveSection={setActiveSection}>
-                {articles}
+                {articles()}
             </TabPanel>
         </div>
     );

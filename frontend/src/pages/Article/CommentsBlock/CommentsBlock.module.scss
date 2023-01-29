@@ -1,16 +1,12 @@
 @use '../../../scss/util' as *;
 
 .root {
-    max-width: 1120px;
-    width: 100%;
-    padding: 0 4px;
-
     .top {
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: 16px;
-        font-variation-settings: 'wght' 300, 'GRAD' 0;
+        font-size: 20px;
+        font-weight: 500;
     }
 
     .postContainer {

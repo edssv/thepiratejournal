@@ -1,4 +1,5 @@
 import { api } from './api';
+import { HomeSection } from '../../pages/Home/Home';
 
 export interface Block {
     id: string;
@@ -58,7 +59,7 @@ export interface Article {
 
 export const articleApi = api.injectEndpoints({
     endpoints: (build) => ({
-        getArticle: build.query<Article, string | undefined>({
+        getArticle: build.query<Article, string>({
             query: (id) => `articles/${id}`,
             providesTags: ['Articles'],
         }),
@@ -77,11 +78,11 @@ export const articleApi = api.injectEndpoints({
                 `articles/${id}/suggestions/${category}?${queryParams}`,
             providesTags: ['Articles'],
         }),
-        getMutableArticle: build.query<Article, string | undefined>({
+        getMutableArticle: build.query<Article, string>({
             query: (id) => `articles/edit/${id}`,
             providesTags: ['Articles'],
         }),
-        getArticles: build.query({
+        getArticles: build.query<Article[], { section: HomeSection; queryParams: string }>({
             query: ({ section }) => `articles/main/${section}`,
             providesTags: ['Articles'],
         }),

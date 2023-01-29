@@ -59,7 +59,7 @@ export const SuggestionsBlock = () => {
             </div>
             <div className={styles.listContainer}>
                 <ul className={`${styles.list} ${(isLoading || isFetching) && styles.loading}`}>
-                    {(articlesPath?.list.length === 0 && isFetching
+                    {(!articlesPath?.list.length && isFetching
                         ? article.suggestions.articles?.all || article.suggestions.articles?.similar
                         : articlesPath
                     )?.list.map((item: Article, index: number) => (

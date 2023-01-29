@@ -1,17 +1,11 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { useMediaPredicate } from 'react-media-hook';
 
 import logo from '../../assets/img/logotype.png';
-import background from '../../assets/img/thepirate_background.jpg';
 
 import styles from './Canvas.module.scss';
 
-type CanvasProps = {
-    children: any;
-};
-
-export const Canvas: React.FC<CanvasProps> = ({ children }) => {
-    const fromMobile = useMediaPredicate('(min-width: 510px)');
+export const Canvas: React.FC<PropsWithChildren> = ({ children }) => {
     const fromDesktop = useMediaPredicate('(min-width: 1280px)');
 
     return (

@@ -154,7 +154,7 @@ articleSchema.statics.getOne = async function (id) {
         { returnDocument: 'after' },
     );
 
-    return { ...article._doc, comments: [] };
+    return { ...article._doc, comments: { totalCount: article.comments.length } };
 };
 
 articleSchema.statics.getComments = async function (articleId, query) {

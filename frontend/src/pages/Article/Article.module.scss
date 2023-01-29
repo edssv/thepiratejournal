@@ -2,7 +2,15 @@
 
 $infoWidth: 768px;
 
+:global(.open-sidebar) {
+    .shot_content {
+        padding-right: 320px;
+        max-width: 1676px !important;
+    }
+}
+
 .root {
+    position: relative;
     min-height: calc(100vh - $header-height);
 
     .shot_container {
@@ -14,22 +22,18 @@ $infoWidth: 768px;
         .shot_content {
             position: relative;
             padding-bottom: 24px;
-            @include breakpoint(lg) {
-                margin: 0 auto;
-                transition: padding 0.25s linear;
-                transition-delay: 0.15s;
-            }
-        }
-
-        .shot_content {
             display: flex;
             background-color: var(--md-sys-color-surface1);
             @include breakpoint(lg) {
+                margin: 0 auto;
+                transition: padding 0.4s ease, max-width 0.4s ease;
+                transition-delay: 0.25s;
                 justify-content: space-evenly;
-                max-width: 1336px;
+                max-width: 1536px;
             }
 
             .shot_content_container {
+                position: relative;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -61,21 +65,17 @@ $infoWidth: 768px;
                         }
 
                         .text {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
                             width: 100%;
-
-                            .article_title {
-                                max-width: 100%;
-                                overflow: hidden;
-                                text-overflow: ellipsis;
-                                white-space: nowrap;
-                                font-size: 16px;
-                                font-weight: 500;
-                                line-height: 22px;
-                            }
+                            height: 100%;
 
                             .authorName {
-                                font-size: 14px;
                                 font-weight: 400;
+                            }
+                            .readingTime {
+                                color: var(--md-sys-color-secondary-text);
                             }
                         }
 
@@ -143,7 +143,15 @@ $infoWidth: 768px;
                         }
 
                         h2 {
+                            scroll-margin-top: 1em;
                             font-size: 22px;
+                        }
+
+                        @supports (-webkit-hyphens: none) {
+                            h2 {
+                                padding-top: 1em;
+                                margin-top: -1em;
+                            }
                         }
 
                         h3 {
@@ -165,33 +173,112 @@ $infoWidth: 768px;
                     }
                 }
 
-                .shot_sidebar {
-                    visibility: hidden;
-                    z-index: 2;
+                .shot_controls {
                     @include breakpoint(lg) {
-                        visibility: visible;
-                    }
-
-                    .shot_controls_wrapper {
+                        display: flex;
+                        gap: 18px;
                         height: 100%;
 
-                        .shot_controls {
-                            @include breakpoint(lg) {
-                                display: flex;
-                                gap: 18px;
-                                z-index: 10;
-                                align-items: center;
-                                opacity: 1;
-                            }
+                        z-index: 10;
+                        align-items: center;
+                        opacity: 1;
+                    }
 
-                            .buttonGroup {
-                                display: flex;
-                                margin-left: 0;
-                                gap: 16px;
+                    .buttonGroup {
+                        display: flex;
+                        margin-left: 0;
+                        gap: 16px;
 
-                                span {
-                                    font-size: 18px;
+                        span {
+                            font-size: 18px;
+                        }
+                    }
+                }
+
+                .shotOther {
+                    display: flex;
+                    justify-content: center;
+                    width: 100%;
+
+                    &Container {
+                        width: 100%;
+
+                        .articleInfoAndComments {
+                            max-width: 1120px;
+                            width: 100%;
+
+                            .bottom {
+                                width: 100%;
+
+                                .well {
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 24px;
+                                    width: 100%;
+                                    margin-bottom: 24px;
+                                    padding: 0 4px 20px 4px;
+                                    @include breakpoint-down(lg) {
+                                        margin: 0;
+                                        padding: 0;
+                                    }
+
+                                    .top {
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: space-between;
+
+                                        .articleTitle {
+                                            font-size: 18px;
+                                        }
+
+                                        .author {
+                                            display: flex;
+                                            align-items: center;
+                                            gap: 12px;
+
+                                            &Info {
+                                                display: flex;
+                                                flex-direction: column;
+
+                                                .authorName {
+                                                    font-size: 16px;
+                                                    font-weight: 500;
+                                                }
+
+                                                .subscribersCount {
+                                                    font-size: 12px;
+                                                    color: var(--md-sys-color-on-surface-variant);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    .dateAndStats {
+                                        display: flex;
+                                        gap: 8px;
+                                        padding: 12px;
+                                        border-radius: 12px;
+                                        background-color: var(--md-sys-color-surface-variant);
+                                        font-weight: 500;
+
+                                        @include breakpoint(lg) {
+                                            flex-direction: column;
+                                            gap: 0;
+                                            padding: 0;
+                                            text-align: right;
+                                            background-color: unset;
+                                        }
+                                    }
                                 }
+                            }
+                        }
+
+                        .commentsAndSuggestions {
+                            display: flex;
+                            justify-content: center;
+                            gap: 32px;
+
+                            @include breakpoint-down(lg) {
+                                flex-direction: column;
                             }
                         }
                     }
@@ -202,15 +289,18 @@ $infoWidth: 768px;
                 @include breakpoint(lg) {
                     position: relative;
                     display: block;
-                    max-width: 368px;
+                    width: 398px;
                     padding: 0 32px 0 40px;
                     border-left: 1px solid rgba(var(--md-sys-color-on-surfaceChannel) / 0.05);
                 }
 
                 .authorPanel {
                     @include breakpoint(lg) {
+                        display: flex;
+                        flex-direction: column;
                         position: sticky;
                         top: 32px;
+                        height: calc(100vh - 40px);
                         margin-top: 40px;
                     }
 
@@ -218,6 +308,7 @@ $infoWidth: 768px;
                         display: flex;
                         flex-direction: column;
                         gap: 8px;
+                        margin-bottom: 48px;
 
                         .authorName {
                             margin-top: 12px;
@@ -233,94 +324,6 @@ $infoWidth: 768px;
                         .actionButtons {
                             margin-top: 16px;
                         }
-                    }
-                }
-            }
-        }
-
-        .shotOther {
-            display: flex;
-            justify-content: center;
-
-            &Container {
-                width: 100%;
-
-                .articleInfoAndComments {
-                    max-width: 1120px;
-                    width: 100%;
-
-                    .bottom {
-                        width: 100%;
-
-                        .well {
-                            display: flex;
-                            flex-direction: column;
-                            gap: 24px;
-                            width: 100%;
-                            margin-bottom: 24px;
-                            padding: 0 4px 20px 4px;
-                            @include breakpoint-down(lg) {
-                                margin: 0;
-                                padding: 0;
-                            }
-
-                            .top {
-                                display: flex;
-                                align-items: center;
-                                justify-content: space-between;
-
-                                .articleTitle {
-                                    font-size: 18px;
-                                }
-
-                                .author {
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 12px;
-
-                                    &Info {
-                                        display: flex;
-                                        flex-direction: column;
-
-                                        .authorName {
-                                            font-size: 16px;
-                                            font-weight: 500;
-                                        }
-
-                                        .subscribersCount {
-                                            font-size: 12px;
-                                            color: var(--md-sys-color-on-surface-variant);
-                                        }
-                                    }
-                                }
-                            }
-                            .dateAndStats {
-                                display: flex;
-                                gap: 8px;
-                                padding: 12px;
-                                border-radius: 12px;
-                                background-color: var(--md-sys-color-surface-variant);
-                                font-weight: 500;
-
-                                @include breakpoint(lg) {
-                                    flex-direction: column;
-                                    gap: 0;
-                                    padding: 0;
-                                    text-align: right;
-                                    background-color: unset;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                .commentsAndSuggestions {
-                    display: flex;
-                    justify-content: center;
-                    gap: 32px;
-
-                    @include breakpoint-down(lg) {
-                        flex-direction: column;
                     }
                 }
             }
@@ -344,8 +347,5 @@ $infoWidth: 768px;
             height: 30px;
             letter-spacing: 0.2em;
         }
-    }
-
-    .cdx-list {
     }
 }

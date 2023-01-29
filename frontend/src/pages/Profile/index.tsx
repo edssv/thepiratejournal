@@ -23,19 +23,36 @@ const navListData = [
     { activeSection: 'drafts', text: 'Черновики', icon: 'edit_document' },
 ];
 
+export enum ProfileSection {
+    Articles = 'articles',
+    Appreciated = 'appreciated',
+    Bookmarks = 'bookmarks',
+    Drafts = 'drafts',
+}
+
+export type ProfileSectionType = 'articles' | 'appreciated' | 'bookmarks' | 'drafts';
+
 const Profile: React.FC = () => {
     const { username } = useParams();
     useDocTitle(username);
     const location = useLocation();
 
-    const activeSection = location.pathname.split('/')[3] ?? 'articles';
+    const activeSection = location.pathname.split('/')[3] ?? ProfileSection.Articles;
 
-    const [list, setList] = useState(activeSection ? activeSection : 'articles');
+    const [list, setList] = useState<ProfileSection>();
 
     const { data, isLoading, refetch } = useGetUserQuery(username);
 
     useEffect(() => {
-        setList(activeSection);
+        if (
+            activeSection ===
+            (ProfileSection.Articles ||
+                ProfileSection.Appreciated ||
+                ProfileSection.Bookmarks ||
+                ProfileSection.Drafts)
+        ) {
+            setList(activeSection);
+        }
     }, [activeSection]);
 
     if (isLoading) return <Overlay />;
@@ -64,10 +81,7 @@ const Profile: React.FC = () => {
                 className={({ isActive }) =>
                     [
                         styles.navLink,
-                        isActive ||
-                        (activeSection === 'articles' && item.activeSection === 'articles')
-                            ? styles.active
-                            : undefined,
+                        isActive || activeSection === item.activeSection ? styles.active : '',
                     ]
                         .filter(Boolean)
                         .join(' ')
@@ -118,7 +132,7 @@ const Profile: React.FC = () => {
                     </nav>
                     {list === 'articles' && (
                         <div className="articles__list">
-                            {articlesList?.length !== 0 ? (
+                            {articlesList?.length ? (
                                 articlesList
                             ) : isOwner ? (
                                 <CreateModule create />
@@ -128,7 +142,7 @@ const Profile: React.FC = () => {
                         </div>
                     )}
                     {list === 'appreciated' &&
-                        (appreciatedList?.length !== 0 ? (
+                        (appreciatedList?.length ? (
                             <div className="appreciated__list">{appreciatedList}</div>
                         ) : isOwner ? (
                             <div className="articles__list">
@@ -138,7 +152,7 @@ const Profile: React.FC = () => {
                             <h4>Пользователь не оценил ни одной статьи</h4>
                         ))}
                     {list === 'bookmarks' &&
-                        (bookmarksList?.length !== 0 ? (
+                        (bookmarksList?.length ? (
                             <div className="appreciated__list">{bookmarksList}</div>
                         ) : (
                             isOwner && (

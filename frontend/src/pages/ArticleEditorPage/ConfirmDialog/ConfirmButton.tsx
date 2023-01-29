@@ -55,7 +55,6 @@ export const ConfirmButton = ({ mode, articleContentRef }: ConfirmButtonProps) =
         <>
             <ActionDialog
                 isOpen={isOpen}
-                setIsOpen={setIsOpen}
                 actionText={
                     isSuccess
                         ? 'Статья опубликована'

@@ -52,7 +52,6 @@ export const ButtonBookmark: React.FC<IsBookmarkProps> = ({ tooltipPosition, var
                     </Button>
                     <ActionDialog
                         isOpen={isOpen}
-                        setIsOpen={setIsOpen}
                         actionText={hasBookmark ? 'Добавлено в закладки' : 'Удалено из закладок'}
                     />
                 </>

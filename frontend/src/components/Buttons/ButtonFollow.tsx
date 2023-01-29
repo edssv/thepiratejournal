@@ -105,11 +105,7 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({
                         onCancel={() => setIsOpen(false)}
                         isOpen={isOpen}
                         setIsOpen={setIsOpen}></DialogTrigger>
-                    <ActionDialog
-                        isOpen={isOpenTippy}
-                        setIsOpen={setIsOpenTippy}
-                        actionText="Ты подписался на автора"
-                    />
+                    <ActionDialog isOpen={isOpenTippy} actionText="Ты подписался на автора" />
                 </>
             ) : (
                 <>
@@ -125,11 +121,7 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({
                             'Подписаться'
                         )}
                     </Button>
-                    <ActionDialog
-                        isOpen={isOpenTippy}
-                        setIsOpen={setIsOpenTippy}
-                        actionText="Ты отписался от автора"
-                    />
+                    <ActionDialog isOpen={isOpenTippy} actionText="Ты отписался от автора" />
                 </>
             )}
         </>

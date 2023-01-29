@@ -135,9 +135,9 @@ export function Button<E extends ElementType = typeof defaultElement>({
                 ${elevated || outlined || text
                     ? 'var(--md-sys-color-primaryChannel), var(--md-sys-state-pressed-state-layer-opacity)'
                     : filled
-                    ? 'var(--md-sys-color-primaryChannel), calc(1 - var(--md-sys-state-pressed-state-layer-opacity))'
+                    ? 'var(--md-sys-color-primaryChannel, var(--md-sys-state-pressed-state-layer-opacity)'
                     : filledTonal
-                    ? 'var(--md-sys-color-secondary-containerChannel), calc(1 - var(--md-sys-state-pressed-state-layer-opacity))'
+                    ? 'var(--md-sys-color-secondary-containerChannel, var(--md-sys-state-pressed-state-layer-opacity)'
                     : ''}
             );
         }

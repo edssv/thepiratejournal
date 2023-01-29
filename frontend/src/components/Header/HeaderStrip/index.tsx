@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useMediaPredicate } from 'react-media-hook';
+import debounce from 'lodash.debounce';
+import { motion } from 'framer-motion';
 import { useAuth, useThemeMode } from '../../../hooks';
 import { useLogoutMutation } from '../../../redux';
 import { Avatar, Button } from '../../';
@@ -24,12 +26,40 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
         navigate('/articles/new', { state: { from: location } });
     };
 
+    const [prevScrollPos, setPrevScrollPos] = useState(0);
+
+    const scrollTop = document.documentElement.scrollTop;
+
+    const [visible, setVisible] = useState(scrollTop < 55);
+
+    const handleScroll = debounce(() => {
+        const currentScrollPos = window.pageYOffset;
+
+        setVisible(prevScrollPos > currentScrollPos);
+
+        if (scrollTop > 55 && currentScrollPos > prevScrollPos) {
+            setVisible(false);
+        }
+
+        setPrevScrollPos(currentScrollPos);
+    }, 100);
+
+    // useEffect(() => {
+    //     const isArticlePage = location.pathname.split('/')[1] === 'articles';
+
+    //     if (isArticlePage) {
+    //         window.addEventListener('scroll', handleScroll);
+    //     }
+
+    //     return () => window.removeEventListener('scroll', handleScroll);
+    // }, [prevScrollPos, visible, handleScroll]);
+
     const fromLaptop = useMediaPredicate('(min-width: 991px)');
 
     return (
         <div
             className={`${styles.root} ${open && styles.open}`}
-            style={{ padding: fromLaptop ? '0 16px' : '' }}>
+            style={{ transform: visible ? 'translateY(0px)' : 'translateY(-55px)' }}>
             {fromLaptop ? (
                 <div className={styles.content}>
                     <div className={styles.content__left}>
@@ -63,7 +93,7 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                             <HeaderSkeleton />
                         ) : user ? (
                             <>
-                                <Button onClick={onClickWrite} variant="filled">
+                                <Button onClick={onClickWrite} variant="filledTonal">
                                     <span className="material-symbols-outlined">edit</span>Создать
                                     статью
                                 </Button>
@@ -97,9 +127,22 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                         {!isLoading && (
                             <Button onClick={handleTheme} icon variant="outlined">
                                 {mode === 'dark' ? (
-                                    <span className="material-symbols-outlined">light_mode</span>
+                                    <motion.div
+                                        animate={{ translateY: 0 }}
+                                        style={{
+                                            translateY: 15,
+                                            height: '20px',
+                                        }}>
+                                        <span className="material-symbols-outlined">
+                                            light_mode
+                                        </span>
+                                    </motion.div>
                                 ) : (
-                                    <span className="material-symbols-outlined">dark_mode</span>
+                                    <motion.div
+                                        animate={{ translateY: 0 }}
+                                        style={{ translateY: -15, height: '20px' }}>
+                                        <span className="material-symbols-outlined">dark_mode</span>
+                                    </motion.div>
                                 )}
                             </Button>
                         )}

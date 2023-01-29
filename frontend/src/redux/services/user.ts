@@ -33,7 +33,7 @@ export interface Notification {
 }
 
 export interface NotificationsResponse {
-    notifications: Notification[];
+    notifications: { list: Notification[]; totalCount: number };
 }
 
 export const userApi = api.injectEndpoints({
@@ -77,7 +77,7 @@ export const userApi = api.injectEndpoints({
             }),
         }),
         getNotifications: builder.query<NotificationsResponse, any>({
-            query: () => 'notifications',
+            query: (queryParams) => `notifications/?${queryParams}`,
             providesTags: ['Notifications'],
         }),
         deleteNotification: builder.mutation({

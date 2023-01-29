@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Article, useAddBookmarkMutation, useRemoveBookmarkMutation } from '../../../../redux';
+import { declinationSubstance } from '../../../../helpers';
 import { useAuth } from '../../../../hooks';
-import { ActionDialog, ArticleStats, Tippy } from '../../../../components';
+import { ActionDialog, Tippy } from '../../../../components';
 
 import styles from './ArticlePreview.module.scss';
-import { declinationSubstance } from '../../../../helpers';
 
 interface ArticlePreviewProps {
     article: Article;
@@ -65,7 +65,6 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
                             </button>
                             <ActionDialog
                                 isOpen={isOpen}
-                                setIsOpen={setIsOpen}
                                 actionText={
                                     hasBookmark ? 'Добавлено в закладки' : 'Удалено из закладок'
                                 }

@@ -5,18 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import styles from './ActionDialog.module.scss';
 
 interface ActionDialogProps {
-    children?: any;
     actionText: string;
     isOpen: boolean;
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ActionDialog: React.FC<ActionDialogProps> = ({
-    children,
-    actionText,
-    isOpen,
-    setIsOpen,
-}) => {
+export const ActionDialog: React.FC<ActionDialogProps> = ({ actionText, isOpen }) => {
     const portalRoot = document.getElementById('portal-root') || new HTMLElement();
 
     return ReactDOM.createPortal(

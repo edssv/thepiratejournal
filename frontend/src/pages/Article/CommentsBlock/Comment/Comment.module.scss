@@ -48,18 +48,17 @@
 
             .actionButtons {
                 margin-top: 4px;
-                margin-left: -8px;
+                margin-left: -18px;
 
                 .likeBlock {
-                    display: flex;
-                    align-items: center;
-                    font-size: 12px;
-                }
-                button {
-                    height: 32px;
+                    button {
+                        height: 32px;
+                        font-variation-settings: 'wght' 300;
 
-                    span {
-                        font-weight: 300;
+                        .buttonText {
+                            font-size: 14px !important;
+                            font-weight: 400 !important;
+                        }
                     }
                 }
             }

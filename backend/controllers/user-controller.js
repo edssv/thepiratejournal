@@ -18,8 +18,8 @@ const getUser = async (req, res) => {
     try {
         const { user, articles, appreciated, drafts, bookmarks } = await User.getUser(username);
 
-        let isOwner = false;
-        let hasSubscription = false;
+        let isOwner;
+        let hasSubscription;
         if (currentUser) {
             isOwner = user._id.toString() === currentUser._id.toString();
             hasSubscription = await User.find({
@@ -90,11 +90,20 @@ const bookmark = async (req, res) => {
 
 const getNotifications = async (req, res) => {
     const userId = req.user._id;
+    const queryParams = req.query;
 
     try {
         const { notifications } = await User.findById(userId, { notifications: 1, _id: 0 });
 
-        res.status(200).json({ notifications });
+        const skip = Number(queryParams.limit) * Number(queryParams.page);
+        const limitNotifications = notifications.slice(
+            skip,
+            Number(skip) + Number(queryParams.limit),
+        );
+
+        res.status(200).json({
+            notifications: { list: limitNotifications, totalCount: notifications.length },
+        });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

@@ -9,7 +9,7 @@ interface DraftInfoDialogProps {
 }
 
 export const DraftInfoDialog: React.FC<DraftInfoDialogProps> = ({ setFormStatus }) => {
-    const [isOpen, setOpen] = useState<boolean>(false);
+    const [isOpen, setOpen] = useState(false);
 
     const { mutableArticle } = useArticle();
     const [addArticle, { isLoading, isSuccess, isError }] = useAddArticleMutation();
@@ -48,7 +48,6 @@ export const DraftInfoDialog: React.FC<DraftInfoDialogProps> = ({ setFormStatus 
             )}
             <ActionDialog
                 isOpen={isOpen}
-                setIsOpen={setOpen}
                 actionText={
                     isSuccess ? 'Черновик сохранен' : isError ? 'Не удалось сохранить черновик' : ''
                 }

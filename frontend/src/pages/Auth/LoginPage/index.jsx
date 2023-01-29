@@ -49,7 +49,7 @@ const LoginPage = () => {
                                         required: 'Введите адрес электронной почты.',
                                     })}
                                     disabled={isLoading}
-                                    className={`text-field  ${errors?.password && `is-invalid`}`}
+                                    className={`text-field ${errors?.password && `is-invalid`}`}
                                     type="email"
                                 />
                                 {errors?.email && (
@@ -69,11 +69,11 @@ const LoginPage = () => {
                                         className={`text-field  ${
                                             errors?.password && `is-invalid`
                                         }`}
-                                        type={passwordEye === true ? 'text' : 'password'}
+                                        type={passwordEye ? 'text' : 'password'}
                                     />
 
                                     <VisibilityToggle
-                                        style={errors?.password ? { right: 20 } : { right: 0 }}
+                                        style={{ right: errors?.password ? 20 : 0 }}
                                         passwordEye={passwordEye}
                                         setPasswordEye={setPasswordEye}
                                     />

@@ -85,7 +85,7 @@ const getAll = async (req, res) => {
 
         const articles = await Article.getAll(section, currentUser);
 
-        if (articles.length === 0) {
+        if (!articles.length) {
             return res.status(204).json(articles);
         }
 
@@ -135,12 +135,12 @@ const getOne = async (req, res) => {
             hasSubscription = await User.find({
                 $and: [{ _id: author._id }, { followers: { $in: currentUser._id.toString() } }],
             });
-            hasSubscription = hasSubscription.length !== 0;
+            hasSubscription = Boolean(hasSubscription.length);
 
             hasBookmark = await User.find({
                 $and: [{ _id: currentUser._id }, { bookmarks: { $in: id } }],
             });
-            hasBookmark = hasBookmark.length !== 0;
+            hasBookmark = Boolean(hasBookmark.length);
         }
 
         res.status(200).json({
@@ -185,7 +185,7 @@ const getComments = async (req, res) => {
                             await Comment.findOne({
                                 $and: [
                                     { _id: comments[i]._id },
-                                    { 'likes.userId': currentUser._id },
+                                    { 'likes.users.userId': currentUser._id },
                                 ],
                             }),
                         ),

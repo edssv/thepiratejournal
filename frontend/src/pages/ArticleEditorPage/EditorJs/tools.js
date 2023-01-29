@@ -1,5 +1,5 @@
 import Header from '@editorjs/header';
-import Image from '@editorjs/simple-image';
+import Image from '@editorjs/image';
 import List from '@editorjs/list';
 import Delimiter from '@editorjs/delimiter';
 import Marker from '@editorjs/marker';

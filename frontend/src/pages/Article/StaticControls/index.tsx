@@ -112,9 +112,9 @@ export const StaticControls: React.FC<StaticControlsProps> = ({ isOwner }) => {
                 <div className={styles.controls}>
                     <ButtonLike variant="filledTonal">{article.likes.count}</ButtonLike>
                 </div>
-                <Button icon variant="filledTonal">
+                {/* <Button icon variant="filledTonal">
                     <span className="material-symbols-outlined">share</span>
-                </Button>
+                </Button> */}
                 {user && (
                     <>
                         <Button
@@ -151,7 +151,7 @@ export const StaticControls: React.FC<StaticControlsProps> = ({ isOwner }) => {
                     </>
                 )}
             </div>
-            <ActionDialog isOpen={isOpenTippy} setIsOpen={setIsOpenTippy} actionText={actionText} />
+            <ActionDialog isOpen={isOpenTippy} actionText={actionText} />
         </div>
     );
 };

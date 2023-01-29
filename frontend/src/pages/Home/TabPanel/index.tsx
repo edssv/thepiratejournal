@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../hooks';
 import { Overlay } from '../../../components';
+import { HomeSection } from '../Home';
 
 import styles from './TabPanel.module.scss';
 
 interface TabPanelProps {
-    children?: React.ReactNode;
     activeSection: string;
-    setActiveSection: React.Dispatch<React.SetStateAction<string>>;
+    setActiveSection: React.Dispatch<React.SetStateAction<HomeSection>>;
 }
 
-export const TabPanel: React.FC<TabPanelProps> = ({
+export const TabPanel: React.FC<PropsWithChildren<TabPanelProps>> = ({
     children,
     activeSection,
     setActiveSection,
@@ -28,8 +28,10 @@ export const TabPanel: React.FC<TabPanelProps> = ({
                         <li className={styles.tabMenu__tab}>
                             <Link
                                 to="/for_you"
-                                onClick={() => setActiveSection('for_you')}
-                                className={activeSection === 'for_you' ? styles.active : ''}>
+                                onClick={() => setActiveSection(HomeSection.ForYou)}
+                                className={
+                                    activeSection === HomeSection.ForYou ? styles.active : ''
+                                }>
                                 <div className={styles.tabIcon}>
                                     <span className="material-symbols-outlined">explore</span>{' '}
                                     <span className={styles.tabIconText}>Обзор</span>
@@ -42,9 +44,11 @@ export const TabPanel: React.FC<TabPanelProps> = ({
                                 <li className={styles.tabMenu__tab}>
                                     <Link
                                         to="/following"
-                                        onClick={() => setActiveSection('following')}
+                                        onClick={() => setActiveSection(HomeSection.Following)}
                                         className={
-                                            activeSection === 'following' ? styles.active : ''
+                                            activeSection === HomeSection.Following
+                                                ? styles.active
+                                                : ''
                                         }>
                                         <div className={styles.tabIcon}>
                                             <span className="material-symbols-outlined">group</span>{' '}

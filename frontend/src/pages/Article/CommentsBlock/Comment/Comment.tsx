@@ -1,9 +1,9 @@
 import moment from 'moment';
 import { Comment as CommentInterface } from '../../../../redux';
 import { Avatar } from '../../../../components';
+import { ButtonLike } from './ButtonLike';
 
 import styles from './Comment.module.scss';
-import { ButtonLike } from './ButtonLike';
 
 interface CommentProps {
     comment: CommentInterface;
@@ -33,11 +33,13 @@ export const Comment: React.FC<CommentProps> = ({ comment, index }) => {
                                 isLike={comment.viewer?.isLike}
                                 index={index}
                                 variant="text"
-                                color="var(--md-sys-color-on-surface)"
-                            />
-                            {comment.comment.likes.count !== 0 && (
-                                <span>{comment.comment.likes.count}</span>
-                            )}
+                                color="var(--md-sys-color-on-surface)">
+                                {comment.comment.likes.count && (
+                                    <span className={styles.buttonText}>
+                                        {comment.comment.likes.count}
+                                    </span>
+                                )}
+                            </ButtonLike>
                         </div>
                     </div>
                 </div>

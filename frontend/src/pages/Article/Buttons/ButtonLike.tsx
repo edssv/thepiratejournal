@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { PropsWithChildren, useState } from 'react';
 import { ActionDialog, Button, Variant, Tippy } from '../../../components';
 import { useArticle, useAuth } from '../../../hooks';
 import { useLikeMutation, useRemoveLikeMutation } from '../../../redux';
@@ -7,13 +7,14 @@ interface IsLikeProps {
     tooltipPosition?: any;
     width?: string | number;
     variant?: Variant;
-    children?: React.ReactNode;
+    color?: string;
 }
 
-export const ButtonLike: React.FC<IsLikeProps> = ({
+export const ButtonLike: React.FC<PropsWithChildren<IsLikeProps>> = ({
     children,
     tooltipPosition,
     variant = 'text',
+    color,
 }) => {
     const { user } = useAuth();
     const { article, isLike } = useArticle();
@@ -53,18 +54,17 @@ export const ButtonLike: React.FC<IsLikeProps> = ({
     }
     return (
         <>
-            <Button icon onClick={handleLike} variant={variant}>
+            <Button icon onClick={handleLike} color={color} variant={variant}>
                 <span
                     className="material-symbols-outlined"
                     style={{ fontVariationSettings: isLike ? '"FILL" 1' : '' }}>
                     favorite
                 </span>
-                {children ? children : null}
+                {children ?? null}
             </Button>
 
             <ActionDialog
                 isOpen={isOpen}
-                setIsOpen={setIsOpen}
                 actionText={isLike ? 'Добавлено в любимые статьи' : 'Удалено из любимых статей'}
             />
         </>

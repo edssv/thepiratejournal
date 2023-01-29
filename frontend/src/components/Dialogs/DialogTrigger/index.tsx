@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { Dialog } from '@headlessui/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../../Buttons';
@@ -9,15 +9,14 @@ interface DialogTriggerProps {
     title: string;
     description?: any;
     primaryActionLabel?: string;
-    onPrimaryAction?: () => void;
     cancelLabel?: string;
-    onCancel?: () => void;
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    children?: ReactNode;
+    onCancel?: () => void;
+    onPrimaryAction?: () => void;
 }
 
-export const DialogTrigger = ({
+export const DialogTrigger: React.FC<PropsWithChildren<DialogTriggerProps>> = ({
     title,
     description,
     primaryActionLabel,
@@ -27,7 +26,7 @@ export const DialogTrigger = ({
     isOpen,
     setIsOpen,
     children,
-}: DialogTriggerProps) => {
+}) => {
     return (
         <AnimatePresence>
             {isOpen && (

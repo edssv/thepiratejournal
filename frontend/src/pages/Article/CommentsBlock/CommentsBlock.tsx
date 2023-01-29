@@ -79,107 +79,120 @@ export const CommentsBlock = () => {
     resizeTextareaHeight();
 
     return (
-        <div className={styles.root}>
-            {isLoadingComments ? (
-                <div className={styles.loaderContainer}>
-                    <MoonLoader
-                        size="24px"
-                        speedMultiplier={0.9}
-                        color="var(--md-sys-color-on-surface)"
-                    />
-                </div>
-            ) : (
-                <>
-                    {' '}
-                    <div className={styles.top}>
-                        <span className="material-symbols-outlined">chat</span>{' '}
-                        {declinationSubstance(article.comments.totalCount ?? '', 'comments')}
-                    </div>
-                    <div className={styles.postContainer}>
-                        {isLoading ? (
-                            <div className="circle-center">
-                                <MoonLoader size="24px" speedMultiplier={0.9} />
-                            </div>
-                        ) : !isActiveInput ? (
-                            <div className={styles.commentPostContainer}>
-                                <div className={styles.userInfo}>
-                                    {user && <Avatar width={40} imageSrc={user?.avatar} />}
+        <div className={styles.container}>
+            <div className={styles.root}>
+                <div className={styles.content}>
+                    <div className={styles.scrollingContainer}>
+                        <div className={styles.contents}>
+                            {isLoadingComments ? (
+                                <div className={styles.loaderContainer}>
+                                    <MoonLoader
+                                        size="24px"
+                                        speedMultiplier={0.9}
+                                        color="var(--md-sys-color-on-surface)"
+                                    />
                                 </div>
-                                <div className={styles.commentPost}>
-                                    <div className={styles.commentContainer}>
-                                        <textarea
-                                            onClick={() =>
-                                                user
-                                                    ? setIsActiveInput(true)
-                                                    : navigate('/login', {
-                                                          state: { from: location },
-                                                      })
-                                            }
-                                            value={textareaValue}
-                                            onChange={(e) => setTextareaValue(e.target.value)}
-                                            placeholder="Введи текст комментария"
-                                            style={{ height: '25px' }}></textarea>
-                                        <div className={styles.buttonGroup}></div>
+                            ) : (
+                                <>
+                                    <div className={styles.postContainer}>
+                                        {isLoading ? (
+                                            <div className="circle-center">
+                                                <MoonLoader size="24px" speedMultiplier={0.9} />
+                                            </div>
+                                        ) : !isActiveInput ? (
+                                            <div className={styles.commentPostContainer}>
+                                                <div className={styles.userInfo}>
+                                                    {user && (
+                                                        <Avatar
+                                                            width={40}
+                                                            imageSrc={user?.avatar}
+                                                        />
+                                                    )}
+                                                </div>
+                                                <div className={styles.commentPost}>
+                                                    <div className={styles.commentContainer}>
+                                                        <textarea
+                                                            onClick={() =>
+                                                                user
+                                                                    ? setIsActiveInput(true)
+                                                                    : navigate('/login', {
+                                                                          state: { from: location },
+                                                                      })
+                                                            }
+                                                            value={textareaValue}
+                                                            onChange={(e) =>
+                                                                setTextareaValue(e.target.value)
+                                                            }
+                                                            placeholder="Введи текст комментария"
+                                                            style={{ height: '25px' }}></textarea>
+                                                        <div className={styles.buttonGroup}></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div
+                                                className={`${styles.commentPostContainer} ${styles.active}`}>
+                                                <div className={styles.userInfo}>
+                                                    <Avatar width={40} imageSrc={user?.avatar} />
+                                                    <span>{user?.username}</span>
+                                                </div>
+                                                <div className={styles.commentPost}>
+                                                    <div className={styles.commentContainer}>
+                                                        <textarea
+                                                            onClick={() => setIsActiveInput(true)}
+                                                            value={textareaValue}
+                                                            onChange={(e) =>
+                                                                setTextareaValue(e.target.value)
+                                                            }
+                                                            placeholder="Введи текст комментария"
+                                                            style={{ height: '25px' }}></textarea>
+                                                        <div className={styles.buttonGroup}>
+                                                            <Button
+                                                                onClick={() => {
+                                                                    setIsActiveInput(false);
+                                                                    setTextareaValue('');
+                                                                    resizeTextareaHeight();
+                                                                }}
+                                                                variant="text">
+                                                                Отмена
+                                                            </Button>
+                                                            <Button
+                                                                disabled={!textareaValue}
+                                                                onClick={() => {
+                                                                    addComment({
+                                                                        commentText: textareaValue,
+                                                                        id: article._id,
+                                                                    });
+                                                                    setTextareaValue('');
+                                                                    setIsActiveInput(false);
+                                                                }}
+                                                                variant="filledTonal">
+                                                                Оставить комментарий
+                                                            </Button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
-                                </div>
-                            </div>
-                        ) : (
-                            <div className={`${styles.commentPostContainer} ${styles.active}`}>
-                                <div className={styles.userInfo}>
-                                    <Avatar width={40} imageSrc={user?.avatar} />
-                                    <span>{user?.username}</span>
-                                </div>
-                                <div className={styles.commentPost}>
-                                    <div className={styles.commentContainer}>
-                                        <textarea
-                                            onClick={() => setIsActiveInput(true)}
-                                            value={textareaValue}
-                                            onChange={(e) => setTextareaValue(e.target.value)}
-                                            placeholder="Введи текст комментария"
-                                            style={{ height: '25px' }}></textarea>
-                                        <div className={styles.buttonGroup}>
-                                            <Button
-                                                onClick={() => {
-                                                    setIsActiveInput(false);
-                                                    setTextareaValue('');
-                                                    resizeTextareaHeight();
-                                                }}
-                                                variant="text">
-                                                Отмена
-                                            </Button>
-                                            <Button
-                                                disabled={!textareaValue}
-                                                onClick={() => {
-                                                    addComment({
-                                                        commentText: textareaValue,
-                                                        id: article._id,
-                                                    });
-                                                    setTextareaValue('');
-                                                    setIsActiveInput(false);
-                                                }}
-                                                variant="filledTonal">
-                                                Оставить комментарий
-                                            </Button>
+                                    <div className={styles.commentsListContainer}>
+                                        <ul className={styles.commentsList}>{commentsItems}</ul>
+                                    </div>
+                                    {isFetchingComments && (
+                                        <div className={styles.loaderContainer}>
+                                            <MoonLoader
+                                                size="24px"
+                                                speedMultiplier={0.9}
+                                                color="var(--md-sys-color-on-surface)"
+                                            />
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                    <div className={styles.commentsListContainer}>
-                        <ul className={styles.commentsList}>{commentsItems}</ul>
-                    </div>
-                    {isFetchingComments && (
-                        <div className={styles.loaderContainer}>
-                            <MoonLoader
-                                size="24px"
-                                speedMultiplier={0.9}
-                                color="var(--md-sys-color-on-surface)"
-                            />
+                                    )}
+                                </>
+                            )}
                         </div>
-                    )}
-                </>
-            )}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

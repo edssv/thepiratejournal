@@ -89,7 +89,7 @@ const Signup = () => {
                                 })}
                                 disabled={isLoading}
                                 type="email"
-                                className={`text-field  ${errors?.email && `is-invalid`}`}
+                                className={`text-field ${errors?.email && `is-invalid`}`}
                             />
                             {errors?.email && (
                                 <label className="field-label error-label">
@@ -117,13 +117,13 @@ const Signup = () => {
                                         },
                                     })}
                                     disabled={isLoading}
-                                    className={`text-field ${
-                                        isValidating === true ? `is-valid` : ''
-                                    } ${errors?.password && `is-invalid`}`}
-                                    type={passwordEye === true ? 'text' : 'password'}
+                                    className={`text-field ${isValidating ? `is-valid` : ''} ${
+                                        errors?.password && `is-invalid`
+                                    }`}
+                                    type={passwordEye ? 'text' : 'password'}
                                 />
                                 <VisibilityToggle
-                                    style={errors?.password ? { right: 20 } : { right: 0 }}
+                                    style={{ right: errors?.password ? 20 : 0 }}
                                     passwordEye={passwordEye}
                                     setPasswordEye={setPasswordEye}
                                 />
