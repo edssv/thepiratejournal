@@ -103,8 +103,9 @@ export const NotificationBlock = ({
     const rootRef = useRef<HTMLDivElement>(null);
     const isTablet = useMediaPredicate('(max-width: 990.98px)');
     const [currentPage, setCurrentPage] = useState(0);
-    useGetNotificationsQuery(`limit=15&page=${currentPage}`);
     const user = useSelector(selectUser);
+    const limit = 15;
+    useGetNotificationsQuery(`limit=${limit}&page=${currentPage}`);
 
     const handleClickOutside = () => {
         const hidden = document.body.style.overflow === 'hidden';
@@ -168,12 +169,14 @@ export const NotificationBlock = ({
                                     ? 'Новых уведомлений нет'
                                     : notificationList}
                             </ul>
-                            <Button
-                                onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
-                                className={styles.buttonMore}
-                                variant="outlined">
-                                Смотреть еще
-                            </Button>
+                            {notificationList?.length > limit && (
+                                <Button
+                                    onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
+                                    className={styles.buttonMore}
+                                    variant="outlined">
+                                    Смотреть еще
+                                </Button>
+                            )}
                         </div>
                     </motion.div>
                 </div>

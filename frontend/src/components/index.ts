@@ -18,6 +18,7 @@ export { Layout } from './Layout';
 export { PrivateOutlet } from './PrivateOutlet';
 export { Tippy } from './Tippy';
 export { Toaster } from './Toaster';
+export { ScrollToTop } from './ScrollToTop';
 
 // Buttons
 export * from './Buttons';
