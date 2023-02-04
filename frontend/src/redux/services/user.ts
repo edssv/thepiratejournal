@@ -7,13 +7,13 @@ export interface User {
     username: string;
     avatar: string;
     timestamp: any;
-
     info: {
         city: string;
         country: string;
     };
     isActivated: boolean;
     followersCount: number;
+    notifications: { totalCount: number };
 }
 
 export interface UserResponse {

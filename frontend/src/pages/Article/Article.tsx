@@ -56,7 +56,7 @@ const Article: React.FC = () => {
     return (
         <div className={styles.root}>
             <div className={styles.shot_container}>
-                <div className={styles.shot_content}>
+                <div className={`${styles.shot_content} ${isOpenSidebar ? 'open-sidebar' : ''}`}>
                     <div className={styles.shot_content_container}>
                         <div className={styles.top}>
                             <div className={styles.top__content}>
@@ -68,8 +68,13 @@ const Article: React.FC = () => {
                                         <div className={styles.authorName}>{authorname}</div>
                                     </Link>
                                     <span className={styles.readingTime}>
-                                        {declinationSubstance(article.reading_time, 'minutes')}{' '}
-                                        чтения
+                                        {article.reading_time
+                                            ? `${declinationSubstance(
+                                                  article.reading_time,
+                                                  'minutes',
+                                              )} чтения`
+                                            : 'время чтения не подсчитано'}
+                                        {}{' '}
                                     </span>
                                 </div>
                             </div>

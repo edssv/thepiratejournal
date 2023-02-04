@@ -5,12 +5,12 @@ import debounce from 'lodash.debounce';
 import { useMediaPredicate } from 'react-media-hook';
 import { Button, Overlay } from '../../components';
 import { resetMutableArticle, setBlocks, setTitle, useGetMutableArticleQuery } from '../../redux';
-import { i18n, EDITOR_JS_TOOLS } from './EditorJs';
+import { i18n, EDITOR_JS_TOOLS } from './components/EditorJs';
 import NotFoundPage from '../NotFound';
 import { useArticle, useDocTitle, useAppDispatch } from '../../hooks';
 import { resizeTextareaHeight } from '../../helpers';
 import { ConfirmDialog } from './ConfirmDialog';
-import { DraftInfoDialog } from './DraftInfoDialog';
+import { DraftInfoDialog } from './components/DraftInfoDialog';
 
 import styles from './ArticleEditorPage.module.scss';
 
@@ -85,12 +85,13 @@ const ArticleEditorPage = () => {
 
     const handleSave = useCallback(async () => {
         const savedData = await editorCore.current?.save();
-        dispatch(setBlocks(savedData));
-    }, [dispatch]);
+        return savedData;
+    }, []);
 
     const autoSave = useCallback(
-        debounce(() => {
-            handleSave();
+        debounce(async () => {
+            const savedData = await handleSave();
+            dispatch(setBlocks(savedData));
         }, 150),
         [],
     );

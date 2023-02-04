@@ -1,0 +1,78 @@
+@use '../../../../scss/util' as *;
+
+.root {
+    .tabMenu__wrapper {
+        padding-top: 5px;
+        border-bottom: 1px solid var(--md-sys-color-surface-variant);
+        @include breakpoint-down(md) {
+            height: 64px;
+        }
+        @include breakpoint(lg) {
+            height: 40px;
+        }
+
+        .tabMenu {
+            display: flex;
+            height: 100%;
+            gap: 36px;
+
+            @include breakpoint-down(md) {
+                justify-content: space-around;
+                gap: unset;
+            }
+
+            &__tab {
+                font-size: 18px;
+                font-weight: 700;
+
+                @include breakpoint-down(sm) {
+                    font-size: 15px;
+
+                    a {
+                        padding-bottom: 4px;
+                    }
+
+                    svg {
+                        height: 18px;
+                        width: 18px;
+                    }
+                }
+
+                a {
+                    display: inline-block;
+                    height: 100%;
+                    color: var(--md-sys-color-on-surface-variant);
+
+                    &.active {
+                        border-bottom: 3px solid var(--md-sys-color-primary);
+                        border-radius: 3px 3px 0 0;
+                        color: var(--md-sys-color-primary) !important;
+                        font-variation-settings: 'FILL' 1;
+                    }
+
+                    &:active {
+                        color: var(--md-sys-color-primary);
+                    }
+
+                    .tabIcon {
+                        display: flex;
+                        align-items: center;
+
+                        .tabIconText {
+                            font-size: 16px;
+                        }
+
+                        @include breakpoint-down(md) {
+                            flex-direction: column;
+                        }
+                        @include breakpoint(lg) {
+                            gap: 8px;
+                            padding-bottom: 10px;
+                            height: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

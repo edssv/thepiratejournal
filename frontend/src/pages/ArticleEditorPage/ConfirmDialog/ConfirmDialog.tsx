@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMediaPredicate } from 'react-media-hook';
-import { DraftInfoDialog } from '../DraftInfoDialog';
+import { DraftInfoDialog } from '../components/DraftInfoDialog';
 import { TagsInput } from './TagsInput';
 import { useArticle } from '../../../hooks';
 import { Button, CoverWindow, DialogTrigger as MyDialogTrigger } from '../../../components';

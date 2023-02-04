@@ -1,4 +1,4 @@
-export * from './AiryArticlePreview';
+export * from './components/AiryArticlePreview';
 export { default as Home } from './Home';
-export * from './HomeSectionPrompt';
-export * from './TabPanel';
+export * from './components/HomeSectionPrompt';
+export * from './components/TabPanel';

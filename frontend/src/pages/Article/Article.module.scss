@@ -3,9 +3,11 @@
 $infoWidth: 768px;
 
 :global(.open-sidebar) {
-    .shot_content {
-        padding-right: 320px;
-        max-width: 1676px !important;
+    &.shot_content {
+        @include breakpoint(lg) {
+            padding-right: 320px;
+            max-width: 1776px !important;
+        }
     }
 }
 

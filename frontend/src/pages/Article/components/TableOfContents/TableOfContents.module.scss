@@ -1,0 +1,88 @@
+@use './../../../../scss/util' as *;
+
+.navContainer {
+    display: none;
+    @include breakpoint(xl) {
+        display: block;
+        // width: 216px;
+        width: 320px;
+        // margin: 112px 24px 0;
+    }
+
+    nav.navTrigger {
+        @include breakpoint(xl) {
+            position: sticky;
+            top: 136px;
+            width: inherit;
+        }
+
+        .label {
+            display: block;
+            // margin: 0 16px 8px;
+            margin-bottom: 8px;
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 16px;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .articleTitle {
+            // margin: 0 16px 8px;
+            margin-bottom: 8px;
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 32px;
+            color: var(--md-sys-color-on-surface);
+        }
+
+        .indicator {
+            position: absolute;
+            width: 320px;
+            height: 36px;
+            transform: translateY(0);
+            transition-duration: 500ms, 200ms;
+            transition-property: transform, opacity, height;
+            transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+            border: 1px solid var(--md-sys-color-outline);
+            border-radius: 18px;
+            opacity: 1;
+            z-index: -1;
+
+            &.hide {
+                opacity: 0;
+            }
+        }
+
+        .tabList {
+            .listItem {
+                display: flex;
+                align-items: center;
+                padding: 8px 16px;
+                border-radius: 18px;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: rgba(68, 71, 70, 0.08);
+                }
+
+                &:active {
+                    background-color: rgba(68, 71, 70, 0.12);
+                }
+
+                .tocItem {
+                    max-height: 20px;
+                    font-size: 14px;
+                    line-height: 20px;
+                    color: var(--md-sys-color-on-surface-variant);
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    word-break: break-all;
+
+                    &.Selected {
+                        color: var(--md-sys-color-on-secondary-container);
+                    }
+                }
+            }
+        }
+    }
+}

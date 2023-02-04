@@ -6,3 +6,4 @@ export { useAuth } from './useAuth';
 export { useArticle } from './useArticle';
 export { useOnClickOutside } from './useOnClickOutside';
 export { useThemeMode } from './useThemeMode';
+export { useUser } from './useUser';

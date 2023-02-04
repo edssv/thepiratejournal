@@ -122,6 +122,7 @@ const getCurrentUser = async (req, res) => {
                 username: user.username,
                 avatar: user.avatar,
                 isActivated: user.isActivated,
+                notifications: { totalCount: user.notifications.length },
             },
         });
     } catch (error) {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { HeaderStrip } from './HeaderStrip';
-import { HamburgerMenu } from './HamburgerMenu';
+import { HeaderStrip } from './components/HeaderStrip';
+import { HamburgerMenu } from './components/HamburgerMenu';
 
 import styles from './Header.module.scss';
 

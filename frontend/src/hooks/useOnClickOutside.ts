@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export const useOnClickOutside = (ref: any, handler: any) => {
+export const useOnClickOutside = (ref: any, handler: () => void) => {
     useEffect(
         () => {
             const listener = (event: any) => {
@@ -9,7 +9,7 @@ export const useOnClickOutside = (ref: any, handler: any) => {
                 if (!ref.current || ref.current.contains(event.target)) {
                     return;
                 }
-                handler(event);
+                handler();
             };
 
             document.addEventListener('mousedown', listener);
