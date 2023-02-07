@@ -36,7 +36,7 @@ export const DialogTrigger: React.FC<PropsWithChildren<DialogTriggerProps>> = ({
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}>
-                        <Dialog.Overlay className={styles.dialogOverlay} />
+                        <Dialog.Overlay className="overlay" />
                     </motion.div>
                     <motion.div
                         initial={{ opacity: 0 }}
