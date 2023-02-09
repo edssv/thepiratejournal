@@ -24,10 +24,11 @@ const ArticleEditorPage = () => {
     const isDraft = location.pathname.split('/')[1] === 'drafts';
     const isEditing = !isDraft && Boolean(id);
     const [mode, setMode] = useState<'isNew' | 'isEditing' | 'isDraft'>(
-        isDraft ? 'isDraft' : isEditing ? 'isEditing' : 'isNew',
+        isDraft ? 'isDraft' : isEditing ? 'isEditing' : 'isNew'
     );
     useDocTitle(mode === 'isNew' || 'isDraft' ? 'Новая статья' : 'Изменение статьи');
     const { mutableArticle } = useArticle();
+    console.log('');
 
     const editorCore = useRef<any>(null);
     const articleContentRef = useRef<HTMLDivElement>(null);
@@ -53,7 +54,7 @@ const ArticleEditorPage = () => {
                     cover: '',
                     blocks: [],
                     tags: [],
-                }),
+                })
             );
 
             if (textareaRef.current) {
@@ -93,7 +94,7 @@ const ArticleEditorPage = () => {
             const savedData = await handleSave();
             dispatch(setBlocks(savedData));
         }, 150),
-        [],
+        []
     );
 
     if (isLoading) return <Overlay />;
@@ -105,19 +106,14 @@ const ArticleEditorPage = () => {
         <div className={styles.root}>
             <div className={styles.top_bar}>
                 <Button
-                    onClick={() =>
-                        navigate(fromPage && fromPage !== location.pathname ? fromPage : '/')
-                    }
-                    variant="outlined">
+                    onClick={() => navigate(fromPage && fromPage !== location.pathname ? fromPage : '/')}
+                    variant="outlined"
+                >
                     Отмена
                 </Button>
                 <div className={styles.barRightButtons}>
                     {!isEditing && <DraftInfoDialog setFormStatus={setFormStatus} />}
-                    <ConfirmDialog
-                        mode={mode}
-                        setFormStatus={setFormStatus}
-                        articleContentRef={articleContentRef}
-                    />
+                    <ConfirmDialog mode={mode} setFormStatus={setFormStatus} articleContentRef={articleContentRef} />
                 </div>
             </div>
             <div ref={articleContentRef} className={styles.container}>
@@ -128,15 +124,14 @@ const ArticleEditorPage = () => {
                         } else {
                             setFormStatus('unchanged');
                         }
-                    }}>
+                    }}
+                >
                     <div className={styles.textarea__wrapper}>
                         <textarea
                             ref={textareaRef}
                             maxLength={68}
                             autoFocus={true}
-                            placeholder={
-                                isMobile ? 'Дай мне имя' : 'Как корабль назовёшь так он и поплывёт'
-                            }
+                            placeholder={isMobile ? 'Дай мне имя' : 'Как корабль назовёшь так он и поплывёт'}
                             className={styles.writingHeader}
                             value={mutableArticle?.title}
                             onChange={(e) => dispatch(setTitle(e.target.value))}

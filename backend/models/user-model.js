@@ -66,10 +66,7 @@ userSchema.statics.signup = async function (username, email, password) {
 
     const user = await this.create({ username, email, password: hash, activationLink });
 
-    await mailService.sendActivationMail(
-        email,
-        `${process.env.API_URL}/api/activate/${activationLink}`,
-    );
+    await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`);
 
     return user;
 };
@@ -134,14 +131,32 @@ userSchema.statics.refresh = async function (refreshToken) {
     return user;
 };
 
-userSchema.statics.getUser = async function (username) {
+userSchema.statics.getUser = async function (username, category) {
     const user = await this.findOne({ username });
-    const articles = await Article.find({
-        $and: [{ 'author.username': username }, { isPublished: true }],
-    });
-    const appreciated = await Article.find({ _id: { $in: user.appreciated } });
-    const bookmarks = await Article.find({ _id: { $in: user.bookmarks } });
-    const drafts = await Draft.find({ 'author._id': user._id });
+    console.log(`user.${category}`);
+    const findContent = async () => {
+        if (category === 'articles') {
+            return await Article.find({
+                $and: [{ 'author.username': username }, { isPublished: true }],
+            });
+        }
+
+        if (category === 'appreciated') {
+            return await Article.find({ _id: { $in: user.appreciated } });
+        }
+
+        if (category === 'bookmarks') {
+            return await Article.find({ _id: { $in: user.bookmarks } });
+        }
+
+        if (category === 'drafts') {
+            return await Draft.find({ 'author._id': user._id });
+        }
+    };
+
+    const content = await findContent();
+
+    console.log(content);
 
     return {
         user: {
@@ -152,10 +167,7 @@ userSchema.statics.getUser = async function (username) {
             info: user.info,
             followersCount: user.followers.length,
         },
-        articles,
-        appreciated,
-        bookmarks,
-        drafts,
+        content,
     };
 };
 
@@ -164,16 +176,12 @@ userSchema.statics.appreciated = async function (userId, articleId, remove) {
         await this.findOneAndUpdate(
             { _id: userId },
             { $pull: { appreciated: articleId } },
-            { returnDocument: 'after' },
+            { returnDocument: 'after' }
         );
         return;
     }
 
-    await this.findOneAndUpdate(
-        { _id: userId },
-        { $push: { appreciated: articleId } },
-        { returnDocument: 'after' },
-    );
+    await this.findOneAndUpdate({ _id: userId }, { $push: { appreciated: articleId } }, { returnDocument: 'after' });
 };
 
 userSchema.statics.follow = async function (followerId, idolUsername) {
@@ -183,7 +191,7 @@ userSchema.statics.follow = async function (followerId, idolUsername) {
     const follower = await this.findOneAndUpdate(
         { _id: followerId },
         { $push: { follow: idolId } },
-        { returnDocument: 'after' },
+        { returnDocument: 'after' }
     );
 
     await this.findOneAndUpdate(
@@ -201,7 +209,7 @@ userSchema.statics.follow = async function (followerId, idolUsername) {
                 },
             },
         },
-        { returnDocument: 'after' },
+        { returnDocument: 'after' }
     );
 };
 
@@ -212,7 +220,7 @@ userSchema.statics.unFollow = async function (followerId, idolUsername) {
     const follower = await this.findOneAndUpdate(
         { _id: followerId },
         { $pull: { follow: idolId } },
-        { returnDocument: 'after' },
+        { returnDocument: 'after' }
     );
 
     await this.findOneAndUpdate(
@@ -230,24 +238,16 @@ userSchema.statics.unFollow = async function (followerId, idolUsername) {
                 },
             },
         },
-        { returnDocument: 'after' },
+        { returnDocument: 'after' }
     );
 };
 
 userSchema.statics.addBookmark = async function (userId, articleId) {
-    await this.findOneAndUpdate(
-        { _id: userId },
-        { $push: { bookmarks: articleId } },
-        { returnDocument: 'after' },
-    );
+    await this.findOneAndUpdate({ _id: userId }, { $push: { bookmarks: articleId } }, { returnDocument: 'after' });
 };
 
 userSchema.statics.removeBookmark = async function (userId, articleId) {
-    await this.findOneAndUpdate(
-        { _id: userId },
-        { $pull: { bookmarks: articleId } },
-        { returnDocument: 'after' },
-    );
+    await this.findOneAndUpdate({ _id: userId }, { $pull: { bookmarks: articleId } }, { returnDocument: 'after' });
 };
 
 module.exports = model('User', userSchema);

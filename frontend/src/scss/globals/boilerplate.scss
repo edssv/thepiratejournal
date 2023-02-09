@@ -9,26 +9,39 @@
 }
 
 html {
-    min-height: 100vh;
     font-size: 100%;
     font-family: 'Roboto', sans-serif !important;
 }
 
+html,
 body,
 #App,
 .container {
     height: 100%;
 }
 
+#App {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 main {
-    height: 100%;
+    flex-grow: 1;
+    @include breakpoint-down(lg) {
+        margin-top: 64px;
+    }
 }
 
 body {
     touch-action: pan-x pan-y;
-    background-color: var(--md-sys-color-surface);
+    background-color: #ffffff;
     color: var(--md-sys-color-on-surface);
     transition: background-color 0.15s, color 0.25s;
+}
+
+.dark body {
+    background-color: var(--md-sys-color-surface);
 }
 
 span {
@@ -214,8 +227,7 @@ textarea {
     border-width: 0 0 1px;
     outline: 0;
     background-color: var(--md-sys-color-surface);
-    transition: border-color 0.13s ease-in-out, box-shadow 0.13s ease-in-out,
-        -webkit-box-shadow 0.13s ease-in-out;
+    transition: border-color 0.13s ease-in-out, box-shadow 0.13s ease-in-out, -webkit-box-shadow 0.13s ease-in-out;
 
     &:focus {
         outline: none;

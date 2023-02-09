@@ -13,10 +13,12 @@ const getUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
     const username = req.params.username;
+    const category = req.params.category;
     const currentUser = req.currentUser;
+    console.log(req.params);
 
     try {
-        const { user, articles, appreciated, drafts, bookmarks } = await User.getUser(username);
+        const { user, content } = await User.getUser(username, category);
 
         let isOwner;
         let hasSubscription;
@@ -28,15 +30,13 @@ const getUser = async (req, res) => {
             hasSubscription = hasSubscription.length !== 0;
         }
 
-        if (isOwner)
-            return res
-                .status(200)
-                .json({ user, articles, appreciated, bookmarks, drafts, isOwner });
+        if (!isOwner && category === 'drafts') return;
+
+        if (isOwner) return res.status(200).json({ user, content, isOwner });
 
         res.status(200).json({
             user,
-            articles,
-            appreciated,
+            content,
             viewer: { hasSubscription: hasSubscription },
         });
     } catch (error) {
@@ -96,10 +96,7 @@ const getNotifications = async (req, res) => {
         const { notifications } = await User.findById(userId, { notifications: 1, _id: 0 });
 
         const skip = Number(queryParams.limit) * Number(queryParams.page);
-        const limitNotifications = notifications.slice(
-            skip,
-            Number(skip) + Number(queryParams.limit),
-        );
+        const limitNotifications = notifications.slice(skip, Number(skip) + Number(queryParams.limit));
 
         res.status(200).json({
             notifications: { list: limitNotifications, totalCount: notifications.length },

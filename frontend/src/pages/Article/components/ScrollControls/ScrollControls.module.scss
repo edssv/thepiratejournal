@@ -6,16 +6,26 @@
     right: 0;
     bottom: 16px;
     align-items: center;
-    max-width: 768px;
     width: 100%;
+    margin: 0 auto;
     transition: opacity 300ms ease 0s;
     z-index: 8;
+    @include breakpoint(sm) {
+        max-width: 840px;
+    }
+    @include breakpoint(xl) {
+        max-width: 1240px;
+    }
 
     .actionControls {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 40px;
+        width: 100%;
+        @include breakpoint(lg) {
+            width: 768px;
+        }
 
         .buttonsContainer {
             display: flex;
@@ -54,8 +64,7 @@
 
                     &:hover {
                         background-color: rgba(
-                            var(--md-sys-color-primaryChannel) /
-                                var(--md-sys-state-hover-state-layer-opacity)
+                            var(--md-sys-color-primaryChannel) / var(--md-sys-state-hover-state-layer-opacity)
                         );
                         color: var(--md-sys-color-on-surface);
 

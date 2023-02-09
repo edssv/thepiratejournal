@@ -27,9 +27,7 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
         <div className={styles.root}>
             <div className={styles.top}>
                 <Link to={`/articles/${id}`} state={{ from: location }}>
-                    <div
-                        className={styles.top__img}
-                        style={{ backgroundImage: `url(${cover})` }}></div>
+                    <div className={styles.top__img} style={{ backgroundImage: `url(${cover})` }}></div>
                 </Link>
                 {/* <div className={styles.bookmark__wrapper}>
                     <ButtonBookmark />
@@ -41,8 +39,9 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
                         to={`/articles/${id}`}
                         state={{ from: location }}
                         dangerouslySetInnerHTML={{ __html: title ? title : 'Без названия' }}
-                        className={styles.headline}></Link>
-                    <Link to={`/users/${author}`} className={`${styles.author} tp-text`}>
+                        className={styles.headline}
+                    ></Link>
+                    <Link to={`/@${author}`} className={`${styles.author} tp-text`}>
                         {author}
                     </Link>
                 </div>

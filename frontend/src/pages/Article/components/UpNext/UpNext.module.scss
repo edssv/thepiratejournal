@@ -1,0 +1,40 @@
+@use '../../../../scss/util' as *;
+
+.root {
+    margin-top: 88px;
+    margin: 0 auto;
+    @include breakpoint(sm) {
+        max-width: 840px;
+    }
+    @include breakpoint(xl) {
+        max-width: 1240px;
+    }
+
+    h2 {
+        font-size: 40px;
+        line-height: 48px;
+        letter-spacing: -0.333333px;
+        font-weight: 300 !important;
+    }
+
+    .container {
+        display: block;
+        margin-top: 32px;
+        @include breakpoint(sm) {
+            display: flex;
+            flex-wrap: nowrap;
+            column-gap: 16px;
+        }
+        @include breakpoint(lg) {
+            column-gap: 40px;
+        }
+        @include breakpoint(xl) {
+            width: 760px;
+        }
+
+        .motionDiv {
+            display: flex;
+            flex: 1;
+        }
+    }
+}

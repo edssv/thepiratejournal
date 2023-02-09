@@ -1,13 +1,8 @@
 export { AuthOutlet } from '../components/AuthOutlet';
-export {
-    convertDateLong,
-    convertDateShort,
-    convertDateDayMonthYear,
-    convertDateMDHM,
-} from './convertDate';
+export { convertDateLong, convertDateShort, convertDateDayMonthYear, convertDateMDHM } from './convertDate';
 export { countLines } from './countLines';
 export { declinationSubstance } from './declinationSubstance';
-export { DraftsAndBookmarksOutlet } from '../components/DraftsAndBookmarksOutlet';
+export { DraftsAndBookmarksOutlet } from '../pages/Profile/DraftsAndBookmarksOutlet';
 export { handleOverflowBody } from './handleOverflowBody';
 export { PrivateOutlet } from '../components/PrivateOutlet';
 export { viewsSumCalc } from './viewsSum';

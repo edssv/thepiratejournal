@@ -63,53 +63,41 @@ const slice = createSlice({
             })
 
             // get suggestions
-            .addMatcher(
-                articleApi.endpoints.getSuggestions.matchFulfilled,
-                (state, { payload }) => {
-                    const articles = state.article.suggestions?.articles ?? [];
-                    const categoryName = payload.categoryName ?? '';
+            .addMatcher(articleApi.endpoints.getSuggestions.matchFulfilled, (state, { payload }) => {
+                const articles = state.article.suggestions?.articles ?? [];
+                const categoryName = payload.categoryName ?? '';
 
-                    state.article.suggestions = {
-                        articles: {
-                            all:
-                                categoryName === 'all'
-                                    ? {
-                                          list: [
-                                              ...(articles?.all?.list ?? []),
-                                              ...payload.articles,
-                                          ],
-                                          totalCount: payload.totalCount,
-                                      }
-                                    : {
-                                          list: [...(articles?.all?.list ?? [])],
-                                          totalCount: articles.all?.totalCount,
-                                      },
+                state.article.suggestions = {
+                    articles: {
+                        all:
+                            categoryName === 'all'
+                                ? {
+                                      list: [...(articles?.all?.list ?? []), ...payload.articles],
+                                      totalCount: payload.totalCount,
+                                  }
+                                : {
+                                      list: [...(articles?.all?.list ?? [])],
+                                      totalCount: articles.all?.totalCount,
+                                  },
 
-                            similar:
-                                categoryName === 'similar'
-                                    ? {
-                                          list: [
-                                              ...(articles?.similar?.list ?? []),
-                                              ...payload.articles,
-                                          ],
-                                          totalCount: payload.totalCount,
-                                      }
-                                    : {
-                                          list: [...(articles?.similar?.list ?? [])],
-                                          totalCount: articles.similar?.totalCount,
-                                      },
-                        },
-                    };
-                },
-            )
+                        similar:
+                            categoryName === 'similar'
+                                ? {
+                                      list: [...(articles?.similar?.list ?? []), ...payload.articles],
+                                      totalCount: payload.totalCount,
+                                  }
+                                : {
+                                      list: [...(articles?.similar?.list ?? [])],
+                                      totalCount: articles.similar?.totalCount,
+                                  },
+                    },
+                };
+            })
 
             // get mutable article
-            .addMatcher(
-                articleApi.endpoints.getMutableArticle.matchFulfilled,
-                (state, { payload }) => {
-                    state.mutableArticle = payload;
-                },
-            )
+            .addMatcher(articleApi.endpoints.getMutableArticle.matchFulfilled, (state, { payload }) => {
+                state.mutableArticle = payload;
+            })
 
             // like
             .addMatcher(articleApi.endpoints.like.matchFulfilled, (state) => {
@@ -160,15 +148,8 @@ const slice = createSlice({
     },
 });
 
-export const {
-    setLike,
-    resetMutableArticle,
-    setTitle,
-    setCover,
-    setBlocks,
-    setTags,
-    setArticleCategory,
-} = slice.actions;
+export const { setLike, resetMutableArticle, setTitle, setCover, setBlocks, setTags, setArticleCategory } =
+    slice.actions;
 
 export default slice.reducer;
 

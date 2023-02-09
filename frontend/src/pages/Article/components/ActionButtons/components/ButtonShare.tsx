@@ -1,4 +1,4 @@
-import { Button, Variant } from '../../../../components';
+import { Button, Variant } from '../../../../../components';
 
 interface ButtonShareProps {
     variant?: Variant;

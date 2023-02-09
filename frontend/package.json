@@ -16,6 +16,7 @@
         "@editorjs/simple-image": "^1.5.1",
         "@editorjs/warning": "^1.2.0",
         "@emotion/styled": "^11.10.5",
+        "@fontsource/roboto-mono": "^4.5.10",
         "@headlessui/react": "^1.7.7",
         "@reduxjs/toolkit": "^1.8.6",
         "@types/lodash.debounce": "^4.0.7",

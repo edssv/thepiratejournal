@@ -1,10 +1,10 @@
 import React, { PropsWithChildren, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useMediaPredicate } from 'react-media-hook';
+
 import { Button } from '../../../../components';
 
 import styles from './Sidebar.module.scss';
-import { useMediaPredicate } from 'react-media-hook';
 
 interface SidebarProps {
     isOpenSidebar: boolean;
@@ -22,43 +22,42 @@ export const Sidebar: React.FC<PropsWithChildren<SidebarProps>> = ({
     const isTablet = useMediaPredicate('(max-width: 990.98px)');
 
     useEffect(() => {
-        if (isOpenSidebar) {
+        if (isTablet && isOpenSidebar) {
             document.body.style.overflow = 'hidden';
         } else document.body.style.overflow = '';
     }, [isOpenSidebar]);
 
-    return ReactDOM.createPortal(
-        <AnimatePresence>
-            {isOpenSidebar && (
-                <div className={styles.container}>
-                    <div className={`${styles.overlay} overlay`} />
-                    <div className={styles.root}>
-                        {' '}
-                        <motion.div
-                            style={isTablet ? { y: 150 } : { x: 0 }}
-                            animate={isTablet ? { y: 0 } : { x: 0 }}
-                            exit={{ opacity: 0 }}>
-                            {' '}
-                            <div className={styles.content}>
-                                <div className={styles.scrollingContainer}>
-                                    <div className={styles.top}>
+    return (
+        <>
+            {ReactDOM.createPortal(
+                <>
+                    <div className={`${styles.root} ${isOpenSidebar ? 'open-sidebar' : ''}`}>
+                        <div className={styles.content}>
+                            <div className={styles.scrollingContainer}>
+                                <div className={styles.top}>
+                                    <div className={styles.left}>
+                                        {!isTablet && (
+                                            <Button onClick={() => setOpenSidebar(false)} icon>
+                                                <span className="material-symbols-outlined">arrow_back</span>
+                                            </Button>
+                                        )}
                                         <div className={styles.title}>{title}</div>
-                                        <Button
-                                            onClick={() => setOpenSidebar(false)}
-                                            className={styles.buttonClose}
-                                            icon
-                                            color="var(--md-sys-color-on-surface)">
-                                            <span className="material-symbols-outlined">close</span>
-                                        </Button>
                                     </div>
-                                    <div className={styles.contents}>{children}</div>
+                                    <Button onClick={() => setOpenSidebar(false)} className={styles.buttonClose} icon>
+                                        <span className="material-symbols-outlined">close</span>
+                                    </Button>
                                 </div>
+                                <div className={styles.contents}>{children}</div>
                             </div>
-                        </motion.div>
+                        </div>
                     </div>
-                </div>
+                    <div
+                        onClick={() => setOpenSidebar(false)}
+                        className={`${styles.overlay} ${isOpenSidebar ? styles.visible : styles.hidden} overlay`}
+                    />
+                </>,
+                portalRoot
             )}
-        </AnimatePresence>,
-        portalRoot,
+        </>
     );
 };

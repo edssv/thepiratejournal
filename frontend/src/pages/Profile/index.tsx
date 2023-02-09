@@ -3,16 +3,9 @@ import { NavLink, useLocation, useParams } from 'react-router-dom';
 import { useGetUserQuery, Article, Draft } from '../../redux';
 import { useDocTitle } from '../../hooks';
 import { convertDateDayMonthYear } from '../../helpers';
-import {
-    DraftPreview,
-    CreateModule,
-    Avatar,
-    ArticlePreview,
-    Overlay,
-    ButtonFollow,
-} from '../../components';
-
+import { DraftPreview, CreateModule, Avatar, ArticlePreview, Overlay, ButtonFollow } from '../../components';
 import { UploadAvatar } from './UploadAvatar';
+import NotFoundPage from '../NotFound';
 
 import styles from './Profile.module.scss';
 
@@ -37,55 +30,52 @@ const Profile: React.FC = () => {
     useDocTitle(username);
     const location = useLocation();
 
-    const activeSection = location.pathname.split('/')[3] ?? ProfileSection.Articles;
+    const activeSection = location.pathname.split('/')[2] ?? ProfileSection.Articles;
 
     const [list, setList] = useState<ProfileSection>();
+    const [content, setContent] = useState([]);
 
-    const { data, isLoading, refetch } = useGetUserQuery(username);
+    const { data, isLoading, isError, refetch } = useGetUserQuery(
+        { username, category: activeSection },
+        { refetchOnMountOrArgChange: true }
+    );
 
     useEffect(() => {
         if (
             activeSection ===
-            (ProfileSection.Articles ||
-                ProfileSection.Appreciated ||
-                ProfileSection.Bookmarks ||
-                ProfileSection.Drafts)
+            (ProfileSection.Articles || ProfileSection.Appreciated || ProfileSection.Bookmarks || ProfileSection.Drafts)
         ) {
             setList(activeSection);
+            setContent(data?.content || []);
         }
     }, [activeSection]);
 
     if (isLoading) return <Overlay />;
+    if (isError) return <NotFoundPage />;
 
     const user = data?.user;
-    const articles = data?.articles;
     const isOwner = data?.isOwner;
 
-    const articlesList = articles?.map((article: Article, id) => (
-        <ArticlePreview article={article} key={id} />
-    ));
-    const appreciatedList = data?.appreciated?.map((article: Article, id) => (
-        <ArticlePreview article={article} key={id} />
-    ));
-    const bookmarksList = data?.bookmarks?.map((article: Article, id) => (
-        <ArticlePreview article={article} key={id} />
-    ));
-    const draftsList = data?.drafts?.map((draft: Draft, id) => (
-        <DraftPreview draft={draft} refetch={refetch} key={id} />
-    ));
+    const contentList = () => {
+        if (activeSection === ProfileSection.Articles || ProfileSection.Appreciated || ProfileSection.Bookmarks) {
+            return content.map((article: Article, id) => <ArticlePreview article={article} key={id} />);
+        }
+
+        if (activeSection === ProfileSection.Drafts) {
+            return content?.map((draft: Draft, id) => <DraftPreview draft={draft} refetch={refetch} key={id} />);
+        }
+    };
 
     const navListItems = navListData.map((item, i) => (
         <li key={i}>
             <NavLink
-                to={`/users/${username}/${item.activeSection}`}
+                to={`/@${username}/${item.activeSection}`}
                 className={({ isActive }) =>
-                    [
-                        styles.navLink,
-                        isActive || activeSection === item.activeSection ? styles.active : '',
-                    ]
+                    [styles.navLink, isActive || activeSection === item.activeSection ? styles.active : '']
                         .filter(Boolean)
                         .join(' ')
-                }>
+                }
+            >
                 <span className={styles.tabLabel}>
                     <span className="material-symbols-outlined">{item.icon}</span>
                     {item.text}
@@ -93,8 +83,9 @@ const Profile: React.FC = () => {
             </NavLink>
         </li>
     ));
-
+    console.log(contentList());
     const date = convertDateDayMonthYear(user?.timestamp);
+
     return (
         <div className={styles.root}>
             <div className={styles.wrapper}>
@@ -116,10 +107,7 @@ const Profile: React.FC = () => {
                         </div>
                         {isOwner && <UploadAvatar />}
                         {!isOwner && (
-                            <ButtonFollow
-                                username={username}
-                                hasSubscription={data?.viewer.hasSubscription}
-                            />
+                            <ButtonFollow username={username} hasSubscription={data?.viewer?.hasSubscription} />
                         )}
                     </div>
                     <span className={styles.signupDate}>Дата регистрации: {date}</span>
@@ -132,8 +120,8 @@ const Profile: React.FC = () => {
                     </nav>
                     {list === 'articles' && (
                         <div className="articles__list">
-                            {articlesList?.length ? (
-                                articlesList
+                            {data?.content.length ? (
+                                contentList()
                             ) : isOwner ? (
                                 <CreateModule create />
                             ) : (
@@ -142,8 +130,8 @@ const Profile: React.FC = () => {
                         </div>
                     )}
                     {list === 'appreciated' &&
-                        (appreciatedList?.length ? (
-                            <div className="appreciated__list">{appreciatedList}</div>
+                        (data?.content.length ? (
+                            <div className="appreciated__list">{contentList()}</div>
                         ) : isOwner ? (
                             <div className="articles__list">
                                 <CreateModule find />
@@ -152,8 +140,8 @@ const Profile: React.FC = () => {
                             <h4>Пользователь не оценил ни одной статьи</h4>
                         ))}
                     {list === 'bookmarks' &&
-                        (bookmarksList?.length ? (
-                            <div className="appreciated__list">{bookmarksList}</div>
+                        (data?.content.length ? (
+                            <div className="appreciated__list">{contentList()}</div>
                         ) : (
                             isOwner && (
                                 <div className="articles__list">
@@ -163,7 +151,7 @@ const Profile: React.FC = () => {
                         ))}
                     {list === 'drafts' && (
                         <div className="articles__list">
-                            {draftsList}
+                            {contentList()}
                             <CreateModule draft />
                         </div>
                     )}

@@ -4,7 +4,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 75vh;
+    height: 100%;
+    flex-grow: 1;
 
     .content {
         display: flex;
@@ -14,22 +15,38 @@
         text-align: center;
 
         img {
-            @include breakpoint-down(sm) {
-                height: 280px;
-            }
+            max-width: 620px;
+            width: 100%;
+            max-height: 310px;
+            height: 100%;
         }
 
         .headline {
-            color: var(--md-sys-color-primary);
-            font-weight: 700;
+            font-size: 36px;
+            line-height: 44px;
+            font-weight: 500;
+            @include breakpoint-down(xl) {
+                font-size: 32px;
+            }
+            @include breakpoint-down(sm) {
+                font-size: 28px;
+            }
         }
 
         p {
-            font-size: 32px;
-            font-weight: 700;
+            max-width: 323px;
+            font-size: 16px;
 
-            @include breakpoint-down(sm) {
-                font-size: 28px;
+            .homeLink {
+                font-size: 16px;
+                line-height: 24px;
+                font-weight: 500;
+                color: var(--md-sys-color-primary);
+                text-decoration: underline;
+
+                &:hover {
+                    color: var(--md-sys-color-on-primary-container);
+                }
             }
         }
 

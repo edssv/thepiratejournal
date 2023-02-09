@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
-import { Button, Variant, Tippy, ActionDialog } from '../../../../components';
-import { useArticle, useAuth } from '../../../../hooks';
-import { useAddBookmarkMutation, useRemoveBookmarkMutation } from '../../../../redux';
+import React, { PropsWithChildren, useState } from 'react';
+import { Button, Variant, Tippy, ActionDialog } from '../../../../../components';
+import { useArticle, useAuth } from '../../../../../hooks';
+import { useAddBookmarkMutation, useRemoveBookmarkMutation } from '../../../../../redux';
 
 interface IsBookmarkProps {
     tooltipPosition?: any;
     variant?: Variant;
+    icon?: boolean;
 }
 
-export const ButtonBookmark: React.FC<IsBookmarkProps> = ({ tooltipPosition, variant }) => {
+export const ButtonBookmark: React.FC<PropsWithChildren<IsBookmarkProps>> = ({
+    tooltipPosition,
+    variant,
+    children,
+    icon = true,
+}) => {
     const { user } = useAuth();
     const { article, hasBookmark } = useArticle();
 
@@ -36,19 +42,22 @@ export const ButtonBookmark: React.FC<IsBookmarkProps> = ({ tooltipPosition, var
                     setIsOpen={setIsOpen}
                     tooltipPosition={tooltipPosition}
                     title={'Добавляй в закладки'}
-                    description={'Чтобы добавлять статьи в закладки, войди в аккаунт.'}>
-                    <Button icon variant={variant ?? 'text'} onClick={() => setIsOpen(true)}>
-                        <span className="material-symbols-outlined">bookmark</span>
+                    description={'Чтобы добавлять статьи в закладки, войди в аккаунт.'}
+                >
+                    <Button icon={icon} variant={variant ?? 'text'} onClick={() => setIsOpen(true)}>
+                        <span className="material-symbols-outlined">bookmark</span> {children}
                     </Button>
                 </Tippy>
             ) : (
                 <>
                     <Button
-                        icon
+                        icon={icon}
                         onClick={handleSetBookmark}
                         variant={variant ?? 'text'}
-                        style={{ fontVariationSettings: hasBookmark ? '"FILL" 1' : '' }}>
+                        style={{ fontVariationSettings: hasBookmark ? '"FILL" 1' : '' }}
+                    >
                         <span className="material-symbols-outlined">bookmark</span>
+                        {children}
                     </Button>
                     <ActionDialog
                         isOpen={isOpen}

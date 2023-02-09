@@ -27,10 +27,7 @@ export default function Articles() {
         ) : isError ? (
             <h2>Здесь появятся статьи для тебя</h2>
         ) : (
-            isSuccess &&
-            data?.map((article: Article, id: number) => (
-                <ArticlePreview key={id} article={article} />
-            ))
+            isSuccess && data?.map((article: Article, id: number) => <ArticlePreview key={id} article={article} />)
         );
 
     return (
@@ -45,9 +42,7 @@ export default function Articles() {
                 setQueryParams={setQueryParams}
             />
 
-            <ul className="articles__list" style={{ padding: '24px' }}>
-                {articlesList}
-            </ul>
+            <ul className="articles__list">{articlesList}</ul>
         </div>
     );
 }

@@ -7,37 +7,44 @@
     }
 }
 
+:global(.dark) {
+    .fixed {
+        @include breakpoint-down(lg) {
+            background-color: var(--md-sys-color-surface) !important;
+        }
+    }
+}
+
 .root {
     position: relative;
     display: flex;
     align-items: center;
     height: $header-height;
-    background-color: var(--md-sys-color-background);
+    background-color: var(--md-sys-color-surface-2);
     transition: background-color 0.2s ease-out;
     z-index: 9;
 
-    &::before,
-    .fixed::before {
-        background-color: rgba(var(--md-sys-color-on-surfaceChannel) / 0.05);
-        bottom: 0;
-        content: '';
-        height: 1px;
-        left: 0;
-        opacity: 1;
-        pointer-events: none;
-        position: absolute;
-        right: 0;
-    }
-
     .fixed {
         width: 100%;
-
+        transition: background-color 0.2s ease-out;
         @include breakpoint-down(lg) {
             position: fixed;
             left: 0;
             right: 0;
             top: 0;
-            background-color: var(--md-sys-color-background);
+            background-color: #ffffff;
+        }
+
+        .overlay {
+            opacity: 0;
+            visibility: hidden;
+            z-index: 8;
+            transition: opacity 0.25s linear;
+
+            &.visible {
+                visibility: visible;
+                opacity: 1;
+            }
         }
     }
 }

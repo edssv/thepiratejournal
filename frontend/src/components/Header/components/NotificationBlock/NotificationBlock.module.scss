@@ -8,7 +8,6 @@
     padding: 16px;
     overflow-y: scroll;
     border-radius: 8px;
-    background-color: var(--md-sys-color-surface);
     box-shadow: 0 1px 6px rgb(0 0 0 / 20%);
     z-index: 1000;
     @include breakpoint-down(md) {

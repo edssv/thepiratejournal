@@ -35,7 +35,8 @@ export const DialogTrigger: React.FC<PropsWithChildren<DialogTriggerProps>> = ({
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}>
+                        transition={{ duration: 0.2 }}
+                    >
                         <Dialog.Overlay className="overlay" />
                     </motion.div>
                     <motion.div
@@ -43,13 +44,12 @@ export const DialogTrigger: React.FC<PropsWithChildren<DialogTriggerProps>> = ({
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.05 }}
-                        style={{ zIndex: 1 }}>
+                        style={{ zIndex: 1 }}
+                    >
                         {' '}
                         <Dialog.Panel className={styles.dialogPanel}>
                             <Dialog.Title className={styles.title}>{title}</Dialog.Title>
-                            <Dialog.Description className={styles.description}>
-                                {description}
-                            </Dialog.Description>
+                            <Dialog.Description className={styles.description}>{description}</Dialog.Description>
                             {children}
                             {(onCancel || onPrimaryAction) && (
                                 <div className={styles.buttonGroup}>

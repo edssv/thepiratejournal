@@ -7,7 +7,7 @@
         right: 0;
         display: flex;
         justify-content: flex-start;
-        background-color: var(--md-sys-color-surface);
+        background-color: transparent;
         border: 1px solid var(--md-sys-color-outline-variant);
         border-radius: 999px;
         z-index: 3;
@@ -95,7 +95,7 @@
             border-left: 1px solid var(--md-sys-color-outline-variant);
             border-bottom-right-radius: 999px;
             border-top-right-radius: 999px;
-            background-color: var(--md-sys-color-surface-variant);
+            background-color: var(--md-sys-color-surface-2);
 
             .tabList {
                 display: flex;

@@ -68,6 +68,7 @@ export const CommentsBlock = () => {
             <Comment comment={item} index={index} />
             {user?.id === item.author._id && (
                 <MoreButtonDialog
+                
                     item={item}
                     index={index}
                     removeComment={() => handleRemoveComment(item, index)}

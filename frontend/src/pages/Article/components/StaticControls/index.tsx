@@ -9,7 +9,7 @@ import {
     useRemoveBookmarkMutation,
     useRemoveLikeMutation,
 } from '../../../../redux';
-import { ButtonLike } from '../../components/Buttons';
+import { ButtonLike } from '../ActionButtons/components';
 import { ActionDialog, Button } from '../../../../components';
 import { useArticle, useAuth } from '../../../../hooks';
 
@@ -100,7 +100,8 @@ export const StaticControls: React.FC<StaticControlsProps> = ({ isOwner }) => {
                 setIsOpenTippy(true);
                 setTimeout(() => setIsOpenTippy(false), 3000);
             }}
-            className={`MenuDropdownItem ${item.active ? 'active' : ''}`}>
+            className={`MenuDropdownItem ${item.active ? 'active' : ''}`}
+        >
             <span className="material-symbols-outlined">{item.icon}</span>
             {item.label}
         </div>
@@ -122,27 +123,24 @@ export const StaticControls: React.FC<StaticControlsProps> = ({ isOwner }) => {
                             variant="filledTonal"
                             onClick={() => {
                                 setIsOpen((isOpen) => !isOpen);
-                            }}>
+                            }}
+                        >
                             <span className="material-symbols-outlined">more_horiz</span>
                         </Button>
                         <AnimatePresence>
                             {isOpen && (
-                                <Dialog
-                                    open={isOpen}
-                                    onClose={() => setIsOpen(false)}
-                                    className="MenuDropdown">
+                                <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="MenuDropdown">
                                     <motion.div
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
-                                        transition={{ duration: 0.2 }}>
+                                        transition={{ duration: 0.2 }}
+                                    >
                                         <Dialog.Overlay className="MenuDropdownOverlay" />
                                     </motion.div>
                                     <motion.div exit={{ y: 250 }}>
                                         <Dialog.Panel className="MenuDropdownPanel">
-                                            <div className="MenuDropdownItems elevation-2">
-                                                {menuList}
-                                            </div>
+                                            <div className="MenuDropdownItems elevation-2">{menuList}</div>
                                         </Dialog.Panel>
                                     </motion.div>
                                 </Dialog>

@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+
 import { useAuth, useOnClickOutside, useThemeMode } from '../../../../hooks';
 import { useLogoutMutation } from '../../../../redux';
 import { Avatar, Button } from '../../..';
@@ -23,9 +24,8 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
     const navigate = useNavigate();
     const { user } = useAuth();
     const ref = useRef(null);
-    const overlayRef = useRef<HTMLDivElement>(null);
 
-    useOnClickOutside(ref, () => setOpen(false));
+    // useOnClickOutside(ref, () => setOpen(false));
 
     const { mode, handleTheme } = useThemeMode();
 
@@ -40,11 +40,7 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
         <>
             <div ref={ref} className={`${styles.root}  ${open && styles.open}`}>
                 <div className={styles.closeAndloginOrCreate}>
-                    <Button
-                        icon
-                        variant="text"
-                        onClick={() => setOpen(!open)}
-                        className={styles.buttonClose}>
+                    <Button icon variant="text" onClick={() => setOpen(!open)} className={styles.buttonClose}>
                         <span className="material-symbols-outlined">menu_open</span>
                     </Button>
                     {user ? (
@@ -59,7 +55,8 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                                 setOpen(false);
                                 navigate('/login');
                             }}
-                            variant="filledTonal">
+                            variant="filledTonal"
+                        >
                             Войти
                         </Button>
                     )}
@@ -72,19 +69,17 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                             to={item.href}
                             onClick={() => setOpen(false)}
                             className={({ isActive }) =>
-                                [styles.nav__link, isActive ? styles.active : undefined]
-                                    .filter(Boolean)
-                                    .join(' ')
-                            }>
-                            <span className="material-symbols-outlined">{item.icon}</span>{' '}
-                            {item.text}
+                                [styles.nav__link, isActive ? styles.active : undefined].filter(Boolean).join(' ')
+                            }
+                        >
+                            <span className="material-symbols-outlined">{item.icon}</span> {item.text}
                         </NavLink>
                     ))}
                 </nav>
 
                 {user && (
                     <div className={styles.profile}>
-                        <Link to={`/users/${user.username}`} onClick={() => setOpen(false)}>
+                        <Link to={`/@${user.username}`} onClick={() => setOpen(false)}>
                             <div className={styles.avatarAndUsername}>
                                 <Avatar imageSrc={user?.avatar} width={38} />
                                 <span>{user.username}</span>
@@ -101,7 +96,8 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                             navigate('/login');
                         }}
                         variant="filledTonal"
-                        style={{ marginLeft: '16px' }}>
+                        style={{ marginLeft: '16px' }}
+                    >
                         Выйти
                     </Button>
                 ) : (
@@ -111,7 +107,8 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                             navigate('/signup');
                         }}
                         variant="filled"
-                        style={{ marginLeft: '16px' }}>
+                        style={{ marginLeft: '16px' }}
+                    >
                         Регистрация
                     </Button>
                 )}
@@ -119,13 +116,11 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                     <Button onClick={handleTheme} variant="outlined">
                         {mode === 'dark' ? (
                             <>
-                                <span className="material-symbols-outlined">light_mode</span>{' '}
-                                Светлая тема
+                                <span className="material-symbols-outlined">light_mode</span> Светлая тема
                             </>
                         ) : (
                             <>
-                                <span className="material-symbols-outlined">dark_mode</span> Темная
-                                тема
+                                <span className="material-symbols-outlined">dark_mode</span> Темная тема
                             </>
                         )}
                     </Button>

@@ -50,12 +50,14 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                 onClick={() => {
                     setIsOpenNotifications(!isOpenNotifications);
                     setOverflowBody();
-                }}>
+                }}
+            >
                 <span className="material-symbols-outlined">notifications</span>
                 <div
                     className={`${styles.badge} ${
                         (user?.notifications?.totalCount ?? 0) > 999 ? styles.maxCharacterCount : ''
-                    }`}>
+                    }`}
+                >
                     <span className={styles.label}> {user?.notifications?.totalCount}</span>
                 </div>
             </Button>
@@ -67,7 +69,8 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
     return (
         <div
             className={`${styles.root} ${open && styles.open}`}
-            style={{ transform: visible ? 'translateY(0px)' : 'translateY(-55px)' }}>
+            style={{ transform: visible ? 'translateY(0px)' : 'translateY(-55px)' }}
+        >
             {fromLaptop ? (
                 <div className={styles.content}>
                     <div className={styles.content__left}>
@@ -102,16 +105,12 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                         ) : user ? (
                             <>
                                 <Button onClick={onClickWrite} variant="filledTonal">
-                                    <span className="material-symbols-outlined">edit</span>Создать
-                                    статью
+                                    <span className="material-symbols-outlined">edit</span>Создать статью
                                 </Button>
                                 {notificationButton()}
-                                <NotificationBlock
-                                    isOpen={isOpenNotifications}
-                                    setIsOpen={setIsOpenNotifications}
-                                />
+                                <NotificationBlock isOpen={isOpenNotifications} setIsOpen={setIsOpenNotifications} />
 
-                                <Link to={`/users/${user.username}`}>
+                                <Link to={`/@${user.username}`}>
                                     <Avatar imageSrc={user?.avatar} width={32} />
                                 </Link>
 
@@ -121,7 +120,8 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                                     onClick={async () => {
                                         await logout('');
                                         navigate('/login');
-                                    }}>
+                                    }}
+                                >
                                     <span className="material-symbols-outlined">logout</span>
                                 </Button>
                             </>
@@ -143,15 +143,12 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                                         style={{
                                             translateY: 15,
                                             height: '20px',
-                                        }}>
-                                        <span className="material-symbols-outlined">
-                                            light_mode
-                                        </span>
+                                        }}
+                                    >
+                                        <span className="material-symbols-outlined">light_mode</span>
                                     </motion.div>
                                 ) : (
-                                    <motion.div
-                                        animate={{ translateY: 0 }}
-                                        style={{ translateY: -15, height: '20px' }}>
+                                    <motion.div animate={{ translateY: 0 }} style={{ translateY: -15, height: '20px' }}>
                                         <span className="material-symbols-outlined">dark_mode</span>
                                     </motion.div>
                                 )}
@@ -173,10 +170,7 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                         {user && (
                             <>
                                 {notificationButton()}
-                                <NotificationBlock
-                                    isOpen={isOpenNotifications}
-                                    setIsOpen={setIsOpenNotifications}
-                                />
+                                <NotificationBlock isOpen={isOpenNotifications} setIsOpen={setIsOpenNotifications} />
                             </>
                         )}
                         <Button icon variant="text" onClick={() => navigate('/search')}>

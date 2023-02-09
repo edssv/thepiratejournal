@@ -13,7 +13,6 @@ interface MoreButtonDialogProps {
 
 export const MoreButtonDialog = ({ item, index, removeComment }: MoreButtonDialogProps) => {
     const [isOpen, setIsOpen] = useState(false);
-    const { article } = useArticle();
 
     const isTablet = useMediaPredicate('(max-width: 990.98px)');
     return isTablet ? (
@@ -21,10 +20,11 @@ export const MoreButtonDialog = ({ item, index, removeComment }: MoreButtonDialo
             <Button
                 icon
                 variant="text"
-                color="var(--md-sys-color-on-surface)"
+                color="var(--md-sys-color-on-surface-variant)"
                 onClick={() => {
                     setIsOpen(true);
-                }}>
+                }}
+            >
                 <span className="material-symbols-outlined">more_vert</span>
             </Button>
             <AnimatePresence>
@@ -34,7 +34,8 @@ export const MoreButtonDialog = ({ item, index, removeComment }: MoreButtonDialo
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            transition={{ duration: 0.2 }}>
+                            transition={{ duration: 0.2 }}
+                        >
                             <Dialog.Overlay className="MenuDropdownOverlay" />
                         </motion.div>
                         <motion.div exit={{ y: 250 }}>
@@ -45,7 +46,8 @@ export const MoreButtonDialog = ({ item, index, removeComment }: MoreButtonDialo
                                             removeComment();
                                             setIsOpen(false);
                                         }}
-                                        className="MenuDropdownItem">
+                                        className="MenuDropdownItem"
+                                    >
                                         <span className="material-symbols-outlined">delete</span>
                                         Удалить
                                     </div>
@@ -58,7 +60,7 @@ export const MoreButtonDialog = ({ item, index, removeComment }: MoreButtonDialo
         </>
     ) : (
         <Menu as="div" className="MenuDropdown">
-            <Menu.Button as={Button} icon variant="text" color="var(--md-sys-color-on-surface)">
+            <Menu.Button as={Button} icon variant="text" color="var(--md-sys-color-on-surface-variant)">
                 <span className="material-symbols-outlined">more_vert</span>
             </Menu.Button>
             <div className="MenuDropdownPanel">
@@ -69,7 +71,8 @@ export const MoreButtonDialog = ({ item, index, removeComment }: MoreButtonDialo
                             removeComment();
                             setIsOpen(false);
                         }}
-                        className="MenuDropdownItem">
+                        className="MenuDropdownItem"
+                    >
                         <span className="material-symbols-outlined">delete</span> Удалить
                     </Menu.Item>
                 </Menu.Items>

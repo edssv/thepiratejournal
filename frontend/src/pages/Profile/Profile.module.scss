@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     gap: 60px;
+    height: 100%;
     padding-top: 30px;
 
     @include breakpoint(xl) {
@@ -12,12 +13,12 @@
     }
 
     .wrapper {
+        flex-grow: 1;
         margin: 0 auto;
         max-width: 1760px;
         width: 100%;
-        min-height: 101vh;
+        min-height: 100%;
         position: relative;
-        padding: 0 15px;
 
         @include breakpoint(xl) {
             display: flex;
@@ -44,11 +45,11 @@
             margin-bottom: 35px;
 
             @include breakpoint(xl) {
-                background-color: var(--md-sys-color-inverse-on-surface);
+                background-color: var(--md-sys-color-surface-2);
                 padding: 25px 30px 16px;
                 min-width: 360px;
                 border-radius: 3px;
-                height: 80%;
+                height: 100%;
             }
 
             &__img {

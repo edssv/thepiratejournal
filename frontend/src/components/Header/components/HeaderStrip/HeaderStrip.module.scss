@@ -7,21 +7,6 @@
         padding: 0 16px;
     }
 
-    &::after {
-        background-color: rgba(0, 0, 0, 0.32);
-        bottom: -1px;
-        content: '';
-        height: 100vh;
-        left: 0;
-        opacity: 0;
-        position: absolute;
-        right: 0;
-        top: 0;
-        -webkit-transition: opacity 0.25s linear;
-        transition: opacity 0.25s linear;
-        pointer-events: none;
-    }
-
     &.open::after {
         opacity: 1;
         pointer-events: unset;

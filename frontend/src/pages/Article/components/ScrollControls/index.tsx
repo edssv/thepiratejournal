@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import { Button } from '../../../../components';
 import { useArticle } from '../../../../hooks';
-import { ButtonLike } from '../../components/Buttons';
+import { ButtonLike } from '../ActionButtons/components';
 
 import styles from './ScrollControls.module.scss';
 import { useMediaPredicate } from 'react-media-hook';
@@ -26,10 +26,7 @@ export const ScrollControls: React.FC<ScrollControlsProps> = ({ setOpenSidebar }
         const rectTop = articleBottom?.getBoundingClientRect().top ?? 0;
 
         if (isTablet) {
-            if (
-                (prevScrollPos > currentScrollPos && prevScrollPos - currentScrollPos > 70) ||
-                currentScrollPos < 10
-            ) {
+            if ((prevScrollPos > currentScrollPos && prevScrollPos - currentScrollPos > 70) || currentScrollPos < 10) {
                 setVisible(true);
                 rootRef.current?.classList.remove('hidden');
             } else {
@@ -69,9 +66,7 @@ export const ScrollControls: React.FC<ScrollControlsProps> = ({ setOpenSidebar }
                         </ButtonLike>
                         <Button onClick={() => setOpenSidebar((prevState) => !prevState)}>
                             <span className="material-symbols-outlined">comment</span>
-                            <span className={styles.buttonText}>
-                                {article.comments?.totalCount}
-                            </span>
+                            <span className={styles.buttonText}>{article.comments?.totalCount}</span>
                         </Button>
                     </div>
                 </div>

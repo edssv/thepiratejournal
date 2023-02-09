@@ -18,10 +18,7 @@ export interface User {
 
 export interface UserResponse {
     user: User;
-    articles: Article[];
-    appreciated: Article[];
-    bookmarks: Article[];
-    drafts: Draft[];
+    content: [];
     isOwner: boolean;
     viewer: { hasSubscription: boolean };
 }
@@ -39,7 +36,7 @@ export interface NotificationsResponse {
 export const userApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getUser: builder.query<UserResponse, any>({
-            query: (username) => `users/${username}`,
+            query: ({ username, category }) => `users/${username}/${category}`,
             providesTags: ['User'],
         }),
         uploadAvatar: builder.mutation<any, any>({

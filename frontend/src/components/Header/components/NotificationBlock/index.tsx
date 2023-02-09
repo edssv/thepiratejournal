@@ -6,12 +6,7 @@ import { useMediaPredicate } from 'react-media-hook';
 import moment from 'moment';
 import 'moment/locale/ru';
 import { setOverflowBody } from '../../../../helpers';
-import {
-    Notification,
-    selectUser,
-    useDeleteNotificationMutation,
-    useGetNotificationsQuery,
-} from '../../../../redux';
+import { Notification, selectUser, useDeleteNotificationMutation, useGetNotificationsQuery } from '../../../../redux';
 import { Button, Avatar } from '../../..';
 import { useOnClickOutside } from '../../../../hooks';
 
@@ -25,13 +20,7 @@ interface NotificationItemProps {
     created_on?: number;
 }
 
-const NotificationItem: React.FC<NotificationItemProps> = ({
-    _id,
-    avatarSrc,
-    username,
-    action_key,
-    created_on,
-}) => {
+const NotificationItem: React.FC<NotificationItemProps> = ({ _id, avatarSrc, username, action_key, created_on }) => {
     const [deleteNotification] = useDeleteNotificationMutation();
 
     const notificationText = () => {
@@ -68,13 +57,13 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
         <li className={styles.notificationListItem}>
             <div className={styles.notificationContainer}>
                 <div className={styles.notificationAvatarContainer}>
-                    <Link to={`/users/${username}`}>
+                    <Link to={`/@${username}`}>
                         <Avatar imageSrc={avatarSrc} width={48} />
                     </Link>
                     <span className={styles.notificationAvatarIcon}>{notificationIcon()}</span>
                 </div>
                 <div className={styles.notificationTextContainer}>
-                    <Link to={`/users/${username}`} className={styles.notificationUsername}>
+                    <Link to={`/@${username}`} className={styles.notificationUsername}>
                         {username}
                     </Link>
                     <div className={styles.notificationActionText}>{notificationText()}</div>
@@ -86,7 +75,8 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
                 variant="text"
                 color="var(--md-sys-color-secondary-text)"
                 onClick={() => deleteNotification(_id)}
-                aria-label="Close">
+                aria-label="Close"
+            >
                 <span className="material-symbols-outlined">cancel</span>
             </Button>
         </li>
@@ -136,7 +126,8 @@ export const NotificationBlock = ({
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}>
+                        transition={{ duration: 0.2 }}
+                    >
                         <div className={styles.popoverPanel}>
                             <div className={styles.panelTop}>
                                 {isTablet && (
@@ -146,34 +137,34 @@ export const NotificationBlock = ({
                                         onClick={() => {
                                             setIsOpen(false);
                                             setOverflowBody();
-                                        }}>
-                                        <span className="material-symbols-outlined">
-                                            arrow_back
-                                        </span>
+                                        }}
+                                    >
+                                        <span className="material-symbols-outlined">arrow_back</span>
                                     </Button>
                                 )}
                                 <Button
                                     icon
                                     variant="text"
+                                    color="var(--md-sys-color-on-surface-variant)"
                                     className={styles.panelClose}
                                     onClick={() => {
                                         setIsOpen(false);
                                         setOverflowBody();
-                                    }}>
+                                    }}
+                                >
                                     <span className="material-symbols-outlined">close</span>
                                 </Button>
                                 <h4 className={styles.panelHeadline}>Уведомления</h4>
                             </div>
                             <ul className={styles.notificationList}>
-                                {!notificationList?.length
-                                    ? 'Новых уведомлений нет'
-                                    : notificationList}
+                                {!notificationList?.length ? 'Новых уведомлений нет' : notificationList}
                             </ul>
                             {notificationList?.length > limit && (
                                 <Button
                                     onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
                                     className={styles.buttonMore}
-                                    variant="outlined">
+                                    variant="outlined"
+                                >
                                     Смотреть еще
                                 </Button>
                             )}
