@@ -13,7 +13,6 @@
         "@editorjs/list": "^1.7.0",
         "@editorjs/marker": "^1.2.2",
         "@editorjs/quote": "^2.4.0",
-        "@editorjs/simple-image": "^1.5.1",
         "@editorjs/warning": "^1.2.0",
         "@emotion/styled": "^11.10.5",
         "@fontsource/roboto-mono": "^4.5.10",

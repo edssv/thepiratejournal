@@ -1,0 +1,86 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    min-width: 160px;
+
+    overflow: hidden;
+
+    &:hover .top__img {
+        filter: none;
+    }
+
+    .top {
+        position: relative;
+
+        &__img {
+            position: relative;
+            min-width: 160px;
+            min-height: 190px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            border-radius: 16px;
+            filter: brightness(0.95);
+            transition: filter ease-in-out 0.2s;
+        }
+
+        .bookmark__wrapper {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 52px;
+            height: 52px;
+        }
+    }
+
+    .bottom {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        max-width: initial;
+        width: 100%;
+        height: 60px;
+        margin-top: 12px;
+
+        .info {
+            max-width: 75%;
+            width: 100%;
+            padding-right: 15px;
+
+            .headline {
+                display: block;
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 20px;
+                max-height: 40px;
+                max-width: 100%;
+                margin-bottom: -2px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .author {
+                display: block;
+                width: fit-content;
+                margin-bottom: 3px;
+                font-size: 12px;
+                overflow: hidden;
+                max-width: 100%;
+                text-overflow: ellipsis;
+                color: var(--md-sys-color-on-surface-variant);
+            }
+        }
+
+        .stats {
+            display: flex;
+            gap: 15px;
+            height: fit-content;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--md-sys-color-on-surface);
+        }
+    }
+}

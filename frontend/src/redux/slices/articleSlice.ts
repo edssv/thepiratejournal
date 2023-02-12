@@ -34,8 +34,7 @@ const slice = createSlice({
             state.mutableArticle.cover = payload;
         },
         setBlocks: (state, { payload }) => {
-            console.log(payload.blocks);
-            state.mutableArticle.blocks = [...payload?.blocks];
+            state.article.blocks = payload.blocks;
         },
         setTags: (state, { payload }) => {
             state.mutableArticle.tags = payload;

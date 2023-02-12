@@ -3,22 +3,22 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createReactEditorJS } from 'react-editor-js';
 import debounce from 'lodash.debounce';
 import { useMediaPredicate } from 'react-media-hook';
+
 import { Button, Overlay } from '../../components';
-import { resetMutableArticle, setBlocks, setTitle, useGetMutableArticleQuery } from '../../redux';
-import { i18n, EDITOR_JS_TOOLS } from './components/EditorJs';
+import { resetMutableArticle, setTitle, useGetMutableArticleQuery } from '../../redux';
 import NotFoundPage from '../NotFound';
 import { useArticle, useDocTitle, useAppDispatch } from '../../hooks';
 import { resizeTextareaHeight } from '../../helpers';
-import { ConfirmDialog } from './ConfirmDialog';
-import { DraftInfoDialog } from './components/DraftInfoDialog';
+import { ConfirmDialog, DraftInfoDialog, EDITOR_JS_TOOLS, i18n } from './components';
 
 import styles from './ArticleEditorPage.module.scss';
 
 const ArticleEditorPage = () => {
+    const { id } = useParams();
     const location = useLocation();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const { id } = useParams();
+
     const fromPage = location?.state?.from?.pathname;
 
     const isDraft = location.pathname.split('/')[1] === 'drafts';
@@ -28,7 +28,6 @@ const ArticleEditorPage = () => {
     );
     useDocTitle(mode === 'isNew' || 'isDraft' ? 'Новая статья' : 'Изменение статьи');
     const { mutableArticle } = useArticle();
-    console.log('');
 
     const editorCore = useRef<any>(null);
     const articleContentRef = useRef<HTMLDivElement>(null);
@@ -39,6 +38,9 @@ const ArticleEditorPage = () => {
         skip: mode === 'isNew',
         refetchOnMountOrArgChange: true,
     });
+
+    const [blocks, setBlocks] = useState(data?.blocks);
+    console.log(blocks);
 
     const isMobile = useMediaPredicate('(max-width: 768px)');
 
@@ -60,6 +62,10 @@ const ArticleEditorPage = () => {
             if (textareaRef.current) {
                 textareaRef.current.value = '';
             }
+        }
+
+        if (data?.blocks) {
+            setBlocks(data?.blocks);
         }
     }, [mode, location, dispatch, data]);
 
@@ -92,7 +98,7 @@ const ArticleEditorPage = () => {
     const autoSave = useCallback(
         debounce(async () => {
             const savedData = await handleSave();
-            dispatch(setBlocks(savedData));
+            setBlocks(savedData);
         }, 150),
         []
     );
@@ -113,7 +119,12 @@ const ArticleEditorPage = () => {
                 </Button>
                 <div className={styles.barRightButtons}>
                     {!isEditing && <DraftInfoDialog setFormStatus={setFormStatus} />}
-                    <ConfirmDialog mode={mode} setFormStatus={setFormStatus} articleContentRef={articleContentRef} />
+                    <ConfirmDialog
+                        mode={mode}
+                        setFormStatus={setFormStatus}
+                        articleContentRef={articleContentRef}
+                        blocks={blocks}
+                    />
                 </div>
             </div>
             <div ref={articleContentRef} className={styles.container}>
@@ -138,12 +149,12 @@ const ArticleEditorPage = () => {
                             style={{ height: 42 }}
                         />
                     </div>
-                    {(isEditing || isDraft) && mutableArticle?.blocks ? (
+                    {(isEditing || isDraft) && blocks ? (
                         <ReactEditorJS
                             onInitialize={handleInitialize}
                             placeholder="Давай напишем классную статью!"
                             defaultValue={{
-                                blocks: mutableArticle?.blocks,
+                                blocks: blocks,
                             }}
                             tools={EDITOR_JS_TOOLS}
                             i18n={i18n}

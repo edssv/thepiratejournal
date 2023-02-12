@@ -1,5 +1,13 @@
 const express = require('express');
 
+// middlewares
+const compareAuthor = require('../middlewares/compareAuthor');
+const requireAuth = require('../middlewares/requireAuth');
+const { checkLike, checkRemoveLike } = require('../middlewares/checkArticleLike');
+const checkUser = require('../middlewares/checkUser');
+const compareCommentAuthor = require('../middlewares/compareCommentAuthor');
+const { checkCommentLike, checkRemoveCommentLike } = require('../middlewares/checkCommentLike');
+
 // controller functions
 const {
     creating,
@@ -17,12 +25,6 @@ const {
     likeComment,
     removeLikeComment,
 } = require('../controllers/article-controller');
-const compareAuthor = require('../middlewares/compareAuthor');
-const requireAuth = require('../middlewares/requireAuth');
-const { checkLike, checkRemoveLike } = require('../middlewares/checkArticleLike');
-const checkUser = require('../middlewares/checkUser');
-const compareCommentAuthor = require('../middlewares/compareCommentAuthor');
-const { checkCommentLike, checkRemoveCommentLike } = require('../middlewares/checkCommentLike');
 
 const router = express.Router();
 
@@ -46,11 +48,6 @@ router.patch('/articles/:id/like/removelike', requireAuth, checkRemoveLike, remo
 router.patch('/articles/:id/comments/add', requireAuth, addComment);
 router.delete('/articles/:id/comments/remove', requireAuth, compareCommentAuthor, removeComment);
 router.patch('/articles/:id/comments/:commentId/like', requireAuth, checkCommentLike, likeComment);
-router.patch(
-    '/articles/:id/comments/:commentId/removelike',
-    requireAuth,
-    checkRemoveCommentLike,
-    removeLikeComment,
-);
+router.patch('/articles/:id/comments/:commentId/removelike', requireAuth, checkRemoveCommentLike, removeLikeComment);
 
 module.exports = router;

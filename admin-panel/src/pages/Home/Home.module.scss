@@ -1,0 +1,6 @@
+.root {
+    .articlesList {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+    }
+}

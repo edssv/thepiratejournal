@@ -4,7 +4,6 @@ import List from '@editorjs/list';
 import Delimiter from '@editorjs/delimiter';
 import Marker from '@editorjs/marker';
 import InlineCode from '@editorjs/inline-code';
-// import Warning from '@editorjs/warning';
 
 export const EDITOR_JS_TOOLS = {
     header: {

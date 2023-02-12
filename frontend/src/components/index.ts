@@ -6,7 +6,6 @@ export { Avatar } from './Avatar';
 export { AuthOutlet } from './AuthOutlet';
 export { Canvas } from './Canvas';
 export { CardLayout } from './CardLayout';
-export { CoverWindow } from '../pages/ArticleEditorPage/ConfirmDialog/CoverWindow';
 export { CreateModule } from './CreateModule';
 export { DraftPreview } from './DraftPreview';
 export { DraftsAndBookmarksOutlet } from '../pages/Profile/DraftsAndBookmarksOutlet';

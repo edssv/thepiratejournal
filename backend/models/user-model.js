@@ -133,7 +133,7 @@ userSchema.statics.refresh = async function (refreshToken) {
 
 userSchema.statics.getUser = async function (username, category) {
     const user = await this.findOne({ username });
-    console.log(`user.${category}`);
+
     const findContent = async () => {
         if (category === 'articles') {
             return await Article.find({
@@ -155,8 +155,6 @@ userSchema.statics.getUser = async function (username, category) {
     };
 
     const content = await findContent();
-
-    console.log(content);
 
     return {
         user: {

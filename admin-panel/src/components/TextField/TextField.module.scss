@@ -1,0 +1,107 @@
+.root {
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    overflow: hidden;
+
+    &:focus-visible {
+        transition: outline-offset 0.25s ease 0s;
+        outline-color: var(--md-sys-color-on-surface-variant);
+        outline-width: 2px;
+    }
+
+    input {
+        height: 56px;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+}
+
+.filled {
+    input {
+        display: block;
+        border-top: none;
+        border-right: none;
+        border-left: none;
+        border-image: initial;
+        border-bottom: solid 1px rgb(var(--md-sys-color-on-surfaceChannel) / 0.6);
+        border-radius: 4px 4px 0px 0px;
+        padding: 20px 12px 10px;
+        width: 100%;
+        height: inherit;
+        color: rgb(var(--md-sys-color-on-surfaceChannel) / 0.87);
+        background-color: rgb(var(--md-sys-color-on-surfaceChannel) / 0.04);
+        box-shadow: none;
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+        caret-color: var(--md-sys-color-primary);
+        transition: border-bottom 0.2s ease 0s, background-color 0.2s ease 0s;
+
+        &:hover {
+            border-bottom-color: rgb(var(--md-sys-color-on-surfaceChannel) / 0.87);
+            background-color: rgb(var(--md-sys-color-on-surfaceChannel) / 0.08);
+        }
+
+        &:focus {
+            outline: none;
+            border-color: var(--md-sys-color-primary);
+            box-shadow: 0 1px 0 var(--md-sys-color-primary);
+        }
+    }
+}
+
+.outlined {
+    background-color: #ffffff;
+
+    &:hover {
+        input {
+            border-color: rgb(var(--md-sys-color-on-surfaceChannel) / 0.87);
+        }
+    }
+
+    input {
+        width: 100%;
+        background-color: transparent;
+        font-size: inherit;
+        color: rgb(var(--md-sys-color-on-surfaceChannel) / 0.87);
+        caret-color: var(--md-sys-color-primary);
+        border-width: 1px;
+        transition: border 0.2s ease 0s, box-shadow 0.2s ease 0s;
+
+        &:focus {
+            box-shadow: inset 1px 0 var(--md-sys-color-primary), inset -1px 0 var(--md-sys-color-primary),
+                inset 0 -1px var(--md-sys-color-primary);
+            outline: none;
+        }
+    }
+
+    input:not(:focus):placeholder-shown + span {
+        font-size: inherit;
+        line-height: 68px;
+    }
+
+    span {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        display: flex;
+        border-color: rgb(var(--md-sys-color-on-surfaceChannel) / 0.6);
+        width: 100%;
+        max-height: 100%;
+        color: rgb(var(--md-sys-color-on-surfaceChannel) / 0.6);
+        font-size: 75%;
+        line-height: 15px;
+        cursor: text;
+        transition: color 0.2s ease 0s, font-size 0.2s ease 0s, line-height 0.2s ease 0s;
+    }
+}
+
+.outlined input:focus:placeholder-shown + span,
+:is(.root).outlined > textarea:not(:focus):placeholder-shown + span {
+    font-size: inherit;
+    line-height: 68px;
+}

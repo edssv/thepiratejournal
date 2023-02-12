@@ -15,7 +15,6 @@ const getUser = async (req, res) => {
     const username = req.params.username;
     const category = req.params.category;
     const currentUser = req.currentUser;
-    console.log(req.params);
 
     try {
         const { user, content } = await User.getUser(username, category);

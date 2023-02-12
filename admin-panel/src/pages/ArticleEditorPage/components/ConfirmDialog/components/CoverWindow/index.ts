@@ -1,0 +1,1 @@
+export { CoverWindow } from './CoverWindow';
