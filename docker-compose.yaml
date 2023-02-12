@@ -13,7 +13,7 @@ services:
             - db:/data/db
         networks:
             net:
-                ipv4_address: 172.18.0.5
+                ipv4_address: 172.18.0.7
 
     backend:
         restart: unless-stopped
@@ -29,7 +29,7 @@ services:
             - mongodb
         networks:
             net:
-                ipv4_address: 172.18.0.4
+                ipv4_address: 172.18.0.5
 
     frontend:
         restart: unless-stopped
@@ -39,6 +39,20 @@ services:
             dockerfile: Dockerfile
         ports:
             - '3000:3000'
+        depends_on:
+            - backend
+        networks:
+            net:
+                ipv4_address: 172.18.0.4
+
+    admin-panel:
+        restart: unless-stopped
+        build:
+            context: admin-panel
+            target: production
+            dockerfile: Dockerfile
+        ports:
+            - '3001:3001'
         depends_on:
             - backend
         networks:
