@@ -12,6 +12,7 @@ readme.md
 
 # production
 /frontend/build
+/admin-panel/build
 
 /backend/media
 

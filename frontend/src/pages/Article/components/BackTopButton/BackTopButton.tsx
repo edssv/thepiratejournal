@@ -12,7 +12,6 @@ export const BackTopButton = () => {
     const handleVisibleButton = () => {
         const scrollPosition = window.scrollY;
 
-        console.log(isVisible, scrollPosition, scrollPosition);
         if (scrollPosition > 400 && prevScrollPosition > scrollPosition) {
             setIsVisible(true);
         } else if (scrollPosition < 400 || prevScrollPosition < scrollPosition) {

@@ -1,11 +1,15 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import { Overlay } from '../../../components';
 
-import { useAuth } from '../../../hooks';
+import { useGetCurrentUserQuery } from '../../../redux';
 
 export const LoginProtectedOutlet = () => {
-    const { isAuth } = useAuth();
+    const token = localStorage.getItem('token');
+    const { data, isLoading } = useGetCurrentUserQuery('', { skip: !token });
 
-    if (isAuth) {
+    if (isLoading) return <Overlay />;
+
+    if (data?.user) {
         return <Navigate to="/" />;
     }
 

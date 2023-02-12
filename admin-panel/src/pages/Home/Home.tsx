@@ -1,12 +1,12 @@
 import { Article, useGetArticlesQuery } from '../../redux';
-import { ArticlePreview } from '../../components';
+import { ArticlePreview, Overlay } from '../../components';
 
 import styles from './Home.module.scss';
 
 const Home = () => {
     const { data, isLoading } = useGetArticlesQuery('');
 
-    if (isLoading) return <h2>Загрузка...</h2>;
+    if (isLoading) return <Overlay />;
 
     const articlesList = data?.articles.map((article: Article) => (
         <ArticlePreview key={article._id} article={article} />

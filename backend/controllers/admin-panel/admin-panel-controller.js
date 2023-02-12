@@ -1,6 +1,6 @@
-const Article = require('../models/article-model');
-const AdminPanelUser = require('../models/admin-panel/user-model');
-const AdminTokenModel = require('../models/admin-panel/token-model');
+const Article = require('../../models/article-model');
+const AdminPanelUser = require('../../models/admin-panel/user-model');
+const AdminTokenModel = require('../../models/admin-panel/token-model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 

@@ -1,4 +1,5 @@
 const express = require('express');
+const fileMiddleware = require('../middlewares/file-middleware');
 
 //middlewares
 const requireAuth = require('../middlewares/admin-panel/requireAuth');
@@ -13,7 +14,8 @@ const {
     publishArticle,
     refresh,
     logout,
-} = require('../controllers/admin-panel-controller');
+} = require('../controllers/admin-panel/admin-panel-controller');
+const { uploadFile, deleteFile } = require('../controllers/admin-panel/file-controller');
 
 const router = express.Router();
 
@@ -34,5 +36,9 @@ router.get('/articles', requireAuth, getArticles);
 router.get('/articles/:id', requireAuth, getArticle);
 router.put('/articles/:id/edit', requireAuth, editArticle);
 router.put('/articles/:id', requireAuth, publishArticle);
+
+// article images
+router.post('/upload', fileMiddleware.single('image'), uploadFile);
+router.delete('/upload', deleteFile);
 
 module.exports = router;
