@@ -21,7 +21,7 @@ export const AuthorInfo = () => {
                 <div className={styles.authorName}>{authorname}</div>
             </Link>
             <span className={styles.subscribersCount}>
-                {declinationSubstance(article.author.subscribers_count, 'subscribers')}
+                {declinationSubstance(article?.author.subscribers_count, 'subscribers')}
             </span>
         </div>
     );

@@ -66,7 +66,7 @@ userSchema.statics.signup = async function (username, email, password) {
 
     const user = await this.create({ username, email, password: hash, activationLink });
 
-    await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`);
+    await mailService.sendActivationMail(email, `${process.env.API_URL}/activate/${activationLink}`);
 
     return user;
 };
