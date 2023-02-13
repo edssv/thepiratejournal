@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { VisibilityToggle, CardLayout, Button } from '../../../components';
+
+import { CardLayout, Button } from '../../../components';
 import { useNetworkStatus, useDocTitle } from '../../../hooks';
 import { useLoginMutation } from '../../../redux';
+import { VisibilityToggle } from '../components';
 
 import styles from './LoginPage.module.scss';
 
@@ -53,9 +55,7 @@ const LoginPage = () => {
                                     type="email"
                                 />
                                 {errors?.email && (
-                                    <label className="field-label error-label">
-                                        {errors?.email?.message}
-                                    </label>
+                                    <label className="field-label error-label">{errors?.email?.message}</label>
                                 )}
                             </div>
                             <div className={styles.field}>
@@ -66,12 +66,9 @@ const LoginPage = () => {
                                             required: 'Введите пароль.',
                                         })}
                                         disabled={isLoading}
-                                        className={`text-field  ${
-                                            errors?.password && `is-invalid`
-                                        }`}
+                                        className={`text-field  ${errors?.password && `is-invalid`}`}
                                         type={passwordEye ? 'text' : 'password'}
                                     />
-
                                     <VisibilityToggle
                                         style={{ right: errors?.password ? 20 : 0 }}
                                         passwordEye={passwordEye}
@@ -79,26 +76,18 @@ const LoginPage = () => {
                                     />
                                 </div>{' '}
                                 {errors?.password && (
-                                    <label className="field-label error-label">
-                                        {errors?.password?.message}
-                                    </label>
+                                    <label className="field-label error-label">{errors?.password?.message}</label>
                                 )}
                             </div>
                         </div>
                         {isError && (
-                            <label
-                                className="field-label error-label "
-                                style={{ marginTop: '8px' }}>
+                            <label className="field-label error-label " style={{ marginTop: '8px' }}>
                                 Неверный адрес электронной почты или пароль.
                             </label>
                         )}
                     </section>
                     <section className={styles.submit}>
-                        <Button
-                            isLoading={isLoading}
-                            disabled={!isOnline || isLoading}
-                            variant="filled"
-                            type="submit">
+                        <Button isLoading={isLoading} disabled={!isOnline || isLoading} variant="filled" type="submit">
                             Войти
                         </Button>
                     </section>

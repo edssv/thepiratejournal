@@ -1,5 +1,4 @@
 import styles from './ErrorFallback.module.scss';
-
 import errorImage from '../../assets/img/500.png';
 
 export const ErrorFallback = () => {

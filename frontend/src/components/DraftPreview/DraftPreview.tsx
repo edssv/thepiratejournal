@@ -2,8 +2,9 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import 'moment/locale/ru';
+
 import { Draft, useDeleteArticleMutation } from '../../redux';
-import { ArticleStats, Button, ButtonDelete } from '../';
+import { ArticleStats, Button, ButtonDelete } from '..';
 
 import styles from './DraftPreview.module.scss';
 
@@ -14,7 +15,6 @@ interface DraftPreviewProps {
 
 export const DraftPreview: React.FC<DraftPreviewProps> = ({ draft, refetch }) => {
     const navigate = useNavigate();
-
     const [deleteDraft] = useDeleteArticleMutation();
 
     const time = moment(draft.created_on).fromNow();
@@ -35,21 +35,18 @@ export const DraftPreview: React.FC<DraftPreviewProps> = ({ draft, refetch }) =>
                     </div>
                     <div className={styles.cover__overlay}>
                         <div className={styles.controls}>
-                            <Button
-                                onClick={() => navigate(`/drafts/${draft._id}/edit`)}
-                                variant="filled">
+                            <Button onClick={() => navigate(`/drafts/${draft._id}/edit`)} variant="filled">
                                 Продолжить создание
                             </Button>
                             <ButtonDelete
                                 onPrimaryAction={() => {
                                     deleteDraft(draft._id).then(refetch(draft._id));
                                 }}
-                                variant="filledTonal">
+                                variant="filledTonal"
+                            >
                                 Удалить черновик
                             </ButtonDelete>
-                            <span className={styles.timeModified}>
-                                {` Последнее изменение: ${time}`}
-                            </span>
+                            <span className={styles.timeModified}>{` Последнее изменение: ${time}`}</span>
                         </div>
                         <div className={styles.details}>
                             <div className={styles.info}>
@@ -58,7 +55,7 @@ export const DraftPreview: React.FC<DraftPreviewProps> = ({ draft, refetch }) =>
                                     {draft.author.username}
                                 </Link>
                             </div>
-                            <ArticleStats viewsCount={0} likesCount={0} />
+                            <ArticleStats likesCount={0} viewsCount={0} />
                         </div>
                     </div>
                 </div>

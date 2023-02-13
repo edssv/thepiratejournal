@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { ArticlePreview, ArticleSkeleton } from '../../components';
+import { ArticlePreview, ArticlePreviewSkeleton } from '../../components';
 import { Article, useSearchArticlesQuery } from '../../redux';
 
 import styles from './Articles.module.scss';
@@ -23,7 +23,7 @@ export default function Articles() {
 
     const articlesList =
         isLoading || isFetching ? (
-            <ArticleSkeleton counts={12} />
+            <ArticlePreviewSkeleton counts={12} />
         ) : isError ? (
             <h2>Здесь появятся статьи для тебя</h2>
         ) : (

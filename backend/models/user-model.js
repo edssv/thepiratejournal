@@ -16,11 +16,11 @@ const userSchema = new Schema({
     isActivated: { type: Boolean, default: false },
     avatar: { type: String },
     activationLink: { type: String },
-    follow: [{ type: String, required: true, unique: true }],
-    followers: [{ type: String, required: true, unique: true }],
+    follow: [{ type: String }],
+    followers: [{ type: String }],
     info: { country: String, city: String },
-    appreciated: [{ type: String, required: true }],
-    bookmarks: [{ type: String, required: true }],
+    appreciated: [{ type: String }],
+    bookmarks: [{ type: String }],
     notifications: [
         {
             action_key: { type: String, required: true },

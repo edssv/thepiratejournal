@@ -19,7 +19,8 @@ export const ActionDialog: React.FC<ActionDialogProps> = ({ actionText, isOpen }
                     <motion.div
                         style={{ y: 50, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: 50, opacity: 0 }}>
+                        exit={{ y: 50, opacity: 0 }}
+                    >
                         <div className={styles.dialogPanel}>
                             <p className={styles.actionText}>{actionText}</p>
                         </div>
@@ -27,6 +28,6 @@ export const ActionDialog: React.FC<ActionDialogProps> = ({ actionText, isOpen }
                 </div>
             )}
         </AnimatePresence>,
-        portalRoot,
+        portalRoot
     );
 };

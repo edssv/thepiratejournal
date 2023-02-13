@@ -1,12 +1,16 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+
+import { Article, selectArticle } from '../../redux';
+
 import styles from './ArticleStats.module.scss';
 
 interface ArticleStatsProps {
-    viewsCount: number | undefined;
-    likesCount: number | undefined;
+    likesCount: number;
+    viewsCount: number;
 }
 
-export const ArticleStats: React.FC<ArticleStatsProps> = ({ viewsCount, likesCount }) => {
+export const ArticleStats: React.FC<ArticleStatsProps> = ({ likesCount, viewsCount }) => {
     return (
         <div className={styles.root}>
             <div className={styles.iconAndCount}>

@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+
 import { useSignupMutation } from '../../../redux';
 import { useDocTitle, useNetworkStatus } from '../../../hooks';
-import { Button, CardLayout, VisibilityToggle } from '../../../components';
+import { Button, CardLayout } from '../../../components';
+import { VisibilityToggle } from '../components';
 
 import styles from './Signup.module.scss';
 
@@ -65,9 +67,7 @@ const Signup = () => {
                                 className={`text-field ${errors?.username && `is-invalid`}`}
                             />
                             {errors?.username && (
-                                <label className="field-label error-label">
-                                    {errors?.username?.message}
-                                </label>
+                                <label className="field-label error-label">{errors?.username?.message}</label>
                             )}
                         </div>
                         <div className={styles.field}>
@@ -92,9 +92,7 @@ const Signup = () => {
                                 className={`text-field ${errors?.email && `is-invalid`}`}
                             />
                             {errors?.email && (
-                                <label className="field-label error-label">
-                                    {errors?.email?.message}
-                                </label>
+                                <label className="field-label error-label">{errors?.email?.message}</label>
                             )}
                         </div>
                         <div className={styles.field}>
@@ -129,22 +127,14 @@ const Signup = () => {
                                 />
                             </div>
                             {errors?.password && (
-                                <label className="field-label error-label">
-                                    {errors?.password?.message}
-                                </label>
+                                <label className="field-label error-label">{errors?.password?.message}</label>
                             )}
                         </div>
-                        {isError && (
-                            <label className="field-label error-label ">{error.data.message}</label>
-                        )}
+                        {isError && <label className="field-label error-label ">{error.data.message}</label>}
                     </div>
 
                     <section className={styles.submit}>
-                        <Button
-                            isLoading={isLoading}
-                            disabled={!isOnline || isLoading}
-                            type="submit"
-                            variant="filled">
+                        <Button isLoading={isLoading} disabled={!isOnline || isLoading} type="submit" variant="filled">
                             Создать
                         </Button>
                     </section>

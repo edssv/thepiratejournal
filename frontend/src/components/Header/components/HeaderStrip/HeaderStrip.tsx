@@ -6,13 +6,17 @@ import { motion } from 'framer-motion';
 import { useAuth, useThemeMode } from '../../../../hooks';
 import { useLogoutMutation } from '../../../../redux';
 import { Avatar, Button } from '../../..';
-import { HeaderSkeleton } from '../../HeaderSkeleton';
-import { OpenStateProps } from '../HamburgerMenu';
+import { HeaderSkeleton } from '../HeaderSkeleton';
 import { NotificationBlock } from '../NotificationBlock';
 import { setOverflowBody } from '../../../../helpers';
 
 import logo from '../../../../assets/img/logotype.png';
 import styles from './HeaderStrip.module.scss';
+
+interface OpenStateProps {
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
     const location = useLocation();
@@ -90,12 +94,6 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                                 <NavLink to="/search" className={styles.nav__link}>
                                     Статьи
                                 </NavLink>
-                                {/* <NavLink to="/games" className={styles.nav__link}>
-                                    Игры
-                                </NavLink>
-                                <NavLink to="/authors" className={styles.nav__link}>
-                                    Авторы
-                                </NavLink> */}
                             </nav>
                         )}
                     </div>
@@ -135,25 +133,23 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                                 </Button>
                             </>
                         )}{' '}
-                        {!isLoading && (
-                            <Button onClick={handleTheme} icon variant="outlined">
-                                {mode === 'dark' ? (
-                                    <motion.div
-                                        animate={{ translateY: 0 }}
-                                        style={{
-                                            translateY: 15,
-                                            height: '20px',
-                                        }}
-                                    >
-                                        <span className="material-symbols-outlined">light_mode</span>
-                                    </motion.div>
-                                ) : (
-                                    <motion.div animate={{ translateY: 0 }} style={{ translateY: -15, height: '20px' }}>
-                                        <span className="material-symbols-outlined">dark_mode</span>
-                                    </motion.div>
-                                )}
-                            </Button>
-                        )}
+                        <Button onClick={handleTheme} icon variant="outlined">
+                            {mode === 'dark' ? (
+                                <motion.div
+                                    animate={{ translateY: 0 }}
+                                    style={{
+                                        translateY: 15,
+                                        height: '20px',
+                                    }}
+                                >
+                                    <span className="material-symbols-outlined">light_mode</span>
+                                </motion.div>
+                            ) : (
+                                <motion.div animate={{ translateY: 0 }} style={{ translateY: -15, height: '20px' }}>
+                                    <span className="material-symbols-outlined">dark_mode</span>
+                                </motion.div>
+                            )}
+                        </Button>
                     </div>
                 </div>
             ) : (

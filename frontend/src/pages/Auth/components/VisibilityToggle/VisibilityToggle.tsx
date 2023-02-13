@@ -8,16 +8,9 @@ type VisibilityToggleProps = {
     style?: any;
 };
 
-export const VisibilityToggle: React.FC<VisibilityToggleProps> = ({
-    passwordEye,
-    setPasswordEye,
-    style,
-}) => {
+export const VisibilityToggle: React.FC<VisibilityToggleProps> = ({ passwordEye, setPasswordEye, style }) => {
     return (
-        <div
-            onClick={() => setPasswordEye(!passwordEye)}
-            className={`${styles.root} icon-center`}
-            style={style}>
+        <div onClick={() => setPasswordEye(!passwordEye)} className={`${styles.root} icon-center`} style={style}>
             {passwordEye ? (
                 <svg viewBox="0 0 36 36" focusable="false" aria-hidden="true" role="img">
                     <path d="M24.613 8.58A14.972 14.972 0 0 0 18 6.937c-8.664 0-15.75 8.625-15.75 11.423 0 3 7.458 10.7 15.686 10.7 8.3 0 15.814-7.706 15.814-10.7 0-2.36-4.214-7.341-9.137-9.78zM18 27.225A9.225 9.225 0 1 1 27.225 18 9.225 9.225 0 0 1 18 27.225z"></path>

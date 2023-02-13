@@ -22,7 +22,7 @@ export const ButtonDelete: React.FC<PropsWithChildren<ButtonDeleteProps>> = ({
             </Button>
             <DialogTrigger
                 title="Удаление статьи"
-                description="Вы действительно хотите удалить статью?"
+                description="Вы уверены? Статья будет удалена навсегда"
                 primaryActionLabel="Удалить"
                 onPrimaryAction={() => {
                     onPrimaryAction();
@@ -31,7 +31,8 @@ export const ButtonDelete: React.FC<PropsWithChildren<ButtonDeleteProps>> = ({
                 cancelLabel="Отмена"
                 onCancel={() => setIsOpen(false)}
                 isOpen={isOpen}
-                setIsOpen={setIsOpen}></DialogTrigger>
+                setIsOpen={setIsOpen}
+            ></DialogTrigger>
         </>
     );
 };

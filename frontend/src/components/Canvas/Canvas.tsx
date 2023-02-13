@@ -2,7 +2,6 @@ import React, { PropsWithChildren } from 'react';
 import { useMediaPredicate } from 'react-media-hook';
 
 import logo from '../../assets/img/logotype.png';
-
 import styles from './Canvas.module.scss';
 
 export const Canvas: React.FC<PropsWithChildren> = ({ children }) => {

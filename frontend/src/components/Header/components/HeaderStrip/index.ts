@@ -1,0 +1,1 @@
+export { HeaderStrip } from './HeaderStrip';

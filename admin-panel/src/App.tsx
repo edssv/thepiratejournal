@@ -22,6 +22,8 @@ function App() {
                 <Route element={<ProtectedOutlet />}>
                     <Route element={<Layout />}>
                         <Route index element={<Home />} />
+                        <Route path="/new" element={<Home />} />
+                        <Route path="/removed" element={<Home />} />
                         <Route path="/articles/:id" element={<Article />} />
                         <Route path="/articles/:id/edit" element={<ArticleEditorPage />} />
                         <Route path="*" element={<NotFoundPage />} />

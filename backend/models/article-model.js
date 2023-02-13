@@ -3,6 +3,7 @@ const { Schema, model } = require('mongoose');
 
 const articleSchema = new Schema({
     isPublished: Boolean,
+    isDeleted: Boolean,
     author: {
         _id: { type: String, required: true },
         username: { type: String, required: true },
@@ -62,10 +63,10 @@ articleSchema.statics.creating = async function (
     blocks,
     tags,
     category,
-    readingTime,
+    readingTime
 ) {
     const article = await this.create({
-        isPublished: true,
+        isPublished: false,
         author: { _id: authorId, username: authorUsername },
         title,
         search_title: title.toLowerCase(),
@@ -80,15 +81,7 @@ articleSchema.statics.creating = async function (
     return article;
 };
 
-articleSchema.statics.editing = async function (
-    articleId,
-    title,
-    cover,
-    blocks,
-    tags,
-    category,
-    readingTime,
-) {
+articleSchema.statics.editing = async function (articleId, title, cover, blocks, tags, category, readingTime) {
     if (!title || !cover || !blocks) {
         throw Error('Заголовок обложка и блоки обязательны.');
     }
@@ -103,7 +96,7 @@ articleSchema.statics.editing = async function (
             tags: tags,
             category: category,
             reading_time: readingTime,
-        },
+        }
     );
 
     return article;
@@ -151,7 +144,7 @@ articleSchema.statics.getOne = async function (id) {
     const article = await this.findOneAndUpdate(
         { _id: id },
         { $inc: { 'views.count': 1 } },
-        { returnDocument: 'after' },
+        { returnDocument: 'after' }
     );
 
     return { ...article._doc, comments: { totalCount: article.comments.length } };
@@ -189,7 +182,7 @@ articleSchema.statics.like = async function (id, userId) {
     const article = await this.findOneAndUpdate(
         { _id: id },
         { $push: { 'likes.users': userId }, $inc: { 'likes.count': 1 } },
-        { returnDocument: 'after' },
+        { returnDocument: 'after' }
     );
 
     return article;
@@ -199,7 +192,7 @@ articleSchema.statics.removeLike = async function (id, userId) {
     await this.findOneAndUpdate(
         { _id: id },
         { $pull: { 'likes.users': userId }, $inc: { 'likes.count': -1 } },
-        { returnDocument: 'after' },
+        { returnDocument: 'after' }
     );
 };
 
@@ -207,7 +200,7 @@ articleSchema.statics.addComment = async function (articleId, commentId) {
     const article = await this.findOneAndUpdate(
         { _id: articleId },
         { $push: { comments: commentId } },
-        { returnDocument: 'after' },
+        { returnDocument: 'after' }
     );
 
     return article;
@@ -217,7 +210,7 @@ articleSchema.statics.removeComment = async function (articleId, commentId) {
     const article = await this.findOneAndUpdate(
         { _id: articleId },
         { $pull: { comments: ObjectId(commentId) } },
-        { returnDocument: 'after' },
+        { returnDocument: 'after' }
     );
     return article;
 };

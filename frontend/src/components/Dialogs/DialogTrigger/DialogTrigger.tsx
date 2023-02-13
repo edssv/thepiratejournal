@@ -1,6 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 import { Dialog } from '@headlessui/react';
 import { motion, AnimatePresence } from 'framer-motion';
+
 import { Button } from '../../Buttons';
 
 import styles from './DialogTrigger.module.scss';

@@ -14,6 +14,7 @@ const {
     publishArticle,
     refresh,
     logout,
+    deleteArticle,
 } = require('../controllers/admin-panel/admin-panel-controller');
 const { uploadFile, deleteFile } = require('../controllers/admin-panel/file-controller');
 
@@ -32,9 +33,10 @@ router.get('/auth', requireAuth, getCurrentUser);
 router.get('/refresh', refresh);
 
 // article routes
-router.get('/articles', requireAuth, getArticles);
+router.get('/articles/:category', requireAuth, getArticles);
 router.get('/articles/:id', requireAuth, getArticle);
 router.put('/articles/:id/edit', requireAuth, editArticle);
+router.delete('/articles/:id', requireAuth, deleteArticle);
 router.put('/articles/:id', requireAuth, publishArticle);
 
 // article images

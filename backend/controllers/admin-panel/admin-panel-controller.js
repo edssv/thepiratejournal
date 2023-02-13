@@ -78,12 +78,27 @@ const refresh = async (req, res) => {
 };
 
 const getArticles = async (req, res) => {
-    try {
-        const articles = await Article.find({ isPublished: false });
-        const salt = await bcrypt.genSalt(10);
-        const hash = await bcrypt.hash('3zEVLZNDe42LBXc', salt);
+    const { limit, page } = req.query;
+    const { category } = req.params;
 
-        res.status(200).json({ articles });
+    try {
+        if (category === 'new') {
+            const articles = await Article.find({ isPublished: false });
+            const articlesLimit = await Article.find({ isPublished: false })
+                .skip(page * limit)
+                .limit(limit);
+
+            return res.status(200).json({ articles: articlesLimit, totalCount: articles.length });
+        }
+
+        if (category === 'removed') {
+            const articles = await Article.find({ isDeleted: true });
+            const articlesLimit = await Article.find({ isDeleted: true })
+                .skip(page * limit)
+                .limit(limit);
+
+            return res.status(200).json({ articles: articlesLimit, totalCount: articles.length });
+        }
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -106,9 +121,25 @@ const editArticle = async (req, res) => {
     const articleData = req.body;
 
     try {
-        await Article.updateOne({ _id: articleId }, articleData);
+        await Article.updateOne(
+            { _id: articleId },
+            Object.assign(articleData, { search_title: articleData.title.toLowerCase() })
+        );
 
         res.status(200).json({ message: 'Изменения сохранены' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const deleteArticle = async (req, res) => {
+    const articleId = req.params.id;
+    const articleData = req.body;
+
+    try {
+        await Article.deleteOne({ _id: articleId });
+
+        res.status(200).json({ message: 'Статья удалена' });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -119,7 +150,10 @@ const publishArticle = async (req, res) => {
     const articleData = req.body;
 
     try {
-        await Article.updateOne({ _id: articleId }, Object.assign(articleData, { isPublished: true }));
+        await Article.updateOne(
+            { _id: articleId },
+            Object.assign(articleData, { search_title: articleData.title.toLowerCase() }, { isPublished: true })
+        );
 
         res.status(200).json({ message: 'Статья опубликована' });
     } catch (error) {
@@ -135,5 +169,6 @@ module.exports = {
     getArticles,
     getArticle,
     editArticle,
+    deleteArticle,
     publishArticle,
 };

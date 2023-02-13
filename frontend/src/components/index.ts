@@ -1,13 +1,13 @@
 export { ActionDialog } from './Dialogs/ActionDialog';
 export { ArticlePreview } from './ArticlePreview';
-export { ArticleSkeleton } from './ArticlePreview/ArticleSkeleton';
+export { ArticlePreviewSkeleton } from './ArticlePreview';
 export { ArticleStats } from './ArticleStats';
 export { Avatar } from './Avatar';
 export { AuthOutlet } from './AuthOutlet';
 export { Canvas } from './Canvas';
 export { CardLayout } from './CardLayout';
 export { CreateModule } from './CreateModule';
-export { DraftPreview } from './DraftPreview';
+export { DraftPreview } from './DraftPreview/DraftPreview';
 export { DraftsAndBookmarksOutlet } from '../pages/Profile/DraftsAndBookmarksOutlet';
 export { ErrorFallback } from './ErrorFallback';
 export { Header } from './Header';

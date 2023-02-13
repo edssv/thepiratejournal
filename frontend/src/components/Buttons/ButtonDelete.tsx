@@ -1,4 +1,5 @@
 import React, { PropsWithChildren, useState } from 'react';
+
 import { Button, Variant } from '..';
 import { DialogTrigger } from '../Dialogs';
 interface ButtonDeleteProps {
@@ -31,7 +32,8 @@ export const ButtonDelete: React.FC<PropsWithChildren<ButtonDeleteProps>> = ({
                 cancelLabel="Отмена"
                 onCancel={() => setIsOpen(false)}
                 isOpen={isOpen}
-                setIsOpen={setIsOpen}></DialogTrigger>
+                setIsOpen={setIsOpen}
+            />
         </>
     );
 };

@@ -1,22 +1,23 @@
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/ru';
 
-import { selectArticle } from '../../redux';
+import { selectArticle, useDeleteArticleMutation } from '../../redux';
 import { declinationSubstance } from '../../helpers';
 import { useDocTitle } from '../../hooks';
 import { Button, ButtonDelete } from '../../components';
 import { AuthorInfo, toHtml, BackTopButton } from '.';
 
 import styles from './AiryArticle.module.scss';
-import { useNavigate } from 'react-router-dom';
 
 export const AiryArticle: React.FC = () => {
     useDocTitle('Статья');
     const article = useSelector(selectArticle);
     const navigate = useNavigate();
     const articleContentRef = useRef<HTMLDivElement>(null);
+    const [deleteArticle] = useDeleteArticleMutation();
 
     const createdOn = moment(article.created_on).format('L');
 
@@ -29,7 +30,15 @@ export const AiryArticle: React.FC = () => {
                             <Button onClick={() => navigate(`/articles/${article._id}/edit`)} variant="filled">
                                 Редактировать
                             </Button>
-                            <ButtonDelete variant="filledTonal">Удалить</ButtonDelete>
+                            <ButtonDelete
+                                onPrimaryAction={() => {
+                                    deleteArticle(article._id);
+                                    navigate('/');
+                                }}
+                                variant="filledTonal"
+                            >
+                                Удалить
+                            </ButtonDelete>
                         </div>
                         <div className={styles.articleDate}>{createdOn}</div>
                         <header className={styles.top}>

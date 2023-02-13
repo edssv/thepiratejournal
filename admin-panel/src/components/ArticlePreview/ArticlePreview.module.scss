@@ -1,9 +1,16 @@
+@use '../../scss/util' as *;
+
 .root {
     display: flex;
     flex-direction: column;
     min-width: 160px;
-
     overflow: hidden;
+    @include breakpoint-down(lg) {
+        min-width: 120px;
+    }
+    @include breakpoint-down(sm) {
+        min-width: 90px;
+    }
 
     &:hover .top__img {
         filter: none;
@@ -14,7 +21,7 @@
 
         &__img {
             position: relative;
-            min-width: 160px;
+            min-width: inherit;
             min-height: 190px;
             background-repeat: no-repeat;
             background-position: center;
@@ -22,6 +29,12 @@
             border-radius: 16px;
             filter: brightness(0.95);
             transition: filter ease-in-out 0.2s;
+            @include breakpoint-down(lg) {
+                min-height: 150px;
+            }
+            @include breakpoint-down(sm) {
+                min-height: 105px;
+            }
         }
 
         .bookmark__wrapper {

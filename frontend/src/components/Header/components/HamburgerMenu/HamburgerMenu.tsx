@@ -1,13 +1,13 @@
 import React, { useRef } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 
-import { useAuth, useOnClickOutside, useThemeMode } from '../../../../hooks';
+import { useAuth, useThemeMode } from '../../../../hooks';
 import { useLogoutMutation } from '../../../../redux';
 import { Avatar, Button } from '../../..';
 
 import styles from './HamburgerMenu.module.scss';
 
-export interface OpenStateProps {
+interface OpenStateProps {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -24,11 +24,7 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
     const navigate = useNavigate();
     const { user } = useAuth();
     const ref = useRef(null);
-
-    // useOnClickOutside(ref, () => setOpen(false));
-
     const { mode, handleTheme } = useThemeMode();
-
     const [logout] = useLogoutMutation();
 
     const onClickWrite = () => {

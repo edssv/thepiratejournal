@@ -1,3 +1,4 @@
+import { SectionHome } from '../../pages/Home/Home';
 import { api } from './api';
 
 export interface Block {
@@ -22,14 +23,19 @@ export interface Article {
     isPublished: boolean;
 }
 
+interface getArticlesResponse {
+    articles: Article[];
+    totalCount: number;
+}
+
 export const articleApi = api.injectEndpoints({
     endpoints: (build) => ({
         getArticle: build.query<{ article: Article }, string>({
             query: (id) => `articles/${id}`,
             providesTags: ['Articles'],
         }),
-        getArticles: build.query<{ articles: Article[] }, ''>({
-            query: () => `articles`,
+        getArticles: build.query<getArticlesResponse, { page: number; limit: number; category: SectionHome }>({
+            query: ({ page, limit, category }) => `articles/${category}?limit=${limit}&page=${page}`,
             providesTags: ['Articles'],
         }),
         addCover: build.mutation({

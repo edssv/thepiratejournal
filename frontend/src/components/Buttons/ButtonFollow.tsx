@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+
 import { useAuth } from '../../hooks';
 import { useFollowMutation, useUnFollowMutation } from '../../redux';
-import { DialogTrigger, ActionDialog } from '../Dialogs';
-import { Tippy } from '../Tippy';
+import { ActionDialog, DialogTrigger, Tippy } from '../';
 import { Button } from './Button';
 
 interface ButtonFollowProps {
@@ -11,12 +11,8 @@ interface ButtonFollowProps {
     configuration?: 'icon' | 'text' | 'iconWithText';
 }
 
-export const ButtonFollow: React.FC<ButtonFollowProps> = ({
-    username,
-    hasSubscription,
-    configuration,
-}) => {
-    const { user, isLoading } = useAuth();
+export const ButtonFollow: React.FC<ButtonFollowProps> = ({ username, hasSubscription, configuration }) => {
+    const { user } = useAuth();
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isOpenTippy, setIsOpenTippy] = useState<boolean>(false);
@@ -52,11 +48,9 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({
                     offset={50}
                     tooltipPosition="right"
                     title="Следи за обновлениями авторов"
-                    description="Чтобы отслеживать обновления авторов, войди в аккаунт.">
-                    <Button
-                        icon={configuration === 'icon'}
-                        onClick={() => setIsOpen(true)}
-                        variant="filled">
+                    description="Чтобы отслеживать обновления авторов, войди в аккаунт."
+                >
+                    <Button icon={configuration === 'icon'} onClick={() => setIsOpen(true)} variant="filled">
                         {configuration === 'iconWithText' ? (
                             <>
                                 <span className="material-symbols-outlined">add_circle</span>
@@ -81,7 +75,8 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({
                         onClick={() => setIsOpen(true)}
                         isActive={isOpen}
                         icon={configuration === 'icon'}
-                        variant="filledTonal">
+                        variant="filledTonal"
+                    >
                         {configuration === 'iconWithText' ? (
                             <>
                                 <span className="material-symbols-outlined">notifications</span>
@@ -104,7 +99,8 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({
                         cancelLabel="Отмена"
                         onCancel={() => setIsOpen(false)}
                         isOpen={isOpen}
-                        setIsOpen={setIsOpen}></DialogTrigger>
+                        setIsOpen={setIsOpen}
+                    />
                     <ActionDialog isOpen={isOpenTippy} actionText="Ты подписался на автора" />
                 </>
             ) : (

@@ -29,12 +29,9 @@ const Profile: React.FC = () => {
     const { username } = useParams();
     useDocTitle(username);
     const location = useLocation();
-
     const activeSection = location.pathname.split('/')[2] ?? ProfileSection.Articles;
-
     const [list, setList] = useState<ProfileSection>();
     const [content, setContent] = useState([]);
-
     const { data, isLoading, isError, refetch } = useGetUserQuery(
         { username, category: activeSection },
         { refetchOnMountOrArgChange: true }
@@ -48,6 +45,7 @@ const Profile: React.FC = () => {
             setList(activeSection);
             setContent(data?.content || []);
         }
+        console.log(activeSection);
     }, [activeSection]);
 
     if (isLoading) return <Overlay />;

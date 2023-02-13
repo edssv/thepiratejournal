@@ -7,19 +7,10 @@ const { likeNotification, commentNotification } = require('../service/notificati
 const creating = async (req, res) => {
     const authorId = req.user._id;
     const authorUsername = req.user.username;
-    const { intent, title, cover, blocks, tags, category, saveFromDraft, draftId, readingTime } =
-        req.body;
+    const { intent, title, cover, blocks, tags, category, saveFromDraft, draftId, readingTime } = req.body;
     try {
         if (intent === 'draft') {
-            const draft = await Draft.creating(
-                authorId,
-                authorUsername,
-                title,
-                cover,
-                blocks,
-                tags,
-                category,
-            );
+            const draft = await Draft.creating(authorId, authorUsername, title, cover, blocks, tags, category);
             return res.json(draft);
         }
 
@@ -31,7 +22,7 @@ const creating = async (req, res) => {
             blocks,
             tags,
             category,
-            readingTime,
+            readingTime
         );
 
         if (saveFromDraft) {
@@ -47,7 +38,7 @@ const creating = async (req, res) => {
 const remove = async (req, res) => {
     try {
         const id = req.params.id;
-        const article = await Article.findOneAndUpdate({ _id: id }, { isPublished: false });
+        const article = await Article.findOneAndUpdate({ _id: id }, { isDeleted: true, isPublished: false });
 
         if (!article) {
             await Draft.findOneAndUpdate({ _id: id });
@@ -78,8 +69,7 @@ const getAll = async (req, res) => {
     try {
         if (section === 'following' && !currentUser) {
             return res.status(401).json({
-                message:
-                    'Войди в систему, чтобы просматривать обновления авторов, на которых ты подписан.',
+                message: 'Войди в систему, чтобы просматривать обновления авторов, на которых ты подписан.',
             });
         }
 
@@ -176,28 +166,19 @@ const getComments = async (req, res) => {
             if (currentUser) {
                 commentsList.push({
                     comment: comments[i],
-                    author: await User.findOne(
-                        { _id: comments[i].author },
-                        { username: 1, avatar: 1 },
-                    ),
+                    author: await User.findOne({ _id: comments[i].author }, { username: 1, avatar: 1 }),
                     viewer: {
                         isLike: Boolean(
                             await Comment.findOne({
-                                $and: [
-                                    { _id: comments[i]._id },
-                                    { 'likes.users.userId': currentUser._id },
-                                ],
-                            }),
+                                $and: [{ _id: comments[i]._id }, { 'likes.users.userId': currentUser._id }],
+                            })
                         ),
                     },
                 });
             } else {
                 commentsList.push({
                     comment: comments[i],
-                    author: await User.findOne(
-                        { _id: comments[i].author },
-                        { username: 1, avatar: 1 },
-                    ),
+                    author: await User.findOne({ _id: comments[i].author }, { username: 1, avatar: 1 }),
                 });
             }
         }
@@ -214,11 +195,7 @@ const getSuggestions = async (req, res) => {
     const query = req.query;
 
     try {
-        const { limitArticles, totalCount } = await Article.getSuggestions(
-            articleId,
-            categoryName,
-            query,
-        );
+        const { limitArticles, totalCount } = await Article.getSuggestions(articleId, categoryName, query);
 
         res.status(200).json({ articles: limitArticles, totalCount, categoryName });
     } catch (error) {
