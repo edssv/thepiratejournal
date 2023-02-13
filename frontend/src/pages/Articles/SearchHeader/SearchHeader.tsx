@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useMediaPredicate } from 'react-media-hook';
 import { useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
 import { FilterBar } from './FilterBar';
@@ -38,9 +37,7 @@ export const SearchHeader: React.FC<SearchHeaderProps> = ({
 
         setQueryParams(decodeURI(decodeUrl));
 
-        navigate(
-            `/search${selectCategory && `/${selectCategory}`}${queryParams && `?${decodeUrl}`}`,
-        );
+        navigate(`/search${selectCategory && `/${selectCategory}`}${queryParams && `?${decodeUrl}`}`);
     }, [navigate, selectCategory, sortType, searchValue, setQueryParams]);
 
     return (

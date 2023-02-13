@@ -1,7 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '../../components';
 
-import notFoundImage from '../../assets/img/404-computer.png';
 import notFoundImage404 from '../../assets/img/404-light.png';
 
 import styles from './NotFound.module.scss';

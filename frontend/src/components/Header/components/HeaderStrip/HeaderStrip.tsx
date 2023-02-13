@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useMediaPredicate } from 'react-media-hook';
 import debounce from 'lodash.debounce';
-import { motion } from 'framer-motion';
-import { useAuth, useThemeMode } from '../../../../hooks';
+
+import { useAuth } from '../../../../hooks';
 import { useLogoutMutation } from '../../../../redux';
 import { Avatar, Button } from '../../..';
 import { HeaderSkeleton } from '../HeaderSkeleton';
@@ -22,9 +22,7 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const { user, isLoading } = useAuth();
-    const { mode, handleTheme } = useThemeMode();
     const [logout] = useLogoutMutation();
-
     const [isOpenNotifications, setIsOpenNotifications] = useState(false);
     const [prevScrollPos, setPrevScrollPos] = useState(0);
     const scrollTop = document.documentElement.scrollTop;
@@ -133,23 +131,6 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                                 </Button>
                             </>
                         )}{' '}
-                        <Button onClick={handleTheme} icon variant="outlined">
-                            {mode === 'dark' ? (
-                                <motion.div
-                                    animate={{ translateY: 0 }}
-                                    style={{
-                                        translateY: 15,
-                                        height: '20px',
-                                    }}
-                                >
-                                    <span className="material-symbols-outlined">light_mode</span>
-                                </motion.div>
-                            ) : (
-                                <motion.div animate={{ translateY: 0 }} style={{ translateY: -15, height: '20px' }}>
-                                    <span className="material-symbols-outlined">dark_mode</span>
-                                </motion.div>
-                            )}
-                        </Button>
                     </div>
                 </div>
             ) : (

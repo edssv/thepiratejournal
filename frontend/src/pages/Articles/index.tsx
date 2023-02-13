@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+
 import { ArticlePreview, ArticlePreviewSkeleton } from '../../components';
 import { Article, useSearchArticlesQuery } from '../../redux';
 
@@ -8,12 +9,11 @@ import { SearchHeader } from './SearchHeader';
 
 export default function Articles() {
     const location = useLocation();
-
     const sectionFromUrl = location.pathname.split('/')[2];
     const sortFromUrl = location.search.split('sort=')[1];
     const searchFromUrl = location.search.split('search=')[1];
-    const [selectCategory, setSelectCategory] = useState(sectionFromUrl ? sectionFromUrl : '');
-    const [sortType, setSortType] = React.useState<React.Key>(sortFromUrl ? sortFromUrl : '');
+    const [selectCategory, setSelectCategory] = useState(sectionFromUrl ?? '');
+    const [sortType, setSortType] = React.useState<React.Key>(sortFromUrl ?? '');
     const [searchValue, setSearchValue] = useState(searchFromUrl ? decodeURI(searchFromUrl) : '');
     const [queryParams, setQueryParams] = useState('');
     const { data, isLoading, isFetching, isError, isSuccess } = useSearchArticlesQuery({

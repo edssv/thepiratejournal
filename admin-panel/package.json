@@ -1,5 +1,5 @@
 {
-    "name": "admin-panel",
+    "name": "@thepiratejournal/admin-panel",
     "version": "0.1.0",
     "proxy": "https://thepirate.press/api",
     "private": true,

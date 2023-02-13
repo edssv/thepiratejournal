@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { convertDateShort } from '../../helpers/convertDate';
 import { Article } from '../../redux/services/article';
 import { ArticleStats } from '../ArticleStats';
 

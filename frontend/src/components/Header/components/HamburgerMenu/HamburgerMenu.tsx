@@ -39,13 +39,12 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                     <Button icon variant="text" onClick={() => setOpen(!open)} className={styles.buttonClose}>
                         <span className="material-symbols-outlined">menu_open</span>
                     </Button>
-                    {user ? (
-                        <>
-                            <Button onClick={onClickWrite} variant="filled">
-                                Создать статью
-                            </Button>
-                        </>
-                    ) : (
+                    {user && (
+                        <Button onClick={onClickWrite} variant="filled">
+                            Создать статью
+                        </Button>
+                    )}
+                    {!user && (
                         <Button
                             onClick={() => {
                                 setOpen(false);
@@ -57,7 +56,6 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                         </Button>
                     )}
                 </div>
-
                 <nav className={styles.nav}>
                     {navListData.map((item, i) => (
                         <NavLink
@@ -72,7 +70,6 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                         </NavLink>
                     ))}
                 </nav>
-
                 {user && (
                     <div className={styles.profile}>
                         <Link to={`/@${user.username}`} onClick={() => setOpen(false)}>
@@ -83,7 +80,6 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                         </Link>
                     </div>
                 )}
-
                 {user ? (
                     <Button
                         onClick={async () => {

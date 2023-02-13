@@ -10,6 +10,9 @@ $infoWidth: 768px;
         padding: 120px 0 100px;
         margin: auto;
 
+        @include breakpoint-down(sm) {
+            padding-top: 20px;
+        }
         @include breakpoint(sm) {
             max-width: 840px;
         }

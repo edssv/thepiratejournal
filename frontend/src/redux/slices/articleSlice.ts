@@ -11,14 +11,7 @@ const slice = createSlice({
     name: 'article',
     initialState: {
         article: {},
-        mutableArticle: {
-            _id: '',
-            title: '',
-            cover: '',
-            blocks: [],
-            tags: [],
-            category: { name: '', game: '', key: '' },
-        },
+        mutableArticle: {},
     } as ArticleState,
     reducers: {
         setLike: (state, { payload }) => {

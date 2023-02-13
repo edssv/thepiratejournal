@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
+import moment from 'moment';
+import 'moment/locale/ru';
+
 import { useGetUserQuery, Article, Draft } from '../../redux';
 import { useDocTitle } from '../../hooks';
-import { convertDateDayMonthYear } from '../../helpers';
 import { DraftPreview, CreateModule, Avatar, ArticlePreview, Overlay, ButtonFollow } from '../../components';
 import { UploadAvatar } from './UploadAvatar';
 import NotFoundPage from '../NotFound';
@@ -45,7 +47,6 @@ const Profile: React.FC = () => {
             setList(activeSection);
             setContent(data?.content || []);
         }
-        console.log(activeSection);
     }, [activeSection]);
 
     if (isLoading) return <Overlay />;
@@ -81,8 +82,8 @@ const Profile: React.FC = () => {
             </NavLink>
         </li>
     ));
-    console.log(contentList());
-    const date = convertDateDayMonthYear(user?.timestamp);
+
+    const date = moment(user?.timestamp).format('L');
 
     return (
         <div className={styles.root}>

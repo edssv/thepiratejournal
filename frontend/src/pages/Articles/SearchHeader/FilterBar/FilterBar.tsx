@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { Listbox } from '@headlessui/react';
 
 import styles from './FilterBar.module.scss';
-import { Listbox } from '@headlessui/react';
 
 interface FilterBarProps {
     sortType: React.Key;
@@ -22,7 +22,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({ sortType, setSortType }) =
             ? categories[1]
             : sortType === 'appreciations'
             ? categories[2]
-            : categories[0],
+            : categories[0]
     );
 
     return (
@@ -39,15 +39,15 @@ export const FilterBar: React.FC<FilterBarProps> = ({ sortType, setSortType }) =
                                 className="listBoxOption"
                                 onClick={() => setSortType(category.key)}
                                 key={category.key}
-                                value={category}>
+                                value={category}
+                            >
                                 {({ active, selected }) => (
                                     <div
                                         className={`${selected && 'selected'}
                                     optionContent
-                                    `}>
-                                        {selected && (
-                                            <span className="material-symbols-outlined">check</span>
-                                        )}{' '}
+                                    `}
+                                    >
+                                        {selected && <span className="material-symbols-outlined">check</span>}{' '}
                                         {category.name}
                                     </div>
                                 )}

@@ -1,11 +1,11 @@
 import React, { Fragment, PropsWithChildren, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useMediaPredicate } from 'react-media-hook';
+import { Dialog, Popover, Transition } from '@headlessui/react';
+
+import { Button } from '../Buttons';
 
 import styles from './Tippy.module.scss';
-import { Dialog, Popover, Transition } from '@headlessui/react';
-import { Button } from '../Buttons';
-import { usePopper } from 'react-popper';
-import { useMediaPredicate } from 'react-media-hook';
 
 interface TippyProps {
     tooltipPosition: any;

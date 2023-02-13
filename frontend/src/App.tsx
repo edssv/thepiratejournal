@@ -10,7 +10,7 @@ import './scss/styles.scss';
 
 const Home = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Home/Home'));
 const Articles = lazy(() => import(/* webpackChunkName: "Articles" */ './pages/Articles'));
-const Profile = lazy(() => import(/* webpackChunkName: "Profile" */ './pages/Profile'));
+const Profile = lazy(() => import(/* webpackChunkName: "Profile" */ './pages/Profile/Profile'));
 const Article = lazy(() => import(/* webpackChunkName: "Article" */ './pages/Article/Article'));
 const ArticleEditorPage = lazy(() => import(/* webpackChunkName: "ArticleEditorPage" */ './pages/ArticleEditorPage'));
 const EmailPage = lazy(() => import(/* webpackChunkName: "EmailPage" */ './pages/Auth/LoginPage/index.jsx'));

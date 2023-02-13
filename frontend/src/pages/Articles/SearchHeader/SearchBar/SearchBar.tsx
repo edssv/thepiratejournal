@@ -4,6 +4,7 @@ import { useMediaPredicate } from 'react-media-hook';
 import debounce from 'lodash.debounce';
 
 import styles from './SearchBar.module.scss';
+
 interface SearchBarProps {
     selectCategory: string;
     setSelectCategory: React.Dispatch<React.SetStateAction<string>>;
@@ -30,7 +31,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         debounce((str: string) => {
             setSearchValue(str);
         }, 150),
-        [],
+        []
     );
 
     const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,9 +70,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                                 <Link
                                     to="/search"
                                     onClick={() => setSelectCategory('')}
-                                    className={`${selectCategory === '' ? styles.active : ''} ${
-                                        styles.tabLink
-                                    }`}>
+                                    className={`${selectCategory === '' ? styles.active : ''} ${styles.tabLink}`}
+                                >
                                     Все статьи
                                 </Link>
                             </li>
@@ -79,9 +79,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                                 <Link
                                     to="/search/reviews"
                                     onClick={() => setSelectCategory('reviews')}
-                                    className={`${
-                                        selectCategory === 'reviews' ? styles.active : ''
-                                    } ${styles.tabLink}`}>
+                                    className={`${selectCategory === 'reviews' ? styles.active : ''} ${styles.tabLink}`}
+                                >
                                     Обзоры
                                 </Link>
                             </li>
@@ -89,9 +88,10 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                                 <Link
                                     to="/search/solutions"
                                     onClick={() => setSelectCategory('solutions')}
-                                    className={`${
-                                        selectCategory === 'solutions' ? styles.active : ''
-                                    } ${styles.tabLink}`}>
+                                    className={`${selectCategory === 'solutions' ? styles.active : ''} ${
+                                        styles.tabLink
+                                    }`}
+                                >
                                     Прохождения
                                 </Link>
                             </li>
@@ -99,9 +99,10 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                                 <Link
                                     to="/search/mentions"
                                     onClick={() => setSelectCategory('mentions')}
-                                    className={`${
-                                        selectCategory === 'mentions' ? styles.active : ''
-                                    } ${styles.tabLink}`}>
+                                    className={`${selectCategory === 'mentions' ? styles.active : ''} ${
+                                        styles.tabLink
+                                    }`}
+                                >
                                     Отзывы
                                 </Link>
                             </li>
