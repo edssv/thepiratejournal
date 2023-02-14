@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { MoonLoader } from 'react-spinners';
 
@@ -39,7 +39,7 @@ const Home = () => {
         setLoadNext(true);
     }, [data]);
 
-    const handleScroll = () => {
+    const handleScroll = useCallback(() => {
         const scrollHeight = document.documentElement.scrollHeight;
         const scrollTop = window.scrollY;
         const windowHeight = window.screen.height;
@@ -48,7 +48,7 @@ const Home = () => {
             setCurrentPage((prevState) => prevState + 1);
             setLoadNext(false);
         }
-    };
+    }, [articles.length, totalCount, loadNext]);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);

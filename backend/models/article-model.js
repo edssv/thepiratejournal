@@ -142,7 +142,7 @@ articleSchema.statics.searchArticles = async function (categoryName, query) {
 
 articleSchema.statics.getOne = async function (id) {
     const article = await this.findOneAndUpdate(
-        { _id: id },
+        { _id: id, isPublished: true },
         { $inc: { 'views.count': 1 } },
         { returnDocument: 'after' }
     );
@@ -162,9 +162,8 @@ articleSchema.statics.getComments = async function (articleId, query) {
 };
 
 articleSchema.statics.getSuggestions = async function (articleId, categoryName, query) {
-    const gameParams = { 'category.game': query.game ?? '' };
     const findParams = {
-        $and: [{ isPublished: true } && categoryName === 'similar' ? gameParams : {}],
+        $and: [{ isPublished: true }],
     };
 
     const articles = await this.find(findParams);

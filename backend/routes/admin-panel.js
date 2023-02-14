@@ -33,7 +33,7 @@ router.get('/auth', requireAuth, getCurrentUser);
 router.get('/refresh', refresh);
 
 // article routes
-router.get('/articles/:category', requireAuth, getArticles);
+router.get('/articles/category/:category', requireAuth, getArticles);
 router.get('/articles/:id', requireAuth, getArticle);
 router.put('/articles/:id/edit', requireAuth, editArticle);
 router.delete('/articles/:id', requireAuth, deleteArticle);

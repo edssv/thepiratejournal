@@ -34,7 +34,7 @@ export const articleApi = api.injectEndpoints({
             providesTags: ['Articles'],
         }),
         getArticles: build.query<getArticlesResponse, { page: number; limit: number; category: string }>({
-            query: ({ page, limit, category }) => `articles/${category}?limit=${limit}&page=${page}`,
+            query: ({ page, limit, category }) => `articles/category/${category}?limit=${limit}&page=${page}`,
             providesTags: ['Articles'],
         }),
         addCover: build.mutation({

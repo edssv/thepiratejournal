@@ -1,13 +1,9 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '../../components';
+import { Link } from 'react-router-dom';
 
-import notFoundImage from '../../assets/img/404-computer.png';
 import notFoundImage404 from '../../assets/img/404-light.png';
-
 import styles from './NotFound.module.scss';
 
 const NotFoundPage = () => {
-    const navigate = useNavigate();
     return (
         <div className={styles.root}>
             <div className={styles.content}>

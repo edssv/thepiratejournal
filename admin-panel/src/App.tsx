@@ -4,7 +4,6 @@ import 'material-symbols';
 
 import { ProtectedOutlet } from './components';
 import { LoginProtectedOutlet } from './pages/Login';
-import { useGetCurrentUserQuery } from './redux';
 
 import './scss/styles.scss';
 import { Layout } from './components/Layout';

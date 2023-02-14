@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from './BackTopButton.module.scss';
 
 export const BackTopButton = () => {
@@ -9,7 +9,7 @@ export const BackTopButton = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    const handleVisibleButton = () => {
+    const handleVisibleButton = useCallback(() => {
         const scrollPosition = window.scrollY;
 
         if (scrollPosition > 400 && prevScrollPosition > scrollPosition) {
@@ -19,7 +19,7 @@ export const BackTopButton = () => {
         }
 
         setPrevSrollPosition(scrollPosition);
-    };
+    }, [prevScrollPosition]);
 
     useEffect(() => {
         window.addEventListener('scroll', handleVisibleButton);
