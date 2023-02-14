@@ -6,12 +6,10 @@ import { Button } from '../';
 import styles from './CreateModule.module.scss';
 
 interface CreateModuleProps {
-    create?: boolean;
-    find?: boolean;
-    draft?: boolean;
+    variant: 'create' | 'find' | 'draft';
 }
 
-export const CreateModule: React.FC<CreateModuleProps> = ({ create, find, draft }) => {
+export const CreateModule: React.FC<CreateModuleProps> = ({ variant }) => {
     const navigate = useNavigate();
 
     return (
@@ -21,27 +19,31 @@ export const CreateModule: React.FC<CreateModuleProps> = ({ create, find, draft 
                     <div className={styles.promt}>
                         <div className={styles.iconAndHeading}>
                             <div className={styles.icon}>
-                                {create || draft ? (
+                                {variant === ('create' || 'draft') ? (
                                     <span className="material-symbols-outlined">add_circle</span>
                                 ) : (
-                                    find && <span className="material-symbols-outlined">search</span>
+                                    variant === 'find' && <span className="material-symbols-outlined">search</span>
                                 )}
                             </div>
                             <Button
-                                onClick={() => (create || draft ? navigate('/articles/new') : navigate('/articles'))}
+                                onClick={() =>
+                                    variant === ('create' || 'draft')
+                                        ? navigate('/articles/new')
+                                        : navigate('/articles')
+                                }
                                 variant="outlined"
                             >
-                                {create || draft ? 'Написать статью' : 'Найти статьи'}
+                                {variant === ('create' || 'draft') ? 'Написать статью' : 'Найти статьи'}
                             </Button>
                         </div>
                         <div className={styles.text}>
-                            {create ? (
+                            {variant === 'create' ? (
                                 <p>
                                     Получайте отзывы, просмотры и оценки. Общедоступные проекты также могут быть
                                     отмечены как «Популярные» нашими кураторами.
                                 </p>
                             ) : (
-                                draft && (
+                                variant === 'draft' && (
                                     <p>
                                         Ты сможешь получать оценки, а также собирать просмотры на опубликованных
                                         статьях.

@@ -11,11 +11,7 @@ export type SectionHome = 'new' | 'removed';
 
 const Home = () => {
     const location = useLocation();
-    const currentSectionFromUrl = location.pathname.split('/')[1];
-    console.log(currentSectionFromUrl);
-    const [currentSection, setCurrentSection] = useState<SectionHome>(
-        currentSectionFromUrl === ('new' || 'removed') ? currentSectionFromUrl : 'new'
-    );
+    const currentSection = location.pathname.split('/')[1] || 'new';
     const [articles, setArticles] = useState<Article[]>([]);
     const [totalCount, setTotalCount] = useState<number>(0);
     const [currentPage, setCurrentPage] = useState(0);
@@ -25,17 +21,11 @@ const Home = () => {
         page: currentPage,
         category: currentSection,
     });
-    console.log(currentSection);
 
     useEffect(() => {
-        if (currentSectionFromUrl === ('new' || 'removed')) {
-            setCurrentSection(currentSectionFromUrl);
-        }
-
         setArticles([]);
         setCurrentPage(0);
-        // console.log(currentSection);
-    }, [currentSectionFromUrl]);
+    }, [currentSection]);
 
     useEffect(() => {
         if (data?.articles) {
@@ -75,17 +65,29 @@ const Home = () => {
             <section className={styles.tabPanel}>
                 <div className={styles.container}>
                     <div className={styles.tabs}>
-                        <NavLink to="/new" className={styles.tab}>
+                        <NavLink
+                            to="/new"
+                            className={({ isActive }) =>
+                                [styles.tab, isActive || currentSection === 'new' ? styles.active : '']
+                                    .filter(Boolean)
+                                    .join(' ')
+                            }
+                        >
                             Новые
                         </NavLink>
-                        <NavLink to="/removed" className={styles.tab}>
+                        <NavLink
+                            to="/removed"
+                            className={({ isActive }) =>
+                                [styles.tab, isActive ? styles.active : ''].filter(Boolean).join(' ')
+                            }
+                        >
                             Удаленные
                         </NavLink>
                     </div>
                 </div>
             </section>
             <section className={styles.articlesList}>{articlesList}</section>
-            {(isLoading || isFetching) && (
+            {isFetching && (
                 <div className={styles.loader}>
                     <MoonLoader size={36} />
                 </div>

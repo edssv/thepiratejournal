@@ -16,7 +16,6 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
     const id = article._id;
     const author = article.author.username;
     const cover = article.cover;
-    const viewsCount = article.views.count;
 
     return (
         <div className={styles.root}>
@@ -37,7 +36,7 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
                         {author}
                     </Link>
                 </div>
-                <ArticleStats likesCount={article.likes.count} viewsCount={article.views.count} />
+                <ArticleStats likesCount={article.likes?.count} viewsCount={article.views?.count} />
             </div>
         </div>
     );

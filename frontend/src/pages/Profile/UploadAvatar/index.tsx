@@ -7,7 +7,7 @@ export const UploadAvatar = () => {
     const filePicker = useRef<HTMLInputElement>(null);
     const [selectedFile, setSelectedFile] = useState();
 
-    const [uploadAvatar] = useUploadAvatarMutation();
+    const [uploadAvatar, { isLoading }] = useUploadAvatarMutation();
 
     const handlePick = () => {
         filePicker.current?.click();
@@ -36,7 +36,7 @@ export const UploadAvatar = () => {
 
     return (
         <div>
-            <Button onClick={handlePick} variant="filledTonal">
+            <Button isLoading={isLoading} disabled={isLoading} onClick={handlePick} variant="filledTonal">
                 Изменить аватар
             </Button>
             <input

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-import { useAuth } from '../hooks';
-import { DialogTrigger, Overlay } from '.';
+import { useAuth } from '../../hooks';
+import { DialogTrigger, Overlay } from '..';
 
 export const PrivateOutlet = () => {
     const { user, isLoading, isAdmin } = useAuth();

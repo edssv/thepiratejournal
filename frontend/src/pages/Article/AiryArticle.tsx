@@ -13,14 +13,12 @@ import { ActionButtons, AuthorInfo, CommentsBlock, toHtml, ScrollControls, Sideb
 import styles from './AiryArticle.module.scss';
 
 export const AiryArticle: React.FC = () => {
-    useDocTitle('Статья');
-
+    const article = useSelector(selectArticle);
+    useDocTitle(article.title);
     const articleContentRef = useRef<HTMLDivElement>(null);
     const [isOpenSidebar, setOpenSidebar] = useState(false);
 
     const isTablet = useMediaPredicate('(max-width: 990.98px)');
-
-    const article = useSelector(selectArticle);
 
     const createdOn = moment(article.created_on).format('L');
 

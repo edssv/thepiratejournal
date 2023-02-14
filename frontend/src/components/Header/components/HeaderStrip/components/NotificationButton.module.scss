@@ -1,0 +1,27 @@
+button {
+    position: relative;
+    .badge {
+        position: absolute;
+        top: 5px;
+        left: 29px;
+        display: flex;
+        align-items: center;
+        height: 14px;
+        padding: 0 4px;
+        background-color: var(--md-sys-color-error);
+        border-radius: 8px;
+
+        &.maxCharacterCount {
+            width: 34px;
+        }
+
+        .label {
+            display: flex;
+            align-items: center;
+            height: 11px;
+            color: var(--md-sys-color-on-error);
+            font-size: 11px !important;
+            font-weight: 300;
+        }
+    }
+}

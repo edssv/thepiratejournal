@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use(
     cors({
         credentials: true,
-        origin: [process.env.CLIENT_URL, process.env.ADMIN_PANEL_URL],
+        origin: [process.env.CLIENT_URL, process.env.ADMIN_PANEL_URL, 'http://194.67.121.62:3001'],
     })
 );
 

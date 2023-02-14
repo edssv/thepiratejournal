@@ -1,4 +1,3 @@
-import { SectionHome } from '../../pages/Home/Home';
 import { api } from './api';
 
 export interface Block {
@@ -34,7 +33,7 @@ export const articleApi = api.injectEndpoints({
             query: (id) => `articles/${id}`,
             providesTags: ['Articles'],
         }),
-        getArticles: build.query<getArticlesResponse, { page: number; limit: number; category: SectionHome }>({
+        getArticles: build.query<getArticlesResponse, { page: number; limit: number; category: string }>({
             query: ({ page, limit, category }) => `articles/${category}?limit=${limit}&page=${page}`,
             providesTags: ['Articles'],
         }),

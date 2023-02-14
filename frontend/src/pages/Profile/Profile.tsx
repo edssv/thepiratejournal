@@ -12,10 +12,10 @@ import NotFoundPage from '../NotFound';
 import styles from './Profile.module.scss';
 
 const navListData = [
-    { activeSection: 'articles', text: 'Статьи', icon: 'book' },
-    { activeSection: 'appreciated', text: 'Оценки', icon: 'favorite' },
-    { activeSection: 'bookmarks', text: 'Закладки', icon: 'bookmarks' },
-    { activeSection: 'drafts', text: 'Черновики', icon: 'edit_document' },
+    { category: 'articles', text: 'Статьи', icon: 'book' },
+    { category: 'appreciated', text: 'Оценки', icon: 'favorite' },
+    { category: 'bookmarks', text: 'Закладки', icon: 'bookmarks' },
+    { category: 'drafts', text: 'Черновики', icon: 'edit_document' },
 ];
 
 export enum ProfileSection {
@@ -31,23 +31,18 @@ const Profile: React.FC = () => {
     const { username } = useParams();
     useDocTitle(username);
     const location = useLocation();
-    const activeSection = location.pathname.split('/')[2] ?? ProfileSection.Articles;
-    const [list, setList] = useState<ProfileSection>();
+    const currentSection = location.pathname.split('/')[2] || ProfileSection.Articles;
     const [content, setContent] = useState([]);
     const { data, isLoading, isError, refetch } = useGetUserQuery(
-        { username, category: activeSection },
+        { username, category: currentSection },
         { refetchOnMountOrArgChange: true }
     );
 
     useEffect(() => {
-        if (
-            activeSection ===
-            (ProfileSection.Articles || ProfileSection.Appreciated || ProfileSection.Bookmarks || ProfileSection.Drafts)
-        ) {
-            setList(activeSection);
-            setContent(data?.content || []);
+        if (data?.content) {
+            setContent(data?.content);
         }
-    }, [activeSection]);
+    }, [data]);
 
     if (isLoading) return <Overlay />;
     if (isError) return <NotFoundPage />;
@@ -56,11 +51,11 @@ const Profile: React.FC = () => {
     const isOwner = data?.isOwner;
 
     const contentList = () => {
-        if (activeSection === ProfileSection.Articles || ProfileSection.Appreciated || ProfileSection.Bookmarks) {
+        if (currentSection === ProfileSection.Articles || ProfileSection.Appreciated || ProfileSection.Bookmarks) {
             return content.map((article: Article, id) => <ArticlePreview article={article} key={id} />);
         }
 
-        if (activeSection === ProfileSection.Drafts) {
+        if (currentSection === ProfileSection.Drafts) {
             return content?.map((draft: Draft, id) => <DraftPreview draft={draft} refetch={refetch} key={id} />);
         }
     };
@@ -68,9 +63,9 @@ const Profile: React.FC = () => {
     const navListItems = navListData.map((item, i) => (
         <li key={i}>
             <NavLink
-                to={`/@${username}/${item.activeSection}`}
+                to={`/@${username}/${item.category}`}
                 className={({ isActive }) =>
-                    [styles.navLink, isActive || activeSection === item.activeSection ? styles.active : '']
+                    [styles.navLink, isActive || currentSection === item.category ? styles.active : '']
                         .filter(Boolean)
                         .join(' ')
                 }
@@ -117,43 +112,28 @@ const Profile: React.FC = () => {
                             {isOwner ? navListItems : [navListItems[0], navListItems[1]]}
                         </ul>
                     </nav>
-                    {list === 'articles' && (
-                        <div className="articles__list">
-                            {data?.content.length ? (
-                                contentList()
-                            ) : isOwner ? (
-                                <CreateModule create />
-                            ) : (
-                                <h4>Пользователь не опубликовал ни одной статьи</h4>
-                            )}
-                        </div>
-                    )}
-                    {list === 'appreciated' &&
-                        (data?.content.length ? (
-                            <div className="appreciated__list">{contentList()}</div>
+                    <div className={`${styles[currentSection]}`}>
+                        {content.length ? (
+                            contentList()
                         ) : isOwner ? (
-                            <div className="articles__list">
-                                <CreateModule find />
-                            </div>
+                            <CreateModule
+                                variant={
+                                    currentSection === ProfileSection.Articles
+                                        ? 'create'
+                                        : currentSection === ProfileSection.Drafts
+                                        ? 'draft'
+                                        : 'find'
+                                }
+                            />
                         ) : (
-                            <h4>Пользователь не оценил ни одной статьи</h4>
-                        ))}
-                    {list === 'bookmarks' &&
-                        (data?.content.length ? (
-                            <div className="appreciated__list">{contentList()}</div>
-                        ) : (
-                            isOwner && (
-                                <div className="articles__list">
-                                    <CreateModule find />
-                                </div>
-                            )
-                        ))}
-                    {list === 'drafts' && (
-                        <div className="articles__list">
-                            {contentList()}
-                            <CreateModule draft />
-                        </div>
-                    )}
+                            <h4>
+                                {currentSection === ProfileSection.Articles
+                                    ? 'Пользователь не опубликовал ни одной статьи'
+                                    : currentSection === ProfileSection.Appreciated &&
+                                      'Пользователь не оценил ни одной статьи'}
+                            </h4>
+                        )}
+                    </div>
                 </section>
             </div>
         </div>

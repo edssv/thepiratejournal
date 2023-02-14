@@ -8,10 +8,11 @@ import { useLogoutMutation } from '../../../../redux';
 import { Avatar, Button } from '../../..';
 import { HeaderSkeleton } from '../HeaderSkeleton';
 import { NotificationBlock } from '../NotificationBlock';
-import { setOverflowBody } from '../../../../helpers';
+import { ThemeButton } from '../ThemeButton';
 
 import logo from '../../../../assets/img/logotype.png';
 import styles from './HeaderStrip.module.scss';
+import { NotificationButton } from './components';
 
 interface OpenStateProps {
     open: boolean;
@@ -20,6 +21,7 @@ interface OpenStateProps {
 
 export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
     const location = useLocation();
+    const fromLaptop = useMediaPredicate('(min-width: 991px)');
     const navigate = useNavigate();
     const { user, isLoading } = useAuth();
     const [logout] = useLogoutMutation();
@@ -44,36 +46,9 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
         setPrevScrollPos(currentScrollPos);
     }, 100);
 
-    const notificationButton = () => {
-        return (
-            <Button
-                icon
-                variant="text"
-                onClick={() => {
-                    setIsOpenNotifications(!isOpenNotifications);
-                    setOverflowBody();
-                }}
-            >
-                <span className="material-symbols-outlined">notifications</span>
-                <div
-                    className={`${styles.badge} ${
-                        (user?.notifications?.totalCount ?? 0) > 999 ? styles.maxCharacterCount : ''
-                    }`}
-                >
-                    <span className={styles.label}> {user?.notifications?.totalCount}</span>
-                </div>
-            </Button>
-        );
-    };
-
-    const fromLaptop = useMediaPredicate('(min-width: 991px)');
-
-    return (
-        <div
-            className={`${styles.root} ${open && styles.open}`}
-            style={{ transform: visible ? 'translateY(0px)' : 'translateY(-55px)' }}
-        >
-            {fromLaptop ? (
+    const Content = () => {
+        if (fromLaptop) {
+            return (
                 <div className={styles.content}>
                     <div className={styles.content__left}>
                         <Link to="/" className={`${styles.logo} icon-center`}>
@@ -87,13 +62,11 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                                 )}
                             </>
                         </Link>
-                        {fromLaptop && (
-                            <nav className={styles.nav}>
-                                <NavLink to="/search" className={styles.nav__link}>
-                                    Статьи
-                                </NavLink>
-                            </nav>
-                        )}
+                        <nav className={styles.nav}>
+                            <NavLink to="/search" className={styles.nav__link}>
+                                Статьи
+                            </NavLink>
+                        </nav>
                     </div>
                     <div className={styles.content__right}>
                         {isLoading ? (
@@ -103,7 +76,10 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                                 <Button onClick={onClickWrite} variant="filledTonal">
                                     <span className="material-symbols-outlined">edit</span>Создать статью
                                 </Button>
-                                {notificationButton()}
+                                <NotificationButton
+                                    isOpenNotifications={isOpenNotifications}
+                                    setIsOpenNotifications={setIsOpenNotifications}
+                                />
                                 <NotificationBlock isOpen={isOpenNotifications} setIsOpen={setIsOpenNotifications} />
 
                                 <Link to={`/@${user.username}`}>
@@ -131,9 +107,12 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                                 </Button>
                             </>
                         )}{' '}
+                        <ThemeButton />
                     </div>
                 </div>
-            ) : (
+            );
+        } else {
+            return (
                 <div className={styles.mobile}>
                     <div className={styles.left}>
                         <Button icon variant="text" onClick={() => setOpen(!open)}>
@@ -146,7 +125,10 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                     <div className={styles.right}>
                         {user && (
                             <>
-                                {notificationButton()}
+                                <NotificationButton
+                                    isOpenNotifications={isOpenNotifications}
+                                    setIsOpenNotifications={setIsOpenNotifications}
+                                />
                                 <NotificationBlock isOpen={isOpenNotifications} setIsOpen={setIsOpenNotifications} />
                             </>
                         )}
@@ -155,7 +137,16 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                         </Button>
                     </div>
                 </div>
-            )}
+            );
+        }
+    };
+
+    return (
+        <div
+            className={`${styles.root} ${open && styles.open}`}
+            style={{ transform: visible ? 'translateY(0px)' : 'translateY(-55px)' }}
+        >
+            {<Content />}
         </div>
     );
 };
