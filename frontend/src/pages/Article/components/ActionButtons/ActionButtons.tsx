@@ -27,12 +27,11 @@ export const ActionButtons = () => {
     return (
         <div className={styles.root}>
             <div className={styles.buttonGroup}>
-                {!isOwner && <ButtonBookmark variant="filledTonal">В закладки</ButtonBookmark>}
                 {<ButtonLike variant="filledTonal">Нравится</ButtonLike>}
+                {!isOwner && <ButtonBookmark variant="filledTonal">В закладки</ButtonBookmark>}
                 {(isOwner || isAdmin) && (
                     <>
                         <Button
-                            icon
                             variant="filledTonal"
                             onClick={() =>
                                 navigate(`/articles/${id}/edit`, {
@@ -44,7 +43,6 @@ export const ActionButtons = () => {
                         </Button>
 
                         <ButtonDelete
-                            icon
                             variant="filledTonal"
                             onPrimaryAction={() => {
                                 deleteArticle(id);

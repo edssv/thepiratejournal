@@ -61,7 +61,6 @@ export const NotificationBlock = ({
                                 {isTablet && (
                                     <Button
                                         icon
-                                        variant="text"
                                         onClick={() => {
                                             setIsOpen(false);
                                             setOverflowBody();
@@ -72,8 +71,7 @@ export const NotificationBlock = ({
                                 )}
                                 <Button
                                     icon
-                                    variant="text"
-                                    color="var(--md-sys-color-on-surface-variant)"
+                                    color="secondary"
                                     className={styles.panelClose}
                                     onClick={() => {
                                         setIsOpen(false);

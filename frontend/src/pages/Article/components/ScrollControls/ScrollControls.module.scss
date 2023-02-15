@@ -1,15 +1,19 @@
 @use '../../../../scss/util' as *;
 
-.root {
-    position: sticky;
+.motionContainer {
+    position: fixed;
     left: 0;
     right: 0;
     bottom: 16px;
+    transition: opacity 300ms ease 0s;
+    z-index: 8;
+}
+
+.root {
     align-items: center;
     width: 100%;
     margin: 0 auto;
-    transition: opacity 300ms ease 0s;
-    z-index: 8;
+
     @include breakpoint(sm) {
         max-width: 840px;
     }

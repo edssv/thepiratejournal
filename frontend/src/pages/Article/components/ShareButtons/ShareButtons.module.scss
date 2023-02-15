@@ -1,0 +1,32 @@
+@use '../../../../scss/util/' as *;
+
+.root {
+    display: flex;
+    gap: 16px;
+    @include breakpoint-down(lg) {
+        margin-top: 32px;
+        margin-bottom: 60px;
+    }
+
+    .link {
+        font-family: 'Roboto Mono';
+        font-size: 13.3333px;
+        background-color: var(--md-sys-color-surface-2);
+
+        &:hover {
+            background-color: var(--md-sys-color-surface-3);
+        }
+
+        &:active {
+            background-color: var(--md-sys-color-surface-5);
+        }
+
+        svg {
+            fill: none;
+
+            path {
+                fill: var(--md-sys-color-on-surface);
+            }
+        }
+    }
+}

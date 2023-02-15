@@ -35,8 +35,7 @@ export const Comment: React.FC<CommentProps> = ({ comment, index }) => {
                                 commentId={comment.comment._id}
                                 isLike={comment.viewer?.isLike}
                                 index={index}
-                                variant="text"
-                                color="var(--md-sys-color-on-surface)"
+                                color="secondary"
                             />
                             {comment.comment.likes.count && (
                                 <span className={styles.buttonText}>{comment.comment.likes.count}</span>

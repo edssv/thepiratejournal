@@ -1,5 +1,6 @@
 import React, { PropsWithChildren, useState } from 'react';
-import { ActionDialog, Button, Variant, Tippy } from '../../../../../components';
+
+import { ActionDialog, Button, Variant, Tippy, ButtonColor } from '../../../../../components';
 import { useArticle, useAuth } from '../../../../../hooks';
 import { useLikeMutation, useRemoveLikeMutation } from '../../../../../redux';
 
@@ -7,7 +8,7 @@ interface IsLikeProps {
     tooltipPosition?: any;
     width?: string | number;
     variant?: Variant;
-    color?: string;
+    color?: ButtonColor;
     icon?: boolean;
 }
 
@@ -16,7 +17,7 @@ export const ButtonLike: React.FC<PropsWithChildren<IsLikeProps>> = ({
     tooltipPosition,
     variant = 'text',
     color,
-    icon = true,
+    icon = false,
 }) => {
     const { user } = useAuth();
     const { article, isLike } = useArticle();

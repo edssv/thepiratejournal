@@ -21,7 +21,12 @@ export const toHtml = (blocks: Block[] | undefined) => {
                 convertedHtml += '<hr class="ce-delimiter cdx-block"/>';
                 break;
             case 'image':
-                convertedHtml += `<img class="img-fluid" src="${block.data?.file?.url}" title="${block.data?.caption}" loading="lazy"/><br /><em>${block.data.caption}</em>`;
+                convertedHtml += `<figure>
+                                    <div class="imageContainer">
+                                        <img class="imgFluid" src="${block.data?.file?.url}" title="${block.data?.caption}" loading="lazy"/>
+                                    </div>
+                                    <figcaption>${block.data.caption}</figcaption>
+                                </figure>`;
                 break;
             case 'list':
                 convertedHtml += '<ul class="cdx-list">';

@@ -8,7 +8,7 @@ import { useLogoutMutation } from '../../../../redux';
 import { Avatar, Button } from '../../..';
 import { HeaderSkeleton } from '../HeaderSkeleton';
 import { NotificationBlock } from '../NotificationBlock';
-import { ThemeButton } from '../ThemeButton';
+import { ThemeButton } from '../ThemeButton/ThemeButton';
 
 import logo from '../../../../assets/img/logotype.png';
 import styles from './HeaderStrip.module.scss';

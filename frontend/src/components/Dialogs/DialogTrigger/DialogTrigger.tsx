@@ -11,6 +11,7 @@ interface DialogTriggerProps {
     description?: any;
     primaryActionLabel?: string;
     cancelLabel?: string;
+    mobileType?: 'modal' | 'fullscreen';
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     onCancel?: () => void;
@@ -24,6 +25,7 @@ export const DialogTrigger: React.FC<PropsWithChildren<DialogTriggerProps>> = ({
     onPrimaryAction,
     cancelLabel,
     onCancel,
+    mobileType = 'modal',
     isOpen,
     setIsOpen,
     children,
@@ -48,7 +50,7 @@ export const DialogTrigger: React.FC<PropsWithChildren<DialogTriggerProps>> = ({
                         style={{ zIndex: 1 }}
                     >
                         {' '}
-                        <Dialog.Panel className={styles.dialogPanel}>
+                        <Dialog.Panel className={`${styles.dialogPanel} ${styles[mobileType]}`}>
                             <Dialog.Title className={styles.title}>{title}</Dialog.Title>
                             <Dialog.Description className={styles.description}>{description}</Dialog.Description>
                             {children}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useMediaPredicate } from 'react-media-hook';
+
 import { ActionDialog, Button } from '../../../components';
 import { useAddArticleMutation } from '../../../redux';
 import { useArticle } from '../../../hooks';
@@ -34,23 +35,23 @@ export const DraftInfoDialog: React.FC<DraftInfoDialogProps> = ({ setFormStatus 
                     onClick={onClickButton}
                     isLoading={isLoading}
                     disabled={isLoading || !mutableArticle.title}
-                    variant="filledTonal">
-                    <span className="material-symbols-outlined">save_as</span> Черновик
+                    variant="filledTonal"
+                >
+                    Черновик
                 </Button>
             ) : (
                 <Button
                     onClick={onClickButton}
                     isLoading={isLoading}
                     disabled={isLoading || !mutableArticle.title}
-                    variant="filledTonal">
+                    variant="filledTonal"
+                >
                     Сохранить как черновик
                 </Button>
             )}
             <ActionDialog
                 isOpen={isOpen}
-                actionText={
-                    isSuccess ? 'Черновик сохранен' : isError ? 'Не удалось сохранить черновик' : ''
-                }
+                actionText={isSuccess ? 'Черновик сохранен' : isError ? 'Не удалось сохранить черновик' : ''}
             />
         </>
     );

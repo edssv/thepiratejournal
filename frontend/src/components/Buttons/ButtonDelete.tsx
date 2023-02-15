@@ -12,7 +12,7 @@ export const ButtonDelete: React.FC<PropsWithChildren<ButtonDeleteProps>> = ({
     onPrimaryAction,
     children,
     variant = 'text',
-    icon,
+    icon = false,
 }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 

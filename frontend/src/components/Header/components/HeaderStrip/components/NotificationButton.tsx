@@ -15,18 +15,19 @@ export const NotificationButton: React.FC<NotificationButtonProps> = ({
     isOpenNotifications,
     setIsOpenNotifications,
 }) => {
-    const { user, isLoading } = useAuth();
+    const { user } = useAuth();
 
     return (
-        <Button
-            icon
-            variant="text"
-            onClick={() => {
-                setIsOpenNotifications(!isOpenNotifications);
-                setOverflowBody();
-            }}
-        >
-            <span className="material-symbols-outlined">notifications</span>
+        <div className={styles.root}>
+            <Button
+                icon
+                onClick={() => {
+                    setIsOpenNotifications(!isOpenNotifications);
+                    setOverflowBody();
+                }}
+            >
+                <span className="material-symbols-outlined">notifications</span>
+            </Button>
             <div
                 className={`${styles.badge} ${
                     (user?.notifications?.totalCount ?? 0) > 999 ? styles.maxCharacterCount : ''
@@ -34,6 +35,6 @@ export const NotificationButton: React.FC<NotificationButtonProps> = ({
             >
                 <span className={styles.label}> {user?.notifications?.totalCount}</span>
             </div>
-        </Button>
+        </div>
     );
 };

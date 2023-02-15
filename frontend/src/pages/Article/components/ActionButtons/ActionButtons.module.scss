@@ -1,8 +1,8 @@
 @use './../../../../scss/util' as *;
 
 .root {
+    margin-top: 48px;
     @include breakpoint-down(lg) {
-        margin-top: 24px;
         margin-bottom: 60px;
     }
     @include breakpoint(lg) {

@@ -28,7 +28,12 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ mode, setFormStatu
             <Button onClick={() => setIsOpen(true)} disabled={!mutableArticle.title} variant="filled">
                 Продолжить
             </Button>
-            <DialogTrigger title="Последние штрихи" isOpen={isOpen} setIsOpen={setIsOpen}>
+            <DialogTrigger
+                title="Последние штрихи"
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                mobileType={isMobile ? 'fullscreen' : 'modal'}
+            >
                 <div className={styles.plateContent}>
                     <div>
                         <div className={styles.itemHeadline}>Обложка *</div>

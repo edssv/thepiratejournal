@@ -8,7 +8,17 @@ import '@fontsource/roboto-mono';
 import { selectArticle } from '../../redux';
 import { declinationSubstance } from '../../helpers';
 import { useDocTitle } from '../../hooks';
-import { ActionButtons, AuthorInfo, CommentsBlock, toHtml, ScrollControls, Sidebar, UpNext, BackTopButton } from '.';
+import {
+    ActionButtons,
+    AuthorInfo,
+    CommentsBlock,
+    toHtml,
+    ScrollControls,
+    Sidebar,
+    UpNext,
+    BackTopButton,
+    ShareButtons,
+} from '.';
 
 import styles from './AiryArticle.module.scss';
 
@@ -38,12 +48,12 @@ export const AiryArticle: React.FC = () => {
                                             : 'время чтения не подсчитано'}
                                         {}{' '}
                                     </div>
-                                    {!isTablet && <ActionButtons />}
+                                    {!isTablet && <ShareButtons />}
                                 </div>
                             </div>
                         </header>
                         <AuthorInfo />
-                        {isTablet && <ActionButtons />}
+                        {isTablet && <ShareButtons />}
                         <div className={styles.hero}>
                             <figure>
                                 <div className={styles.coverContainer}>
@@ -70,10 +80,12 @@ export const AiryArticle: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <ScrollControls setOpenSidebar={setOpenSidebar} />
             <div id="articleBottom" className={styles.bottom}>
+                <ActionButtons />
                 <UpNext />
             </div>
-            <ScrollControls setOpenSidebar={setOpenSidebar} />
+
             <Sidebar isOpenSidebar={isOpenSidebar} setOpenSidebar={setOpenSidebar} title="Комментарии">
                 <CommentsBlock />
             </Sidebar>

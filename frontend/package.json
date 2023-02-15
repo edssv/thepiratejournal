@@ -17,6 +17,8 @@
         "@emotion/styled": "^11.10.5",
         "@fontsource/roboto-mono": "^4.5.10",
         "@headlessui/react": "^1.7.7",
+        "@material/web": "^1.0.0-pre.2",
+        "@mui/material-next": "^6.0.0-alpha.75",
         "@reduxjs/toolkit": "^1.8.6",
         "@types/lodash.debounce": "^4.0.7",
         "compression": "^1.7.4",

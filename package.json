@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@material/web": "^1.0.0-pre.2",
+    "@mui/material-next": "^6.0.0-alpha.75"
+  }
+}

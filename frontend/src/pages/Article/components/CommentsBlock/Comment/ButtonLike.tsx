@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useState } from 'react';
-import { Tippy, Button, Variant } from '../../../../../components';
+import { Tippy, Button, Variant, ButtonColor } from '../../../../../components';
 import { useArticle, useAuth } from '../../../../../hooks';
 import { useLikeCommentMutation, useRemoveLikeCommentMutation } from '../../../../../redux';
 
@@ -9,7 +9,7 @@ interface IsLikeProps {
     tooltipPosition?: any;
     width?: string | number;
     variant?: Variant;
-    color?: string;
+    color?: ButtonColor;
     index: number;
 }
 
@@ -46,12 +46,9 @@ export const ButtonLike: React.FC<PropsWithChildren<IsLikeProps>> = ({
                     setIsOpen={setIsOpen}
                     tooltipPosition={tooltipPosition}
                     title={'Оценивай комментарии'}
-                    description="Чтобы оценить комментарий, войди в аккаунт.">
-                    <Button
-                        icon
-                        variant={variant ?? 'text'}
-                        onClick={() => setIsOpen(true)}
-                        color={color}>
+                    description="Чтобы оценить комментарий, войди в аккаунт."
+                >
+                    <Button icon variant={variant ?? 'text'} onClick={() => setIsOpen(true)} color={color}>
                         <span className="material-symbols-outlined">favorite</span>
                         {children}
                     </Button>
@@ -64,7 +61,8 @@ export const ButtonLike: React.FC<PropsWithChildren<IsLikeProps>> = ({
             <Button icon onClick={handleLike} variant={variant} color={color}>
                 <span
                     className="material-symbols-outlined"
-                    style={{ fontVariationSettings: isLike ? '"FILL" 1' : '"FILL" 0' }}>
+                    style={{ fontVariationSettings: isLike ? '"FILL" 1' : '"FILL" 0' }}
+                >
                     favorite
                 </span>
                 {children ?? null}

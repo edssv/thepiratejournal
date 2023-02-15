@@ -7,9 +7,11 @@ $infoWidth: 768px;
 
     .container {
         width: 100%;
-        padding: 120px 0 100px;
+        padding-top: 120px;
         margin: auto;
-
+        @include breakpoint-down(md) {
+            padding-top: 40px;
+        }
         @include breakpoint-down(sm) {
             padding-top: 20px;
         }
@@ -44,7 +46,7 @@ $infoWidth: 768px;
                     font-family: 'Roboto Mono';
                     @include breakpoint-down(sm) {
                         font-size: 14px;
-                        line-height: 21px;
+                        line-height: 20px;
                     }
                 }
 
@@ -62,13 +64,13 @@ $infoWidth: 768px;
 
                         .articleHeadline {
                             margin: 0;
-                            font-size: 84px;
-                            line-height: 92px;
+                            font-size: 64px;
+                            line-height: 72px;
                             font-weight: 300 !important;
                             word-break: break-word;
                             @include breakpoint-down(sm) {
                                 font-size: 40px;
-                                line-height: 52px;
+                                line-height: 48px;
                             }
                             @include breakpoint(xl) {
                                 width: 960px;
@@ -80,7 +82,7 @@ $infoWidth: 768px;
                             justify-content: space-between;
                             margin: 32px 0;
                             @include breakpoint-down(sm) {
-                                margin: 24px 0 36px;
+                                margin: 16px 0 24px;
                             }
 
                             .readingTime {
@@ -94,29 +96,9 @@ $infoWidth: 768px;
                     }
                 }
 
-                .authorInfo {
-                    display: flex;
-                    align-items: center;
-                    gap: 16px;
-
-                    img {
-                        width: 44px;
-                        height: 44px;
-                    }
-
-                    .authorName {
-                        font-size: 22px;
-                        font-weight: 500;
-                    }
-
-                    .subscribersCount {
-                        font-size: 16px;
-                    }
-                }
-
                 .hero {
                     @include breakpoint(lg) {
-                        margin-top: 82px;
+                        margin: 64px 0 40px;
                     }
                     figure {
                         @include breakpoint(lg) {
@@ -128,9 +110,10 @@ $infoWidth: 768px;
 
                         .coverContainer {
                             position: relative;
+                            height: fit-content;
 
                             .articleCover {
-                                max-height: 960px;
+                                max-height: 760px;
                                 height: auto;
                                 max-width: 100%;
                                 border-radius: 32px;
@@ -153,29 +136,27 @@ $infoWidth: 768px;
                 }
 
                 .articleContent {
-                    font-size: $fs-lg;
                     line-height: 1.5;
                     word-break: break-word;
                     word-wrap: break-word;
 
                     .contentBlocks {
-                        padding: 72px 0 56px;
+                        padding-bottom: 40px;
+                        font-family: 'Georgia', serif;
 
                         h1,
                         h2,
                         h3,
-                        h4,
-                        h5,
-                        h6,
                         p {
                             margin: 1em 0;
                         }
 
                         h2 {
-                            scroll-margin-top: 1em;
-                            font-size: 40px;
-                            font-weight: 300 !important;
+                            margin-top: 48px;
                             margin-bottom: 16px;
+                            font-size: 27px;
+                            line-height: 35px;
+                            font-weight: 400 !important;
                         }
 
                         @supports (-webkit-hyphens: none) {
@@ -186,14 +167,13 @@ $infoWidth: 768px;
                         }
 
                         h3 {
-                            font-size: 28px;
+                            font-size: 22px;
                         }
 
                         p {
-                            font-size: 22px;
-                            font-weight: 300;
-                            line-height: 38px;
-                            letter-spacing: 0.044px;
+                            font-size: 20px;
+                            line-height: 32px;
+                            letter-spacing: -0.06px;
                         }
 
                         ul {
@@ -209,15 +189,37 @@ $infoWidth: 768px;
                             transition: color 0.25s, border-bottom-color 0.25s;
                         }
 
-                        img {
-                            max-height: 960px;
-                            height: auto;
-                            max-width: 100%;
-                            border-radius: 4px;
+                        figure {
+                            margin: 56px 0;
+
+                            img {
+                                max-height: 960px;
+                                height: auto;
+                                max-width: 100%;
+                                border-radius: 4px;
+                            }
+
+                            figcaption {
+                                max-width: 728px;
+                                margin-top: 10px;
+                                margin-left: auto;
+                                margin-right: auto;
+                                text-align: center;
+                                color: var(--md-sys-color-secondary-text);
+                            }
                         }
                     }
                 }
             }
+        }
+    }
+    .bottom {
+        margin: 0 auto;
+        @include breakpoint(sm) {
+            max-width: 840px;
+        }
+        @include breakpoint(xl) {
+            max-width: 1240px;
         }
     }
 }

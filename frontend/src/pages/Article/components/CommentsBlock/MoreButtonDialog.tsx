@@ -19,8 +19,7 @@ export const MoreButtonDialog = ({ item, index, removeComment }: MoreButtonDialo
         <>
             <Button
                 icon
-                variant="text"
-                color="var(--md-sys-color-on-surface-variant)"
+                color="secondary"
                 onClick={() => {
                     setIsOpen(true);
                 }}

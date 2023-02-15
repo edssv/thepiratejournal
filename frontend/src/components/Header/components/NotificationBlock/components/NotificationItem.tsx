@@ -73,13 +73,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
                     <span className={styles.notificationTimeText}>{time}</span>
                 </div>
             </div>
-            <Button
-                icon
-                variant="text"
-                color="var(--md-sys-color-secondary-text)"
-                onClick={() => deleteNotification(_id)}
-                aria-label="Close"
-            >
+            <Button icon variant="text" color="secondary" onClick={() => deleteNotification(_id)} aria-label="Close">
                 <span className="material-symbols-outlined">cancel</span>
             </Button>
         </li>

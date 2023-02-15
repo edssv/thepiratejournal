@@ -3,6 +3,7 @@ export { AuthorInfo } from './AuthorInfo';
 export { BackTopButton } from './BackTopButton';
 export { CommentsBlock } from './CommentsBlock';
 export { ScrollControls } from './ScrollControls';
+export { ShareButtons } from './ShareButtons';
 export { Sidebar } from './Sidebar';
 export { StaticControls } from './StaticControls';
 export { SuggestionsBlock } from './SuggestionsBlock';
