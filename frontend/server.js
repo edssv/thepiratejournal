@@ -14,32 +14,30 @@ app.use(express.static('build'));
 const pathToIndex = path.join(__dirname, 'build', 'index.html');
 
 const getUser = async (username) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/users/${username}`, {
-        method: 'GET',
-        headers: {
-            accept: 'application/json',
-        },
-    });
+    try {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/users/${username}`);
 
-    if (res.ok) {
-        const data = await res.json();
+        if (res.ok) {
+            const data = await res.json();
 
-        return data;
+            return data;
+        }
+    } catch (err) {
+        console.log(err);
     }
 };
 
 const getArticle = async (articleId) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/articles/${articleId}`, {
-        method: 'GET',
-        headers: {
-            accept: 'application/json',
-        },
-    });
+    try {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/articles/${articleId}`);
 
-    if (res.ok) {
-        const data = await res.json();
+        if (res.ok) {
+            const data = await res.json();
 
-        return data;
+            return data;
+        }
+    } catch (err) {
+        console.log(err);
     }
 };
 
