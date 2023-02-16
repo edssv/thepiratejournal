@@ -9,6 +9,8 @@ const app = express();
 
 app.use(compression());
 
+app.use(express.static('build'));
+
 const pathToIndex = path.join(__dirname, 'build', 'index.html');
 
 const getUser = async (username) => {
@@ -98,8 +100,6 @@ app.get('/', function (req, res) {
         res.send(htmlData);
     });
 });
-
-app.use(express.static('build'));
 
 app.get('*', function (req, res) {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));

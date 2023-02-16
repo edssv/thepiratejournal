@@ -42,7 +42,7 @@ export default function Articles() {
                 setQueryParams={setQueryParams}
             />
 
-            <ul className="articles__list">{articlesList}</ul>
+            <ul className="articlesList">{articlesList}</ul>
         </div>
     );
 }

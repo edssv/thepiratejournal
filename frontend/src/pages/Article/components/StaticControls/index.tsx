@@ -149,7 +149,7 @@ export const StaticControls: React.FC<StaticControlsProps> = ({ isOwner }) => {
                     </>
                 )}
             </div>
-            <ActionDialog isOpen={isOpenTippy} actionText={actionText} />
+            <ActionDialog isOpen={isOpenTippy}>{actionText}</ActionDialog>
         </div>
     );
 };

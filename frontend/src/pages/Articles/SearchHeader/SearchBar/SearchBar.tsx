@@ -27,12 +27,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         setSelectCategory(selectValue);
     };
 
-    const updateSearchValue = React.useCallback(
-        debounce((str: string) => {
-            setSearchValue(str);
-        }, 150),
-        []
-    );
+    const updateSearchValue = debounce((str: string) => {
+        setSearchValue(str);
+    }, 150);
 
     const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);

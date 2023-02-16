@@ -36,13 +36,8 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
     return (
         <div className={styles.root}>
             <div className={styles.thumbContainer}>
-                <Link
-                    to={`/articles/${article._id}`}
-                    state={{ from: location }}
-                    className={styles.thumbnail}>
-                    <div
-                        className={styles.thumbImg}
-                        style={{ backgroundImage: `url(${article.cover})` }}></div>
+                <Link to={`/articles/${article._id}`} state={{ from: location }} className={styles.thumbnail}>
+                    <div className={styles.thumbImg} style={{ backgroundImage: `url(${article.cover})` }}></div>
                 </Link>
                 <div className={styles.bookmarkBtnContainer}>
                     {!user ? (
@@ -51,7 +46,8 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
                             setIsOpen={setIsOpen}
                             tooltipPosition=""
                             title={'Добавляй в закладки'}
-                            description={'Чтобы добавлять статьи в закладки, войди в аккаунт.'}>
+                            description={'Чтобы добавлять статьи в закладки, войди в аккаунт.'}
+                        >
                             <button className={styles.bookmarkBtn}>
                                 <span className="material-symbols-outlined">bookmark</span>
                             </button>
@@ -63,12 +59,9 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
                                     {hasBookmark ? 'bookmark_added' : 'bookmark'}
                                 </span>
                             </button>
-                            <ActionDialog
-                                isOpen={isOpen}
-                                actionText={
-                                    hasBookmark ? 'Добавлено в закладки' : 'Удалено из закладок'
-                                }
-                            />
+                            <ActionDialog isOpen={isOpen}>
+                                {hasBookmark ? 'Добавлено в закладки' : 'Удалено из закладок'}
+                            </ActionDialog>
                         </>
                     )}
                 </div>
@@ -82,9 +75,7 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
                         }}
                     />
                     <span className={styles.author}>{article.author.username}</span>
-                    <span className={styles.viewsCount}>
-                        {declinationSubstance(article.views.count, 'views')}
-                    </span>
+                    <span className={styles.viewsCount}>{declinationSubstance(article.views.count, 'views')}</span>
                 </div>
             </div>
         </div>

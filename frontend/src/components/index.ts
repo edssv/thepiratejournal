@@ -7,6 +7,7 @@ export { AuthOutlet } from './AuthOutlet/AuthOutlet';
 export { Canvas } from './Canvas';
 export { CardLayout } from './CardLayout';
 export { CreateModule } from './CreateModule';
+export { DialogTrigger } from './DialogTrigger';
 export { DraftPreview } from './DraftPreview/DraftPreview';
 export { DraftsAndBookmarksOutlet } from '../pages/Profile/DraftsAndBookmarksOutlet';
 export { ErrorFallback } from './ErrorFallback';

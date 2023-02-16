@@ -101,7 +101,7 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({ username, hasSubscri
                         isOpen={isOpen}
                         setIsOpen={setIsOpen}
                     />
-                    <ActionDialog isOpen={isOpenTippy} actionText="Ты подписался на автора" />
+                    <ActionDialog isOpen={isOpenTippy}>Ты подписался на автора</ActionDialog>
                 </>
             ) : (
                 <>
@@ -117,7 +117,7 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({ username, hasSubscri
                             'Подписаться'
                         )}
                     </Button>
-                    <ActionDialog isOpen={isOpenTippy} actionText="Ты отписался от автора" />
+                    <ActionDialog isOpen={isOpenTippy}>Ты отписался от автора</ActionDialog>
                 </>
             )}
         </>

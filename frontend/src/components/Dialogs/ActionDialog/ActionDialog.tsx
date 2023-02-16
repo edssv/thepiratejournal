@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import ReactDOM from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import styles from './ActionDialog.module.scss';
 
 interface ActionDialogProps {
-    actionText: string;
     isOpen: boolean;
 }
 
-export const ActionDialog: React.FC<ActionDialogProps> = ({ actionText, isOpen }) => {
+export const ActionDialog: React.FC<PropsWithChildren<ActionDialogProps>> = ({ children, isOpen }) => {
     const portalRoot = document.getElementById('portal-root') || new HTMLElement();
 
     return ReactDOM.createPortal(
@@ -22,7 +21,7 @@ export const ActionDialog: React.FC<ActionDialogProps> = ({ actionText, isOpen }
                         exit={{ y: 50, opacity: 0 }}
                     >
                         <div className={styles.dialogPanel}>
-                            <p className={styles.actionText}>{actionText}</p>
+                            <p className={styles.actionText}>{children}</p>
                         </div>
                     </motion.div>
                 </div>

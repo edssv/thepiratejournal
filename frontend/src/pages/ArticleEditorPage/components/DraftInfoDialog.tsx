@@ -63,10 +63,9 @@ export const DraftInfoDialog: React.FC<DraftInfoDialogProps> = ({ setFormStatus,
                     Сохранить как черновик
                 </Button>
             )}
-            <ActionDialog
-                isOpen={isOpen}
-                actionText={isSuccess ? 'Черновик сохранен' : isError ? 'Не удалось сохранить черновик' : ''}
-            />
+            <ActionDialog isOpen={isOpen}>
+                {isSuccess ? 'Черновик сохранен' : isError ? 'Не удалось сохранить черновик' : ''}
+            </ActionDialog>
         </>
     );
 };

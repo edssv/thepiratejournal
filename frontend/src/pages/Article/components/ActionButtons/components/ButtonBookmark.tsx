@@ -59,10 +59,9 @@ export const ButtonBookmark: React.FC<PropsWithChildren<IsBookmarkProps>> = ({
                         <span className="material-symbols-outlined">bookmark</span>
                         {children}
                     </Button>
-                    <ActionDialog
-                        isOpen={isOpen}
-                        actionText={hasBookmark ? 'Добавлено в закладки' : 'Удалено из закладок'}
-                    />
+                    <ActionDialog isOpen={isOpen}>
+                        {hasBookmark ? 'Добавлено в закладки' : 'Удалено из закладок'}
+                    </ActionDialog>
                 </>
             )}
         </>

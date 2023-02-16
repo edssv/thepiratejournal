@@ -44,10 +44,9 @@ export const ConfirmButton = ({ mode, articleContentRef, blocks }: ConfirmButton
 
     return (
         <>
-            <ActionDialog
-                isOpen={isOpen}
-                actionText={isSuccess ? 'Статья опубликована' : isError ? 'Не удалось опубликовать статью' : ''}
-            />
+            <ActionDialog isOpen={isOpen}>
+                {isSuccess ? 'Статья опубликована' : isError ? 'Не удалось опубликовать статью' : ''}
+            </ActionDialog>
             <Button
                 isLoading={isLoading}
                 disabled={isLoading || !(article.category && article?.cover)}

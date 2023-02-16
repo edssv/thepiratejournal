@@ -65,10 +65,9 @@ export const ButtonLike: React.FC<PropsWithChildren<IsLikeProps>> = ({
                 {children ?? null}
             </Button>
 
-            <ActionDialog
-                isOpen={isOpen}
-                actionText={isLike ? 'Добавлено в любимые статьи' : 'Удалено из любимых статей'}
-            />
+            <ActionDialog isOpen={isOpen}>
+                {isLike ? 'Добавлено в любимые статьи' : 'Удалено из любимых статей'}
+            </ActionDialog>
         </>
     );
 };

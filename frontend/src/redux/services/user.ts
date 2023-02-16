@@ -1,5 +1,4 @@
 import { api } from './api';
-import { Article, Draft } from './article';
 
 export interface User {
     role: 'Admin' | undefined;

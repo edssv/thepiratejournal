@@ -1,0 +1,12 @@
+.root {
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    .overlay {
+        position: fixed;
+        inset: 0 0 0 0;
+        background-color: rgba(0, 0, 0, 0.32);
+        z-index: 1;
+    }
+}

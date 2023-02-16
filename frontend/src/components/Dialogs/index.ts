@@ -1,2 +1,2 @@
 export { ActionDialog } from './ActionDialog';
-export { DialogTrigger } from './DialogTrigger';
+export { DialogTrigger } from '../DialogTrigger';

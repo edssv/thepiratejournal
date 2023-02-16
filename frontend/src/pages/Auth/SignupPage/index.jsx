@@ -27,9 +27,7 @@ const Signup = () => {
         try {
             await signup(data).unwrap();
             navigate('/');
-        } catch (error) {
-            console.log(error);
-        }
+        } catch (error) {}
     };
     const [passwordEye, setPasswordEye] = useState(false);
 

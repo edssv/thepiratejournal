@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useState } from 'react';
 
-import { Button, Variant } from '..';
-import { DialogTrigger } from '../Dialogs';
+import { Button, DialogTrigger, Variant } from '..';
+import { Dialog, DialogActionButton, DialogCancelButton, DialogContent, DialogControls, DialogTitle } from '../Dialog';
 interface ButtonDeleteProps {
     onPrimaryAction?: any;
     icon?: boolean;
@@ -33,7 +33,16 @@ export const ButtonDelete: React.FC<PropsWithChildren<ButtonDeleteProps>> = ({
                 onCancel={() => setIsOpen(false)}
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
-            />
+            >
+                <Dialog>
+                    <DialogTitle>Удаление статьи</DialogTitle>
+                    <DialogContent>Вы действительно хотите удалить статью?</DialogContent>
+                    <DialogControls>
+                        <DialogCancelButton>Отмена</DialogCancelButton>
+                        <DialogActionButton>Удалить</DialogActionButton>
+                    </DialogControls>
+                </Dialog>
+            </DialogTrigger>
         </>
     );
 };
