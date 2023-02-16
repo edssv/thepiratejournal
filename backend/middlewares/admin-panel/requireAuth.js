@@ -14,6 +14,10 @@ const requireAuth = async (req, res, next) => {
     try {
         const { _id } = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
 
+        if (!_id) {
+            return res.status(401).json({ message: 'Вы не прошли авторизацию' });
+        }
+
         const user = await AdminPanelUser.findById({ _id });
 
         req.user = user;
