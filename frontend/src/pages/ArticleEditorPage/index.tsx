@@ -1,11 +1,12 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, MutableRefObject } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { createReactEditorJS } from 'react-editor-js';
 import debounce from 'lodash.debounce';
 import { useMediaPredicate } from 'react-media-hook';
 
 import { Button, Overlay } from '../../components';
-import { resetMutableArticle, setTitle, useGetMutableArticleQuery } from '../../redux';
+import { resetArticle, selectArticle, setTitle, useGetMutableArticleQuery } from '../../redux';
 import NotFoundPage from '../NotFound';
 import { useArticle, useDocTitle, useAppDispatch } from '../../hooks';
 import { resizeTextareaHeight } from '../../helpers';
@@ -18,6 +19,7 @@ const ArticleEditorPage = () => {
     const location = useLocation();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const article = useSelector(selectArticle);
 
     const fromPage = location?.state?.from?.pathname;
 
@@ -27,7 +29,6 @@ const ArticleEditorPage = () => {
         isDraft ? 'isDraft' : isEditing ? 'isEditing' : 'isNew'
     );
     useDocTitle(mode === 'isNew' || 'isDraft' ? 'Новая статья' : 'Изменение статьи');
-    const { mutableArticle } = useArticle();
 
     const editorCore = useRef<any>(null);
     const articleContentRef = useRef<HTMLDivElement>(null);
@@ -40,7 +41,6 @@ const ArticleEditorPage = () => {
     });
 
     const [blocks, setBlocks] = useState(data?.blocks);
-    console.log(blocks);
 
     const isMobile = useMediaPredicate('(max-width: 768px)');
 
@@ -50,7 +50,7 @@ const ArticleEditorPage = () => {
         if (location.pathname.split('/')[2] === 'new') {
             setMode('isNew');
             dispatch(
-                resetMutableArticle({
+                resetArticle({
                     _id: '',
                     title: '',
                     cover: '',
@@ -118,7 +118,7 @@ const ArticleEditorPage = () => {
                     Отмена
                 </Button>
                 <div className={styles.barRightButtons}>
-                    {!isEditing && <DraftInfoDialog setFormStatus={setFormStatus} />}
+                    {!isEditing && <DraftInfoDialog setFormStatus={setFormStatus} blocks={blocks} />}
                     <ConfirmDialog
                         mode={mode}
                         setFormStatus={setFormStatus}
@@ -130,7 +130,7 @@ const ArticleEditorPage = () => {
             <div ref={articleContentRef} className={styles.container}>
                 <form
                     onChange={() => {
-                        if (mutableArticle?.title) {
+                        if (article?.title) {
                             setFormStatus('modified');
                         } else {
                             setFormStatus('unchanged');
@@ -144,7 +144,7 @@ const ArticleEditorPage = () => {
                             autoFocus={true}
                             placeholder={isMobile ? 'Дай мне имя' : 'Как корабль назовёшь так он и поплывёт'}
                             className={styles.writingHeader}
-                            value={mutableArticle?.title}
+                            value={article?.title}
                             onChange={(e) => dispatch(setTitle(e.target.value))}
                             style={{ height: 42 }}
                         />

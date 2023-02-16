@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import 'material-symbols';
 import { Layout, Overlay } from './components';
 import { AuthOutlet, PrivateOutlet, DraftsAndBookmarksOutlet } from './helpers';
-import { useThemeMode, useDocTitle } from './hooks';
+import { useThemeMode } from './hooks';
 import { useGetCurrentUserQuery } from './redux';
 
 import './scss/styles.scss';
@@ -18,7 +18,6 @@ const Signup = lazy(() => import(/* webpackChunkName: "Signup" */ './pages/Auth/
 const NotFoundPage = lazy(() => import(/* webpackChunkName: "NotFoundPage" */ './pages/NotFound'));
 
 const App = () => {
-    useDocTitle('');
     const token = localStorage.getItem('token');
     useGetCurrentUserQuery('', { skip: !token });
 

@@ -10,6 +10,7 @@ const articleSchema = new Schema({
     },
     title: { type: String, required: true },
     search_title: { type: String, required: true },
+    description: { type: String, required: true },
     cover: {
         type: String,
         required: true,
@@ -55,33 +56,34 @@ const articleSchema = new Schema({
     },
 });
 
-articleSchema.statics.creating = async function (
-    authorId,
-    authorUsername,
-    title,
-    cover,
-    blocks,
-    tags,
-    category,
-    readingTime
-) {
+articleSchema.statics.creating = async function (authorId, authorUsername, articleData) {
     const article = await this.create({
         isPublished: false,
         author: { _id: authorId, username: authorUsername },
-        title,
-        search_title: title.toLowerCase(),
-        cover,
-        blocks,
-        tags: tags,
-        category: category,
-        reading_time: readingTime,
+        title: articleData.title,
+        description: articleData.description,
+        search_title: articleData.title.toLowerCase(),
+        cover: articleData.cover,
+        blocks: articleData.blocks,
+        tags: articleData.tags,
+        category: articleData.category,
+        reading_time: articleData.readingTime,
         created_on: new Date(),
     });
 
     return article;
 };
 
-articleSchema.statics.editing = async function (articleId, title, cover, blocks, tags, category, readingTime) {
+articleSchema.statics.editing = async function (
+    articleId,
+    title,
+    description,
+    cover,
+    blocks,
+    tags,
+    category,
+    readingTime
+) {
     if (!title || !cover || !blocks) {
         throw Error('Заголовок обложка и блоки обязательны.');
     }
@@ -90,6 +92,7 @@ articleSchema.statics.editing = async function (articleId, title, cover, blocks,
         { _id: articleId },
         {
             title: title,
+            description: description,
             search_title: title.toLowerCase(),
             cover: cover,
             blocks: blocks,
@@ -146,6 +149,8 @@ articleSchema.statics.getOne = async function (id) {
         { $inc: { 'views.count': 1 } },
         { returnDocument: 'after' }
     );
+
+    if (!article) return;
 
     return { ...article._doc, comments: { totalCount: article.comments.length } };
 };

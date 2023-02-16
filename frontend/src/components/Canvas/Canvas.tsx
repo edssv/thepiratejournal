@@ -1,4 +1,3 @@
-import { Button } from '@mui/material-next';
 import React, { PropsWithChildren } from 'react';
 import { useMediaPredicate } from 'react-media-hook';
 
@@ -10,7 +9,6 @@ export const Canvas: React.FC<PropsWithChildren> = ({ children }) => {
 
     return (
         <div className={styles.root}>
-            <Button />
             <section className={styles.background}>
                 <div className={styles.inner}>
                     {fromDesktop && (

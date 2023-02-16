@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, MutableRefObject } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,7 +20,12 @@ export const ConfirmButton = ({ articleContentRef, blocks }: ConfirmButtonProps)
     const [publishArticle, { isLoading, isSuccess, isError }] = usePublishArticleMutation();
 
     const saveArticle = async () => {
-        const formData = Object.assign({ readingTime: readingTimeFunction(articleContentRef) }, article, blocks);
+        const description =
+            (articleContentRef as MutableRefObject<HTMLDivElement>).current.innerText.slice(0, 150) + '...';
+
+        const formData = Object.assign({ readingTime: readingTimeFunction(articleContentRef) }, article, blocks, {
+            description: description,
+        });
 
         publishArticle({ data: formData, id: article._id });
     };

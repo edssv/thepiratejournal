@@ -7,26 +7,19 @@ const { likeNotification, commentNotification } = require('../service/notificati
 const creating = async (req, res) => {
     const authorId = req.user._id;
     const authorUsername = req.user.username;
-    const { intent, title, cover, blocks, tags, category, saveFromDraft, draftId, readingTime } = req.body;
+    const data = req.body;
+    const intent = req.body.intent;
+
     try {
         if (intent === 'draft') {
-            const draft = await Draft.creating(authorId, authorUsername, title, cover, blocks, tags, category);
+            const draft = await Draft.creating(authorId, authorUsername, data);
             return res.json(draft);
         }
 
-        const article = await Article.creating(
-            authorId,
-            authorUsername,
-            title,
-            cover,
-            blocks,
-            tags,
-            category,
-            readingTime
-        );
+        const article = await Article.creating(authorId, authorUsername, data);
 
-        if (saveFromDraft) {
-            await Draft.deleteOne({ _id: draftId });
+        if (data.saveFromDraft) {
+            await Draft.deleteOne({ _id: data.draftId });
         }
 
         res.json(article);

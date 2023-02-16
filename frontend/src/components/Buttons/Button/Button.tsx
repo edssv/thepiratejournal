@@ -1,5 +1,4 @@
 import React, { ComponentProps, ElementType } from 'react';
-import styled from '@emotion/styled';
 import { MoonLoader } from 'react-spinners';
 
 import styles from './Button.module.scss';

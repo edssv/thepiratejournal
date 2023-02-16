@@ -1,10 +1,10 @@
-.button {
+.root {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     border: none;
-    height: 36px;
+    height: 40px;
     padding: 0 24px;
     border-radius: 20px;
     font-weight: 500;
@@ -39,8 +39,7 @@
     }
 }
 
-.iconButton,
-.iconButtonWithText {
+.icon {
     width: 40px;
     min-width: unset !important;
     height: 40px;
@@ -52,9 +51,37 @@
     }
 }
 
-.iconButtonWithText {
+.iconWithText {
     width: unset;
-    padding: 0 16px !important;
+    padding: 0 24px 0 16px;
+}
+
+:global {
+    .primaryColor {
+        &.text {
+            --color: var(--md-sys-color-primary);
+
+            &:disabled {
+                --color: var(--md-sys-color-on-surface);
+            }
+            &:active {
+                --bg-color: var(--md-sys-color-primaryChannel);
+            }
+        }
+    }
+
+    .secondaryColor {
+        &.text {
+            --color: var(--md-sys-color-secondary);
+
+            &:disabled {
+                --color: var(--md-sys-color-on-surface);
+            }
+            &:active {
+                --bg-color: var(--md-sys-color-secondaryChannel);
+            }
+        }
+    }
 }
 
 :global {
@@ -117,9 +144,11 @@
         }
     }
     .text {
+        min-width: 48px;
         background-color: transparent;
         box-shadow: var(--md-sys-elevation-level0), var(--md-sys-color-shadow);
         color: var(--md-sys-color-primary);
+
         &:disabled {
             background-color: transparent;
             color: var(--md-sys-color-on-surface);
@@ -127,6 +156,10 @@
         }
         &:active {
             background-color: var(--md-sys-color-primaryChannel), var(--md-sys-state-pressed-state-layer-opacity);
+        }
+
+        &.iconWithText {
+            padding: 0 16px 0 12px;
         }
     }
 }

@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import '@material/web/button/filled-button.js';
 
 import { Button } from '../../../../components';
 import { selectArticle } from '../../../../redux';

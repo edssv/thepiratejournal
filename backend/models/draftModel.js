@@ -21,22 +21,22 @@ const draftSchema = new Schema({
     created_on: { type: Number, required: true },
 });
 
-draftSchema.statics.creating = async function (
-    authorId,
-    authorUsername,
-    title,
-    cover,
-    blocks,
-    tags,
-    category,
-) {
+draftSchema.statics.creating = async function (authorId, authorUsername, data) {
+    const draftIsExists = await this.findById(data._id);
+
+    if (draftIsExists) {
+        const draft = await this.updateOne({ _id: data._id }, Object.assign(data, { created_on: new Date() }));
+
+        return draft;
+    }
+
     const draft = await this.create({
         author: { _id: authorId, username: authorUsername },
-        title,
-        cover,
-        blocks,
-        tags: tags,
-        category: category,
+        title: data.title,
+        cover: data.cover,
+        blocks: data.blocks,
+        tags: data.tags,
+        category: data.category,
         created_on: new Date(),
     });
 

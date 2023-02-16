@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react';
-import { setCover, useAddCoverMutation, useDeleteCoverMutation } from '../../../../../../redux';
+import { useSelector } from 'react-redux';
 import { useMediaPredicate } from 'react-media-hook';
-import { useAppDispatch, useArticle } from '../../../../../../hooks';
+
+import { selectArticle, setCover, useAddCoverMutation, useDeleteCoverMutation } from '../../../../../../redux';
+import { useAppDispatch } from '../../../../../../hooks';
 import { Button } from '../../../../../../components';
 
 import styles from './CoverWindow.module.scss';
@@ -15,7 +17,7 @@ type CoverWindowProps = {
 
 export const CoverWindow: React.FC<CoverWindowProps> = ({ selectedFile, setSelectedFile, mode }) => {
     const dispatch = useAppDispatch();
-    const { mutableArticle } = useArticle();
+    const article = useSelector(selectArticle);
 
     const filePicker = useRef<HTMLInputElement>(null);
 
@@ -68,13 +70,13 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({ selectedFile, setSelec
     return (
         <div className={styles.root}>
             <div className={styles.container}>
-                {selectedFile || mutableArticle?.cover ? (
+                {selectedFile || article?.cover ? (
                     isLoading ? (
                         <div className="cdx-loader"></div>
                     ) : (
                         <div className={styles.coverContainer}>
-                            <img className={styles.coverImage} src={mutableArticle?.cover} alt="Обложка статьи" />
-                            {mutableArticle?.cover && (
+                            <img className={styles.coverImage} src={article?.cover} alt="Обложка статьи" />
+                            {article?.cover && (
                                 <Button
                                     className={styles.closeBtn}
                                     icon

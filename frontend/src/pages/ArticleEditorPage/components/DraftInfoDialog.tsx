@@ -1,29 +1,27 @@
 import React, { useState } from 'react';
 import { useMediaPredicate } from 'react-media-hook';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { ActionDialog, Button } from '../../../components';
-import { useAddArticleMutation } from '../../../redux';
-import { useArticle } from '../../../hooks';
+import { selectArticle, useAddArticleMutation } from '../../../redux';
 
 interface DraftInfoDialogProps {
     setFormStatus: (value: React.SetStateAction<'unchanged' | 'modified' | 'saved'>) => void;
+    blocks: [];
 }
 
-export const DraftInfoDialog: React.FC<DraftInfoDialogProps> = ({ setFormStatus }) => {
+export const DraftInfoDialog: React.FC<DraftInfoDialogProps> = ({ setFormStatus, blocks }) => {
+    const navigate = useNavigate();
+    const article = useSelector(selectArticle);
     const [isOpen, setOpen] = useState(false);
 
-    const { mutableArticle } = useArticle();
     const [addArticle, { isLoading, isSuccess, isError }] = useAddArticleMutation();
 
     const saveDraft = async () => {
-        const formData = Object.assign({ intent: 'draft' }, mutableArticle);
+        const formData = Object.assign({ intent: 'draft' }, article, blocks);
         addArticle(formData);
         setFormStatus('saved');
-    };
-
-    const onClickButton = () => {
-        saveDraft();
-        setOpen(true);
     };
 
     const isMobile = useMediaPredicate('(max-width: 551px)');
@@ -32,18 +30,34 @@ export const DraftInfoDialog: React.FC<DraftInfoDialogProps> = ({ setFormStatus 
         <>
             {isMobile ? (
                 <Button
-                    onClick={onClickButton}
+                    onClick={async () => {
+                        try {
+                            await saveDraft();
+                            navigate('/');
+
+                            setOpen(true);
+                            setTimeout(() => setOpen(false), 500);
+                        } catch (error) {}
+                    }}
                     isLoading={isLoading}
-                    disabled={isLoading || !mutableArticle.title}
+                    disabled={isLoading || !article.title}
                     variant="filledTonal"
                 >
                     Черновик
                 </Button>
             ) : (
                 <Button
-                    onClick={onClickButton}
+                    onClick={async () => {
+                        try {
+                            await saveDraft();
+                            navigate('/');
+
+                            setOpen(true);
+                            setTimeout(() => setOpen(false), 500);
+                        } catch (error) {}
+                    }}
                     isLoading={isLoading}
-                    disabled={isLoading || !mutableArticle.title}
+                    disabled={isLoading || !article.title}
                     variant="filledTonal"
                 >
                     Сохранить как черновик

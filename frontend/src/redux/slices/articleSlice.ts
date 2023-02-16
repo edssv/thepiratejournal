@@ -4,36 +4,34 @@ import type { RootState } from '../store';
 
 type ArticleState = {
     article: Article;
-    mutableArticle: Article;
 };
 
 const slice = createSlice({
     name: 'article',
     initialState: {
         article: {},
-        mutableArticle: {},
     } as ArticleState,
     reducers: {
         setLike: (state, { payload }) => {
             state.article.viewer.isLike = payload;
         },
-        resetMutableArticle: (state, { payload }) => {
-            state.mutableArticle = payload;
+        resetArticle: (state, { payload }) => {
+            state.article = payload;
         },
         setTitle: (state, { payload }) => {
-            state.mutableArticle.title = payload;
+            state.article.title = payload;
         },
         setCover: (state, { payload }) => {
-            state.mutableArticle.cover = payload;
+            state.article.cover = payload;
         },
         setBlocks: (state, { payload }) => {
             state.article.blocks = payload.blocks;
         },
         setTags: (state, { payload }) => {
-            state.mutableArticle.tags = payload;
+            state.article.tags = payload;
         },
         setArticleCategory: (state, { payload }) => {
-            state.mutableArticle.category = payload;
+            state.article.category = payload;
         },
     },
     extraReducers: (builder) => {
@@ -41,7 +39,6 @@ const slice = createSlice({
             // get article
             .addMatcher(articleApi.endpoints.getArticle.matchFulfilled, (state, { payload }) => {
                 state.article = payload;
-                state.mutableArticle.blocks = payload.blocks;
             })
 
             // get comments
@@ -88,7 +85,7 @@ const slice = createSlice({
 
             // get mutable article
             .addMatcher(articleApi.endpoints.getMutableArticle.matchFulfilled, (state, { payload }) => {
-                state.mutableArticle = payload;
+                state.article = payload;
             })
 
             // like
@@ -140,10 +137,8 @@ const slice = createSlice({
     },
 });
 
-export const { setLike, resetMutableArticle, setTitle, setCover, setBlocks, setTags, setArticleCategory } =
-    slice.actions;
+export const { setLike, resetArticle, setTitle, setCover, setBlocks, setTags, setArticleCategory } = slice.actions;
 
 export default slice.reducer;
 
 export const selectArticle = (state: RootState) => state.article.article;
-export const selectMutableArticle = (state: RootState) => state.article.mutableArticle;

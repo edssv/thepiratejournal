@@ -51,8 +51,8 @@ const Profile: React.FC = () => {
     const isOwner = data?.isOwner;
 
     const contentList = () => {
-        if (currentSection === ProfileSection.Articles || ProfileSection.Appreciated || ProfileSection.Bookmarks) {
-            return content.map((article: Article, id) => <ArticlePreview article={article} key={id} />);
+        if (currentSection === (ProfileSection.Articles || ProfileSection.Appreciated || ProfileSection.Bookmarks)) {
+            return content?.map((article: Article, id) => <ArticlePreview article={article} key={id} />);
         }
 
         if (currentSection === ProfileSection.Drafts) {

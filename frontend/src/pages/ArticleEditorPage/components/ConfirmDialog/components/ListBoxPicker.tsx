@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Listbox } from '@headlessui/react';
-import { useAppDispatch, useArticle } from '../../../../../hooks';
-import { setArticleCategory } from '../../../../../redux';
+
+import { useAppDispatch } from '../../../../../hooks';
+import { selectArticle, setArticleCategory } from '../../../../../redux';
 
 const categories = [
     { name: 'Обзоры', key: 'reviews' },
@@ -11,9 +13,9 @@ const categories = [
 
 export const ListBoxPicker = () => {
     const dispatch = useAppDispatch();
-    const { mutableArticle } = useArticle();
+    const article = useSelector(selectArticle);
 
-    const [selectedCategory, setSelectedCategory] = useState(mutableArticle?.category || {});
+    const [selectedCategory, setSelectedCategory] = useState(article?.category || {});
 
     return (
         <Listbox value={selectedCategory} onChange={setSelectedCategory}>

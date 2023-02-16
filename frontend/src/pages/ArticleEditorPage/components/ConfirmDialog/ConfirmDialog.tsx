@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useMediaPredicate } from 'react-media-hook';
 
+import { useSelector } from 'react-redux';
+import { selectArticle } from '../../../../redux';
 import { DraftInfoDialog } from '../../components';
-import { useArticle } from '../../../../hooks';
 import { Button, DialogTrigger } from '../../../../components';
 import { ConfirmButton, CoverWindow, ListBoxPicker, TagsInput } from './';
 
@@ -16,7 +17,7 @@ interface ConfirmDialogProps {
 }
 
 export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ mode, setFormStatus, articleContentRef, blocks }) => {
-    const { mutableArticle } = useArticle();
+    const article = useSelector(selectArticle);
     const isMobile = useMediaPredicate('(max-width: 551px)');
 
     const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +26,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ mode, setFormStatu
     return (
         <>
             {' '}
-            <Button onClick={() => setIsOpen(true)} disabled={!mutableArticle.title} variant="filled">
+            <Button onClick={() => setIsOpen(true)} disabled={!article.title} variant="filled">
                 Продолжить
             </Button>
             <DialogTrigger
@@ -59,7 +60,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ mode, setFormStatu
                         </Button>
                     )}
                     <div className={styles.buttonGroupConfirm}>
-                        <DraftInfoDialog setFormStatus={setFormStatus} />
+                        <DraftInfoDialog setFormStatus={setFormStatus} blocks={blocks} />
                         <ConfirmButton mode={mode} articleContentRef={articleContentRef} blocks={blocks} />
                     </div>
                 </div>

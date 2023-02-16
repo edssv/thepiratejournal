@@ -17,9 +17,7 @@ export default function Home() {
 
     const sectionFromUrl = location.pathname.split('/')[1];
     const [activeSection, setActiveSection] = useState<HomeSection>(
-        sectionFromUrl === (HomeSection.ForYou || HomeSection.Following)
-            ? sectionFromUrl
-            : HomeSection.ForYou,
+        sectionFromUrl === (HomeSection.ForYou || HomeSection.Following) ? sectionFromUrl : HomeSection.ForYou
     );
     const { data, isLoading, isSuccess, isError } = useGetArticlesQuery({
         section: activeSection,
@@ -30,9 +28,7 @@ export default function Home() {
         if (isLoading) return <AiryArticleSkeleton counts={12} />;
         if (isError) return <h3>Здесь появятся статьи для тебя</h3>;
         if (isSuccess) {
-            return data?.map((article: Article, id: number) => (
-                <AiryArticlePreview key={id} article={article} />
-            ));
+            return data?.map((article: Article, id: number) => <AiryArticlePreview key={id} article={article} />);
         }
     };
 

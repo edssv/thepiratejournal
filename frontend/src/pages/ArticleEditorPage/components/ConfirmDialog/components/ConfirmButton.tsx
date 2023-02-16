@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, MutableRefObject } from 'react';
 import { useMediaPredicate } from 'react-media-hook';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
 import { ActionDialog, Button } from '../../../../../components';
 import { readingTimeFunction } from '../../../../../helpers';
-import { useArticle } from '../../../../../hooks';
-import { useAddArticleMutation, useEditArticleMutation } from '../../../../../redux';
+import { selectArticle, useAddArticleMutation, useEditArticleMutation } from '../../../../../redux';
 
 interface ConfirmButtonProps {
     mode: 'isNew' | 'isEditing' | 'isDraft';
@@ -14,8 +15,7 @@ interface ConfirmButtonProps {
 
 export const ConfirmButton = ({ mode, articleContentRef, blocks }: ConfirmButtonProps) => {
     const navigate = useNavigate();
-
-    const { mutableArticle } = useArticle();
+    const article = useSelector(selectArticle);
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -25,30 +25,21 @@ export const ConfirmButton = ({ mode, articleContentRef, blocks }: ConfirmButton
     const isMobile = useMediaPredicate('(max-width: 551px)');
 
     const saveArticle = async () => {
+        const description =
+            (articleContentRef as MutableRefObject<HTMLDivElement>).current.innerText.slice(0, 150) + '...';
+
         const formData = Object.assign(
             {
                 saveFromDraft: mode === 'isDraft',
-                draftId: mode === 'isDraft' && mutableArticle._id,
+                draftId: mode === 'isDraft' && article._id,
             },
             { intent: 'publish' },
             { readingTime: readingTimeFunction(articleContentRef) },
-            mutableArticle,
+            { description: description },
+            article,
             blocks
         );
-        mode === 'isEditing' ? editArticle({ formData, id: mutableArticle._id }) : addArticle(formData);
-    };
-
-    const onClickSave = async () => {
-        await saveArticle();
-        setIsOpen(true);
-
-        if (!isLoading) {
-            if (!isError) {
-                navigate(-1);
-            }
-        }
-
-        setTimeout(() => setIsOpen(false), 5000);
+        mode === 'isEditing' ? editArticle({ formData, id: article._id }) : addArticle(formData);
     };
 
     return (
@@ -59,8 +50,15 @@ export const ConfirmButton = ({ mode, articleContentRef, blocks }: ConfirmButton
             />
             <Button
                 isLoading={isLoading}
-                disabled={isLoading || !(mutableArticle.category && mutableArticle?.cover)}
-                onClick={onClickSave}
+                disabled={isLoading || !(article.category && article?.cover)}
+                onClick={async () => {
+                    try {
+                        await saveArticle();
+                        setIsOpen(true);
+                        setTimeout(() => setIsOpen(false), 5000);
+                        navigate('/');
+                    } catch (err) {}
+                }}
                 variant="filled"
             >
                 {mode === 'isEditing' ? (isMobile ? 'Обновить' : 'Обновить статью') : 'Опубликовать'}

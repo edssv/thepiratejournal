@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import 'moment/locale/ru';
 
@@ -15,6 +15,7 @@ interface DraftPreviewProps {
 
 export const DraftPreview: React.FC<DraftPreviewProps> = ({ draft, refetch }) => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [deleteDraft] = useDeleteArticleMutation();
 
     const time = moment(draft.created_on).fromNow();
@@ -35,7 +36,10 @@ export const DraftPreview: React.FC<DraftPreviewProps> = ({ draft, refetch }) =>
                     </div>
                     <div className={styles.cover__overlay}>
                         <div className={styles.controls}>
-                            <Button onClick={() => navigate(`/drafts/${draft._id}/edit`)} variant="filled">
+                            <Button
+                                onClick={() => navigate(`/drafts/${draft._id}/edit`, { state: { from: location } })}
+                                variant="filled"
+                            >
                                 Продолжить создание
                             </Button>
                             <ButtonDelete
