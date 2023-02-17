@@ -60,14 +60,13 @@ services:
                 ipv4_address: 172.18.0.3
 
     nginx:
-        image: 'jc21/nginx-proxy-manager:latest'
+        image: 'nginx'
         restart: unless-stopped
         ports:
             - '80:80'
-            - '81:81'
             - '443:443'
         volumes:
-            - ./data:/data
+            - ./nginx/default.conf
             - ./letsencrypt:/etc/letsencrypt
         networks:
             net:
