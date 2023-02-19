@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 
 import { selectArticle, setTags } from '../../../../../../redux';
-import { useAppDispatch, useArticle } from '../../../../../../hooks';
+import { useAppDispatch } from '../../../../../../hooks';
 
 import styles from './TagsInput.module.scss';
 

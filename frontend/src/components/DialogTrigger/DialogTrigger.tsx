@@ -1,80 +1,43 @@
-import React, { PropsWithChildren } from 'react';
-import { Dialog } from '@headlessui/react';
+import React, { PropsWithChildren, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-
-import { Button } from '../Buttons';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
 import styles from './DialogTrigger.module.scss';
 
 interface DialogTriggerProps {
-    title: string;
-    description?: any;
-    primaryActionLabel?: string;
-    cancelLabel?: string;
-    mobileType?: 'modal' | 'fullscreen';
-    isOpen: boolean;
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    onCancel?: () => void;
-    onPrimaryAction?: () => void;
+    isVisible?: boolean;
+    onClose: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const DialogTrigger: React.FC<PropsWithChildren<DialogTriggerProps>> = ({
-    title,
-    description,
-    primaryActionLabel,
-    onPrimaryAction,
-    cancelLabel,
-    onCancel,
-    mobileType = 'modal',
-    isOpen,
-    setIsOpen,
-    children,
-}) => {
-    return (
+export const DialogTrigger: React.FC<PropsWithChildren<DialogTriggerProps>> = ({ children, isVisible, onClose }) => {
+    const portalRoot = document.getElementById('portal-root') || new HTMLElement();
+    const rootRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (rootRef?.current) {
+            disableBodyScroll(rootRef?.current);
+
+            if (!isVisible) enableBodyScroll(rootRef?.current);
+        }
+    }, [isVisible]);
+
+    return ReactDOM.createPortal(
         <AnimatePresence>
-            {isOpen && (
-                <div className={styles.root}>
-                    <div className={styles.overlay}></div>
+            {isVisible && (
+                <div ref={rootRef} className={styles.root}>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.1, ease: 'linear' }}
+                    >
+                        <div onClick={() => onClose(false)} className={styles.overlay} />
+                    </motion.div>
+                    {children}
                 </div>
-                // <Dialog open={isOpen} onClose={() => setIsOpen(false)} className={styles.root}>
-                //     <motion.div
-                //         initial={{ opacity: 0 }}
-                //         animate={{ opacity: 1 }}
-                //         exit={{ opacity: 0 }}
-                //         transition={{ duration: 0.2 }}
-                //     >
-                //         <Dialog.Overlay className="overlay" />
-                //     </motion.div>
-                //     <motion.div
-                //         initial={{ opacity: 0 }}
-                //         animate={{ opacity: 1 }}
-                //         exit={{ opacity: 0 }}
-                //         transition={{ duration: 0.05 }}
-                //         style={{ zIndex: 1 }}
-                //     >
-                //         {' '}
-                //         <Dialog.Panel className={`${styles.dialogPanel} ${styles[mobileType]}`}>
-                //             <Dialog.Title className={styles.title}>{title}</Dialog.Title>
-                //             <Dialog.Description className={styles.description}>{description}</Dialog.Description>
-                //             {children}
-                //             {(onCancel || onPrimaryAction) && (
-                //                 <div className={styles.buttonGroup}>
-                //                     {cancelLabel && (
-                //                         <Button onClick={onCancel} variant="text">
-                //                             {cancelLabel}
-                //                         </Button>
-                //                     )}
-                //                     {primaryActionLabel && (
-                //                         <Button onClick={onPrimaryAction} variant="filled">
-                //                             {primaryActionLabel}
-                //                         </Button>
-                //                     )}
-                //                 </div>
-                //             )}
-                //         </Dialog.Panel>
-                //     </motion.div>
-                // </Dialog>
             )}
-        </AnimatePresence>
+        </AnimatePresence>,
+        portalRoot
     );
 };

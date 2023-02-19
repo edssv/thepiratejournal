@@ -34,7 +34,6 @@ router.get('/search/:category', searchArticles);
 router.get('/articles/:id', checkUser, getOne);
 router.get('/articles/:id/comments', checkUser, getComments);
 router.get('/articles/:id/suggestions/:category', checkUser, getSuggestions);
-router.get('/articles/edit/:id', checkUser, getOne);
 router.post('/articles', requireAuth, creating);
 router.delete('/articles/:id', requireAuth, compareAuthor, remove);
 router.put('/articles/:id', requireAuth, compareAuthor, editing);

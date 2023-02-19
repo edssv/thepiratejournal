@@ -29,7 +29,7 @@ export type ProfileSectionType = 'articles' | 'appreciated' | 'bookmarks' | 'dra
 
 const Profile: React.FC = () => {
     const { username } = useParams();
-    useDocTitle(username);
+    useDocTitle(username ?? '');
     const location = useLocation();
     const currentSection = location.pathname.split('/')[2] || ProfileSection.Articles;
     const [content, setContent] = useState([]);

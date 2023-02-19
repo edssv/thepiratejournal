@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Article, useAddBookmarkMutation, useRemoveBookmarkMutation } from '../../../../../redux';
 import { declinationSubstance } from '../../../../../helpers';
 import { useAuth } from '../../../../../hooks';
-import { ActionDialog, Tippy } from '../../../../../components';
+import { Snackbar, Tippy } from '../../../../../components';
 
 import styles from './ArticlePreview.module.scss';
 
@@ -59,9 +59,9 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
                                     {hasBookmark ? 'bookmark_added' : 'bookmark'}
                                 </span>
                             </button>
-                            <ActionDialog isOpen={isOpen}>
+                            <Snackbar isOpen={isOpen} onClose={() => setIsOpen(false)}>
                                 {hasBookmark ? 'Добавлено в закладки' : 'Удалено из закладок'}
-                            </ActionDialog>
+                            </Snackbar>
                         </>
                     )}
                 </div>

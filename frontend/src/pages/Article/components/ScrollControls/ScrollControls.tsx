@@ -15,7 +15,6 @@ interface ScrollControlsProps {
 
 export const ScrollControls: React.FC<ScrollControlsProps> = ({ setOpenSidebar }) => {
     const { article } = useArticle();
-
     const rootRef = useRef<HTMLDivElement>(null);
     const isTablet = useMediaPredicate('(max-width: 990.98px)');
     const [prevScrollPos, setPrevScrollPos] = useState(0);
@@ -63,7 +62,7 @@ export const ScrollControls: React.FC<ScrollControlsProps> = ({ setOpenSidebar }
                     <div className={styles.buttonsContainer}>
                         <div className={styles.buttons}>
                             <ButtonLike>
-                                <span className={styles.buttonText}>{article.likes.count}</span>
+                                <span className={styles.buttonText}>{article.likes?.count}</span>
                             </ButtonLike>
                             <Button onClick={() => setOpenSidebar((prevState) => !prevState)}>
                                 <span className="material-symbols-outlined">comment</span>

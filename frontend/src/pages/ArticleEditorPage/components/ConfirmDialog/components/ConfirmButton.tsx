@@ -3,9 +3,16 @@ import { useMediaPredicate } from 'react-media-hook';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { ActionDialog, Button } from '../../../../../components';
+import { Snackbar, Button } from '../../../../../components';
 import { readingTimeFunction } from '../../../../../helpers';
-import { selectArticle, useAddArticleMutation, useEditArticleMutation } from '../../../../../redux';
+import { useAppDispatch } from '../../../../../hooks';
+import {
+    publishSnackbarVisibleSelector,
+    selectArticle,
+    setPublishSnackbarVisible,
+    useAddArticleMutation,
+    useEditArticleMutation,
+} from '../../../../../redux';
 
 interface ConfirmButtonProps {
     mode: 'isNew' | 'isEditing' | 'isDraft';
@@ -15,13 +22,11 @@ interface ConfirmButtonProps {
 
 export const ConfirmButton = ({ mode, articleContentRef, blocks }: ConfirmButtonProps) => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const article = useSelector(selectArticle);
-
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-
+    const isPublishSnackbarVisible = useSelector(publishSnackbarVisibleSelector);
     const [addArticle, { isLoading, isSuccess, isError }] = useAddArticleMutation();
     const [editArticle] = useEditArticleMutation();
-
     const isMobile = useMediaPredicate('(max-width: 551px)');
 
     const saveArticle = async () => {
@@ -44,17 +49,21 @@ export const ConfirmButton = ({ mode, articleContentRef, blocks }: ConfirmButton
 
     return (
         <>
-            <ActionDialog isOpen={isOpen}>
-                {isSuccess ? 'Статья опубликована' : isError ? 'Не удалось опубликовать статью' : ''}
-            </ActionDialog>
+            <Snackbar isOpen={isPublishSnackbarVisible} onClose={() => setPublishSnackbarVisible(false)}>
+                {isSuccess
+                    ? 'Статья отправлена на проверку и в скором времени будет опубликована.'
+                    : isError
+                    ? 'Не удалось опубликовать статью'
+                    : ''}
+            </Snackbar>
             <Button
                 isLoading={isLoading}
                 disabled={isLoading || !(article.category && article?.cover)}
                 onClick={async () => {
                     try {
                         await saveArticle();
-                        setIsOpen(true);
-                        setTimeout(() => setIsOpen(false), 5000);
+                        dispatch(setPublishSnackbarVisible(true));
+                        setTimeout(() => setPublishSnackbarVisible(false), 5000);
                         navigate('/');
                     } catch (err) {}
                 }}

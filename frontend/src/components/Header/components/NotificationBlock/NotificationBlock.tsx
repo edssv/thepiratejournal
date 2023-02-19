@@ -5,7 +5,7 @@ import { useMediaPredicate } from 'react-media-hook';
 
 import { setOverflowBody } from '../../../../helpers';
 import { Notification, selectUser, useGetNotificationsQuery } from '../../../../redux';
-import { Button, Avatar } from '../../..';
+import { Button } from '../../..';
 import { useOnClickOutside } from '../../../../hooks';
 import { NotificationItem } from './components';
 

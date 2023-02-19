@@ -10,7 +10,7 @@ import {
     useRemoveLikeMutation,
 } from '../../../../redux';
 import { ButtonLike } from '../ActionButtons/components';
-import { ActionDialog, Button } from '../../../../components';
+import { Snackbar, Button } from '../../../../components';
 import { useArticle, useAuth } from '../../../../hooks';
 
 import styles from './StaticControls.module.scss';
@@ -113,9 +113,6 @@ export const StaticControls: React.FC<StaticControlsProps> = ({ isOwner }) => {
                 <div className={styles.controls}>
                     <ButtonLike variant="filledTonal">{article.likes.count}</ButtonLike>
                 </div>
-                {/* <Button icon variant="filledTonal">
-                    <span className="material-symbols-outlined">share</span>
-                </Button> */}
                 {user && (
                     <>
                         <Button
@@ -149,7 +146,9 @@ export const StaticControls: React.FC<StaticControlsProps> = ({ isOwner }) => {
                     </>
                 )}
             </div>
-            <ActionDialog isOpen={isOpenTippy}>{actionText}</ActionDialog>
+            <Snackbar isOpen={isOpenTippy} onClose={() => setIsOpenTippy(false)}>
+                {actionText}
+            </Snackbar>
         </div>
     );
 };

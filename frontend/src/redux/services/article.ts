@@ -63,10 +63,7 @@ export const articleApi = api.injectEndpoints({
             query: (id) => `articles/${id}`,
             providesTags: ['Articles'],
         }),
-        getComments: build.query<
-            { commentsList: Comment[]; totalCount: number },
-            { id: string; queryParams: string }
-        >({
+        getComments: build.query<{ commentsList: Comment[]; totalCount: number }, { id: string; queryParams: string }>({
             query: ({ id, queryParams }) => `articles/${id}/comments?${queryParams}`,
             providesTags: ['Articles'],
         }),
@@ -74,12 +71,7 @@ export const articleApi = api.injectEndpoints({
             { articles: Article[]; totalCount: number; categoryName: 'all' | 'similar' },
             { id: string; category: 'all' | 'similar'; queryParams: string }
         >({
-            query: ({ id, category, queryParams }) =>
-                `articles/${id}/suggestions/${category}?${queryParams}`,
-            providesTags: ['Articles'],
-        }),
-        getMutableArticle: build.query<Article, string>({
-            query: (id) => `articles/edit/${id}`,
+            query: ({ id, category, queryParams }) => `articles/${id}/suggestions/${category}?${queryParams}`,
             providesTags: ['Articles'],
         }),
         getArticles: build.query<Article[], { section: HomeSection; queryParams: string }>({
@@ -174,7 +166,6 @@ export const {
     useGetArticleQuery,
     useGetCommentsQuery,
     useGetSuggestionsQuery,
-    useGetMutableArticleQuery,
     useGetArticlesQuery,
     useSearchArticlesQuery,
     useAddCoverMutation,

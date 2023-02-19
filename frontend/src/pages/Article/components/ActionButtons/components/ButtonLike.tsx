@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useState } from 'react';
 
-import { ActionDialog, Button, Variant, Tippy, ButtonColor } from '../../../../../components';
+import { Snackbar, Button, Variant, Tippy, ButtonColor } from '../../../../../components';
 import { useArticle, useAuth } from '../../../../../hooks';
 import { useLikeMutation, useRemoveLikeMutation } from '../../../../../redux';
 
@@ -21,11 +21,9 @@ export const ButtonLike: React.FC<PropsWithChildren<IsLikeProps>> = ({
 }) => {
     const { user } = useAuth();
     const { article, isLike } = useArticle();
-
     const [like] = useLikeMutation();
     const [removeLike] = useRemoveLikeMutation();
-
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleLike = async () => {
         if (isLike) {
@@ -65,9 +63,9 @@ export const ButtonLike: React.FC<PropsWithChildren<IsLikeProps>> = ({
                 {children ?? null}
             </Button>
 
-            <ActionDialog isOpen={isOpen}>
+            <Snackbar isOpen={isOpen} onClose={() => setIsOpen(false)}>
                 {isLike ? 'Добавлено в любимые статьи' : 'Удалено из любимых статей'}
-            </ActionDialog>
+            </Snackbar>
         </>
     );
 };

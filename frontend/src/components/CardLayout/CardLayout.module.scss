@@ -4,15 +4,15 @@
     width: 100%;
     padding: 24px 18px;
     background-color: var(--md-sys-color-surface);
-    min-height: 100vh;
+    height: 100vh;
     color: var(--md-sys-color-on-surface);
-
     @include breakpoint(sm) {
         min-height: 630px;
         height: unset;
         padding: 40px 56px;
         border-radius: $br-sm;
     }
+
     .header {
         margin-bottom: 8px;
 
@@ -26,6 +26,7 @@
                 margin-left: 4px;
                 font-size: 14px;
                 font-weight: 700;
+                color: var(--md-sys-color-on-surface-variant);
             }
         }
 
@@ -33,6 +34,7 @@
             font-size: 33px;
         }
     }
+
     .content {
         display: flex;
     }

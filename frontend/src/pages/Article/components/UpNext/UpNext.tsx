@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useCallback, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 
@@ -22,14 +22,14 @@ export const UpNext = () => {
         { refetchOnMountOrArgChange: true }
     );
 
-    const handleScroll = () => {
+    const handleScroll = useCallback(() => {
         const screenHeight = window.screen.height;
         const upNextTop = UpNextRef?.current?.getBoundingClientRect().top ?? 0;
 
         if (!isMount && screenHeight - upNextTop >= 0) {
             setIsMount(true);
         }
-    };
+    }, [isMount]);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);

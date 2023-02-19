@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Dialog, Menu } from '@headlessui/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMediaPredicate } from 'react-media-hook';
+
 import { Button } from '../../../../components';
-import { useArticle } from '../../../../hooks';
 
 interface MoreButtonDialogProps {
     item: any;
@@ -21,7 +21,7 @@ export const MoreButtonDialog = ({ item, index, removeComment }: MoreButtonDialo
                 icon
                 color="secondary"
                 onClick={() => {
-                    setIsOpen(true);
+                    setIsOpen(!isOpen);
                 }}
             >
                 <span className="material-symbols-outlined">more_vert</span>

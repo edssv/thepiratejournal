@@ -3,7 +3,7 @@ import { useMediaPredicate } from 'react-media-hook';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { ActionDialog, Button } from '../../../components';
+import { Snackbar, Button } from '../../../components';
 import { selectArticle, useAddArticleMutation } from '../../../redux';
 
 interface DraftInfoDialogProps {
@@ -63,9 +63,9 @@ export const DraftInfoDialog: React.FC<DraftInfoDialogProps> = ({ setFormStatus,
                     Сохранить как черновик
                 </Button>
             )}
-            <ActionDialog isOpen={isOpen}>
+            <Snackbar isOpen={isOpen} close onClose={() => setOpen(false)}>
                 {isSuccess ? 'Черновик сохранен' : isError ? 'Не удалось сохранить черновик' : ''}
-            </ActionDialog>
+            </Snackbar>
         </>
     );
 };

@@ -1,5 +1,6 @@
-import React, { PropsWithChildren, useEffect } from 'react';
+import React, { PropsWithChildren, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { useMediaPredicate } from 'react-media-hook';
 
 import { Button } from '../../../../components';
@@ -18,20 +19,23 @@ export const Sidebar: React.FC<PropsWithChildren<SidebarProps>> = ({
     title,
     children,
 }) => {
+    const rootRef = useRef<HTMLDivElement>(null);
     const portalRoot = document.getElementById('portal-root') || new HTMLElement();
     const isTablet = useMediaPredicate('(max-width: 990.98px)');
 
     useEffect(() => {
-        if (isTablet && isOpenSidebar) {
-            document.body.style.overflow = 'hidden';
-        } else document.body.style.overflow = '';
+        if (rootRef?.current) {
+            disableBodyScroll(rootRef?.current);
+
+            if (!isOpenSidebar) enableBodyScroll(rootRef?.current);
+        }
     }, [isOpenSidebar]);
 
     return (
         <>
             {ReactDOM.createPortal(
                 <>
-                    <div className={`${styles.root} ${isOpenSidebar ? 'open-sidebar' : ''}`}>
+                    <div ref={rootRef} className={`${styles.root} ${isOpenSidebar ? 'open-sidebar' : ''}`}>
                         <div className={styles.content}>
                             <div className={styles.scrollingContainer}>
                                 <div className={styles.top}>

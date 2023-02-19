@@ -5,68 +5,76 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { CardLayout, Button } from '../../../components';
 import { useNetworkStatus, useDocTitle } from '../../../hooks';
 import { useLoginMutation } from '../../../redux';
-import { VisibilityToggle } from '../components';
+import { ErrorLabel, Field, Input, Label, VisibilityToggle } from '../components';
 
 import styles from './LoginPage.module.scss';
+
+type FormValues = {
+    email: string;
+    password: string;
+};
 
 const LoginPage = () => {
     useDocTitle('Войти');
     const navigate = useNavigate();
     const location = useLocation();
     const { isOnline } = useNetworkStatus();
+    const [login, { isLoading, isError }] = useLoginMutation();
     const fromPage = location.state?.from?.pathname || '/';
 
     const {
         register,
         formState: { errors },
         handleSubmit,
-    } = useForm({
+    } = useForm<FormValues>({
         mode: 'all',
     });
 
-    const [login, { isError, isLoading }] = useLoginMutation();
-
-    const onSubmit = async (formData) => {
+    const onSubmit = handleSubmit(async (formData: FormValues) => {
         try {
             await login(formData).unwrap();
             navigate(fromPage);
         } catch (error) {}
-    };
+    });
 
     const [passwordEye, setPasswordEye] = useState(false);
 
     return (
         <CardLayout>
             <section className={styles.root}>
-                <form onSubmit={handleSubmit(onSubmit)} className={styles.emailForm}>
+                <form onSubmit={onSubmit} className={styles.emailForm}>
                     <section className={styles.emailField}>
                         <p className={styles.instructions}>
                             Новый пользователь? <Link to="/signup">Создать учетную запись</Link>
                         </p>
                         <div className={styles.fields}>
-                            <div className={styles.field}>
-                                <label className="field-label">Адрес электронной почты</label>
-                                <input
-                                    {...register('email', {
-                                        required: 'Введите адрес электронной почты.',
-                                    })}
+                            <Field>
+                                <Label>Адрес электронной почты</Label>
+                                <Input
+                                    register={{
+                                        ...register('email', {
+                                            required: 'Введите адрес электронной почты.',
+                                        }),
+                                    }}
+                                    name="email"
+                                    isError={Boolean(errors?.email)}
                                     disabled={isLoading}
-                                    className={`text-field ${errors?.password && `is-invalid`}`}
                                     type="email"
                                 />
-                                {errors?.email && (
-                                    <label className="field-label error-label">{errors?.email?.message}</label>
-                                )}
-                            </div>
-                            <div className={styles.field}>
-                                <label className="field-label">Пароль</label>
-                                <div className={styles.password__field}>
-                                    <input
-                                        {...register('password', {
-                                            required: 'Введите пароль.',
-                                        })}
+                                {errors?.email && <ErrorLabel>{errors?.email?.message?.toString()}</ErrorLabel>}
+                            </Field>
+                            <Field>
+                                <Label>Пароль</Label>
+                                <div className={styles.passwordField}>
+                                    <Input
+                                        register={{
+                                            ...register('password', {
+                                                required: 'Введите пароль.',
+                                            }),
+                                        }}
+                                        name="password"
+                                        isError={Boolean(errors?.password)}
                                         disabled={isLoading}
-                                        className={`text-field  ${errors?.password && `is-invalid`}`}
                                         type={passwordEye ? 'text' : 'password'}
                                     />
                                     <VisibilityToggle
@@ -74,16 +82,14 @@ const LoginPage = () => {
                                         passwordEye={passwordEye}
                                         setPasswordEye={setPasswordEye}
                                     />
-                                </div>{' '}
-                                {errors?.password && (
-                                    <label className="field-label error-label">{errors?.password?.message}</label>
-                                )}
-                            </div>
+                                </div>
+                                {errors?.password && <ErrorLabel>{errors?.password?.message?.toString()}</ErrorLabel>}
+                            </Field>
                         </div>
                         {isError && (
-                            <label className="field-label error-label " style={{ marginTop: '8px' }}>
+                            <ErrorLabel style={{ marginTop: '8px' }}>
                                 Неверный адрес электронной почты или пароль.
-                            </label>
+                            </ErrorLabel>
                         )}
                     </section>
                     <section className={styles.submit}>

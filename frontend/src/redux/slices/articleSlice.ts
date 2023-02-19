@@ -83,11 +83,6 @@ const slice = createSlice({
                 };
             })
 
-            // get mutable article
-            .addMatcher(articleApi.endpoints.getMutableArticle.matchFulfilled, (state, { payload }) => {
-                state.article = payload;
-            })
-
             // like
             .addMatcher(articleApi.endpoints.like.matchFulfilled, (state) => {
                 state.article.viewer.isLike = true;

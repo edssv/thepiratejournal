@@ -12,7 +12,7 @@
     }
 }
 
-.buttonGroup {
+.controls {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -27,9 +27,9 @@
         margin: 16px;
     }
 
-    .buttonGroupConfirm {
+    .draftAndSaveButtons {
         display: flex;
-        gap: 8px;
+        gap: 16px;
     }
 
     button {

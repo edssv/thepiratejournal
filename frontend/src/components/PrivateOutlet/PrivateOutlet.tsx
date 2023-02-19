@@ -3,6 +3,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../hooks';
 import { DialogTrigger, Overlay } from '..';
+import { Dialog, DialogActionButton, DialogCancelButton, DialogContent, DialogControls, DialogTitle } from '../Dialog';
 
 export const PrivateOutlet = () => {
     const { user, isLoading, isAdmin } = useAuth();
@@ -16,16 +17,30 @@ export const PrivateOutlet = () => {
     if (!user)
         return (
             <>
-                <DialogTrigger
-                    isOpen={isOpen}
-                    setIsOpen={setOpen}
-                    title="Войти"
-                    description="Чтобы продолжить, тебе необходимо войти в систему"
-                    primaryActionLabel="Войти"
-                    onPrimaryAction={() => navigate('/login', { state: { from: location } })}
-                    cancelLabel="Отмена"
-                    onCancel={() => navigate(-1)}
-                />
+                <DialogTrigger isVisible={isOpen} onClose={setOpen}>
+                    <Dialog>
+                        <DialogTitle>Войти</DialogTitle>
+                        <DialogContent>Чтобы продолжить, тебе необходимо войти в систему</DialogContent>
+                        <DialogControls>
+                            <DialogCancelButton
+                                onClick={() => {
+                                    setOpen(false);
+                                    navigate(-1);
+                                }}
+                            >
+                                Отмена
+                            </DialogCancelButton>
+                            <DialogActionButton
+                                onClick={() => {
+                                    setOpen(false);
+                                    navigate('/login', { state: { from: location } });
+                                }}
+                            >
+                                Войти
+                            </DialogActionButton>
+                        </DialogControls>
+                    </Dialog>
+                </DialogTrigger>
                 <Outlet />
             </>
         );
@@ -33,14 +48,23 @@ export const PrivateOutlet = () => {
     if (user && !user.isActivated && !isAdmin)
         return (
             <>
-                <DialogTrigger
-                    isOpen={isOpen}
-                    setIsOpen={setOpen}
-                    title="Учетная запись не активирована"
-                    description="Чтобы продолжить, тебе необходимо активировать учетную запись."
-                    primaryActionLabel="Хорошо"
-                    onPrimaryAction={() => navigate(-1)}
-                />
+                <DialogTrigger isVisible={isOpen} onClose={setOpen}>
+                    <Dialog>
+                        <DialogTitle>Учетная запись не активирована</DialogTitle>
+                        <DialogContent>Чтобы продолжить, тебе необходимо активировать учетную запись.</DialogContent>
+                        <DialogControls>
+                            <DialogActionButton
+                                onClick={() => {
+                                    setOpen(false);
+                                    navigate(-1);
+                                }}
+                            >
+                                Хорошо
+                            </DialogActionButton>
+                        </DialogControls>
+                    </Dialog>
+                </DialogTrigger>
+
                 <Outlet />
             </>
         );

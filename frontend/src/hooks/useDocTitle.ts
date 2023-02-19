@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export const useDocTitle = (title: any) => {
+export const useDocTitle = (title: string) => {
     const [doctitle, setDocTitle] = useState(title);
 
     useEffect(() => {

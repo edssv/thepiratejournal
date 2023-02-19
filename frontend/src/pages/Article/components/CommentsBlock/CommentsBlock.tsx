@@ -1,14 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { MoonLoader } from 'react-spinners';
 import { useArticle, useAuth } from '../../../../hooks';
 import { Avatar, Button } from '../../../../components';
 import { resizeTextareaHeight } from '../../../../helpers';
-import {
-    useAddCommentMutation,
-    useGetCommentsQuery,
-    useRemoveCommentMutation,
-} from '../../../../redux';
+import { useAddCommentMutation, useGetCommentsQuery, useRemoveCommentMutation } from '../../../../redux';
 import { MoreButtonDialog } from './MoreButtonDialog';
 import { Comment } from './Comment';
 
@@ -29,7 +25,7 @@ export const CommentsBlock = () => {
         queryParams: `limit=20&page=${currentPage}`,
     });
     const [addComment, { isLoading }] = useAddCommentMutation();
-    const [removeComment, { isLoading: isLoadingRemove }] = useRemoveCommentMutation();
+    const [removeComment] = useRemoveCommentMutation();
 
     useEffect(() => {
         if (fetching) {
@@ -37,12 +33,27 @@ export const CommentsBlock = () => {
         }
     }, [fetching]);
 
+    const scrollHandler = useCallback(
+        (event: any) => {
+            if (
+                event.target.documentElement.scrollHeight -
+                    (event.target.documentElement.scrollTop + window.innerHeight) <
+                    100 &&
+                (article.comments.list?.length ?? 0) < (article.comments?.totalCount ?? 1)
+            ) {
+                setFetching(true);
+            }
+        },
+        [article]
+    );
+
     useEffect(() => {
         document.addEventListener('scroll', scrollHandler);
+
         return function () {
             document.removeEventListener('scroll', scrollHandler);
         };
-    }, [article.comments?.totalCount]);
+    }, [article.comments?.totalCount, scrollHandler]);
 
     const handleRemoveComment = (item: any, index: number) => {
         removeComment({
@@ -52,27 +63,11 @@ export const CommentsBlock = () => {
         });
     };
 
-    const scrollHandler = (event: any) => {
-        if (
-            event.target.documentElement.scrollHeight -
-                (event.target.documentElement.scrollTop + window.innerHeight) <
-                100 &&
-            (article.comments.list?.length ?? 0) < (article.comments?.totalCount ?? 1)
-        ) {
-            setFetching(true);
-        }
-    };
-
     const commentsItems = article?.comments?.list?.map((item: any, index: number) => (
         <li key={index} className={styles.commentsListItem}>
             <Comment comment={item} index={index} />
             {user?.id === item.author._id && (
-                <MoreButtonDialog
-                
-                    item={item}
-                    index={index}
-                    removeComment={() => handleRemoveComment(item, index)}
-                />
+                <MoreButtonDialog item={item} index={index} removeComment={() => handleRemoveComment(item, index)} />
             )}
         </li>
     ));
@@ -103,12 +98,7 @@ export const CommentsBlock = () => {
                                         ) : !isActiveInput ? (
                                             <div className={styles.commentPostContainer}>
                                                 <div className={styles.userInfo}>
-                                                    {user && (
-                                                        <Avatar
-                                                            width={40}
-                                                            imageSrc={user?.avatar}
-                                                        />
-                                                    )}
+                                                    {user && <Avatar width={40} imageSrc={user?.avatar} />}
                                                 </div>
                                                 <div className={styles.commentPost}>
                                                     <div className={styles.commentContainer}>
@@ -121,18 +111,16 @@ export const CommentsBlock = () => {
                                                                       })
                                                             }
                                                             value={textareaValue}
-                                                            onChange={(e) =>
-                                                                setTextareaValue(e.target.value)
-                                                            }
+                                                            onChange={(e) => setTextareaValue(e.target.value)}
                                                             placeholder="Введи текст комментария"
-                                                            style={{ height: '25px' }}></textarea>
+                                                            style={{ height: '25px' }}
+                                                        ></textarea>
                                                         <div className={styles.buttonGroup}></div>
                                                     </div>
                                                 </div>
                                             </div>
                                         ) : (
-                                            <div
-                                                className={`${styles.commentPostContainer} ${styles.active}`}>
+                                            <div className={`${styles.commentPostContainer} ${styles.active}`}>
                                                 <div className={styles.userInfo}>
                                                     <Avatar width={40} imageSrc={user?.avatar} />
                                                     <span>{user?.username}</span>
@@ -142,11 +130,10 @@ export const CommentsBlock = () => {
                                                         <textarea
                                                             onClick={() => setIsActiveInput(true)}
                                                             value={textareaValue}
-                                                            onChange={(e) =>
-                                                                setTextareaValue(e.target.value)
-                                                            }
+                                                            onChange={(e) => setTextareaValue(e.target.value)}
                                                             placeholder="Введи текст комментария"
-                                                            style={{ height: '25px' }}></textarea>
+                                                            style={{ height: '25px' }}
+                                                        ></textarea>
                                                         <div className={styles.buttonGroup}>
                                                             <Button
                                                                 onClick={() => {
@@ -154,7 +141,8 @@ export const CommentsBlock = () => {
                                                                     setTextareaValue('');
                                                                     resizeTextareaHeight();
                                                                 }}
-                                                                variant="text">
+                                                                variant="text"
+                                                            >
                                                                 Отмена
                                                             </Button>
                                                             <Button
@@ -167,7 +155,8 @@ export const CommentsBlock = () => {
                                                                     setTextareaValue('');
                                                                     setIsActiveInput(false);
                                                                 }}
-                                                                variant="filledTonal">
+                                                                variant="filledTonal"
+                                                            >
                                                                 Оставить комментарий
                                                             </Button>
                                                         </div>

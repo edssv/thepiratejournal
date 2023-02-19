@@ -8,7 +8,7 @@ const creating = async (req, res) => {
     const authorId = req.user._id;
     const authorUsername = req.user.username;
     const data = req.body;
-    const intent = req.body.intent;
+    const { intent, draftId } = req.body;
 
     try {
         if (intent === 'draft') {
@@ -34,7 +34,7 @@ const remove = async (req, res) => {
         const article = await Article.findOneAndUpdate({ _id: id }, { isDeleted: true, isPublished: false });
 
         if (!article) {
-            await Draft.findOneAndUpdate({ _id: id });
+            await Draft.deleteOne({ _id: id });
             return res.status(200).json({ message: 'Черновик удалён' });
         }
 
@@ -93,6 +93,7 @@ const searchArticles = async (req, res) => {
 const getOne = async (req, res) => {
     const id = req.params.id;
     const currentUser = req.currentUser;
+
     try {
         const article = await Article.getOne(id);
 

@@ -66,8 +66,9 @@ services:
             - '80:80'
             - '443:443'
         volumes:
-            - ./nginx/default.conf
-            - ./letsencrypt:/etc/letsencrypt
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./nginx/ssl/thepirate.press.crt:/etc/nginx/ssl/thepirate.press.crt
+            - ./nginx/ssl/thepirate.press.key:/etc/nginx/ssl/thepirate.press.key
         networks:
             net:
                 ipv4_address: 172.18.0.2

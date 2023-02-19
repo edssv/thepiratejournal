@@ -3,14 +3,12 @@ import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 import { useGetArticleQuery } from '../../redux';
-import { useAppDispatch } from '../../hooks';
 import { AiryArticle } from './AiryArticle';
 import { Overlay } from '../../components';
 import NotFoundPage from '../NotFound';
 
 const Article: React.FC = () => {
     const { id } = useParams();
-    const dispatch = useAppDispatch();
     const { isLoading, isFetching, isError } = useGetArticleQuery(id ?? '', {
         refetchOnMountOrArgChange: true,
     });

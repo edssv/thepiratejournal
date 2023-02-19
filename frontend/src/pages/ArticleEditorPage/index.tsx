@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, MutableRefObject } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { createReactEditorJS } from 'react-editor-js';
@@ -6,9 +6,9 @@ import debounce from 'lodash.debounce';
 import { useMediaPredicate } from 'react-media-hook';
 
 import { Button, Overlay } from '../../components';
-import { resetArticle, selectArticle, setTitle, useGetMutableArticleQuery } from '../../redux';
+import { resetArticle, selectArticle, setTitle, useAddArticleMutation, useGetArticleQuery } from '../../redux';
 import NotFoundPage from '../NotFound';
-import { useArticle, useDocTitle, useAppDispatch } from '../../hooks';
+import { useDocTitle, useAppDispatch } from '../../hooks';
 import { resizeTextareaHeight } from '../../helpers';
 import { ConfirmDialog, DraftInfoDialog, EDITOR_JS_TOOLS, i18n } from './components';
 
@@ -18,30 +18,25 @@ const ArticleEditorPage = () => {
     const { id } = useParams();
     const location = useLocation();
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
-    const article = useSelector(selectArticle);
-
-    const fromPage = location?.state?.from?.pathname;
-
     const isDraft = location.pathname.split('/')[1] === 'drafts';
     const isEditing = !isDraft && Boolean(id);
     const [mode, setMode] = useState<'isNew' | 'isEditing' | 'isDraft'>(
         isDraft ? 'isDraft' : isEditing ? 'isEditing' : 'isNew'
     );
     useDocTitle(mode === 'isNew' || 'isDraft' ? 'Новая статья' : 'Изменение статьи');
-
+    const navigate = useNavigate();
+    const { data, isLoading, isError } = useGetArticleQuery(id ?? '', {
+        skip: mode === 'isNew',
+        refetchOnMountOrArgChange: true,
+    });
+    const [saveArticle, { data: saveArticleResponse }] = useAddArticleMutation();
+    const article = useSelector(selectArticle);
+    const fromPage = location?.state?.from?.pathname;
     const editorCore = useRef<any>(null);
     const articleContentRef = useRef<HTMLDivElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [formStatus, setFormStatus] = useState<'unchanged' | 'modified' | 'saved'>('unchanged');
-
-    const { data, isLoading, isError } = useGetMutableArticleQuery(id ?? '', {
-        skip: mode === 'isNew',
-        refetchOnMountOrArgChange: true,
-    });
-
-    const [blocks, setBlocks] = useState(data?.blocks);
-
+    const [blocks, setBlocks] = useState(article?.blocks);
     const isMobile = useMediaPredicate('(max-width: 768px)');
 
     const ReactEditorJS = createReactEditorJS();
@@ -95,13 +90,14 @@ const ArticleEditorPage = () => {
         return savedData;
     }, []);
 
-    const autoSave = useCallback(
-        debounce(async () => {
-            const savedData = await handleSave();
-            setBlocks(savedData);
-        }, 150),
-        []
-    );
+    const autoSave = debounce(async () => {
+        const savedData = await handleSave();
+
+        setBlocks(savedData);
+
+        // const formData = Object.assign({ intent: 'draft' }, article, blocks);
+        // saveArticle(formData);
+    }, 150);
 
     if (isLoading) return <Overlay />;
     if (isError && mode === 'isEditing') return <NotFoundPage />;
@@ -142,7 +138,7 @@ const ArticleEditorPage = () => {
                             ref={textareaRef}
                             maxLength={68}
                             autoFocus={true}
-                            placeholder={isMobile ? 'Дай мне имя' : 'Как корабль назовёшь так он и поплывёт'}
+                            placeholder="Дай мне имя"
                             className={styles.writingHeader}
                             value={article?.title}
                             onChange={(e) => dispatch(setTitle(e.target.value))}

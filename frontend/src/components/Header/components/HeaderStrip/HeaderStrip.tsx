@@ -34,17 +34,17 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
         navigate('/articles/new', { state: { from: location } });
     };
 
-    const handleScroll = debounce(() => {
-        const currentScrollPos = window.pageYOffset;
+    // const handleScroll = debounce(() => {
+    //     const currentScrollPos = window.pageYOffset;
 
-        setVisible(prevScrollPos > currentScrollPos);
+    //     setVisible(prevScrollPos > currentScrollPos);
 
-        if (scrollTop > 55 && currentScrollPos > prevScrollPos) {
-            setVisible(false);
-        }
+    //     if (scrollTop > 55 && currentScrollPos > prevScrollPos) {
+    //         setVisible(false);
+    //     }
 
-        setPrevScrollPos(currentScrollPos);
-    }, 100);
+    //     setPrevScrollPos(currentScrollPos);
+    // }, 100);
 
     const Content = () => {
         if (fromLaptop) {

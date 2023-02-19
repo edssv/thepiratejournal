@@ -1,0 +1,47 @@
+@use '../../scss/util' as *;
+
+.root {
+    position: fixed;
+    bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 320px;
+    padding: 14px 0;
+    padding-left: 16px;
+    background-color: var(--md-sys-color-inverse-surface);
+    box-shadow: var(--md-sys-elevation-2);
+    border-radius: 4px;
+    z-index: 999;
+    @include breakpoint-down(sm) {
+        width: calc(100% - 32px);
+    }
+
+    &.left {
+        left: 16px;
+        justify-content: start;
+    }
+
+    &.center {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    &.right {
+        right: 16px;
+        transform: translateX(-50%);
+    }
+
+    .supportingText {
+        max-width: 360px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: var(--md-sys-color-inverse-on-surface);
+    }
+
+    .close {
+        font-variation-settings: 'wght' 300;
+        color: var(--md-sys-color-inverse-on-surface);
+    }
+}

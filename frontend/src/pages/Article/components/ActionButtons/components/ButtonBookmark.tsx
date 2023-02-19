@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useState } from 'react';
-import { Button, Variant, Tippy, ActionDialog } from '../../../../../components';
+import { Button, Variant, Tippy, Snackbar } from '../../../../../components';
 import { useArticle, useAuth } from '../../../../../hooks';
 import { useAddBookmarkMutation, useRemoveBookmarkMutation } from '../../../../../redux';
 
@@ -59,9 +59,9 @@ export const ButtonBookmark: React.FC<PropsWithChildren<IsBookmarkProps>> = ({
                         <span className="material-symbols-outlined">bookmark</span>
                         {children}
                     </Button>
-                    <ActionDialog isOpen={isOpen}>
+                    <Snackbar isOpen={isOpen} onClose={() => setIsOpen(false)}>
                         {hasBookmark ? 'Добавлено в закладки' : 'Удалено из закладок'}
-                    </ActionDialog>
+                    </Snackbar>
                 </>
             )}
         </>

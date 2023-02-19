@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMediaPredicate } from 'react-media-hook';
 
@@ -30,7 +30,7 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({ selectedFile, setSelec
         filePicker.current?.click();
     };
 
-    const handleUpload = async () => {
+    const handleUpload = useCallback(async () => {
         if (!selectedFile) {
             alert('Пожалуйста выберите изображение');
         }
@@ -39,13 +39,13 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({ selectedFile, setSelec
         formData.append('image', selectedFile);
 
         addCover(formData);
-    };
+    }, [selectedFile, addCover]);
 
     useEffect(() => {
         if (isMounted) return;
 
         if (selectedFile) handleUpload();
-    }, [selectedFile]);
+    }, [selectedFile, isMounted, handleUpload]);
 
     useEffect(() => {
         if (data) {

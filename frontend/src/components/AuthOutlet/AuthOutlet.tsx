@@ -9,9 +9,9 @@ export const AuthOutlet = () => {
 
     if (isLoading) return <Overlay />;
 
-    return user ? (
-        navigate
-    ) : (
+    if (user) return navigate;
+
+    return (
         <Canvas>
             <Outlet />
         </Canvas>

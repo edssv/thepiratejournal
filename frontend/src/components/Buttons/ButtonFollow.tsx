@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import { useAuth } from '../../hooks';
 import { useFollowMutation, useUnFollowMutation } from '../../redux';
-import { ActionDialog, DialogTrigger, Tippy } from '../';
+import { Snackbar, DialogTrigger, Tippy } from '../';
 import { Button } from './Button';
+import { Dialog, DialogActionButton, DialogCancelButton, DialogContent, DialogControls, DialogTitle } from '../Dialog';
 
 interface ButtonFollowProps {
     username: string | undefined;
@@ -88,20 +89,26 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({ username, hasSubscri
                             'Подписка'
                         )}
                     </Button>
-                    <DialogTrigger
-                        title="Отписаться от автора"
-                        description="Ты точно хочешь отписаться от автора?"
-                        primaryActionLabel="Отписаться"
-                        onPrimaryAction={() => {
-                            handleFollow();
-                            setIsOpen(false);
-                        }}
-                        cancelLabel="Отмена"
-                        onCancel={() => setIsOpen(false)}
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                    />
-                    <ActionDialog isOpen={isOpenTippy}>Ты подписался на автора</ActionDialog>
+                    <DialogTrigger isVisible={isOpen} onClose={setIsOpen}>
+                        <Dialog>
+                            <DialogTitle>Отписаться от автора</DialogTitle>
+                            <DialogContent>Ты точно хочешь отписаться от автора?</DialogContent>
+                            <DialogControls>
+                                <DialogCancelButton>Отмена</DialogCancelButton>
+                                <DialogActionButton
+                                    onClick={() => {
+                                        handleFollow();
+                                        setIsOpen(false);
+                                    }}
+                                >
+                                    Отписаться
+                                </DialogActionButton>
+                            </DialogControls>
+                        </Dialog>
+                    </DialogTrigger>
+                    <Snackbar isOpen={isOpenTippy} onClose={() => setIsOpenTippy(false)}>
+                        Ты подписался на автора
+                    </Snackbar>
                 </>
             ) : (
                 <>
@@ -117,7 +124,9 @@ export const ButtonFollow: React.FC<ButtonFollowProps> = ({ username, hasSubscri
                             'Подписаться'
                         )}
                     </Button>
-                    <ActionDialog isOpen={isOpenTippy}>Ты отписался от автора</ActionDialog>
+                    <Snackbar isOpen={isOpenTippy} onClose={() => setIsOpenTippy(false)}>
+                        Ты отписался от автора
+                    </Snackbar>
                 </>
             )}
         </>

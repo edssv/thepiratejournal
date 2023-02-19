@@ -1,12 +1,11 @@
 import { useRef, useState } from 'react';
-import { useArticle } from '../../../../hooks';
+
 import { useHeadingsData } from './useHeadingsData';
 import { useIntersectionObserver } from './useIntersectionObserver';
 
 import styles from './TableOfContents.module.scss';
 
 export const TableOfContents = () => {
-    const { article } = useArticle();
     const indicatorRef = useRef<any>(null);
     const [activeId, setActiveId] = useState();
     const { headings }: any = useHeadingsData();
@@ -28,22 +27,16 @@ export const TableOfContents = () => {
                 <span className={styles.label}>В этой статье</span>
                 <div
                     ref={indicatorRef}
-                    className={`${styles.indicator} ${
-                        headings?.id !== activeId ? '' : styles.hide
-                    }`}
+                    className={`${styles.indicator} ${headings?.id !== activeId ? '' : styles.hide}`}
                 />
                 <ul className={styles.tabList}>
                     {headings.map((heading: any, i: number) => (
-                        <li
-                            key={i}
-                            onClick={() => handleClick(heading.id)}
-                            className={styles.listItem}>
+                        <li key={i} onClick={() => handleClick(heading.id)} className={styles.listItem}>
                             <a
                                 href={`#${heading.id}`}
                                 onClick={(e) => e.preventDefault()}
-                                className={`${styles.tocItem} ${
-                                    heading.id === activeId ? styles.Selected : ''
-                                }`}>
+                                className={`${styles.tocItem} ${heading.id === activeId ? styles.Selected : ''}`}
+                            >
                                 {heading.title}
                             </a>
                         </li>
