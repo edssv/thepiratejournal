@@ -15,13 +15,15 @@ const pathToIndex = path.join(__dirname, 'build', 'index.html');
 
 const getUser = async (username) => {
     try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/users/${username}`);
+        const res = await fetch(`${process.env.REACT_APP_API_LOCAL_URL}/users/${username}`);
 
-        if (res.ok) {
-            const data = await res.json();
-
-            return data;
+        if (!res.ok) {
+            throw new Error(`Error! status: ${res.status}`);
         }
+
+        const data = await res.json();
+
+        return data;
     } catch (err) {
         console.log(err);
     }
@@ -29,13 +31,15 @@ const getUser = async (username) => {
 
 const getArticle = async (articleId) => {
     try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/articles/${articleId}`);
+        const res = await fetch(`${process.env.REACT_APP_API_LOCAL_URL}/articles/${articleId}`);
 
-        if (res.ok) {
-            const data = await res.json();
-
-            return data;
+        if (!res.ok) {
+            throw new Error(`Error! status: ${res.status}`);
         }
+
+        const data = await res.json();
+
+        return data;
     } catch (err) {
         console.log(err);
     }
@@ -45,6 +49,10 @@ app.get('/@:username', function (req, res) {
     fs.readFile(pathToIndex, 'utf8', async (err, htmlData) => {
         const username = req.params.username;
         const user = getUser(username);
+
+        if (!user) {
+            return res.send(htmlData);
+        }
 
         // inject meta tags
         htmlData = htmlData
@@ -69,6 +77,10 @@ app.get('/articles/:id', function (req, res) {
         const articleId = req.params.id;
         const article = await getArticle(articleId);
 
+        if (!article) {
+            return res.send(htmlData);
+        }
+
         // inject meta tags
         htmlData = htmlData
             .replace('<title>The Pirate Journal</title>', `<title>${article.title} - The Pirate Journal</title>`)
@@ -80,8 +92,8 @@ app.get('/articles/:id', function (req, res) {
             .replace('__META_OG_IMAGE__', `${article.cover}`)
             .replace('__META_TWITTER_IMAGE__', `${article.cover}`)
             .replace('__META_OG_TYPE__', 'article')
-            .replace('__META_OG_URL__', `https://thepirate.press/articles/${article.id}`)
-            .replace('__META_TWITTER_URL__', `https://thepirate.press/articles/${article.id}`);
+            .replace('__META_OG_URL__', `https://thepirate.press/articles/${article._id}`)
+            .replace('__META_TWITTER_URL__', `https://thepirate.press/articles/${article._id}`);
 
         res.send(htmlData);
     });
@@ -99,8 +111,11 @@ app.get('/', function (req, res) {
             )
             .replace('__META_OG_DESCRIPTION__', 'Самые свежие и интересные игровые статьи.')
             .replace('__META_TWITTER_DESCRIPTION__', 'Самые свежие и интересные игровые статьи.')
-            .replace('__META_OG_IMAGE__', 'https://thepirate.press/static/media/logotype.25b315577d9cfc394f4b.png')
-            .replace('__META_TWITTER_IMAGE__', 'https://thepirate.press/static/media/logotype.25b315577d9cfc394f4b.png')
+            .replace('__META_OG_IMAGE__', 'https://thepirate.press/static/media/logo-banner.31074d1c419fb77750e4.jpg')
+            .replace(
+                '__META_TWITTER_IMAGE__',
+                'https://thepirate.press/static/media/logo-banner.31074d1c419fb77750e4.jpg'
+            )
             .replace('__META_OG_TYPE__', 'website')
             .replace('__META_OG_URL__', 'https://thepirate.press')
             .replace('__META_TWITTER_URL__', 'https://thepirate.press');

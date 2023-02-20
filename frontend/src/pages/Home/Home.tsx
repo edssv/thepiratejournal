@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+
 import { Article, useGetArticlesQuery } from '../../redux';
-import { useDocTitle } from '../../hooks';
-import { AiryArticlePreview, AiryArticleSkeleton, HomeSectionPrompt, TabPanel } from './';
+import { useAuth, useDocTitle } from '../../hooks';
+import { AiryArticlePreview, AiryArticleSkeleton, HomeSectionPrompt, SignedOutHero, TabPanel } from './';
 
 import styles from './Home.module.scss';
+import { FilterBar } from '../Articles/SearchHeader/FilterBar';
 
 export enum HomeSection {
     ForYou = 'for_you',
@@ -12,9 +14,9 @@ export enum HomeSection {
 }
 
 export default function Home() {
+    const { user } = useAuth();
     useDocTitle('');
     const location = useLocation();
-
     const sectionFromUrl = location.pathname.split('/')[1];
     const [activeSection, setActiveSection] = useState<HomeSection>(
         sectionFromUrl === (HomeSection.ForYou || HomeSection.Following) ? sectionFromUrl : HomeSection.ForYou
@@ -48,9 +50,8 @@ export default function Home() {
 
     return (
         <div className={styles.root}>
-            <TabPanel activeSection={activeSection} setActiveSection={setActiveSection}>
-                {articles()}
-            </TabPanel>
+            <TabPanel activeSection={activeSection} setActiveSection={setActiveSection} />
+            <ul className="AiryArticlesList">{articles()}</ul>
         </div>
     );
 }

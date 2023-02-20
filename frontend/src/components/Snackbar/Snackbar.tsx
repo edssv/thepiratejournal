@@ -7,6 +7,8 @@ import { Button } from '../Buttons';
 
 type SnackbarProps = {
     position?: 'left' | 'center' | 'right';
+    permanent?: boolean;
+    timeout?: number;
     isOpen: boolean;
     close?: boolean;
     onClose: () => void;
@@ -15,14 +17,18 @@ type SnackbarProps = {
 export const Snackbar: React.FC<PropsWithChildren<SnackbarProps>> = ({
     children,
     position = 'left',
-    close = false,
+    permanent = false,
+    timeout = 4000,
     isOpen,
+    close = false,
     onClose,
 }) => {
     const portalRoot = document.getElementById('portal-root') || new HTMLElement();
 
     useEffect(() => {
-        setTimeout(() => onClose(), 4000);
+        if (!permanent) {
+            setTimeout(() => onClose(), timeout);
+        }
     }, [isOpen]);
 
     const setPosition = () => {

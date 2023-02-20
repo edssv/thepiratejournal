@@ -2,11 +2,12 @@ import { Suspense, lazy, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import 'material-symbols';
 
-import CrossScreenModals from './components/CrossScreenModals';
+import CrossScreensSnackbars from './components/Snackbars/CrossScreensSnackbars';
 import { Layout, Overlay } from './components';
-import { AuthOutlet, PrivateOutlet, DraftsAndBookmarksOutlet } from './helpers';
+import { AuthOutlet, PrivateOutlet } from './helpers';
 import { useThemeMode } from './hooks';
 import { useGetCurrentUserQuery } from './redux';
+import { DraftsAndBookmarksOutlet } from './pages/Profile';
 
 import './scss/styles.scss';
 
@@ -59,7 +60,6 @@ const App = () => {
                             <Route path="@:username/drafts" element={<Profile />} />
                             <Route path="@:username/bookmarks" element={<Profile />} />
                         </Route>
-
                         <Route path="*" element={<NotFoundPage />} />
                     </Route>
                     <Route element={<PrivateOutlet />}>
@@ -73,7 +73,8 @@ const App = () => {
                     </Route>
                 </Routes>
             </Suspense>
-            <CrossScreenModals />
+
+            <CrossScreensSnackbars />
         </>
     );
 };

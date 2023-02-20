@@ -10,8 +10,8 @@ export const ShareButtons = () => {
 
     return (
         <div className={styles.root}>
-            {/* <Button
-                href={`https://twitter.com/intent/tweet?text=${article.title}&url=${process.env.REACT_APP_CLIENT_URL}/articles/${article._id}`}
+            <Button
+                href={`https://vk.com/share.php?url=${process.env.REACT_APP_CLIENT_URL}/articles/${article._id}`}
                 target="_blank"
                 className={styles.link}
                 variant="filledTonal"
@@ -46,7 +46,7 @@ export const ShareButtons = () => {
                     </g>
                 </svg>
                 Поделиться
-            </Button> */}
+            </Button>
             <Button
                 href={`https://twitter.com/intent/tweet?text=${article.title}&url=${process.env.REACT_APP_CLIENT_URL}/articles/${article._id}`}
                 target="_blank"

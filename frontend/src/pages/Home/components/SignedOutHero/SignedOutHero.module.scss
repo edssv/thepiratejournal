@@ -1,0 +1,12 @@
+@use '../../../../scss/util' as *;
+
+.root {
+    margin: -20px -24px 32px -24px;
+    padding: 48px 16px;
+    background-color: var(--md-sys-color-surface-2);
+    border-top: 1px solid var(--md-sys-color-outline-variant);
+
+    @include breakpoint(md) {
+        height: 560px;
+    }
+}
