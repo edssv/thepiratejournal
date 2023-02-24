@@ -1,32 +1,42 @@
 import React, { useState } from 'react';
 import { Listbox } from '@headlessui/react';
+import { useSelector } from 'react-redux';
+
+import { Chip } from '../../../../components';
+import { selectFilter, setSort, setTag, useGetLastTagsQuery } from '../../../../redux';
+import { useAppDispatch } from '../../../../hooks';
 
 import styles from './FilterBar.module.scss';
 
-interface FilterBarProps {
-    sortType: React.Key;
-    setSortType: React.Dispatch<React.SetStateAction<React.Key>>;
-}
-
-const categories = [
+const sortData = [
     { name: 'Самые популярные', key: 'views' },
     { name: 'Самые новые', key: 'recent' },
     { name: 'Самые оцененные', key: 'appreciations' },
 ];
 
-export const FilterBar: React.FC<FilterBarProps> = ({ sortType, setSortType }) => {
+export const FilterBar: React.FC = () => {
+    const { data } = useGetLastTagsQuery('');
+    const dispatch = useAppDispatch();
+    const { sort, tag } = useSelector(selectFilter);
     const [selectedCategory, setSelectedCategory] = useState(
-        sortType === 'views'
-            ? categories[0]
-            : sortType === 'recent'
-            ? categories[1]
-            : sortType === 'appreciations'
-            ? categories[2]
-            : categories[0]
+        sort === 'views'
+            ? sortData[0]
+            : sort === 'recent'
+            ? sortData[1]
+            : sort === 'appreciations'
+            ? sortData[2]
+            : sortData[0]
     );
 
     return (
         <div className={styles.root}>
+            <div className={styles.tags}>
+                {data?.tags?.map((item, i: number) => (
+                    <Chip key={i} onClick={() => dispatch(setTag(item))} selected={item === tag}>
+                        {item}
+                    </Chip>
+                ))}
+            </div>
             <Listbox value={selectedCategory} onChange={setSelectedCategory}>
                 <div className="listBox">
                     <Listbox.Button placeholder="Выбери категорию" className="listBoxButton">
@@ -34,12 +44,12 @@ export const FilterBar: React.FC<FilterBarProps> = ({ sortType, setSortType }) =
                         <span className="material-symbols-outlined">unfold_more</span>
                     </Listbox.Button>
                     <Listbox.Options className="listBoxOptions">
-                        {categories.map((category) => (
+                        {sortData.map((item) => (
                             <Listbox.Option
                                 className="listBoxOption"
-                                onClick={() => setSortType(category.key)}
-                                key={category.key}
-                                value={category}
+                                onClick={() => dispatch(setSort(item.key))}
+                                key={item.key}
+                                value={item}
                             >
                                 {({ active, selected }) => (
                                     <div
@@ -48,7 +58,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({ sortType, setSortType }) =
                                     `}
                                     >
                                         {selected && <span className="material-symbols-outlined">check</span>}{' '}
-                                        {category.name}
+                                        {item.name}
                                     </div>
                                 )}
                             </Listbox.Option>

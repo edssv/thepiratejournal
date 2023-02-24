@@ -24,6 +24,11 @@ const {
     getSuggestions,
     likeComment,
     removeLikeComment,
+    getLastTags,
+    getMostPopularArticle,
+    getAuthorChoice,
+    getBestOfWeak,
+    getNewest,
 } = require('../controllers/article-controller');
 
 const router = express.Router();
@@ -31,12 +36,17 @@ const router = express.Router();
 router.get('/articles/main/:section', checkUser, getAll);
 router.get('/search', searchArticles);
 router.get('/search/:category', searchArticles);
+router.post('/articles', requireAuth, creating);
+router.get('/articles/tags', getLastTags);
+router.get('/articles/mostPopular', getMostPopularArticle);
+router.get('/articles/authorChoice', getAuthorChoice);
+router.get('/articles/bestOfWeak', getBestOfWeak);
+router.get('/articles/newest', getNewest);
+router.delete('/articles/:id', requireAuth, compareAuthor, remove);
+router.put('/articles/:id', requireAuth, compareAuthor, editing);
 router.get('/articles/:id', checkUser, getOne);
 router.get('/articles/:id/comments', checkUser, getComments);
 router.get('/articles/:id/suggestions/:category', checkUser, getSuggestions);
-router.post('/articles', requireAuth, creating);
-router.delete('/articles/:id', requireAuth, compareAuthor, remove);
-router.put('/articles/:id', requireAuth, compareAuthor, editing);
 
 // like route
 router.patch('/articles/:id/like/like', requireAuth, checkLike, like);

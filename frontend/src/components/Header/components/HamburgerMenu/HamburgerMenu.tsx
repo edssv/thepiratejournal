@@ -13,7 +13,7 @@ interface OpenStateProps {
 }
 
 const navListData = [
-    { href: '/for_you', text: 'Дом', icon: 'home' },
+    { href: '', text: 'Дом', icon: 'home' },
     { href: '/search', text: 'Статьи', icon: 'book' },
     { href: '/games', text: 'Игры', icon: 'stadia_controller' },
     { href: '/authors', text: 'Авторы', icon: 'diversity_1' },
@@ -63,7 +63,7 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                             to={item.href}
                             onClick={() => setOpen(false)}
                             className={({ isActive }) =>
-                                [styles.nav__link, isActive ? styles.active : undefined].filter(Boolean).join(' ')
+                                [styles.nav__link, isActive ? styles.active : ''].filter(Boolean).join(' ')
                             }
                         >
                             <span className="material-symbols-outlined">{item.icon}</span> {item.text}

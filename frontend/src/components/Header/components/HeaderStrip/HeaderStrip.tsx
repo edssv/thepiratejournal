@@ -13,6 +13,7 @@ import { ThemeButton } from '../ThemeButton/ThemeButton';
 import logo from '../../../../assets/img/logotype.png';
 import styles from './HeaderStrip.module.scss';
 import { NotificationButton } from './components';
+import { SearchBar } from '../SearchBar';
 
 interface OpenStateProps {
     open: boolean;
@@ -50,25 +51,17 @@ export const HeaderStrip: React.FC<OpenStateProps> = ({ open, setOpen }) => {
         if (fromLaptop) {
             return (
                 <div className={styles.content}>
-                    <div className={styles.content__left}>
+                    <div className={styles.left}>
                         <Link to="/" className={`${styles.logo} icon-center`}>
                             <>
                                 <img src={logo} alt="The Pirate Journal" />
-                                {fromLaptop && (
-                                    <span>
-                                        The Pirate <br />
-                                        Journal
-                                    </span>
-                                )}
+                                {fromLaptop && <span>The Pirate Journal</span>}
                             </>
                         </Link>
-                        <nav className={styles.nav}>
-                            <NavLink to="/search" className={styles.nav__link}>
-                                Статьи
-                            </NavLink>
-                        </nav>
+                        {location.pathname.split('/')[1] !== 'search' && <SearchBar />}
                     </div>
-                    <div className={styles.content__right}>
+
+                    <div className={styles.right}>
                         {isLoading ? (
                             <HeaderSkeleton />
                         ) : user ? (

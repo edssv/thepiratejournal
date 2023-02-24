@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { api } from './services/api';
 import authReducer from './slices/authSlice';
 import articleReducer from './slices/articleSlice';
+import filterReducer from './slices/filterSlice';
 import userReducer from './slices/userSlice';
 import uiReducer from './slices/uiSlice';
 
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     article: articleReducer,
     user: userReducer,
+    filter: filterReducer,
     ui: uiReducer,
 });
 

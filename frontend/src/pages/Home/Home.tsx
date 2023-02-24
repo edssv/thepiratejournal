@@ -1,57 +1,18 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { lazy } from 'react';
 
-import { Article, useGetArticlesQuery } from '../../redux';
 import { useAuth, useDocTitle } from '../../hooks';
-import { AiryArticlePreview, AiryArticleSkeleton, HomeSectionPrompt, SignedOutHero, TabPanel } from './';
 
+import './Home.scss';
 import styles from './Home.module.scss';
-import { FilterBar } from '../Articles/SearchHeader/FilterBar';
 
-export enum HomeSection {
-    ForYou = 'for_you',
-    Following = 'following',
-}
+const SignedIn = lazy(() => import(/* webpackChunkName: "SignedInHome" */ './SignedIn/SignedIn'));
+const SignedOut = lazy(() => import(/* webpackChunkName: "SignedOutHome" */ './SignedOut/SignedOut'));
 
 export default function Home() {
-    const { user } = useAuth();
     useDocTitle('');
-    const location = useLocation();
-    const sectionFromUrl = location.pathname.split('/')[1];
-    const [activeSection, setActiveSection] = useState<HomeSection>(
-        sectionFromUrl === (HomeSection.ForYou || HomeSection.Following) ? sectionFromUrl : HomeSection.ForYou
-    );
-    const { data, isLoading, isSuccess, isError } = useGetArticlesQuery({
-        section: activeSection,
-        queryParams: `limit=15&page=0`,
-    });
+    const { user, isLoading } = useAuth();
 
-    const articlesList = () => {
-        if (isLoading) return <AiryArticleSkeleton counts={12} />;
-        if (isError) return <h3>Здесь появятся статьи для тебя</h3>;
-        if (isSuccess) {
-            return data?.map((article: Article, id: number) => <AiryArticlePreview key={id} article={article} />);
-        }
-    };
+    if (isLoading) return null;
 
-    const articles = () => {
-        if (activeSection === 'for_you') {
-            return articlesList();
-        }
-        if (activeSection === 'following' && isSuccess && !data) {
-            return (
-                <HomeSectionPrompt
-                    headline="Ты еще не подписан ни на одного автора."
-                    text="Подписавшись на автора, ты увидишь все его проекты, которые автор делает доступными для подписчиков."
-                />
-            );
-        } else return articlesList();
-    };
-
-    return (
-        <div className={styles.root}>
-            <TabPanel activeSection={activeSection} setActiveSection={setActiveSection} />
-            <ul className="AiryArticlesList">{articles()}</ul>
-        </div>
-    );
+    return <div className={styles.root}>{user ? <SignedIn /> : <SignedOut />}</div>;
 }

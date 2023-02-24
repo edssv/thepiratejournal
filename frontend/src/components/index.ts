@@ -1,10 +1,11 @@
+export { AiryArticlePreview, AiryArticleSkeleton } from './AiryArticlePreview';
 export { ArticlePreview } from './ArticlePreview';
 export { ArticlePreviewSkeleton } from './ArticlePreview';
-export { ArticleStats } from './ArticleStats';
+export { ArticleStats } from './ArticlePreview/components/ArticleStats';
 export { Avatar } from './Avatar';
 export { AuthOutlet } from './AuthOutlet/AuthOutlet';
-export { Canvas } from './Canvas';
-export { CardLayout } from './CardLayout';
+export { Canvas } from '../pages/Auth/components/Canvas';
+export { CardLayout } from '../pages/Auth/components/CardLayout';
 export { Chip } from './Chip';
 export { CreateModule } from './CreateModule';
 export { DialogTrigger } from './DialogTrigger';

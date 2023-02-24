@@ -1,1 +1,0 @@
-export { SignedOutHero } from './SignedOutHero';

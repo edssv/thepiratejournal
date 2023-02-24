@@ -1,18 +1,21 @@
 import { Snackbar } from '../..';
 
+import styles from './AcceptCookies.module.scss';
+
 export const AcceptCookies = () => {
     const isAcceptCookies = localStorage.getItem('isAcceptCookies');
 
     if (isAcceptCookies) {
         return (
             <Snackbar
+                className={styles.root}
                 isOpen={true}
                 permanent
-                close
+                accept
                 onClose={() => localStorage.setItem('isAcceptCookies', 'true')}
                 position="center"
             >
-                Статья отправлена на проверку и в скором времени будет опубликована.
+                Для правильной работы сайта нам необходимо использовать файлы cookie.
             </Snackbar>
         );
     } else return null;

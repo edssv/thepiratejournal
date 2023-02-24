@@ -8,7 +8,7 @@ const creating = async (req, res) => {
     const authorId = req.user._id;
     const authorUsername = req.user.username;
     const data = req.body;
-    const { intent, draftId } = req.body;
+    const { intent } = req.body;
 
     try {
         if (intent === 'draft') {
@@ -46,9 +46,10 @@ const remove = async (req, res) => {
 
 const editing = async (req, res) => {
     const articleId = req.params.id;
-    const { title, cover, blocks, tags, category, readingTime } = req.body;
+    const { title, description, cover, blocks, tags, category, readingTime } = req.body;
+
     try {
-        await Article.editing(articleId, title, cover, blocks, tags, category, readingTime);
+        await Article.editing(articleId, title, description, cover, blocks, tags, category, readingTime);
         res.status(200).json({ message: 'Статья обновлена' });
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -197,6 +198,61 @@ const getSuggestions = async (req, res) => {
     }
 };
 
+const getLastTags = async (req, res) => {
+    try {
+        const articles = await Article.find({ isPublished: true }).limit(8).exec();
+
+        const tags = articles
+            .map((obj) => obj.tags)
+            .flat()
+            .slice(0, 8);
+
+        res.status(200).json({ tags });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const getMostPopularArticle = async (req, res) => {
+    try {
+        const article = await Article.findOne({ isPublished: true }).sort({ 'views.count': -1 });
+
+        res.status(200).json(article);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const getAuthorChoice = async (req, res) => {
+    try {
+        const articles = await Article.find({ isPublished: true }).sort({ 'likes.count': -1 }).limit(3);
+
+        res.status(200).json(articles);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const getBestOfWeak = async (req, res) => {
+    try {
+        const articles = await Article.find({ isPublished: true }).sort({ 'likes.count': 1 }).limit(6);
+
+        res.status(200).json(articles);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const getNewest = async (req, res) => {
+    try {
+        const articles = await Article.find({ isPublished: true }).sort({ created_on: 1 }).limit(16);
+
+        res.status(200).json(articles);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
 const like = async (req, res) => {
     const articleId = req.params.id;
     const user = req.user;
@@ -300,6 +356,11 @@ module.exports = {
     getOne,
     getComments,
     getSuggestions,
+    getLastTags,
+    getMostPopularArticle,
+    getAuthorChoice,
+    getBestOfWeak,
+    getNewest,
     like,
     removeLike,
     addComment,

@@ -37,7 +37,6 @@ const ArticleEditorPage = () => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [formStatus, setFormStatus] = useState<'unchanged' | 'modified' | 'saved'>('unchanged');
     const [blocks, setBlocks] = useState(article?.blocks);
-    const isMobile = useMediaPredicate('(max-width: 768px)');
 
     const ReactEditorJS = createReactEditorJS();
 

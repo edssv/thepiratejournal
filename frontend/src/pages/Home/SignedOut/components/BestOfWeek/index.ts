@@ -1,0 +1,1 @@
+export { BestOfWeek } from './BestOfWeek';

@@ -1,4 +1,4 @@
-import React, { useState, MutableRefObject } from 'react';
+import React, { MutableRefObject } from 'react';
 import { useMediaPredicate } from 'react-media-hook';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -30,26 +30,26 @@ export const ConfirmButton = ({ mode, articleContentRef, blocks }: ConfirmButton
     const isMobile = useMediaPredicate('(max-width: 551px)');
 
     const saveArticle = async () => {
-        const description =
-            (articleContentRef as MutableRefObject<HTMLDivElement>).current.innerText.slice(0, 150) + '...';
+        const description = (articleContentRef as MutableRefObject<HTMLDivElement>).current.innerText.split('.', 2);
 
         const formData = Object.assign(
             {
                 saveFromDraft: mode === 'isDraft',
                 draftId: mode === 'isDraft' && article._id,
             },
+            article,
+            blocks,
+
             { intent: 'publish' },
             { readingTime: readingTimeFunction(articleContentRef) },
-            { description: description },
-            article,
-            blocks
+            { description: description }
         );
-        mode === 'isEditing' ? editArticle({ formData, id: article._id }) : addArticle(formData);
+        mode === 'isEditing' ? editArticle(formData) : addArticle(formData);
     };
 
     return (
         <>
-            <Snackbar isOpen={isPublishSnackbarVisible} onClose={() => setPublishSnackbarVisible(false)}>
+            <Snackbar isOpen={isPublishSnackbarVisible} onClose={() => setPublishSnackbarVisible(false)} timeout={5000}>
                 {isSuccess
                     ? 'Статья отправлена на проверку и в скором времени будет опубликована.'
                     : isError
@@ -63,7 +63,7 @@ export const ConfirmButton = ({ mode, articleContentRef, blocks }: ConfirmButton
                     try {
                         await saveArticle();
                         dispatch(setPublishSnackbarVisible(true));
-                        setTimeout(() => setPublishSnackbarVisible(false), 5000);
+
                         navigate('/');
                     } catch (err) {}
                 }}

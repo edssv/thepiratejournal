@@ -11,7 +11,7 @@ const initialState: UiState = {
 };
 
 const slice = createSlice({
-    name: 'user',
+    name: 'ui',
     initialState,
     reducers: {
         setPublishSnackbarVisible(state, { payload }) {

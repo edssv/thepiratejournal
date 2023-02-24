@@ -1,0 +1,1 @@
+export { NewestArticles } from './NewestArticles';

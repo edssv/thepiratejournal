@@ -1,0 +1,52 @@
+@use '../../../../scss/util' as *;
+
+.root {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 360px;
+    height: 56px;
+    background-color: var(--md-sys-color-surface-1);
+    border-radius: 100px;
+
+    .form {
+        display: flex;
+        align-items: center;
+
+        .icon {
+            padding: 0 16px;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        input {
+            width: 260px;
+            background-color: transparent;
+            color: var(--md-sys-color-on-surface);
+            border: none;
+
+            &::placeholder {
+                opacity: 1;
+                color: var(--md-sys-color-on-surface-variant);
+            }
+        }
+
+        input,
+        input::placeholder {
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 400;
+        }
+
+        button {
+            visibility: hidden;
+            &.visible {
+                visibility: visible;
+            }
+
+            .trailingIcon {
+                color: var(--md-sys-color-on-surface-variant);
+            }
+        }
+    }
+}

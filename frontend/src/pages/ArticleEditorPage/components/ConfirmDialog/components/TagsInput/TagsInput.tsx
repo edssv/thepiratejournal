@@ -12,12 +12,14 @@ export const TagsInput = () => {
     const removeTags = (indexToRemove: number) => {
         dispatch(setTags([...article?.tags.filter((_, index) => index !== indexToRemove)]));
     };
+
     const addTags = (event: any) => {
         if (event.target.value !== '') {
             dispatch(setTags([...article?.tags, event.target.value]));
             event.target.value = '';
         }
     };
+
     return (
         <div className={styles.root}>
             <div className={styles.tagsInput}>

@@ -32,8 +32,8 @@ export const ShareButtons = () => {
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g
                         id="SVGRepo_tracerCarrier"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         stroke="#CCCCCC"
                         stroke-width="0.564"
                     ></g>

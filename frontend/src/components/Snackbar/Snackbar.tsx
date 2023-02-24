@@ -6,21 +6,25 @@ import styles from './Snackbar.module.scss';
 import { Button } from '../Buttons';
 
 type SnackbarProps = {
+    className?: string;
     position?: 'left' | 'center' | 'right';
     permanent?: boolean;
     timeout?: number;
     isOpen: boolean;
     close?: boolean;
+    accept?: boolean;
     onClose: () => void;
 };
 
 export const Snackbar: React.FC<PropsWithChildren<SnackbarProps>> = ({
     children,
+    className,
     position = 'left',
     permanent = false,
     timeout = 4000,
     isOpen,
     close = false,
+    accept = false,
     onClose,
 }) => {
     const portalRoot = document.getElementById('portal-root') || new HTMLElement();
@@ -41,7 +45,7 @@ export const Snackbar: React.FC<PropsWithChildren<SnackbarProps>> = ({
         <AnimatePresence>
             {isOpen && (
                 <motion.div
-                    className={`${styles.root} ${setPosition()}`}
+                    className={`${styles.root} ${setPosition()} ${className ?? ''}`}
                     style={{ bottom: -50, opacity: 0 }}
                     animate={{ bottom: 16, opacity: 1 }}
                     exit={{ bottom: -50, opacity: 0 }}
@@ -52,6 +56,7 @@ export const Snackbar: React.FC<PropsWithChildren<SnackbarProps>> = ({
                             <span className="material-symbols-outlined">close</span>
                         </Button>
                     )}
+                    {accept && <Button onClick={onClose}>Хорошо</Button>}
                 </motion.div>
             )}
         </AnimatePresence>,

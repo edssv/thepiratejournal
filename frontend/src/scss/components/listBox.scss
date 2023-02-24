@@ -45,7 +45,7 @@
         color: var(--md-sys-color-on-surface);
         box-shadow: var(--md-sys-elevation-2);
         border-radius: 4px;
-        z-index: 1;
+        z-index: 999;
 
         .listBoxOption {
             .optionContent {

@@ -1,5 +1,5 @@
+import { HomeSection } from '../../pages/Home/SignedIn';
 import { api } from './api';
-import { HomeSection } from '../../pages/Home/Home';
 
 export interface Block {
     id: string;
@@ -34,6 +34,7 @@ export interface Article {
     _id: string;
     author: { _id: string; username: string; avatar: string; subscribers_count: number };
     title: string;
+    description: string;
     cover: string;
     blocks: any;
     tags: [];
@@ -65,14 +66,27 @@ export const articleApi = api.injectEndpoints({
         }),
         getComments: build.query<{ commentsList: Comment[]; totalCount: number }, { id: string; queryParams: string }>({
             query: ({ id, queryParams }) => `articles/${id}/comments?${queryParams}`,
-            providesTags: ['Articles'],
         }),
         getSuggestions: build.query<
             { articles: Article[]; totalCount: number; categoryName: 'all' | 'similar' },
             { id: string; category: 'all' | 'similar'; queryParams: string }
         >({
             query: ({ id, category, queryParams }) => `articles/${id}/suggestions/${category}?${queryParams}`,
-            providesTags: ['Articles'],
+        }),
+        getLastTags: build.query<{ tags: [] }, ''>({
+            query: () => 'articles/tags',
+        }),
+        getMostPopularArticle: build.query<Article, ''>({
+            query: () => 'articles/mostPopular',
+        }),
+        getAuthorChoice: build.query<Article[], ''>({
+            query: () => 'articles/authorChoice',
+        }),
+        getBestOfWeak: build.query<Article[], ''>({
+            query: () => 'articles/bestOfWeak',
+        }),
+        getNewest: build.query<Article[], ''>({
+            query: () => 'articles/newest',
         }),
         getArticles: build.query<Article[], { section: HomeSection; queryParams: string }>({
             query: ({ section }) => `articles/main/${section}`,
@@ -112,8 +126,8 @@ export const articleApi = api.injectEndpoints({
             invalidatesTags: ['Articles'],
         }),
         editArticle: build.mutation({
-            query: ({ formData, id }) => ({
-                url: `articles/${id}`,
+            query: (formData) => ({
+                url: `articles/${formData._id}`,
                 method: 'PUT',
                 body: formData,
             }),
@@ -166,6 +180,11 @@ export const {
     useGetArticleQuery,
     useGetCommentsQuery,
     useGetSuggestionsQuery,
+    useGetLastTagsQuery,
+    useGetMostPopularArticleQuery,
+    useGetAuthorChoiceQuery,
+    useGetBestOfWeakQuery,
+    useGetNewestQuery,
     useGetArticlesQuery,
     useSearchArticlesQuery,
     useAddCoverMutation,

@@ -8,10 +8,8 @@
 }
 
 :global(.dark) {
-    .fixed {
-        @include breakpoint-down(lg) {
-            background-color: var(--md-sys-color-surface) !important;
-        }
+    .root {
+        background-color: var(--md-sys-color-surface);
     }
 }
 
@@ -19,21 +17,34 @@
     position: relative;
     display: flex;
     align-items: center;
-    height: $header-height;
-    background-color: var(--md-sys-color-surface-2);
+    padding: 16px 0;
+    border-bottom: 1px solid var(--md-sys-color-surface-variant);
+    background-color: #ffffff;
     transition: background-color 0.2s ease-out;
     z-index: 9;
+    @include breakpoint-down(lg) {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        padding: 0;
+        border: none;
+    }
 
-    .fixed {
+    &.fixed {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+
+    &.isPrimary {
+        background-color: var(--md-sys-color-primary-container);
+    }
+
+    .fixedContainer {
         width: 100%;
         transition: background-color 0.2s ease-out;
-        @include breakpoint-down(lg) {
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            background-color: #ffffff;
-        }
 
         .overlay {
             opacity: 0;

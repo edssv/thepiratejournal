@@ -28,6 +28,7 @@ body,
 
 main {
     flex-grow: 1;
+    padding-bottom: 90px;
     @include breakpoint-down(lg) {
         margin-top: 64px;
     }
@@ -151,6 +152,7 @@ textarea {
     flex-wrap: wrap;
     gap: 20px;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    width: 100%;
 
     @media (min-width: 1600px) {
         grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));

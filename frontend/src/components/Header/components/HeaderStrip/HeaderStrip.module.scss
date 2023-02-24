@@ -17,12 +17,12 @@
         justify-content: space-between;
         align-items: center;
         height: 100%;
-        margin: 0 auto;
 
-        &__left {
+        .left {
             display: flex;
             align-items: center;
-            gap: 50px;
+            gap: 48px;
+            width: 100%;
 
             .logo {
                 font-size: 20px;
@@ -31,14 +31,14 @@
                 max-height: $header-height;
 
                 span {
-                    font-size: 15px;
-                    line-height: 15px;
+                    font-size: 18px;
                 }
 
                 img {
                     height: 36px;
                 }
             }
+
             .nav {
                 display: flex;
                 gap: 50px;
@@ -68,10 +68,12 @@
             }
         }
 
-        &__right {
+        .right {
             display: flex;
+            justify-content: end;
             align-items: center;
             gap: 16px;
+            width: 100%;
         }
     }
 

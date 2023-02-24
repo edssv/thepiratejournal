@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Article } from '../../redux/services/article';
-import { ArticleStats } from '../ArticleStats';
+import { ArticleStats } from './components/ArticleStats';
 
 import styles from './ArticlePreview.module.scss';
 

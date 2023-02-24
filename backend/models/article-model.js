@@ -126,11 +126,15 @@ articleSchema.statics.searchArticles = async function (categoryName, query) {
     const categoryParams = {
         'category.key': categoryName && categoryName !== 'all' ? categoryName : { $type: 'string' },
     };
+
     const searchParams = {
         search_title: { $regex: query.search ? query.search.toLowerCase() : '' },
     };
 
-    const findParams = { $and: [categoryParams, searchParams, { isPublished: true }] };
+    const findParams = {
+        $and: [categoryParams, searchParams, query.tag ? { tags: query.tag } : {}, { isPublished: true }],
+    };
+
     const sortParams =
         query.sort === 'recent'
             ? { created_on: -1 }
@@ -225,12 +229,6 @@ articleSchema.statics.likeComment = async function (articleId, userId, commentId
     const necessaryComment = comments.find((item) => item._id.toString() === commentId);
 
     necessaryComment.likes.push(userId);
-
-    // await this.findOneAndUpdate(
-    //     { _id: articleId },
-    //     { $push: { comments: { $elemMatch: { _id: commentId: {necessaryComment} }} } },
-    //     { returnDocument: 'after' },
-    // );
 };
 
 module.exports = model('Article', articleSchema);

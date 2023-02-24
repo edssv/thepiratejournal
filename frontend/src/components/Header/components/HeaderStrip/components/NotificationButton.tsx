@@ -28,13 +28,17 @@ export const NotificationButton: React.FC<NotificationButtonProps> = ({
             >
                 <span className="material-symbols-outlined">notifications</span>
             </Button>
-            <div
-                className={`${styles.badge} ${
-                    (user?.notifications?.totalCount ?? 0) > 999 ? styles.maxCharacterCount : ''
-                }`}
-            >
-                <span className={styles.label}> {user?.notifications?.totalCount}</span>
-            </div>
+
+            {(user?.notifications?.totalCount ?? 0) > 0 && (
+                <div
+                    className={`${styles.badge} ${
+                        (user?.notifications?.totalCount ?? 0) > 999 ? styles.maxCharacterCount : ''
+                    }`}
+                >
+                    {' '}
+                    <span className={styles.label}> {user?.notifications?.totalCount}</span>
+                </div>
+            )}
         </div>
     );
 };
