@@ -30,7 +30,9 @@ export const ConfirmButton = ({ mode, articleContentRef, blocks }: ConfirmButton
     const isMobile = useMediaPredicate('(max-width: 551px)');
 
     const saveArticle = async () => {
-        const description = (articleContentRef as MutableRefObject<HTMLDivElement>).current.innerText.split('.', 2);
+        const description = (articleContentRef as MutableRefObject<HTMLDivElement>).current.innerText
+            .split('.', 2)
+            .toString();
 
         const formData = Object.assign(
             {
