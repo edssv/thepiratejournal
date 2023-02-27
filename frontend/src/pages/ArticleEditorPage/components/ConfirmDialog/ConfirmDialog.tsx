@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMediaPredicate } from 'react-media-hook';
 
 import { useSelector } from 'react-redux';
-import { selectArticle } from '../../../../redux';
+import { Block, selectArticle } from '../../../../redux';
 import { DraftInfoDialog } from '../../components';
 import { Button, DialogTrigger } from '../../../../components';
 import { ConfirmButton, CoverWindow, ListBoxPicker, TagsInput } from './';
@@ -14,7 +14,7 @@ interface ConfirmDialogProps {
     mode: 'isNew' | 'isEditing' | 'isDraft';
     setFormStatus: (value: React.SetStateAction<'unchanged' | 'modified' | 'saved'>) => void;
     articleContentRef?: React.Ref<HTMLDivElement>;
-    blocks: [];
+    blocks: Block[];
 }
 
 export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ mode, setFormStatus, articleContentRef, blocks }) => {

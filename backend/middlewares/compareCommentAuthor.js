@@ -4,7 +4,7 @@ const Comment = require('../models/comment-model');
 const compareCommentAuthor = async (req, res, next) => {
     const articleId = req.params.id;
     const { commentId } = req.body;
-    const userId = req.user._id.toString();
+    const currentUserId = String(req.user._id);
 
     try {
         const article = await Article.findOne({
@@ -15,9 +15,9 @@ const compareCommentAuthor = async (req, res, next) => {
             return res.status(400).json({ message: 'Не удалось найти статью.' });
         }
 
-        const { author } = await Comment.findOne({ _id: commentId });
+        const { userId } = await Comment.findOne({ _id: commentId });
 
-        if (userId !== author) {
+        if (currentUserId !== String(userId)) {
             return res.status(400).json({ message: 'Вы не являетесь автором комментария.' });
         }
 

@@ -14,7 +14,7 @@ interface ArticlePreviewProps {
 export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
     const location = useLocation();
 
-    const createdOn = moment(article.created_on).format('L');
+    const createdOn = moment(article.createdAt).format('L');
 
     return (
         <div className={styles.root}>

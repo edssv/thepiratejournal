@@ -255,6 +255,8 @@
     --md-sys-color-inverse-surface: var(--md-ref-palette-neutral20);
     /* On surface variant */
     --md-sys-color-on-surface-variant: var(--md-ref-palette-neutral-variant30);
+    /* On surface variant channel*/
+    --md-sys-color-on-surface-variantChannel: var(--md-ref-palette-neutral-variant30-rgb);
     /* On surface */
     --md-sys-color-on-surface: var(--md-ref-palette-neutral10);
     /* On surface channel*/
@@ -374,8 +376,21 @@
 
 :root {
     --md-sys-color-surface-1: rgb(var(--md-sys-color-primaryChannel) / 0.05);
-    --md-sys-color-surface-2: rgb(var(--md-sys-color-primaryChannel) / 0.08);
+    --md-sys-color-surface-2: #edf2f8;
     --md-sys-color-surface-3: rgb(var(--md-sys-color-primaryChannel) / 0.11);
-    --md-sys-color-surface-4: rgb(var(--md-sys-color-primaryChannel) / 0.12);
+    --md-sys-color-surface-4: #e4ebf4;
     --md-sys-color-surface-5: rgb(var(--md-sys-color-primaryChannel) / 0.14);
+
+    --md-sys-color-on-surface-variant-2: rgb(var(--md-sys-color-on-surfaceChannel) / 0.08);
+    --md-sys-color-on-surface-variant-4: linear-gradient(0deg, rgba(68, 71, 70, 0.12), rgba(68, 71, 70, 0.12));
+
+    --md-sys-color-on-surface-2: linear-gradient(0deg, rgba(31, 31, 31, 0.08), rgba(31, 31, 31, 0.08)),
+        var(--md-sys-color-secondary-container);
+    --mio-theme-color-on-surface-4: linear-gradient(0deg, rgba(31, 31, 31, 0.12), rgba(31, 31, 31, 0.12)),
+        var(--md-sys-color-secondary-container);
+}
+
+:root.dark {
+    --md-sys-color-surface-2: #252a30;
+    --md-sys-color-surface-4: #2b3239;
 }

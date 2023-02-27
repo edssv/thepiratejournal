@@ -6,33 +6,29 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-width: 320px;
-    padding: 14px 0;
+    min-width: 344px;
+    margin: 16px;
     padding-left: 16px;
     background-color: var(--md-sys-color-inverse-surface);
     box-shadow: var(--md-sys-elevation-2);
     border-radius: 4px;
     z-index: 999;
-    @include breakpoint-down(sm) {
-        width: calc(100% - 32px);
-    }
 
     &.left {
-        left: 16px;
+        left: 0;
     }
 
     &.center {
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    &.right {
+        left: 16px;
         right: 16px;
-        transform: translateX(-50%);
+        width: fit-content;
+        margin: 16px auto;
     }
 
     .supportingText {
-        max-width: 360px;
+        min-width: 250px;
+        max-width: 312px;
+        padding: 14px 0;
         font-size: 14px;
         font-weight: 400;
         line-height: 20px;

@@ -36,7 +36,7 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
                         {author}
                     </Link>
                 </div>
-                <ArticleStats likesCount={article.likes?.count} viewsCount={article.views?.count} />
+                <ArticleStats likesCount={article.likesCount} viewsCount={article.viewsCount} />
             </div>
         </div>
     );

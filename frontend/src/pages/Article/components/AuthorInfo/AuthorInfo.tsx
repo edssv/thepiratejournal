@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Avatar } from '../../../../components';
-import { declinationSubstance } from '../../../../helpers';
+import { getShowSubscribersText } from '../../../../helpers';
 import { selectArticle } from '../../../../redux';
 
 import styles from './AuthorInfo.module.scss';
@@ -20,9 +20,7 @@ export const AuthorInfo = () => {
             <Link to={`/@${authorname}`}>
                 <div className={styles.authorName}>{authorname}</div>
             </Link>
-            <span className={styles.subscribersCount}>
-                {declinationSubstance(article?.author?.subscribers_count, 'subscribers')}
-            </span>
+            <span className={styles.subscribersCount}>{getShowSubscribersText(article?.author?.subscribersCount)}</span>
         </div>
     );
 };

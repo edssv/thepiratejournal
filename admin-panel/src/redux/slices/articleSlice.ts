@@ -30,9 +30,9 @@ const slice = createSlice({
                 blocks: [],
                 tags: [],
                 category: { name: '', key: '', game: '' },
-                author: { _id: '', username: '', avatar: '', subscribers_count: 0 },
-                reading_time: 0,
-                created_on: 0,
+                author: { _id: '', username: '', avatar: '', subscribersCount: 0 },
+                readingTime: 0,
+                createdAt: 0,
                 isPublished: false,
             };
         },

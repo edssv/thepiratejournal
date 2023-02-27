@@ -7,7 +7,7 @@ import { setOverflowBody } from '../../../../helpers';
 import { Notification, selectUser, useGetNotificationsQuery } from '../../../../redux';
 import { Button } from '../../..';
 import { useOnClickOutside } from '../../../../hooks';
-import { NotificationItem } from './components';
+import { NotificationItem } from '../NotificationItem';
 
 import styles from './NotificationBlock.module.scss';
 
@@ -41,7 +41,7 @@ export const NotificationBlock = ({
             action_key={notification.action_key}
             username={notification.actor.username}
             avatarSrc={notification.actor.avatar}
-            created_on={notification?.created_on}
+            createdAt={notification?.createdAt}
             key={id}
         />
     ));

@@ -1,7 +1,6 @@
 import { api } from './api';
 
 export interface User {
-    role: 'Admin' | undefined;
     id: string;
     username: string;
     avatar: string;
@@ -25,7 +24,7 @@ export interface Notification {
     _id: string;
     actor: { id: string; username: string; avatar: string };
     action_key: 'followuser' | 'likearticle';
-    created_on: number;
+    createdAt: number;
 }
 
 export interface NotificationsResponse {

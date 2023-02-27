@@ -1,16 +1,12 @@
 import React, { useRef } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-import { useAuth, useThemeMode } from '../../../../hooks';
-import { useLogoutMutation } from '../../../../redux';
-import { Avatar, Button } from '../../..';
+import { useAppDispatch, useAuth, useThemeMode } from '../../hooks';
+import { isOpenHamburgerMenuSelector, setIsOpenHamburgerMenu, useLogoutMutation } from '../../redux';
+import { Avatar, Button } from '..';
 
 import styles from './HamburgerMenu.module.scss';
-
-interface OpenStateProps {
-    open: boolean;
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
 const navListData = [
     { href: '', text: 'Дом', icon: 'home' },
@@ -19,24 +15,31 @@ const navListData = [
     { href: '/authors', text: 'Авторы', icon: 'diversity_1' },
 ];
 
-export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
+export const HamburgerMenu: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const isOpen = useSelector(isOpenHamburgerMenuSelector);
     const { user } = useAuth();
     const ref = useRef(null);
     const { mode, handleTheme } = useThemeMode();
     const [logout] = useLogoutMutation();
 
     const onClickWrite = () => {
-        setOpen(false);
+        dispatch(setIsOpenHamburgerMenu(false));
         navigate('/articles/new', { state: { from: location } });
     };
 
     return (
         <>
-            <div ref={ref} className={`${styles.root}  ${open && styles.open}`}>
+            <div ref={ref} className={`${styles.root} ${isOpen ? styles.open : ''}`}>
                 <div className={styles.closeAndloginOrCreate}>
-                    <Button icon variant="text" onClick={() => setOpen(!open)} className={styles.buttonClose}>
+                    <Button
+                        icon
+                        variant="text"
+                        onClick={() => dispatch(setIsOpenHamburgerMenu(false))}
+                        className={styles.buttonClose}
+                    >
                         <span className="material-symbols-outlined">menu_open</span>
                     </Button>
                     {user && (
@@ -47,7 +50,7 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                     {!user && (
                         <Button
                             onClick={() => {
-                                setOpen(false);
+                                dispatch(setIsOpenHamburgerMenu(false));
                                 navigate('/login');
                             }}
                             variant="filledTonal"
@@ -61,7 +64,7 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                         <NavLink
                             key={i}
                             to={item.href}
-                            onClick={() => setOpen(false)}
+                            onClick={() => dispatch(setIsOpenHamburgerMenu(false))}
                             className={({ isActive }) =>
                                 [styles.nav__link, isActive ? styles.active : ''].filter(Boolean).join(' ')
                             }
@@ -72,7 +75,7 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                 </nav>
                 {user && (
                     <div className={styles.profile}>
-                        <Link to={`/@${user.username}`} onClick={() => setOpen(false)}>
+                        <Link to={`/@${user.username}`} onClick={() => dispatch(setIsOpenHamburgerMenu(false))}>
                             <div className={styles.avatarAndUsername}>
                                 <Avatar imageSrc={user?.avatar} width={38} />
                                 <span>{user.username}</span>
@@ -83,7 +86,7 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                 {user ? (
                     <Button
                         onClick={async () => {
-                            setOpen(false);
+                            dispatch(setIsOpenHamburgerMenu(false));
                             await logout('');
                             navigate('/login');
                         }}
@@ -95,7 +98,7 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                 ) : (
                     <Button
                         onClick={async () => {
-                            setOpen(false);
+                            dispatch(setIsOpenHamburgerMenu(false));
                             navigate('/signup');
                         }}
                         variant="filled"
@@ -118,6 +121,10 @@ export const HamburgerMenu: React.FC<OpenStateProps> = ({ open, setOpen }) => {
                     </Button>
                 </div>
             </div>
+            <div
+                onClick={() => dispatch(setIsOpenHamburgerMenu(false))}
+                className={`${styles.overlay} ${isOpen ? styles.visible : ''} overlay`}
+            />
         </>
     );
 };

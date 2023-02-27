@@ -18,7 +18,7 @@ export const DraftPreview: React.FC<DraftPreviewProps> = ({ draft, refetch }) =>
     const location = useLocation();
     const [deleteDraft] = useDeleteArticleMutation();
 
-    const time = moment(draft.created_on).fromNow();
+    const time = moment(draft.createdAt).fromNow();
 
     return (
         <div className={styles.root}>

@@ -6,7 +6,7 @@ import { DialogTrigger, Overlay } from '..';
 import { Dialog, DialogActionButton, DialogCancelButton, DialogContent, DialogControls, DialogTitle } from '../Dialog';
 
 export const PrivateOutlet = () => {
-    const { user, isLoading, isAdmin } = useAuth();
+    const { user, isLoading } = useAuth();
     let [isOpen, setOpen] = React.useState(!user || !user.isActivated);
 
     const location = useLocation();
@@ -45,7 +45,7 @@ export const PrivateOutlet = () => {
             </>
         );
 
-    if (user && !user.isActivated && !isAdmin)
+    if (user && !user.isActivated)
         return (
             <>
                 <DialogTrigger isVisible={isOpen} onClose={setOpen}>

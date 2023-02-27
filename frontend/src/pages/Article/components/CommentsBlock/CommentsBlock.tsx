@@ -57,7 +57,7 @@ export const CommentsBlock = () => {
 
     const handleRemoveComment = (item: any, index: number) => {
         removeComment({
-            commentId: item.comment._id,
+            commentId: item._id,
             id: article._id,
             index: index,
         });
@@ -66,7 +66,7 @@ export const CommentsBlock = () => {
     const commentsItems = article?.comments?.list?.map((item: any, index: number) => (
         <li key={index} className={styles.commentsListItem}>
             <Comment comment={item} index={index} />
-            {user?.id === item.author._id && (
+            {user?.id === item.userId && (
                 <MoreButtonDialog item={item} index={index} removeComment={() => handleRemoveComment(item, index)} />
             )}
         </li>
@@ -149,7 +149,7 @@ export const CommentsBlock = () => {
                                                                 disabled={!textareaValue}
                                                                 onClick={() => {
                                                                     addComment({
-                                                                        commentText: textareaValue,
+                                                                        body: textareaValue,
                                                                         id: article._id,
                                                                     });
                                                                     setTextareaValue('');

@@ -1,9 +1,7 @@
-export { AuthOutlet } from '../components/AuthOutlet/AuthOutlet';
 export { countLines } from './countLines';
-export { declinationSubstance } from './declinationSubstance';
-export { handleOverflowBody } from './handleOverflowBody';
-export { PrivateOutlet } from '../components/PrivateOutlet/PrivateOutlet';
+export * from './filters';
+export { plural } from './plural';
 export { viewsSumCalc } from './viewsSum';
-export { readingTimeFunction } from './readingTimeFunction';
+export { readingTime } from './readingTime';
 export { resizeTextareaHeight } from './resizeTextareaHeight';
 export { setOverflowBody } from './setOverflowBody';

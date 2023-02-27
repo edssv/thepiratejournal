@@ -62,7 +62,7 @@ export const ScrollControls: React.FC<ScrollControlsProps> = ({ setOpenSidebar }
                     <div className={styles.buttonsContainer}>
                         <div className={styles.buttons}>
                             <ButtonLike>
-                                <span className={styles.buttonText}>{article.likes?.count}</span>
+                                <span className={styles.buttonText}>{article.likesCount}</span>
                             </ButtonLike>
                             <Button onClick={() => setOpenSidebar((prevState) => !prevState)}>
                                 <span className="material-symbols-outlined">comment</span>

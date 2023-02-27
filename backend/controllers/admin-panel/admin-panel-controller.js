@@ -123,7 +123,7 @@ const editArticle = async (req, res) => {
     try {
         await Article.updateOne(
             { _id: articleId },
-            Object.assign(articleData, { search_title: articleData.title.toLowerCase() })
+            Object.assign(articleData, { searchTitle: articleData.title.toLowerCase() })
         );
 
         res.status(200).json({ message: 'Изменения сохранены' });
@@ -152,7 +152,7 @@ const publishArticle = async (req, res) => {
     try {
         await Article.updateOne(
             { _id: articleId },
-            Object.assign(articleData, { search_title: articleData.title.toLowerCase() }, { isPublished: true })
+            Object.assign(articleData, { searchTitle: articleData.title.toLowerCase() }, { isPublished: true })
         );
 
         res.status(200).json({ message: 'Статья опубликована' });

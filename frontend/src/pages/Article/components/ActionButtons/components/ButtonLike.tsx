@@ -33,7 +33,6 @@ export const ButtonLike: React.FC<PropsWithChildren<IsLikeProps>> = ({
         }
 
         setIsOpen(true);
-        setTimeout(() => setIsOpen(false), 3000);
     };
 
     if (!user) {

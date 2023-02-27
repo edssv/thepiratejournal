@@ -1,17 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-import { useGetArticleQuery } from '../../redux';
+import { setIsOpenNavRail, useGetArticleQuery } from '../../redux';
+import { useAppDispatch } from '../../hooks';
 import { AiryArticle } from './AiryArticle';
 import { Overlay } from '../../components';
 import NotFoundPage from '../NotFound';
 
 const Article: React.FC = () => {
+    const dispatch = useAppDispatch();
     const { id } = useParams();
     const { isLoading, isFetching, isError } = useGetArticleQuery(id ?? '', {
         refetchOnMountOrArgChange: true,
     });
+
+    useEffect(() => {
+        dispatch(setIsOpenNavRail(false));
+
+        return () => {
+            dispatch(setIsOpenNavRail(true));
+        };
+    }, []);
 
     if (isLoading || isFetching) return <Overlay />;
     if (isError) return <NotFoundPage />;

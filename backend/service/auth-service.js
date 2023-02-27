@@ -7,8 +7,8 @@ const UserDto = require('../dtos/user-dto');
 const ApiError = require('../exceptions/api-error');
 
 class AuthService {
-    async activate(activationLink) {
-        const user = await UserModel.findOne({ activationLink });
+    async activate(activation_link) {
+        const user = await UserModel.findOne({ activation_link });
         if (!user) {
             throw ApiError.BadRequest('Неккоректная ссылка активации');
         }

@@ -6,6 +6,5 @@ export { ScrollControls } from './ScrollControls';
 export { ShareButtons } from './ShareButtons';
 export { Sidebar } from './Sidebar';
 export { StaticControls } from './StaticControls';
-export { SuggestionsBlock } from './SuggestionsBlock';
 export { TableOfContents } from './TableOfContents';
 export { UpNext } from './UpNext';

@@ -7,7 +7,7 @@ import { Button } from '../Buttons';
 
 type SnackbarProps = {
     className?: string;
-    position?: 'left' | 'center' | 'right';
+    position?: 'left' | 'center';
     permanent?: boolean;
     timeout?: number;
     isOpen: boolean;
@@ -38,7 +38,6 @@ export const Snackbar: React.FC<PropsWithChildren<SnackbarProps>> = ({
     const setPosition = () => {
         if (position === 'left') return styles.left;
         if (position === 'center') return styles.center;
-        if (position === 'right') return styles.right;
     };
 
     return ReactDOM.createPortal(
@@ -46,9 +45,9 @@ export const Snackbar: React.FC<PropsWithChildren<SnackbarProps>> = ({
             {isOpen && (
                 <motion.div
                     className={`${styles.root} ${setPosition()} ${className ?? ''}`}
-                    style={{ bottom: -50, opacity: 0 }}
-                    animate={{ bottom: 16, opacity: 1 }}
-                    exit={{ bottom: -50, opacity: 0 }}
+                    style={{ bottom: -5, opacity: 0 }}
+                    animate={{ bottom: 0, opacity: 1 }}
+                    exit={{ opacity: 0 }}
                 >
                     <p className={styles.supportingText}>{children}</p>
                     {close && (

@@ -15,31 +15,29 @@ export const Comment: React.FC<CommentProps> = ({ comment, index }) => {
     return (
         <div className={styles.root}>
             <div className={styles.commentContainer}>
-                <Link to={`/@${comment.author.username}`}>
-                    <Avatar imageSrc={comment.author.avatar} width={40} />
+                <Link to={`/@${comment?.author?.username}`}>
+                    <Avatar imageSrc={comment?.author?.avatar} width={40} />
                 </Link>
                 <div className={styles.main}>
                     <div className={styles.commentTextContainer}>
                         <div className={styles.commentUserDateWrap}>
-                            <Link to={`/@${comment.author.username}`}>
-                                <span className={styles.username}>{comment.author.username}</span>
+                            <Link to={`/@${comment?.author?.username}`}>
+                                <span className={styles.username}>{comment?.author?.username}</span>
                             </Link>
-                            <span className={styles.commentDate}>{moment(comment.comment.created_on).fromNow()}</span>
+                            <span className={styles.commentDate}>{moment(comment?.createdAt).fromNow()}</span>
                         </div>
-                        <div className={styles.commentText}>{comment.comment.text}</div>
+                        <div className={styles.commentText}>{comment.body}</div>
                         {/* <button className={styles.overflowTextButton}></button> */}
                     </div>
                     <div className={styles.actionButtons}>
                         <div className={styles.likeBlock}>
                             <ButtonLike
-                                commentId={comment.comment._id}
+                                commentId={comment?._id}
                                 isLike={comment.viewer?.isLike}
                                 index={index}
                                 color="secondary"
                             />
-                            {comment.comment.likes.count && (
-                                <span className={styles.buttonText}>{comment.comment.likes.count}</span>
-                            )}
+                            {comment.likesCount && <span className={styles.buttonText}>{comment.likesCount}</span>}
                         </div>
                     </div>
                 </div>

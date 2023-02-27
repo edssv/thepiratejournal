@@ -9,6 +9,7 @@ const {
     refresh,
     getCurrentUser,
     checkHaveAccountGoogle,
+    googleLogin,
 } = require('../controllers/auth-controller');
 const requireAuth = require('../middlewares/requireAuth');
 
@@ -34,5 +35,8 @@ router.get('/refresh', refresh);
 
 // getCurrenetUser route
 router.get('/getCurrentUser', requireAuth, getCurrentUser);
+
+// google auth route
+router.post('/auth/google', googleLogin);
 
 module.exports = router;

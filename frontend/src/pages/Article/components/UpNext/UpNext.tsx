@@ -2,7 +2,7 @@ import { useEffect, useCallback, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 
-import { Article, selectArticle, useGetSuggestionsQuery } from '../../../../redux';
+import { Article, selectArticle, useGetNextArticlesQuery } from '../../../../redux';
 import { ArticlePreview } from './components/ArticlePreview';
 
 import styles from './UpNext.module.scss';
@@ -13,14 +13,7 @@ export const UpNext = () => {
     const UpNextRef = useRef<HTMLDivElement>(null);
     const [isMount, setIsMount] = useState(false);
 
-    const { data } = useGetSuggestionsQuery(
-        {
-            id: article._id,
-            category: 'all',
-            queryParams: `limit=3&page=0`,
-        },
-        { refetchOnMountOrArgChange: true }
-    );
+    const { data } = useGetNextArticlesQuery({ id: article._id }, { refetchOnMountOrArgChange: true });
 
     const handleScroll = useCallback(() => {
         const screenHeight = window.screen.height;

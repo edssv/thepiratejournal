@@ -11,14 +11,14 @@ export interface Block {
 
 export interface Article {
     _id: string;
-    author: { _id: string; username: string; avatar: string; subscribers_count: number };
+    author: { _id: string; username: string; avatar: string; subscribersCount: number };
     title: string;
     cover: string;
     blocks: [];
     tags: [];
     category: { name: string; game: string; key: string };
-    reading_time: number;
-    created_on: number;
+    readingTime: number;
+    createdAt: number;
     isPublished: boolean;
 }
 

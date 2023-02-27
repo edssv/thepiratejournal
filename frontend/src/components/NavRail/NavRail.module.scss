@@ -1,0 +1,19 @@
+.root {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding-top: 80px;
+    background: var(--md-sys-color-surface-2);
+    overflow-y: auto;
+    transition: background-color 0.2s ease-out;
+    z-index: 8;
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        width: 80px;
+        margin-top: 20px;
+    }
+}

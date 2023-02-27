@@ -4,23 +4,24 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { Snackbar, Button } from '../../../components';
-import { selectArticle, useAddArticleMutation } from '../../../redux';
+import { Block, selectArticle, useCreateDraftMutation } from '../../../redux';
 
 interface DraftInfoDialogProps {
     setFormStatus: (value: React.SetStateAction<'unchanged' | 'modified' | 'saved'>) => void;
-    blocks: [];
+    blocks: Block[];
 }
 
 export const DraftInfoDialog: React.FC<DraftInfoDialogProps> = ({ setFormStatus, blocks }) => {
     const navigate = useNavigate();
     const article = useSelector(selectArticle);
     const [isOpen, setOpen] = useState(false);
-
-    const [addArticle, { isLoading, isSuccess, isError }] = useAddArticleMutation();
+    const [creatDraft, { isLoading, isSuccess, isError }] = useCreateDraftMutation();
 
     const saveDraft = async () => {
-        const formData = Object.assign({ intent: 'draft' }, article, blocks);
-        addArticle(formData);
+        console.log(blocks);
+        const formData = { ...article, ...blocks };
+
+        creatDraft(formData);
         setFormStatus('saved');
     };
 
@@ -34,9 +35,6 @@ export const DraftInfoDialog: React.FC<DraftInfoDialogProps> = ({ setFormStatus,
                         try {
                             await saveDraft();
                             navigate('/');
-
-                            setOpen(true);
-                            setTimeout(() => setOpen(false), 500);
                         } catch (error) {}
                     }}
                     isLoading={isLoading}
@@ -51,9 +49,6 @@ export const DraftInfoDialog: React.FC<DraftInfoDialogProps> = ({ setFormStatus,
                         try {
                             await saveDraft();
                             navigate('/');
-
-                            setOpen(true);
-                            setTimeout(() => setOpen(false), 500);
                         } catch (error) {}
                     }}
                     isLoading={isLoading}

@@ -6,7 +6,7 @@ import 'moment/locale/ru';
 import '@fontsource/roboto-mono';
 
 import { selectArticle } from '../../redux';
-import { declinationSubstance } from '../../helpers';
+import { getShowMinutesText } from '../../helpers';
 import { useDocTitle } from '../../hooks';
 import {
     ActionButtons,
@@ -30,7 +30,7 @@ export const AiryArticle: React.FC = () => {
 
     const isTablet = useMediaPredicate('(max-width: 990.98px)');
 
-    const createdOn = moment(article.created_on).format('L');
+    const createdOn = moment(article.createdAt).format('L');
 
     return (
         <article className={styles.root}>
@@ -43,8 +43,8 @@ export const AiryArticle: React.FC = () => {
                                 <h1 className={styles.articleHeadline}>{article?.title}</h1>
                                 <div className={styles.subHeader}>
                                     <div className={styles.readingTime}>
-                                        {article.reading_time
-                                            ? `${declinationSubstance(article.reading_time, 'minutes')} чтения`
+                                        {article.readingTime
+                                            ? `${getShowMinutesText(article.readingTime)} чтения`
                                             : 'время чтения не подсчитано'}
                                         {}{' '}
                                     </div>

@@ -23,17 +23,8 @@
 }
 
 .authorChoiceList,
+.newestArticlesList,
 .bestOfWeekList {
-    grid-template-columns: repeat(2, 1fr);
-    @include breakpoint-down(xl) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    @include breakpoint-down(sm) {
-        grid-template-columns: 1fr;
-    }
-}
-
-.newestArticlesList {
     max-width: 1200px;
     grid-template-columns: repeat(3, 1fr);
     @include breakpoint-down(xl) {

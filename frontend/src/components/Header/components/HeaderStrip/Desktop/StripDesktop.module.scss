@@ -1,0 +1,51 @@
+.root {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+
+    .left {
+        display: flex;
+        align-items: center;
+
+        .navRailOpenContainer {
+            margin: 0 19px;
+
+            .navRailOpen {
+                min-width: 40px;
+                width: 42px;
+                height: 42px;
+                padding: 0;
+                border-radius: 21px;
+
+                span {
+                    font-size: 24px;
+                    color: var(--md-sys-color-on-surface-variant);
+                }
+            }
+        }
+
+        .logo {
+            gap: 12px;
+            margin-right: 32px;
+
+            img {
+                height: 32px;
+            }
+
+            span {
+                width: 150px;
+                font-size: 18px;
+                font-weight: 700;
+                color: var(--md-sys-color-on-surface-variant);
+            }
+        }
+    }
+
+    .right {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        gap: 16px;
+    }
+}

@@ -6,7 +6,7 @@ const checkCommentLike = async (req, res, next) => {
 
     try {
         const comment = await Comment.findOne({
-            $and: [{ _id: commentId }, { 'likes.users.userId': userId }],
+            $and: [{ _id: commentId }, { 'likesUsers.ObjectId': userId }],
         });
 
         if (comment) return res.status(400).json({ message: 'Вы уже оценили этот комментарий.' });
@@ -23,11 +23,10 @@ const checkRemoveCommentLike = async (req, res, next) => {
 
     try {
         const comment = await Comment.findOne({
-            $and: [{ _id: commentId }, { 'likes.users.userId': userId }],
+            $and: [{ _id: commentId }, { likesUsers: userId }],
         });
 
-        if (!comment)
-            return res.status(400).json({ message: 'Вы уже убрали оценку с этого комментария.' });
+        if (!comment) return res.status(400).json({ message: 'Вы уже убрали оценку с этого комментария.' });
 
         next();
     } catch (error) {

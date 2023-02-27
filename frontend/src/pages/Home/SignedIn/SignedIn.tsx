@@ -16,7 +16,7 @@ const SignedIn = () => {
     );
     return (
         <>
-            <TabPanel activeSection={activeSection} setActiveSection={setActiveSection} />
+            {/* <TabPanel activeSection={activeSection} setActiveSection={setActiveSection} /> */}
             <ArticlesBlock activeSection={activeSection} />
         </>
     );

@@ -30,7 +30,7 @@ export const AiryArticlePreview: React.FC<ArticlePreviewProps> = ({ article, siz
                         <p className={styles.description}>{article.description}</p>
                         {/* <div className={styles.nameAndStats}>
                             <span className={`${styles.author} tp-text`}>{article.author.username}</span>
-                            <ArticleStats likesCount={article.likes.count} viewsCount={article.views.count} />
+                            <ArticleStats likesCount={article.likesCount} viewsCount={article.viewsCount} />
                         </div> */}
                     </div>
                 </div>

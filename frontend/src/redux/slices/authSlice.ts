@@ -27,6 +27,11 @@ const slice = createSlice({
                 state.user = payload.user;
                 localStorage.setItem('token', payload.token);
             })
+            // google login
+            .addMatcher(authApi.endpoints.googlelogin.matchFulfilled, (state, { payload }) => {
+                state.user = payload.user;
+                localStorage.setItem('token', payload.token);
+            })
 
             // signup
 

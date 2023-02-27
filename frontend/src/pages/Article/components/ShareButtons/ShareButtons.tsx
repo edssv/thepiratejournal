@@ -29,13 +29,13 @@ export const ShareButtons = () => {
                     stroke="#000000"
                     strokeWidth="1.9739999999999998"
                 >
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                     <g
                         id="SVGRepo_tracerCarrier"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         stroke="#CCCCCC"
-                        stroke-width="0.564"
+                        strokeWidth="0.564"
                     ></g>
                     <g id="SVGRepo_iconCarrier">
                         {' '}

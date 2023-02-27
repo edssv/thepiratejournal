@@ -6,7 +6,7 @@ const checkLike = async (req, res, next) => {
 
     try {
         const article = await Article.findOne({
-            $and: [{ _id: articleId }, { 'likes.users': { $in: userId } }],
+            $and: [{ _id: articleId }, { likesUsers: { $in: userId } }],
         });
 
         if (article) return res.status(400).json({ message: 'Вы уже оценили эту статью.' });
@@ -23,11 +23,10 @@ const checkRemoveLike = async (req, res, next) => {
 
     try {
         const article = await Article.findOne({
-            $and: [{ _id: articleId }, { 'likes.users': { $in: userId } }],
+            $and: [{ _id: articleId }, { likesUsers: { $in: userId } }],
         });
 
-        if (!article)
-            return res.status(400).json({ message: 'Вы уже убрали оценку с этой статьи.' });
+        if (!article) return res.status(400).json({ message: 'Вы уже убрали оценку с этой статьи.' });
 
         next();
     } catch (error) {

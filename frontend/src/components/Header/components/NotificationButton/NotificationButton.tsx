@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { setOverflowBody } from '../../../../../helpers';
-import { useAuth } from '../../../../../hooks';
-import { Button } from '../../../../Buttons';
+import { setOverflowBody } from '../../../../helpers';
+import { useAuth } from '../../../../hooks';
+import { Button } from '../../../Buttons';
 
 import styles from './NotificationButton.module.scss';
 

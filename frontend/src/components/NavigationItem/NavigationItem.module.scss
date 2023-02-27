@@ -1,13 +1,13 @@
 .root {
     display: block;
     width: 80px;
-    margin: -2px 0 14px;
+    margin: -2px auto 14px;
     padding: 2px;
     color: var(--md-sys-color-on-surface-variant);
 
     &:hover {
         .icon {
-            background-color: var(--md-sys-color-inverse-on-surface);
+            background-color: var(--md-sys-color-on-surface-variant-2);
             font-variation-settings: 'wght' 600, 'opsz' 24;
         }
 
@@ -19,7 +19,6 @@
     &.active {
         &:hover {
             .icon {
-                background-color: var(--md-sys-color-surface-2);
                 font-variation-settings: 'FILL' 1, 'wght' 600, 'opsz' 24;
             }
         }
@@ -35,6 +34,7 @@
         }
 
         .label {
+            color: var(--md-sys-color-on-secondary-container);
             font-weight: 600;
         }
     }
@@ -72,7 +72,7 @@
     .label {
         margin-bottom: 4px;
         font-size: 12px;
-        font-weight: 500;
+        font-weight: 400;
         letter-spacing: 0.1px;
         line-height: 16px;
         transition: font-variation-settings 200ms cubic-bezier(0.2, 0, 0, 1);

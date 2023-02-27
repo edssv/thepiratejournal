@@ -1,0 +1,23 @@
+.root {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding: 0 8px;
+
+    .left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .logo img {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    .right {
+        display: flex;
+        align-items: center;
+    }
+}

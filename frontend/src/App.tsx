@@ -1,12 +1,14 @@
 import { Suspense, lazy, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
+import { Routes, Route, useLocation } from 'react-router-dom';
+
 import 'material-symbols';
 
 import CrossScreensSnackbars from './components/Snackbars/CrossScreensSnackbars';
 import { Layout, Overlay } from './components';
-import { AuthOutlet, PrivateOutlet } from './helpers';
+import { AuthOutlet, PrivateOutlet } from './components';
 import { useThemeMode } from './hooks';
-import { useGetCurrentUserQuery } from './redux';
+import { useGetCurrentUserQuery, useGoogleloginMutation } from './redux';
 import { DraftsAndBookmarksOutlet } from './pages/Profile';
 
 import './scss/styles.scss';
@@ -23,6 +25,9 @@ const NotFoundPage = lazy(() => import(/* webpackChunkName: "NotFoundPage" */ '.
 const App = () => {
     const token = localStorage.getItem('token');
     useGetCurrentUserQuery('', { skip: !token });
+    const [googleLogin] = useGoogleloginMutation();
+    const location = useLocation();
+    const currentLocation = location.pathname.split('/')[1];
 
     const { mode } = useThemeMode();
 
@@ -73,8 +78,21 @@ const App = () => {
                     </Route>
                 </Routes>
             </Suspense>
-
             <CrossScreensSnackbars />
+            <div className="hidden">
+                {!token && currentLocation !== 'login' && currentLocation !== 'signup' && (
+                    <GoogleLogin
+                        onSuccess={async ({ credential }) => {
+                            await googleLogin({ credential: credential ?? '' });
+                        }}
+                        onError={() => {
+                            console.log('Login Failed');
+                        }}
+                        useOneTap
+                        cancel_on_tap_outside={false}
+                    />
+                )}
+            </div>
         </>
     );
 };

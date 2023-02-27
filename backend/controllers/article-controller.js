@@ -1,3 +1,5 @@
+const { ObjectId } = require('mongodb');
+
 const Article = require('../models/article-model');
 const Comment = require('../models/comment-model');
 const Draft = require('../models/draftModel');
@@ -8,14 +10,8 @@ const creating = async (req, res) => {
     const authorId = req.user._id;
     const authorUsername = req.user.username;
     const data = req.body;
-    const { intent } = req.body;
 
     try {
-        if (intent === 'draft') {
-            const draft = await Draft.creating(authorId, authorUsername, data);
-            return res.json(draft);
-        }
-
         const article = await Article.creating(authorId, authorUsername, data);
 
         if (data.saveFromDraft) {
@@ -104,6 +100,7 @@ const getOne = async (req, res) => {
         }
 
         const author = await User.findById(article.author._id);
+        console.log(String(author._id));
 
         if (!author) return res.status(200).json({ article, message: 'Автор статьи не найден' });
 
@@ -134,7 +131,7 @@ const getOne = async (req, res) => {
                 _id: author._id,
                 username: author.username,
                 avatar: author.avatar,
-                subscribers_count: author.followers.length,
+                subscribersCount: author.followers.length,
             },
             viewer: {
                 hasSubscription,
@@ -160,12 +157,12 @@ const getComments = async (req, res) => {
         for (let i = 0; i < comments.length; i++) {
             if (currentUser) {
                 commentsList.push({
-                    comment: comments[i],
-                    author: await User.findOne({ _id: comments[i].author }, { username: 1, avatar: 1 }),
+                    ...comments[i]._doc,
+                    author: await User.findOne({ _id: comments[i].userId }, { username: 1, avatar: 1, _id: 0 }),
                     viewer: {
                         isLike: Boolean(
                             await Comment.findOne({
-                                $and: [{ _id: comments[i]._id }, { 'likes.users.userId': currentUser._id }],
+                                $and: [{ _id: comments[i]._id }, { likesUsers: currentUser._id }],
                             })
                         ),
                     },
@@ -184,15 +181,13 @@ const getComments = async (req, res) => {
     }
 };
 
-const getSuggestions = async (req, res) => {
+const getNext = async (req, res) => {
     const articleId = req.params.id;
-    const categoryName = req.params.category;
-    const query = req.query;
 
     try {
-        const { limitArticles, totalCount } = await Article.getSuggestions(articleId, categoryName, query);
+        const articles = await Article.find({ _id: { $ne: articleId }, isPublished: true }).limit(3);
 
-        res.status(200).json({ articles: limitArticles, totalCount, categoryName });
+        res.status(200).json({ articles });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -215,7 +210,7 @@ const getLastTags = async (req, res) => {
 
 const getMostPopularArticle = async (req, res) => {
     try {
-        const article = await Article.findOne({ isPublished: true }).sort({ 'views.count': -1 });
+        const article = await Article.findOne({ isPublished: true }).sort({ views: -1 });
 
         res.status(200).json(article);
     } catch (error) {
@@ -225,7 +220,7 @@ const getMostPopularArticle = async (req, res) => {
 
 const getAuthorChoice = async (req, res) => {
     try {
-        const articles = await Article.find({ isPublished: true }).sort({ 'likes.count': -1 }).limit(3);
+        const articles = await Article.find({ isPublished: true }).sort({ likes: -1 }).limit(3);
 
         res.status(200).json(articles);
     } catch (error) {
@@ -235,7 +230,7 @@ const getAuthorChoice = async (req, res) => {
 
 const getBestOfWeak = async (req, res) => {
     try {
-        const articles = await Article.find({ isPublished: true }).sort({ 'likes.count': 1 }).limit(6);
+        const articles = await Article.find({ isPublished: true }).sort({ likes: 1 }).limit(6);
 
         res.status(200).json(articles);
     } catch (error) {
@@ -245,7 +240,7 @@ const getBestOfWeak = async (req, res) => {
 
 const getNewest = async (req, res) => {
     try {
-        const articles = await Article.find({ isPublished: true }).sort({ created_on: 1 }).limit(16);
+        const articles = await Article.find({ isPublished: true }).sort({ createdAt: 1 }).limit(16);
 
         res.status(200).json(articles);
     } catch (error) {
@@ -285,15 +280,15 @@ const removeLike = async (req, res) => {
 const addComment = async (req, res) => {
     const articleId = req.params.id;
     const user = req.user;
-    const { commentText } = req.body;
+    const { body } = req.body;
 
     try {
-        const comment = await Comment.creating(user._id, commentText);
+        const comment = await Comment.creating(user._id, body);
         const article = await Article.addComment(articleId, comment._id);
         await commentNotification(article.author._id, user);
 
         const commentResponse = {
-            comment: comment,
+            ...comment._doc,
             author: await User.findOne({ _id: user._id }, { username: 1, avatar: 1 }),
             viewer: {
                 isLike: false,
@@ -308,7 +303,6 @@ const addComment = async (req, res) => {
 
 const removeComment = async (req, res) => {
     const articleId = req.params.id;
-    const user = req.user;
     const { commentId } = req.body;
 
     try {
@@ -355,7 +349,7 @@ module.exports = {
     searchArticles,
     getOne,
     getComments,
-    getSuggestions,
+    getNext,
     getLastTags,
     getMostPopularArticle,
     getAuthorChoice,

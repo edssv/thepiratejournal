@@ -11,7 +11,12 @@ interface AvatarProps {
 export const Avatar: React.FC<AvatarProps> = ({ imageSrc, width = 32 }) => {
     return (
         <div className={styles.root} style={{ width: width, height: width }}>
-            <img src={imageSrc ?? avatar} alt="Аватар" style={{ width: width, height: width }} />
+            <img
+                src={imageSrc ?? avatar}
+                alt="Аватар"
+                style={{ width: width, height: width }}
+                referrerPolicy="no-referrer"
+            />
         </div>
     );
 };

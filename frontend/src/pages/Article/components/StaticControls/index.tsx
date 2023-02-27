@@ -111,7 +111,7 @@ export const StaticControls: React.FC<StaticControlsProps> = ({ isOwner }) => {
         <div className={styles.root}>
             <div className={styles.buttonGroup}>
                 <div className={styles.controls}>
-                    <ButtonLike variant="filledTonal">{article.likes.count}</ButtonLike>
+                    <ButtonLike variant="filledTonal">{article.likesCount}</ButtonLike>
                 </div>
                 {user && (
                     <>

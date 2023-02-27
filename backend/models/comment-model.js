@@ -1,21 +1,23 @@
+const { ObjectId } = require('mongodb');
 const { Schema, model } = require('mongoose');
 
 const commentSchema = new Schema({
-    author: { type: String, required: true },
-    text: { type: String, required: true },
-    created_on: { type: Number, required: true },
-    likes: { count: Number, users: [{ type: Object, required: true }] },
+    body: { type: String, required: true },
+    userId: { type: ObjectId, required: true },
+    createdAt: { type: Number, required: true },
+    likesCount: { type: Number, default: 0 },
+    likesUsers: [{ type: ObjectId }],
 });
 
-commentSchema.statics.creating = async function (userId, commentText) {
-    if (!commentText) {
+commentSchema.statics.creating = async function (userId, body) {
+    if (!body) {
         throw new Error('Комментарий пустой.');
     }
 
     const comment = await this.create({
-        author: userId,
-        text: commentText,
-        created_on: new Date(),
+        userId: userId,
+        body: body,
+        createdAt: new Date(),
     });
 
     return comment;
@@ -30,7 +32,7 @@ commentSchema.statics.like = async function (commentId, userId) {
         {
             _id: commentId,
         },
-        { $push: { 'likes.users': { userId } }, $inc: { 'likes.count': 1 } },
+        { $push: { likesUsers: userId }, $inc: { likesCount: 1 } }
     );
 
     return comment;
@@ -41,7 +43,7 @@ commentSchema.statics.removeLike = async function (commentId, userId) {
         {
             _id: commentId,
         },
-        { $pull: { 'likes.users': { userId } }, $inc: { 'likes.count': -1 } },
+        { $pull: { likesUsers: userId }, $inc: { likesCount: -1 } }
     );
 
     return comment;

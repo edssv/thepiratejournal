@@ -2,73 +2,45 @@ const { ObjectId } = require('mongodb');
 const { Schema, model } = require('mongoose');
 
 const articleSchema = new Schema({
-    isPublished: Boolean,
-    isDeleted: Boolean,
+    title: { type: String, required: true },
+    searchTitle: { type: String, required: true },
+    description: { type: String },
+    cover: { type: String, required: true },
+    blocks: { type: Array, required: true },
+
+    tags: [{ type: String }],
+    category: {
+        name: { type: String, required: true },
+        game: { type: String },
+        key: { type: String, required: true },
+    },
+    readingTime: { type: Number, required: true },
     author: {
-        _id: { type: String, required: true },
+        _id: { type: ObjectId, required: true },
         username: { type: String, required: true },
     },
-    title: { type: String, required: true },
-    search_title: { type: String, required: true },
-    description: { type: String, required: true },
-    cover: {
-        type: String,
-        required: true,
-    },
-    blocks: {
-        type: Array,
-        required: true,
-    },
-    tags: [{ type: String, required: true }],
-    category: {
-        name: {
-            type: String,
-            required: true,
-        },
-        game: {
-            type: String,
-        },
-        key: {
-            type: String,
-            required: true,
-        },
-    },
-    reading_time: { type: Number, required: true },
-    created_on: { type: Number, required: true },
-    comments: [
-        {
-            type: Object,
-            required: true,
-        },
-    ],
-    views: {
-        count: {
-            type: Number,
-            default: 0,
-        },
-    },
-    likes: {
-        count: {
-            type: Number,
-            default: 0,
-        },
-        users: [{ type: String, required: true }],
-    },
+    createdAt: { type: Number, default: new Date(), required: true },
+    updatedAt: { type: Number, default: new Date(), required: true },
+    comments: [{ type: Object }],
+    viewsCount: { type: Number, default: 0 },
+    likesCount: { type: Number, default: 0 },
+    likesUsers: [{ type: ObjectId }],
+    isPublished: Boolean,
+    isDeleted: Boolean,
 });
 
 articleSchema.statics.creating = async function (authorId, authorUsername, articleData) {
     const article = await this.create({
-        isPublished: false,
-        author: { _id: authorId, username: authorUsername },
         title: articleData.title,
         description: articleData.description,
-        search_title: articleData.title.toLowerCase(),
+        searchTitle: articleData.title.toLowerCase(),
         cover: articleData.cover,
         blocks: articleData.blocks,
         tags: articleData.tags,
         category: articleData.category,
-        reading_time: articleData.readingTime,
-        created_on: new Date(),
+        readingTime: articleData.readingTime,
+        author: { _id: authorId, username: authorUsername },
+        isPublished: false,
     });
 
     return article;
@@ -93,12 +65,13 @@ articleSchema.statics.editing = async function (
         {
             title: title,
             description: description,
-            search_title: title.toLowerCase(),
+            searchTitle: title.toLowerCase(),
             cover: cover,
             blocks: blocks,
             tags: tags,
             category: category,
-            reading_time: readingTime,
+            readingTime: readingTime,
+            updatedAt: new Date(),
         }
     );
 
@@ -128,7 +101,7 @@ articleSchema.statics.searchArticles = async function (categoryName, query) {
     };
 
     const searchParams = {
-        search_title: { $regex: query.search ? query.search.toLowerCase() : '' },
+        searchTitle: { $regex: query.search ? query.search.toLowerCase() : '' },
     };
 
     const findParams = {
@@ -137,10 +110,10 @@ articleSchema.statics.searchArticles = async function (categoryName, query) {
 
     const sortParams =
         query.sort === 'recent'
-            ? { created_on: -1 }
+            ? { createdAt: -1 }
             : query.sort === 'appreciations'
-            ? { 'likes.count': -1 }
-            : { 'views.count': -1 };
+            ? { likesCount: -1 }
+            : { viewsCount: -1 };
 
     const articles = await this.find(findParams).sort(sortParams);
 
@@ -150,7 +123,7 @@ articleSchema.statics.searchArticles = async function (categoryName, query) {
 articleSchema.statics.getOne = async function (id) {
     const article = await this.findOneAndUpdate(
         { _id: id, isPublished: true },
-        { $inc: { 'views.count': 1 } },
+        { $inc: { viewsCount: 1 } },
         { returnDocument: 'after' }
     );
 
@@ -164,7 +137,7 @@ articleSchema.statics.getComments = async function (articleId, query) {
     const totalCount = comments.length ?? 0;
 
     const skip = query.page * query.limit;
-    // const comments = article.comments.sort((a, b) => (a.created_on > b.created_on ? -1 : 1));
+    // const comments = article.comments.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
     const limitComments = comments.slice(skip, Number(skip) + Number(query.limit));
 
     return { limitComments, totalCount };
@@ -189,7 +162,7 @@ articleSchema.statics.getSuggestions = async function (articleId, categoryName, 
 articleSchema.statics.like = async function (id, userId) {
     const article = await this.findOneAndUpdate(
         { _id: id },
-        { $push: { 'likes.users': userId }, $inc: { 'likes.count': 1 } },
+        { $push: { likesUsers: userId }, $inc: { likesCount: 1 } },
         { returnDocument: 'after' }
     );
 
@@ -199,7 +172,7 @@ articleSchema.statics.like = async function (id, userId) {
 articleSchema.statics.removeLike = async function (id, userId) {
     await this.findOneAndUpdate(
         { _id: id },
-        { $pull: { 'likes.users': userId }, $inc: { 'likes.count': -1 } },
+        { $pull: { likesUsers: userId }, $inc: { likesCount: -1 } },
         { returnDocument: 'after' }
     );
 };

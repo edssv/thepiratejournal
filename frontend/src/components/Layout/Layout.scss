@@ -1,0 +1,12 @@
+@use '../../scss/util' as *;
+
+main {
+    flex-grow: 1;
+    padding-bottom: 90px;
+    @include breakpoint-down(lg) {
+        margin-top: 64px;
+    }
+    @include breakpoint(lg) {
+        padding-left: 80px;
+    }
+}

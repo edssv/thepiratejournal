@@ -8,6 +8,9 @@
     height: 56px;
     background-color: var(--md-sys-color-surface-1);
     border-radius: 100px;
+    @include breakpoint(xl) {
+        max-width: 480px;
+    }
 
     .form {
         display: flex;
@@ -23,6 +26,9 @@
             background-color: transparent;
             color: var(--md-sys-color-on-surface);
             border: none;
+            @include breakpoint(xl) {
+                width: 380px;
+            }
 
             &::placeholder {
                 opacity: 1;
@@ -40,6 +46,7 @@
 
         button {
             visibility: hidden;
+
             &.visible {
                 visibility: visible;
             }

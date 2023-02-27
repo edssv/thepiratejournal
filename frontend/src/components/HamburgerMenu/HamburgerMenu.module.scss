@@ -1,4 +1,4 @@
-@use '../../../../scss/util' as *;
+@use '../../scss/util' as *;
 
 .root {
     display: none;
@@ -19,7 +19,7 @@
     transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
     background-color: var(--md-sys-color-surface);
     overflow: hidden;
-    z-index: 9;
+    z-index: 10;
 
     @include breakpoint-down(lg) {
         display: flex;
@@ -127,5 +127,17 @@
                 font-size: 24px;
             }
         }
+    }
+}
+
+.overlay {
+    opacity: 0;
+    visibility: hidden;
+    z-index: 9;
+    transition: opacity 0.25s linear;
+
+    &.visible {
+        visibility: visible;
+        opacity: 1;
     }
 }

@@ -19,7 +19,7 @@ export const AiryArticle: React.FC = () => {
     const articleContentRef = useRef<HTMLDivElement>(null);
     const [deleteArticle] = useDeleteArticleMutation();
 
-    const createdOn = moment(article.created_on).format('L');
+    const createdOn = moment(article.createdAt).format('L');
 
     return (
         <article className={styles.root}>
@@ -46,8 +46,8 @@ export const AiryArticle: React.FC = () => {
                                 <h1 className={styles.articleHeadline}>{article?.title}</h1>
                                 <div className={styles.subHeader}>
                                     <div className={styles.readingTime}>
-                                        {article.reading_time
-                                            ? `${declinationSubstance(article.reading_time, 'minutes')} чтения`
+                                        {article.readingTime
+                                            ? `${declinationSubstance(article.readingTime, 'minutes')} чтения`
                                             : 'время чтения не подсчитано'}
                                         {}{' '}
                                     </div>

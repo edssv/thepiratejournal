@@ -8,7 +8,7 @@ export const BestOfWeek = () => {
         if (isLoading) {
             return <AiryArticleSkeleton counts={6} />;
         }
-        return data?.map((article) => <AiryArticlePreview key={article._id} article={article} size="M" />);
+        return data?.map((article) => <AiryArticlePreview key={article._id} article={article} />);
     };
 
     return (

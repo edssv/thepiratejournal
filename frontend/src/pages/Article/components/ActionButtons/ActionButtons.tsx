@@ -22,14 +22,13 @@ export const ActionButtons = () => {
 
     const authorId = article?.author?._id || 'deleted';
     const isOwner = user?.id === authorId;
-    const isAdmin = user?.role === 'Admin';
 
     return (
         <div className={styles.root}>
             <div className={styles.buttonGroup}>
                 {<ButtonLike variant="filledTonal">Нравится</ButtonLike>}
                 {!isOwner && <ButtonBookmark variant="filledTonal">В закладки</ButtonBookmark>}
-                {(isOwner || isAdmin) && (
+                {isOwner && (
                     <>
                         <Button
                             variant="filledTonal"

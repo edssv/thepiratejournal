@@ -11,50 +11,32 @@ export interface Block {
 }
 
 export interface Comment {
-    comment: {
-        _id: string;
-        author: string;
-        text: string;
-        created_on: number;
-        likes: { count: number; users: [] };
-    };
+    _id: string;
+    body: string;
+    createdAt: number;
+    likesCount: number;
     author: { _id: string; username: string; avatar: string };
     viewer: { isLike: boolean };
 }
-
-export interface Draft {
-    _id: string;
-    author: { _id: string; username: string };
-    title?: string;
-    cover?: string;
-    blocks?: Block[];
-    created_on: number;
-}
 export interface Article {
     _id: string;
-    author: { _id: string; username: string; avatar: string; subscribers_count: number };
+    author: { _id: string; username: string; avatar: string; subscribersCount: number };
     title: string;
     description: string;
     cover: string;
-    blocks: any;
+    blocks: Block[];
     tags: [];
     category: { name: string; game: string; key: string };
-    reading_time: number;
-    created_on: number;
+    readingTime: number;
+    createdAt: number;
     isPublished: boolean;
     comments: { list: Comment[]; totalCount: number };
-    views: { count: number };
-    likes: { count: number };
+    viewsCount: number;
+    likesCount: number;
     viewer: {
         hasSubscription: boolean;
         hasBookmark: boolean;
         isLike: boolean;
-    };
-    suggestions: {
-        articles: {
-            all: { list: Article[]; totalCount: number };
-            similar: { list: Article[]; totalCount: number };
-        };
     };
 }
 
@@ -67,11 +49,8 @@ export const articleApi = api.injectEndpoints({
         getComments: build.query<{ commentsList: Comment[]; totalCount: number }, { id: string; queryParams: string }>({
             query: ({ id, queryParams }) => `articles/${id}/comments?${queryParams}`,
         }),
-        getSuggestions: build.query<
-            { articles: Article[]; totalCount: number; categoryName: 'all' | 'similar' },
-            { id: string; category: 'all' | 'similar'; queryParams: string }
-        >({
-            query: ({ id, category, queryParams }) => `articles/${id}/suggestions/${category}?${queryParams}`,
+        getNextArticles: build.query<{ articles: Article[] }, { id: string }>({
+            query: ({ id }) => `articles/${id}/next`,
         }),
         getLastTags: build.query<{ tags: [] }, ''>({
             query: () => 'articles/tags',
@@ -146,17 +125,17 @@ export const articleApi = api.injectEndpoints({
             }),
         }),
         addComment: build.mutation({
-            query: ({ commentText, id }) => ({
+            query: ({ body, id }) => ({
                 url: `articles/${id}/comments/add`,
                 method: 'PATCH',
-                body: { commentText: commentText },
+                body: { body },
             }),
         }),
         removeComment: build.mutation({
-            query: ({ commentId, id, index }) => ({
+            query: ({ commentId, id }) => ({
                 url: `articles/${id}/comments/remove`,
                 method: 'DELETE',
-                body: { commentId: commentId, id, index },
+                body: { commentId: commentId },
             }),
         }),
         likeComment: build.mutation({
@@ -179,7 +158,7 @@ export const articleApi = api.injectEndpoints({
 export const {
     useGetArticleQuery,
     useGetCommentsQuery,
-    useGetSuggestionsQuery,
+    useGetNextArticlesQuery,
     useGetLastTagsQuery,
     useGetMostPopularArticleQuery,
     useGetAuthorChoiceQuery,

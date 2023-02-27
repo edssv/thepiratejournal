@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import 'moment/locale/ru';
 
-import { Button } from '../../../../Buttons';
-import { useDeleteNotificationMutation } from '../../../../../redux';
-import { Avatar } from '../../../../Avatar';
+import { Button } from '../../../Buttons';
+import { useDeleteNotificationMutation } from '../../../../redux';
+import { Avatar } from '../../../Avatar';
 
 import styles from './NotificationItem.module.scss';
 
@@ -14,7 +14,7 @@ interface NotificationItemProps {
     avatarSrc: string | undefined;
     username: string | undefined;
     action_key: 'followuser' | 'likearticle' | 'commentarticle' | undefined;
-    created_on?: number;
+    createdAt?: number;
 }
 
 export const NotificationItem: React.FC<NotificationItemProps> = ({
@@ -22,7 +22,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
     avatarSrc,
     username,
     action_key,
-    created_on,
+    createdAt,
 }) => {
     const [deleteNotification] = useDeleteNotificationMutation();
 
@@ -54,7 +54,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
         }
     };
 
-    const time = moment(created_on).fromNow();
+    const time = moment(createdAt).fromNow();
 
     return (
         <li className={styles.notificationListItem}>

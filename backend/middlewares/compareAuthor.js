@@ -8,11 +8,6 @@ const compareAuthor = async (req, res, next) => {
         const article = await Article.findById(articleId);
         const draft = await Draft.findById(articleId);
         const editorId = req.user._id.toString();
-        const editorRole = req.user.user_role;
-
-        if (editorRole === 'Admin') {
-            return next();
-        }
 
         if (!editorId) {
             return res.status(400).json({ message: 'Системе не удалось вас распознать.' });
@@ -21,7 +16,7 @@ const compareAuthor = async (req, res, next) => {
         if (!article && !draft) return res.status(400).json({ message: 'Статья не найдена.' });
 
         if (article) {
-            const authorId = article.author._id;
+            const authorId = article.author._id.toString();
 
             if (!authorId) return res.status(400).json({ message: 'Автор статьи не найден.' });
 
@@ -31,7 +26,7 @@ const compareAuthor = async (req, res, next) => {
         }
 
         if (draft) {
-            const draftAuthorId = draft.author._id;
+            const draftAuthorId = draft.author._id.toString();
 
             if (!draftAuthorId) {
                 return res.status(400).json({ message: 'Автор черновика не найден.' });

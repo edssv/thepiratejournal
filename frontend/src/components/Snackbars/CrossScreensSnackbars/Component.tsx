@@ -4,7 +4,7 @@ import { PublishArticle } from '../PublishArticle';
 const CrossScreensSnackbars = () => {
     return (
         <>
-            {/* <AcceptCookies /> */}
+            <AcceptCookies />
             <PublishArticle />
         </>
     );

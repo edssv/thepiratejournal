@@ -26,6 +26,14 @@ export const authApi = api.injectEndpoints({
             }),
             invalidatesTags: ['Articles'],
         }),
+        googlelogin: builder.mutation<AuthResponse, { code: string } | { credential: string }>({
+            query: (credentials) => ({
+                url: 'auth/google',
+                method: 'POST',
+                body: credentials,
+            }),
+            invalidatesTags: ['Articles'],
+        }),
         signup: builder.mutation<AuthResponse, SignupRequest>({
             query: (credentials) => ({
                 url: 'signup',
@@ -51,6 +59,7 @@ export const authApi = api.injectEndpoints({
 
 export const {
     useLoginMutation,
+    useGoogleloginMutation,
     useSignupMutation,
     useLogoutMutation,
     useGetCurrentUserQuery,

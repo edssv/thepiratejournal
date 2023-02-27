@@ -4,9 +4,10 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { Snackbar, Button } from '../../../../../components';
-import { readingTimeFunction } from '../../../../../helpers';
+import { readingTime } from '../../../../../helpers';
 import { useAppDispatch } from '../../../../../hooks';
 import {
+    Block,
     publishSnackbarVisibleSelector,
     selectArticle,
     setPublishSnackbarVisible,
@@ -17,7 +18,7 @@ import {
 interface ConfirmButtonProps {
     mode: 'isNew' | 'isEditing' | 'isDraft';
     articleContentRef?: React.Ref<HTMLDivElement>;
-    blocks: [];
+    blocks: Block[];
 }
 
 export const ConfirmButton = ({ mode, articleContentRef, blocks }: ConfirmButtonProps) => {
@@ -41,9 +42,7 @@ export const ConfirmButton = ({ mode, articleContentRef, blocks }: ConfirmButton
             },
             article,
             blocks,
-
-            { intent: 'publish' },
-            { readingTime: readingTimeFunction(articleContentRef) },
+            { readingTime: readingTime(articleContentRef) },
             { description: description }
         );
         mode === 'isEditing' ? editArticle(formData) : addArticle(formData);

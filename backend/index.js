@@ -7,6 +7,7 @@ const router = require('./routes/index');
 const usersRoutes = require('./routes/users');
 const authRoutes = require('./routes/auth');
 const articlesRoutes = require('./routes/articles');
+const draftsRoutes = require('./routes/drafts');
 const uploadsRoutes = require('./routes/uploads');
 const adminPanelRoutes = require('./routes/admin-panel');
 const errorMiddleware = require('./middlewares/error-middleware');
@@ -30,6 +31,7 @@ app.use('/api', router);
 app.use('/api', usersRoutes);
 app.use('/api', authRoutes);
 app.use('/api', articlesRoutes);
+app.use('/api', draftsRoutes);
 app.use('/api', uploadsRoutes);
 // admin-panel routes
 app.use('/api/admin', adminPanelRoutes);

@@ -3,10 +3,9 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { createReactEditorJS } from 'react-editor-js';
 import debounce from 'lodash.debounce';
-import { useMediaPredicate } from 'react-media-hook';
 
 import { Button, Overlay } from '../../components';
-import { resetArticle, selectArticle, setTitle, useAddArticleMutation, useGetArticleQuery } from '../../redux';
+import { resetArticle, selectArticle, setTitle, useGetArticleQuery } from '../../redux';
 import NotFoundPage from '../NotFound';
 import { useDocTitle, useAppDispatch } from '../../hooks';
 import { resizeTextareaHeight } from '../../helpers';
@@ -29,7 +28,6 @@ const ArticleEditorPage = () => {
         skip: mode === 'isNew',
         refetchOnMountOrArgChange: true,
     });
-    const [saveArticle, { data: saveArticleResponse }] = useAddArticleMutation();
     const article = useSelector(selectArticle);
     const fromPage = location?.state?.from?.pathname;
     const editorCore = useRef<any>(null);

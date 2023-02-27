@@ -1,9 +1,12 @@
 const User = require('../models/user-model');
 const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
 const tokenModel = require('../models/token-model');
 const tokenService = require('../service/token-service');
 const authService = require('../service/auth-service');
 const googleAuth = require('../helpers/googleAuth');
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, 'postmessage');
 
 const createToken = (_id) => {
     return jwt.sign({ _id }, process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' });
@@ -103,8 +106,8 @@ const logout = async (req, res, next) => {
 
 const activate = async (req, res, next) => {
     try {
-        const activationLink = req.params.link;
-        await authService.activate(activationLink);
+        const activation_link = req.params.link;
+        await authService.activate(activation_link);
         return res.redirect(process.env.CLIENT_URL);
     } catch (e) {
         next(e);
@@ -117,7 +120,6 @@ const getCurrentUser = async (req, res) => {
 
         res.status(200).json({
             user: {
-                role: user.user_role,
                 id: user._id,
                 username: user.username,
                 avatar: user.avatar,
@@ -127,6 +129,56 @@ const getCurrentUser = async (req, res) => {
         });
     } catch (error) {
         res.status(401).json({ message: 'Неавторизованный запрос' });
+    }
+};
+
+const googleLogin = async (req, res) => {
+    const code = req.body.code;
+    const credential = req.body.credential;
+
+    if (!req.body) return res.status(400).json({ message: 'Отсутствует код' });
+
+    try {
+        let ticket;
+
+        if (code) {
+            const { tokens } = await client.getToken(code);
+
+            ticket = await client.verifyIdToken({
+                idToken: tokens.id_token,
+                audience: process.env.GOOGLE_CLIENT_ID,
+            });
+        }
+
+        if (credential) {
+            ticket = await client.verifyIdToken({
+                idToken: credential,
+                audience: process.env.GOOGLE_CLIENT_ID,
+            });
+        }
+
+        const { name, email, picture } = ticket.getPayload();
+
+        const user = await User.findOneAndUpdate(
+            { email: email },
+            { username: name, avatar: picture, isActivated: true },
+            { upsert: true }
+        );
+
+        // create a token
+        const token = createToken(user._id);
+        const refreshToken = createRefreshToken(user._id);
+
+        // save refreshToken in db and cookies
+        await tokenService.saveToken(user._id, refreshToken);
+        res.cookie('refreshToken', refreshToken, {
+            maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+            httpOnly: true,
+        });
+
+        res.status(201).json({ user, token: token });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
 };
 
@@ -148,5 +200,6 @@ module.exports = {
     activate,
     refresh,
     getCurrentUser,
+    googleLogin,
     checkHaveAccountGoogle,
 };

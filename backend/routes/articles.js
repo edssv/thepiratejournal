@@ -21,7 +21,7 @@ const {
     addComment,
     removeComment,
     getComments,
-    getSuggestions,
+    getNext,
     likeComment,
     removeLikeComment,
     getLastTags,
@@ -46,7 +46,7 @@ router.delete('/articles/:id', requireAuth, compareAuthor, remove);
 router.put('/articles/:id', requireAuth, compareAuthor, editing);
 router.get('/articles/:id', checkUser, getOne);
 router.get('/articles/:id/comments', checkUser, getComments);
-router.get('/articles/:id/suggestions/:category', checkUser, getSuggestions);
+router.get('/articles/:id/next', checkUser, getNext);
 
 // like route
 router.patch('/articles/:id/like/like', requireAuth, checkLike, like);

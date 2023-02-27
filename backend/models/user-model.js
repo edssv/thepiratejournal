@@ -9,13 +9,12 @@ const Article = require('./article-model');
 const Draft = require('../models/draftModel');
 
 const userSchema = new Schema({
-    user_role: String,
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     isActivated: { type: Boolean, default: false },
     avatar: { type: String },
-    activationLink: { type: String },
+    activation_link: { type: String },
     follow: [{ type: String }],
     followers: [{ type: String }],
     info: { country: String, city: String },
@@ -24,7 +23,7 @@ const userSchema = new Schema({
     notifications: [
         {
             action_key: { type: String, required: true },
-            created_on: { type: Number, default: new Date() },
+            createdAt: { type: Number, default: new Date() },
             actor: {
                 id: { type: String, required: true },
                 username: { type: String, required: true },
@@ -35,7 +34,6 @@ const userSchema = new Schema({
     time: { type: Number, default: new Date() },
 });
 
-// static signup method
 userSchema.statics.signup = async function (username, email, password) {
     // validation
     if (!username || !email || !password) {
@@ -62,39 +60,15 @@ userSchema.statics.signup = async function (username, email, password) {
 
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
-    const activationLink = uuid.v4();
+    const activation_link = uuid.v4();
 
-    const user = await this.create({ username, email, password: hash, activationLink });
+    const user = await this.create({ username, email, password: hash, activation_link });
 
-    await mailService.sendActivationMail(email, `${process.env.API_URL}/activate/${activationLink}`);
-
-    return user;
-};
-
-userSchema.statics.signupGoogle = async function (name, email, username, googleId) {
-    // validation
-    if (!username) {
-        throw Error('Имя пользователя должно быть заполнено.');
-    }
-
-    // check exists
-    const existUsername = await this.findOne({ username });
-    const existEmail = await this.findOne({ email });
-
-    if (existUsername) {
-        throw Error('Данное имя пользователя уже занято');
-    }
-
-    if (existEmail) {
-        throw Error('Учетная запись с данным адресом электронной почты уже существует');
-    }
-
-    const user = await this.create({ username, email, password: hash, activationLink });
+    await mailService.sendActivationMail(email, `${process.env.API_URL}/activate/${activation_link}`);
 
     return user;
 };
 
-// static login method
 userSchema.statics.login = async function (email, password) {
     if (!email || !password) {
         throw Error('Все поля должны быть заполнены');
@@ -115,7 +89,6 @@ userSchema.statics.login = async function (email, password) {
     return user;
 };
 
-// static refresh method
 userSchema.statics.refresh = async function (refreshToken) {
     if (!refreshToken) {
         throw Error('Рефреш токен отсутствует');
