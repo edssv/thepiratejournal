@@ -8,7 +8,7 @@ export const ProtectedOutlet = () => {
     const { data, isLoading } = useGetCurrentUserQuery('', { skip: !token });
     // const { isAuth, isLoading } = useAuth();
 
-    if (isLoading) return <Overlay />;
+    if (isLoading) return null;
 
     if (!data?.user) {
         return <Navigate to={'/login'} />;

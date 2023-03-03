@@ -12,12 +12,12 @@ export const PrivateOutlet = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    if (isLoading) return <Overlay />;
+    if (isLoading) return null;
 
     if (!user)
         return (
             <>
-                <DialogTrigger isVisible={isOpen} onClose={setOpen}>
+                <DialogTrigger isVisible={isOpen} clickOutside={false} onClose={setOpen}>
                     <Dialog>
                         <DialogTitle>Войти</DialogTitle>
                         <DialogContent>Чтобы продолжить, тебе необходимо войти в систему</DialogContent>

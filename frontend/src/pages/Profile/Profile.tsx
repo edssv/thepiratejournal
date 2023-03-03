@@ -44,14 +44,14 @@ const Profile: React.FC = () => {
         }
     }, [data]);
 
-    if (isLoading) return <Overlay />;
+    if (isLoading) return null;
     if (isError) return <NotFoundPage />;
 
     const user = data?.user;
     const isOwner = data?.isOwner;
 
     const contentList = () => {
-        if (currentSection === (ProfileSection.Articles || ProfileSection.Appreciated || ProfileSection.Bookmarks)) {
+        if (currentSection !== ProfileSection.Drafts) {
             return content?.map((article: Article, id) => <ArticlePreview article={article} key={id} />);
         }
 

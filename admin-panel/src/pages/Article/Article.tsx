@@ -13,7 +13,7 @@ const Article: React.FC = () => {
         refetchOnMountOrArgChange: true,
     });
 
-    if (isLoading || isFetching) return <Overlay />;
+    if (isLoading || isFetching) return null;
     if (isError) return <NotFoundPage />;
 
     return (

@@ -20,10 +20,6 @@ export const StripDesktop = () => {
     const isOpenNavRail = useSelector(isOpenNavRailSelector);
     const [isOpenNotifications, setIsOpenNotifications] = useState(false);
 
-    const onClickWrite = () => {
-        navigate('/articles/new', { state: { from: location } });
-    };
-
     return (
         <div className={styles.root}>
             <div className={styles.left}>
@@ -35,7 +31,9 @@ export const StripDesktop = () => {
                 <Link to="/" className={`${styles.logo} icon-center`}>
                     <>
                         <img src={logo} alt="The Pirate Journal" />
-                        <span>The Pirate Journal</span>
+                        <span>
+                            The Pirate <br /> Journal
+                        </span>
                     </>
                 </Link>
                 {location.pathname.split('/')[1] !== 'search' && <SearchBar />}
@@ -46,9 +44,6 @@ export const StripDesktop = () => {
                     <HeaderSkeleton />
                 ) : user ? (
                     <>
-                        <Button onClick={onClickWrite} variant="filledTonal">
-                            <span className="material-symbols-outlined">edit</span>Создать статью
-                        </Button>
                         <NotificationButton
                             isOpenNotifications={isOpenNotifications}
                             setIsOpenNotifications={setIsOpenNotifications}
@@ -70,11 +65,12 @@ export const StripDesktop = () => {
                     </>
                 ) : (
                     <>
-                        <Button onClick={() => navigate('/login')} variant="filledTonal">
-                            Войти
-                        </Button>
-                        <Button onClick={() => navigate('/signup')} variant="filled">
-                            Зарегистрироваться
+                        <Button
+                            onClick={() => navigate('/login', { state: { from: location } })}
+                            icon
+                            variant="filledTonal"
+                        >
+                            <span className="material-symbols-outlined">account_circle</span> Войти
                         </Button>
                     </>
                 )}{' '}

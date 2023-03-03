@@ -9,10 +9,10 @@ import { Avatar, Button } from '..';
 import styles from './HamburgerMenu.module.scss';
 
 const navListData = [
-    { href: '', text: 'Дом', icon: 'home' },
-    { href: '/search', text: 'Статьи', icon: 'book' },
-    { href: '/games', text: 'Игры', icon: 'stadia_controller' },
-    { href: '/authors', text: 'Авторы', icon: 'diversity_1' },
+    { icon: 'home', label: 'Дом', link: '' },
+    { icon: 'subscriptions', label: 'Подписки', link: 'subscriptions' },
+    { icon: 'history', label: 'История', link: 'history' },
+    { icon: 'bookmark', label: 'Закладки', link: 'bookmarks' },
 ];
 
 export const HamburgerMenu: React.FC = () => {
@@ -63,13 +63,13 @@ export const HamburgerMenu: React.FC = () => {
                     {navListData.map((item, i) => (
                         <NavLink
                             key={i}
-                            to={item.href}
+                            to={item.link}
                             onClick={() => dispatch(setIsOpenHamburgerMenu(false))}
                             className={({ isActive }) =>
                                 [styles.nav__link, isActive ? styles.active : ''].filter(Boolean).join(' ')
                             }
                         >
-                            <span className="material-symbols-outlined">{item.icon}</span> {item.text}
+                            <span className="material-symbols-outlined">{item.icon}</span> {item.label}
                         </NavLink>
                     ))}
                 </nav>

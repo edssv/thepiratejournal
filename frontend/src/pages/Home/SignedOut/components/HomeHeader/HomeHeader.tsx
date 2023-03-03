@@ -13,7 +13,7 @@ export const HomeHeader = () => {
                 <div className={styles.text}>
                     <h2>Начни чтение</h2>
                     <p className={styles.description}>
-                        Присоединяйся к The Pirate Journal – открой для себя новый контент, возможность делиться и
+                        Присоединяйся к The Pirate Journal. Открой для себя новый контент, возможность делиться и
                         обсуждать новые статьи.
                     </p>
                 </div>

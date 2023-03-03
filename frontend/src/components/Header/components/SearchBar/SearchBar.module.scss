@@ -5,11 +5,31 @@
     align-items: center;
     width: 100%;
     max-width: 360px;
-    height: 56px;
+    height: 48px;
     background-color: var(--md-sys-color-surface-1);
-    border-radius: 100px;
+    border-radius: 8px;
+    transition: background 100ms ease-in, width 100ms ease-out;
     @include breakpoint(xl) {
         max-width: 480px;
+    }
+
+    &.focus {
+        background-color: #ffffff;
+        box-shadow: var(--md-sys-elevation-1);
+
+        .form {
+            input {
+                color: var(--md-ref-palette-neutral25);
+
+                &::placeholder {
+                    color: var(--md-ref-palette-neutral50);
+                }
+            }
+
+            .icon {
+                color: var(--md-ref-palette-neutral50);
+            }
+        }
     }
 
     .form {
@@ -45,6 +65,7 @@
         }
 
         button {
+            margin-right: 12px;
             visibility: hidden;
 
             &.visible {
@@ -52,7 +73,7 @@
             }
 
             .trailingIcon {
-                color: var(--md-sys-color-on-surface-variant);
+                color: var(--md-ref-palette-neutral50);
             }
         }
     }

@@ -8,7 +8,7 @@ export const DraftsAndBookmarksOutlet = () => {
     const activeSection = location.pathname.split('/')[2];
     const { data, isLoading } = useGetUserQuery({ username, category: activeSection });
 
-    if (isLoading) return <Overlay />;
+    if (isLoading) return null;
 
     return data?.isOwner ? <Outlet /> : <Navigate to={`/@${data?.user.username}`} />;
 };

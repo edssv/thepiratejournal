@@ -80,7 +80,7 @@ const ArticleEditorPage = () => {
         []
     );
 
-    if (isLoading) return <Overlay />;
+    if (isLoading) return null;
     if (isError) return <NotFoundPage />;
 
     resizeTextareaHeight();

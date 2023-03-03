@@ -27,16 +27,16 @@
 
         .logo {
             gap: 12px;
-            margin-right: 32px;
+            margin-right: 80px;
 
             img {
-                height: 32px;
+                height: 36px;
             }
 
             span {
-                width: 150px;
-                font-size: 18px;
-                font-weight: 700;
+                width: 80px;
+                font-size: 16px;
+                font-weight: 500;
                 color: var(--md-sys-color-on-surface-variant);
             }
         }
@@ -44,7 +44,7 @@
 
     .right {
         display: flex;
-        justify-content: end;
+        justify-content: flex-end;
         align-items: center;
         gap: 16px;
     }

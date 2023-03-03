@@ -56,7 +56,7 @@ const Home = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [handleScroll]);
 
-    if (isLoading) return <Overlay />;
+    if (isLoading) return null;
 
     const articlesList = articles.map((article: Article) => <ArticlePreview key={article._id} article={article} />);
 

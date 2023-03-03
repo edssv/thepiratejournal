@@ -19,7 +19,7 @@ export const CreateModule: React.FC<CreateModuleProps> = ({ variant }) => {
                     <div className={styles.promt}>
                         <div className={styles.iconAndHeading}>
                             <div className={styles.icon}>
-                                {variant === ('create' || 'draft') ? (
+                                {variant === 'create' || variant === 'draft' ? (
                                     <span className="material-symbols-outlined">add_circle</span>
                                 ) : (
                                     variant === 'find' && <span className="material-symbols-outlined">search</span>
@@ -33,7 +33,7 @@ export const CreateModule: React.FC<CreateModuleProps> = ({ variant }) => {
                                 }
                                 variant="outlined"
                             >
-                                {variant === ('create' || 'draft') ? 'Написать статью' : 'Найти статьи'}
+                                {variant === 'create' || variant === 'draft' ? 'Написать статью' : 'Найти статьи'}
                             </Button>
                         </div>
                         <div className={styles.text}>

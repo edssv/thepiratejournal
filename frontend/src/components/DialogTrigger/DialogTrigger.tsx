@@ -7,10 +7,16 @@ import styles from './DialogTrigger.module.scss';
 
 interface DialogTriggerProps {
     isVisible?: boolean;
+    clickOutside?: boolean;
     onClose: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const DialogTrigger: React.FC<PropsWithChildren<DialogTriggerProps>> = ({ children, isVisible, onClose }) => {
+export const DialogTrigger: React.FC<PropsWithChildren<DialogTriggerProps>> = ({
+    children,
+    isVisible,
+    clickOutside = true,
+    onClose,
+}) => {
     const portalRoot = document.getElementById('portal-root') || new HTMLElement();
     const rootRef = useRef<HTMLDivElement>(null);
 
@@ -32,7 +38,7 @@ export const DialogTrigger: React.FC<PropsWithChildren<DialogTriggerProps>> = ({
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.1, ease: 'linear' }}
                     >
-                        <div onClick={() => onClose(false)} className={styles.overlay} />
+                        <div onClick={clickOutside ? () => onClose(false) : () => {}} className={styles.overlay} />
                     </motion.div>
                     {children}
                 </div>

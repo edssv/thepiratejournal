@@ -1,7 +1,7 @@
 @use '../../scss/util' as *;
 
 .root {
-    position: absolute;
+    // position: absolute;
     z-index: 999;
 }
 
@@ -16,10 +16,6 @@
 }
 
 .dialog {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
     height: fit-content;
 
     .dialogPanel {

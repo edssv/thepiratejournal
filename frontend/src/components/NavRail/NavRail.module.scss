@@ -10,10 +10,14 @@
     transition: background-color 0.2s ease-out;
     z-index: 8;
 
+    .fab {
+        margin: 0 0 40px;
+    }
+
     .content {
         display: flex;
         flex-direction: column;
+        align-items: center;
         width: 80px;
-        margin-top: 20px;
     }
 }

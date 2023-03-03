@@ -14,7 +14,7 @@ interface TabPanelProps {
 export const TabPanel: React.FC<TabPanelProps> = ({ activeSection, setActiveSection }) => {
     const { user, isLoading } = useAuth();
 
-    if (isLoading) return <Overlay />;
+    if (isLoading) return null;
 
     return (
         <div className={styles.root}>

@@ -38,17 +38,18 @@ export const ButtonLike: React.FC<PropsWithChildren<IsLikeProps>> = ({
     if (!user) {
         return (
             <>
-                <Button variant={variant} onClick={() => setIsOpen(true)}>
-                    <span className="material-symbols-outlined">favorite</span>
-                    {children}
-                </Button>
                 <Tippy
                     isOpen={isOpen}
                     setIsOpen={setIsOpen}
                     tooltipPosition={tooltipPosition}
                     title={'Добавляй в избранное'}
                     description="Чтобы добавлять статьи в понравившиеся, войди в аккаунт."
-                ></Tippy>
+                >
+                    <Button variant={variant} onClick={() => setIsOpen(true)}>
+                        <span className="material-symbols-outlined">favorite</span>
+                        {children}
+                    </Button>
+                </Tippy>
             </>
         );
     }

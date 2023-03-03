@@ -2,10 +2,11 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ErrorBoundary } from 'react-error-boundary';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 import { store } from './redux/store';
 import App from './App';
 import { ErrorFallback, ScrollToTop } from './components';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const root = ReactDOM.createRoot(document.getElementById('App') as HTMLElement);
 

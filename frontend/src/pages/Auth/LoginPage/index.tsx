@@ -23,7 +23,7 @@ const LoginPage = () => {
     const [login, { isLoading, isError }] = useLoginMutation();
     const [googleLogin] = useGoogleloginMutation();
     const [passwordEye, setPasswordEye] = useState(false);
-    const fromPage = location.state?.from?.pathname || '/';
+    const fromPage = location.state?.from?.pathname;
 
     const {
         register,
@@ -41,11 +41,17 @@ const LoginPage = () => {
     });
 
     const loginGoogle = useGoogleLogin({
-        onSuccess: ({ code }) => googleLogin({ code }),
+        onSuccess: ({ code }) => {
+            try {
+                googleLogin({ code });
+                navigate(fromPage ?? '/   ');
+            } catch (error) {}
+        },
         onError: (error) => {
             console.log('Login Failed', error);
         },
         flow: 'auth-code',
+        redirect_uri: 'postmessage',
     });
 
     return (

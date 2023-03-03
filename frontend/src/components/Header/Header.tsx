@@ -1,25 +1,25 @@
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState, memo } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useMediaPredicate } from 'react-media-hook';
 
 import { useAuth } from '../../hooks';
 import { HeaderStrip } from './components/HeaderStrip';
 
 import styles from './Header.module.scss';
 
-export const Header = () => {
+export const Header = memo(() => {
     const location = useLocation();
     const { user, isLoading } = useAuth();
     const isHomeLocation = location.pathname.split('/')[1] === '';
-    const isTablet = useMediaPredicate('(max-width: 990.98px)');
     const [isVisible, setIsVisible] = useState(true);
     const [prevScrollPosition, setPrevScrollPosition] = useState(0);
     const [isPrimary, setIsPrimary] = useState(!isLoading && !user && isHomeLocation);
+    console.log('rerender');
 
     // скрытие хедера
+
     const changeIsVisible = () => {
         const currentScrollPosition = window.scrollY;
-        console.log(currentScrollPosition > prevScrollPosition);
+
         if (currentScrollPosition > prevScrollPosition) {
             setIsVisible(false);
         } else {
@@ -78,4 +78,4 @@ export const Header = () => {
             <HeaderStrip />
         </header>
     );
-};
+});

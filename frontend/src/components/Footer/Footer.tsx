@@ -6,7 +6,7 @@ import styles from './Footer.module.scss';
 export const Footer = () => {
     return (
         <footer className={styles.root}>
-            <div className={styles.squiggle}>
+            {/* <div className={styles.squiggle}>
                 <svg
                     _ngcontent-eax-c39=""
                     aria-hidden="true"
@@ -27,8 +27,8 @@ export const Footer = () => {
                     </pattern>
                     <rect _ngcontent-eax-c39="" width="100%" height="100%" fill="url(#a)"></rect>
                 </svg>
-            </div>
-            <div className={styles.wrapper}>
+            </div> */}
+            {/* <div className={styles.wrapper}>
                 <section className={styles.about}>
                     <div className={styles.aboutCompany}>
                         <Link to="/" className={styles.logo}>
@@ -62,7 +62,7 @@ export const Footer = () => {
                         Обратная связь
                     </a>
                 </section>
-            </div>
+            </div> */}
         </footer>
     );
 };

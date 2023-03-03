@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 export const useDocTitle = (title: string) => {
     const [doctitle, setDocTitle] = useState(title);
@@ -7,5 +7,5 @@ export const useDocTitle = (title: string) => {
         document.title = doctitle ? doctitle + ' - ' + 'The Pirate Journal' : 'The Pirate Journal';
     }, [doctitle]);
 
-    return [doctitle, setDocTitle];
+    return useMemo(() => ({ doctitle, setDocTitle }), [doctitle, setDocTitle]);
 };

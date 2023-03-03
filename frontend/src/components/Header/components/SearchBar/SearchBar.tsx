@@ -1,18 +1,26 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAppDispatch } from '../../../../hooks';
+import { useAppDispatch, useOnClickOutside } from '../../../../hooks';
 import { setSearch } from '../../../../redux';
+import { Button } from '../../../Buttons';
 
 import styles from './SearchBar.module.scss';
 
 export const SearchBar = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const rootRef = useRef<HTMLDivElement>(null);
     const [inputValue, setInputValue] = useState('');
 
+    const handleClick = () => {
+        rootRef?.current?.classList.add(styles.focus);
+    };
+
+    useOnClickOutside(rootRef, () => rootRef?.current?.classList.remove(styles.focus));
+
     return (
-        <div className={styles.root}>
+        <div ref={rootRef} onClick={handleClick} className={styles.root}>
             <form className={styles.form}>
                 <span className={`${styles.icon} material-symbols-outlined`}>search</span>
                 <input
@@ -30,9 +38,14 @@ export const SearchBar = () => {
                     type="text"
                     placeholder="Поиск"
                 />
-                <button onClick={() => setInputValue('')} className={inputValue ? styles.visible : ''} type="button">
+                <Button
+                    onClick={() => setInputValue('')}
+                    className={inputValue ? styles.visible : ''}
+                    icon
+                    type="button"
+                >
                     <span className={`${styles.trailingIcon} material-symbols-outlined`}>close</span>
-                </button>
+                </Button>
             </form>
         </div>
     );

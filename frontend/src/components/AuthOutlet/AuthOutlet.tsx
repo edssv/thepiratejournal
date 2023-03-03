@@ -7,7 +7,7 @@ export const AuthOutlet = () => {
     const location = useLocation();
     const navigate = <Navigate to="/" state={{ from: location }} />;
 
-    if (isLoading) return <Overlay />;
+    if (isLoading) return null;
 
     if (user) return navigate;
 

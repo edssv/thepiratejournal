@@ -10,4 +10,6 @@ RUN npm install --omit=dev
 
 COPY . .
 
-CMD ["npm", "run", "build" ]
+RUN npm run prestart
+
+CMD ["npm", "run", "start" ]

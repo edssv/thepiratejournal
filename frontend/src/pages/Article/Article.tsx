@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import { setIsOpenNavRail, useGetArticleQuery } from '../../redux';
 import { useAppDispatch } from '../../hooks';
 import { AiryArticle } from './AiryArticle';
-import { Overlay } from '../../components';
 import NotFoundPage from '../NotFound';
 
 const Article: React.FC = () => {
@@ -23,7 +22,7 @@ const Article: React.FC = () => {
         };
     }, []);
 
-    if (isLoading || isFetching) return <Overlay />;
+    if (isLoading || isFetching) return null;
     if (isError) return <NotFoundPage />;
 
     return (

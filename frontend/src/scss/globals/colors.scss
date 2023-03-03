@@ -285,12 +285,16 @@
     --md-sys-color-inverse-primary: var(--md-ref-palette-primary80);
     /* On primary container */
     --md-sys-color-on-primary-container: var(--md-ref-palette-primary10);
+    /* On primary container channel */
+    --md-sys-color-on-primary-containerChannel: var(--md-ref-palette-primary10-rgb);
     /* On primary */
     --md-sys-color-on-primary: var(--md-ref-palette-primary100);
     /* On primary channel*/
     --md-sys-color-on-primaryChannel: var(--md-ref-palette-primary100-rgb);
     /* Primary container */
     --md-sys-color-primary-container: var(--md-ref-palette-primary90);
+    /* Primary container channel */
+    --md-sys-color-primary-containerChannel: var(--md-ref-palette-primary90-rgb);
     /* Primary */
     --md-sys-color-primary: var(--md-ref-palette-primary40);
     /* Primary channel*/
@@ -362,12 +366,16 @@
     --md-sys-color-inverse-primary: var(--md-ref-palette-primary40);
     /* On primary container */
     --md-sys-color-on-primary-container: var(--md-ref-palette-primary90);
+    /* On primary container channel */
+    --md-sys-color-on-primary-containerChannel: var(--md-ref-palette-primary90-rgb);
     /* On primary */
     --md-sys-color-on-primary: var(--md-ref-palette-primary20);
     /* On primary channel*/
     --md-sys-color-on-primaryChannel: var(--md-ref-palette-primary20-rgb);
     /* Primary container */
     --md-sys-color-primary-container: var(--md-ref-palette-primary30);
+    /* Primary container channel */
+    --md-sys-color-primary-containerChannel: var(--md-ref-palette-primary30-rgb);
     /* Primary */
     --md-sys-color-primary: var(--md-ref-palette-primary80);
     /* Primary channel */
@@ -376,6 +384,7 @@
 
 :root {
     --md-sys-color-surface-1: rgb(var(--md-sys-color-primaryChannel) / 0.05);
+    --md-sys-color-surface-2: #edf2f8;
     --md-sys-color-surface-2: #edf2f8;
     --md-sys-color-surface-3: rgb(var(--md-sys-color-primaryChannel) / 0.11);
     --md-sys-color-surface-4: #e4ebf4;

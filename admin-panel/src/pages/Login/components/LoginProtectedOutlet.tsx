@@ -7,7 +7,7 @@ export const LoginProtectedOutlet = () => {
     const token = localStorage.getItem('token');
     const { data, isLoading } = useGetCurrentUserQuery('', { skip: !token });
 
-    if (isLoading) return <Overlay />;
+    if (isLoading) return null;
 
     if (data?.user) {
         return <Navigate to="/" />;

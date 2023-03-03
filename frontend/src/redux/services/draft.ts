@@ -7,6 +7,8 @@ export interface Draft {
     title?: string;
     cover?: string;
     blocks?: Block[];
+    category?: { name: string; game: string; key: string };
+    tags: [];
     createdAt: number;
 }
 
@@ -18,9 +20,11 @@ export const draftApi = api.injectEndpoints({
                 method: 'POST',
                 body,
             }),
-            invalidatesTags: ['Articles'],
+        }),
+        getDraft: build.query<Draft, string>({
+            query: (_id) => `drafts/${_id}`,
         }),
     }),
 });
 
-export const { useCreateDraftMutation } = draftApi;
+export const { useCreateDraftMutation, useGetDraftQuery } = draftApi;
