@@ -11,6 +11,10 @@
     margin-top: 96px;
 }
 
+.authorChoiceList {
+    grid-template-columns: repeat(2, 1fr);
+}
+
 .authorChoiceList,
 .bestOfWeekList,
 .newestArticlesList {
@@ -22,7 +26,6 @@
     grid-auto-rows: minmax(var(--min-row-height), auto);
 }
 
-.authorChoiceList,
 .newestArticlesList,
 .bestOfWeekList {
     max-width: 1200px;

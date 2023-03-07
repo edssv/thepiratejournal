@@ -24,6 +24,7 @@ export const HamburgerMenu: React.FC = () => {
     const ref = useRef(null);
     const { mode, handleTheme } = useThemeMode();
     const [logout] = useLogoutMutation();
+    const currentLocation = location.pathname.split('/')[1];
 
     const onClickWrite = () => {
         dispatch(setIsOpenHamburgerMenu(false));
@@ -61,16 +62,14 @@ export const HamburgerMenu: React.FC = () => {
                 </div>
                 <nav className={styles.nav}>
                     {navListData.map((item, i) => (
-                        <NavLink
+                        <Link
                             key={i}
                             to={item.link}
                             onClick={() => dispatch(setIsOpenHamburgerMenu(false))}
-                            className={({ isActive }) =>
-                                [styles.nav__link, isActive ? styles.active : ''].filter(Boolean).join(' ')
-                            }
+                            className={`${styles.navLink} ${currentLocation === item.link ? styles.active : ''}`}
                         >
                             <span className="material-symbols-outlined">{item.icon}</span> {item.label}
-                        </NavLink>
+                        </Link>
                     ))}
                 </nav>
                 {user && (

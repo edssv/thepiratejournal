@@ -4,11 +4,11 @@
     position: absolute;
     top: 60px;
     width: 420px;
-    height: (calc(100vh - 65px));
-    padding: 16px;
-    overflow-y: scroll;
+    max-height: 640px;
+    overflow-y: auto;
     border-radius: 8px;
-    box-shadow: 0 1px 6px rgb(0 0 0 / 20%);
+    background-color: var(--md-sys-color-surface);
+    box-shadow: var(--md-sys-elevation-4);
     z-index: 1000;
     @include breakpoint-down(md) {
         position: fixed;
@@ -16,6 +16,7 @@
         left: 0;
         width: 100%;
         height: 100vh;
+        max-height: unset;
         overflow: auto;
         border-radius: unset;
     }
@@ -24,16 +25,19 @@
         .panelTop {
             display: flex;
             align-items: center;
-            margin-bottom: 32px;
+            margin-bottom: 4px;
+            padding: 16px;
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+
             .panelClose {
                 position: absolute;
-                right: 16px;
+                right: 0;
             }
 
             .panelHeadline {
-                font-size: 14px;
-                font-weight: 500;
-                margin-bottom: 16px;
+                font-size: 16px;
+                line-height: 22px;
+                font-weight: 400;
                 color: var(--md-sys-color-primary);
 
                 @include breakpoint-down(md) {
@@ -48,9 +52,8 @@
         .notificationList {
             display: flex;
             flex-direction: column;
-            gap: 18px;
             height: 100%;
-            margin-bottom: 24px;
+            overflow-y: auto;
         }
 
         .buttonMore {

@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { Canvas, Overlay } from '..';
+import { Canvas } from '..';
 import { useAuth } from '../../hooks/useAuth';
 
 export const AuthOutlet = () => {

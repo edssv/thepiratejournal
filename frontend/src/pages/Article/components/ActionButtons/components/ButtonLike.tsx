@@ -45,7 +45,7 @@ export const ButtonLike: React.FC<PropsWithChildren<IsLikeProps>> = ({
                     title={'Добавляй в избранное'}
                     description="Чтобы добавлять статьи в понравившиеся, войди в аккаунт."
                 >
-                    <Button variant={variant} onClick={() => setIsOpen(true)}>
+                    <Button onClick={() => setIsOpen(!isOpen)} isActive={isOpen} variant={variant}>
                         <span className="material-symbols-outlined">favorite</span>
                         {children}
                     </Button>

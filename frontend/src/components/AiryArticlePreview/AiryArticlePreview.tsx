@@ -18,9 +18,7 @@ export const AiryArticlePreview: React.FC<ArticlePreviewProps> = ({ article, siz
         <div className={`${styles.root} ${size === 'S' ? styles.sizeSmall : styles.sizeMedium}`}>
             <Link to={`/articles/${article._id}`} state={{ from: location }} className={styles.thumbnail}>
                 {' '}
-                <div className={styles.thumbContainer}>
-                    <div className={styles.thumbImg} style={{ backgroundImage: `url(${article.cover})` }} />
-                </div>
+                <div className={styles.thumbContainer} style={{ backgroundImage: `url(${article.cover})` }} />
                 <div className={styles.contentContainer}>
                     <div className={styles.text}>
                         <div

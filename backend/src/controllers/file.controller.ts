@@ -33,7 +33,7 @@ class FileController {
         const filePath = `${req.body.ref}`;
         fs.unlink(filePath, (err: any) => {
             if (err) {
-                res.status(500).send({
+                return res.status(500).send({
                     message: 'Could not delete the file. ' + err,
                 });
             }

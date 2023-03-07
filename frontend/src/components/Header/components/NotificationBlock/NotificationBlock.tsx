@@ -69,6 +69,7 @@ export const NotificationBlock = ({
                                         <span className="material-symbols-outlined">arrow_back</span>
                                     </Button>
                                 )}
+                                <h4 className={styles.panelHeadline}>Уведомления</h4>
                                 <Button
                                     icon
                                     color="secondary"
@@ -80,7 +81,6 @@ export const NotificationBlock = ({
                                 >
                                     <span className="material-symbols-outlined">close</span>
                                 </Button>
-                                <h4 className={styles.panelHeadline}>Уведомления</h4>
                             </div>
                             <ul className={styles.notificationList}>
                                 {!notificationList?.length ? 'Новых уведомлений нет' : notificationList}

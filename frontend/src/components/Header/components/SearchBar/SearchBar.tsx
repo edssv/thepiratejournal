@@ -20,7 +20,7 @@ export const SearchBar = () => {
     useOnClickOutside(rootRef, () => rootRef?.current?.classList.remove(styles.focus));
 
     return (
-        <div ref={rootRef} onClick={handleClick} className={styles.root}>
+        <div ref={rootRef} onMouseDown={handleClick} className={styles.root}>
             <form className={styles.form}>
                 <span className={`${styles.icon} material-symbols-outlined`}>search</span>
                 <input

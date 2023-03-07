@@ -1,9 +1,9 @@
 @use '../../scss/util' as *;
 
 .sizeMedium {
-    .thumbImg {
+    .thumbContainer {
         @include breakpoint(sm) {
-            height: 280px !important;
+            height: 298px !important;
         }
     }
 }
@@ -12,7 +12,6 @@
     display: flex;
     flex-direction: column;
     min-width: 200px;
-    overflow: hidden;
 
     &:hover .top__img {
         filter: none;
@@ -37,6 +36,15 @@
             color: var(--md-sys-color-on-secondary-container);
         }
 
+        &:focus {
+            outline: 2px solid var(--md-sys-color-on-surface);
+
+            &:active {
+                outline: none;
+                border: 1px solid var(--md-sys-color-on-surface);
+            }
+        }
+
         &:active {
             color: var(--md-sys-color-on-secondary-container);
             border-radius: 48px;
@@ -44,41 +52,17 @@
 
         .thumbContainer {
             position: relative;
-
-            .thumbImg {
-                position: relative;
-                height: 200px;
-                min-width: 200px;
-                background-repeat: no-repeat;
-                background-position: center;
-                background-size: cover;
-                border-radius: 24px;
-                filter: brightness(0.95);
-                transition: filter ease-in-out 0.2s;
-                overflow: hidden;
-                z-index: 1;
-            }
-
-            .readingTime {
-                position: absolute;
-                right: 8px;
-                bottom: 8px;
-                padding: 2px;
-                background-color: var(--md-sys-color-inverse-surface);
-                color: var(--md-sys-color-inverse-on-surface);
-                z-index: 1;
-            }
-
-            .bookmark__wrapper {
-                position: absolute;
-                top: 0px;
-                right: 0px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 52px;
-                height: 52px;
-            }
+            height: 200px;
+            min-width: 200px;
+            background-color: var(--md-sys-color-secondary-container);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            border-radius: 24px;
+            filter: brightness(0.95);
+            transition: filter ease-in-out 0.2s;
+            overflow: hidden;
+            z-index: 1;
         }
 
         .contentContainer {

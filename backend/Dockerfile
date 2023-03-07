@@ -6,7 +6,9 @@ WORKDIR /usr/src/backend
 
 COPY ./package.json ./
 
-RUN npm install --omit=dev
+RUN npm install
+
+RUN npm install typescript@latest -g
 
 COPY . .
 

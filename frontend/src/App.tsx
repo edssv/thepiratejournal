@@ -8,21 +8,19 @@ import CrossScreensSnackbars from './components/Snackbars/CrossScreensSnackbars'
 import { Layout, Login } from './components';
 import { AuthOutlet, PrivateOutlet } from './components';
 import { DraftsAndBookmarksOutlet } from './pages/Profile';
+import SubscriptionsScreen from './pages/Subscriptions/Subscriptions';
+import HistoryScreen from './pages/History/History';
+import BookmarksScreen from './pages/Bookmarks/Bookmarks';
+import ArticleScreen from './pages/Article/Article';
+import ProfileScreen from './pages/Profile/Profile';
 
 import './scss/styles.scss';
-import Subscriptions from './pages/Subscriptions/Subscriptions';
 
-const HomeScreen = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Home/Home'));
-const ArticlesScreen = lazy(() => import(/* webpackChunkName: "Articles" */ './pages/Articles'));
-const ProfileScreen = lazy(() => import(/* webpackChunkName: "Profile" */ './pages/Profile/Profile'));
-const ArticleScreen = lazy(() => import(/* webpackChunkName: "Article" */ './pages/Article/Article'));
-const EditorScreen = lazy(() => import(/* webpackChunkName: "ArticleEditorPage" */ './pages/Editor'));
-const LoginScreen = lazy(() => import(/* webpackChunkName: "EmailPage" */ './pages/Auth/LoginPage'));
-const SignupScreen = lazy(() => import(/* webpackChunkName: "Signup" */ './pages/Auth/SignupPage'));
-// const Subscriptions = lazy(() => import(/* webpackChunkName: "Signup" */ './pages/Subscriptions/Subscriptions'));
-const HistoryScreen = lazy(() => import(/* webpackChunkName: "Signup" */ './pages/History/History'));
-const BookmarksScreen = lazy(() => import(/* webpackChunkName: "Signup" */ './pages/Bookmarks/Bookmarks'));
-const NotFoundScreen = lazy(() => import(/* webpackChunkName: "NotFoundPage" */ './pages/NotFound'));
+const HomeScreen = lazy(() => import(/* webpackChunkName: "HomeScreen" */ './pages/Home/Home'));
+const ArticlesScreen = lazy(() => import(/* webpackChunkName: "ArticlesScreen" */ './pages/Articles'));
+const EditorScreen = lazy(() => import(/* webpackChunkName: "EditorScreen" */ './pages/Editor'));
+const AuthScreen = lazy(() => import(/* webpackChunkName: "AuthScreen" */ './pages/Auth/Auth'));
+const NotFoundScreen = lazy(() => import(/* webpackChunkName: "NotFoundScreen" */ './pages/NotFound'));
 
 const Navigator = () => {
     return (
@@ -30,7 +28,7 @@ const Navigator = () => {
             <Routes>
                 <Route path={UrlTemplates.Main} element={<Layout />}>
                     <Route index element={<HomeScreen />} />
-                    <Route path={UrlTemplates.Subscriptions} element={<Subscriptions />} />
+                    <Route path={UrlTemplates.Subscriptions} element={<SubscriptionsScreen />} />
                     <Route path={UrlTemplates.History} element={<HistoryScreen />} />
                     <Route path={UrlTemplates.Bookmarks} element={<BookmarksScreen />} />
                     <Route path={UrlTemplates.Search} element={<ArticlesScreen />} />
@@ -51,8 +49,8 @@ const Navigator = () => {
                     <Route path={UrlTemplates.EditorDraft} element={<EditorScreen />} />
                 </Route>
                 <Route element={<AuthOutlet />}>
-                    <Route path={UrlTemplates.Login} element={<LoginScreen />} />
-                    <Route path={UrlTemplates.Signup} element={<SignupScreen />} />
+                    <Route path={UrlTemplates.Login} element={<AuthScreen />} />
+                    <Route path={UrlTemplates.Signup} element={<AuthScreen />} />
                 </Route>
             </Routes>
         </Suspense>

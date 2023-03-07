@@ -39,16 +39,17 @@ export const ButtonBookmark: React.FC<PropsWithChildren<IsBookmarkProps>> = ({
             {!user ? (
                 <>
                     {' '}
-                    <Button variant={variant ?? 'text'} onClick={() => setIsOpen(true)}>
-                        <span className="material-symbols-outlined">bookmark</span> {children}
-                    </Button>
                     <Tippy
                         isOpen={isOpen}
                         setIsOpen={setIsOpen}
                         tooltipPosition={tooltipPosition}
                         title={'Добавляй в закладки'}
                         description={'Чтобы добавлять статьи в закладки, войди в аккаунт.'}
-                    />
+                    >
+                        <Button variant={variant ?? 'text'} onClick={() => setIsOpen(true)}>
+                            <span className="material-symbols-outlined">bookmark</span> {children}
+                        </Button>
+                    </Tippy>
                 </>
             ) : (
                 <>

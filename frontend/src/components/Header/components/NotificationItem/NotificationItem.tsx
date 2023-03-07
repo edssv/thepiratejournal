@@ -40,20 +40,6 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
         }
     };
 
-    const notificationIcon = () => {
-        if (action_key === 'followuser') {
-            return <span className="material-symbols-outlined">add_circle</span>;
-        }
-
-        if (action_key === 'commentarticle') {
-            return <span className="material-symbols-outlined">forum</span>;
-        }
-
-        if (action_key === 'likearticle') {
-            return <span className="material-symbols-outlined">favorite</span>;
-        }
-    };
-
     const time = moment(createdAt).fromNow();
 
     return (
@@ -63,7 +49,6 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
                     <Link to={`/@${username}`}>
                         <Avatar imageSrc={avatarSrc} width={48} />
                     </Link>
-                    <span className={styles.notificationAvatarIcon}>{notificationIcon()}</span>
                 </div>
                 <div className={styles.notificationTextContainer}>
                     <Link to={`/@${username}`} className={styles.notificationUsername}>
@@ -73,9 +58,6 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
                     <span className={styles.notificationTimeText}>{time}</span>
                 </div>
             </div>
-            <Button icon variant="text" color="secondary" onClick={() => deleteNotification(_id)} aria-label="Close">
-                <span className="material-symbols-outlined">cancel</span>
-            </Button>
         </li>
     );
 };
