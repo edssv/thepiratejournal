@@ -15,6 +15,14 @@
     grid-template-columns: repeat(2, 1fr);
 }
 
+.newestArticlesList,
+.bestOfWeekList {
+    max-width: 1200px;
+    grid-template-columns: repeat(3, 1fr);
+    @include breakpoint-down(xl) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 .authorChoiceList,
 .bestOfWeekList,
 .newestArticlesList {
@@ -24,20 +32,10 @@
     gap: 8px;
     grid-auto-flow: row;
     grid-auto-rows: minmax(var(--min-row-height), auto);
-}
-
-.newestArticlesList,
-.bestOfWeekList {
-    max-width: 1200px;
-    grid-template-columns: repeat(3, 1fr);
-    @include breakpoint-down(xl) {
-        grid-template-columns: repeat(2, 1fr);
-    }
     @include breakpoint-down(sm) {
         grid-template-columns: 1fr;
     }
 }
-
 .sectionHeader {
     margin: 24px;
 

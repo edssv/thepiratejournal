@@ -11,6 +11,7 @@ import { DraftsAndBookmarksOutlet } from './pages/Profile';
 import SubscriptionsScreen from './pages/Subscriptions/Subscriptions';
 import HistoryScreen from './pages/History/History';
 import BookmarksScreen from './pages/Bookmarks/Bookmarks';
+import BlogScreen from './pages/Blog/Blog';
 import ArticleScreen from './pages/Article/Article';
 import ProfileScreen from './pages/Profile/Profile';
 
@@ -26,14 +27,19 @@ const Navigator = () => {
     return (
         <Suspense fallback={null}>
             <Routes>
+                <Route path={UrlTemplates.Main} element={<Layout padding="small" />}>
+                    <Route index element={<HomeScreen />} />
+                </Route>
                 <Route path={UrlTemplates.Main} element={<Layout />}>
                     <Route index element={<HomeScreen />} />
                     <Route path={UrlTemplates.Subscriptions} element={<SubscriptionsScreen />} />
                     <Route path={UrlTemplates.History} element={<HistoryScreen />} />
                     <Route path={UrlTemplates.Bookmarks} element={<BookmarksScreen />} />
+                    <Route path={UrlTemplates.Blog} element={<BlogScreen />} />
+                    <Route path={UrlTemplates.BlogPost} element={<ArticleScreen mode="blog" />} />
                     <Route path={UrlTemplates.Search} element={<ArticlesScreen />} />
                     <Route path={UrlTemplates.SearchCategory} element={<ArticlesScreen />} />
-                    <Route path={UrlTemplates.Article} element={<ArticleScreen />} />
+                    <Route path={UrlTemplates.Article} element={<ArticleScreen mode="default" />} />
                     <Route path={UrlTemplates.Profile} element={<ProfileScreen />} />
                     <Route path={UrlTemplates.ProfileArticles} element={<ProfileScreen />} />
                     <Route path={UrlTemplates.ProfileAppreciated} element={<ProfileScreen />} />

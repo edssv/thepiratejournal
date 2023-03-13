@@ -1,20 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { useMediaPredicate } from 'react-media-hook';
 import debounce from 'lodash.debounce';
 import { AnimatePresence, motion } from 'framer-motion';
 
+import { articleDataSelector, commentsSelector } from '../../../../redux';
 import { Button } from '../../../../components';
 import { useArticle } from '../../../../hooks';
 import { ButtonLike } from '../ActionButtons/components';
 
 import styles from './ScrollControls.module.scss';
-import { useMediaPredicate } from 'react-media-hook';
 
 interface ScrollControlsProps {
     setOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ScrollControls: React.FC<ScrollControlsProps> = ({ setOpenSidebar }) => {
-    const { article } = useArticle();
+    const article = useSelector(articleDataSelector);
+    const comments = useSelector(commentsSelector);
     const rootRef = useRef<HTMLDivElement>(null);
     const isTablet = useMediaPredicate('(max-width: 990.98px)');
     const [prevScrollPos, setPrevScrollPos] = useState(0);
@@ -62,11 +65,13 @@ export const ScrollControls: React.FC<ScrollControlsProps> = ({ setOpenSidebar }
                     <div className={styles.buttonsContainer}>
                         <div className={styles.buttons}>
                             <ButtonLike>
-                                <span className={styles.buttonText}>{article.likesCount}</span>
+                                <span className={styles.buttonText}>
+                                    {'likesCount' in article && article.likesCount}
+                                </span>
                             </ButtonLike>
                             <Button onClick={() => setOpenSidebar((prevState) => !prevState)}>
                                 <span className="material-symbols-outlined">comment</span>
-                                <span className={styles.buttonText}>{article.comments?.totalCount}</span>
+                                <span className={styles.buttonText}>{comments?.totalCount}</span>
                             </Button>
                         </div>
                     </div>

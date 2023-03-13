@@ -54,6 +54,7 @@ export const StripDesktop = () => {
                         </Link>
                         <Button
                             icon
+                            color="secondary"
                             variant="text"
                             onClick={async () => {
                                 await logout('');

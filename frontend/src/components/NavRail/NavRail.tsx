@@ -1,16 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
+
+import { navData } from '../../lib/navData';
 import { FAB } from '../Buttons';
 import { NavigationItem, NavigationItemIcon, NavigationItemLabel } from '../NavigationItem';
 import { ThemeButton } from './components';
 
 import styles from './NavRail.module.scss';
-
-const navItemsData = [
-    { icon: 'home', label: 'Дом', link: '' },
-    { icon: 'subscriptions', label: 'Подписки', link: 'subscriptions' },
-    { icon: 'history', label: 'История', link: 'history' },
-    { icon: 'bookmark', label: 'Закладки', link: 'bookmarks' },
-];
 
 export const NavRail = () => {
     const navigate = useNavigate();
@@ -23,7 +18,7 @@ export const NavRail = () => {
                     <span className="material-symbols-outlined">edit</span>
                 </FAB>
                 <nav className={styles.nav} aria-label="Main">
-                    {navItemsData.map((item, i) => (
+                    {navData.map((item, i) => (
                         <NavigationItem key={i} to={item.link}>
                             <NavigationItemIcon>{item.icon}</NavigationItemIcon>
                             <NavigationItemLabel>{item.label}</NavigationItemLabel>

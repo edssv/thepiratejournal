@@ -4,16 +4,10 @@ import { useSelector } from 'react-redux';
 
 import { useAppDispatch, useAuth, useThemeMode } from '../../hooks';
 import { isOpenHamburgerMenuSelector, setIsOpenHamburgerMenu, useLogoutMutation } from '../../redux';
+import { navData } from '../../lib/navData';
 import { Avatar, Button } from '..';
 
 import styles from './HamburgerMenu.module.scss';
-
-const navListData = [
-    { icon: 'home', label: 'Дом', link: '' },
-    { icon: 'subscriptions', label: 'Подписки', link: 'subscriptions' },
-    { icon: 'history', label: 'История', link: 'history' },
-    { icon: 'bookmark', label: 'Закладки', link: 'bookmarks' },
-];
 
 export const HamburgerMenu: React.FC = () => {
     const location = useLocation();
@@ -38,6 +32,7 @@ export const HamburgerMenu: React.FC = () => {
                     <Button
                         icon
                         variant="text"
+                        color="secondary"
                         onClick={() => dispatch(setIsOpenHamburgerMenu(false))}
                         className={styles.buttonClose}
                     >
@@ -61,7 +56,7 @@ export const HamburgerMenu: React.FC = () => {
                     )}
                 </div>
                 <nav className={styles.nav}>
-                    {navListData.map((item, i) => (
+                    {navData.map((item, i) => (
                         <Link
                             key={i}
                             to={item.link}
@@ -107,7 +102,7 @@ export const HamburgerMenu: React.FC = () => {
                     </Button>
                 )}
                 <div className={styles.switchTheme}>
-                    <Button onClick={handleTheme} variant="outlined">
+                    <Button onClick={handleTheme} variant="outlined" color="secondary">
                         {mode === 'dark' ? (
                             <>
                                 <span className="material-symbols-outlined">light_mode</span> Светлая тема

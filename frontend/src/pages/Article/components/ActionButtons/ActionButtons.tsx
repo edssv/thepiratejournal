@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { Button, ButtonDelete } from '../../../../components';
 import { useAuth } from '../../../../hooks';
-import { selectArticle, useDeleteArticleMutation } from '../../../../redux';
+import { articleDataSelector, useDeleteArticleMutation } from '../../../../redux';
 import { ButtonBookmark, ButtonLike } from './components';
 
 import styles from './ActionButtons.module.scss';
@@ -14,7 +14,7 @@ export const ActionButtons = () => {
     const location = useLocation();
     const { user } = useAuth();
 
-    const article = useSelector(selectArticle);
+    const article = useSelector(articleDataSelector);
 
     const [deleteArticle] = useDeleteArticleMutation();
 

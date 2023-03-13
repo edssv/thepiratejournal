@@ -35,7 +35,7 @@
     }
 
     &.isActive {
-        filter: brightness(0.75);
+        filter: brightness(0.8);
     }
 }
 
@@ -58,7 +58,8 @@
 
 :global {
     .primaryColor {
-        &.text {
+        &.text,
+        &.outlined {
             --color: var(--md-sys-color-primary);
 
             &:disabled {
@@ -71,7 +72,8 @@
     }
 
     .secondaryColor {
-        &.text {
+        &.text,
+        &.outlined {
             --color: var(--md-sys-color-secondary);
 
             &:disabled {
@@ -134,8 +136,8 @@
     .outlined {
         background-color: transparent;
         box-shadow: var(--md-sys-elevation-level0);
-        color: var(--md-sys-color-primary);
-        outline: 1px solid var(--md-sys-color-outline);
+        color: var(--color);
+        outline: 1px solid var(--md-sys-color-outline-variant);
         &:disabled {
             outline-color: rgba(var(--md-sys-color-on-surfaceChannel) / 0.12);
         }
@@ -147,7 +149,7 @@
         min-width: 48px;
         background-color: transparent;
         box-shadow: var(--md-sys-elevation-level0), var(--md-sys-color-shadow);
-        color: var(--md-sys-color-primary);
+        color: var(--color);
 
         &:disabled {
             background-color: transparent;

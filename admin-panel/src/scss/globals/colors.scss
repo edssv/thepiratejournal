@@ -27,41 +27,22 @@
     --md-ref-palette-error100: #ffffffff;
     /* Tertiary */
     --md-ref-palette-tertiary0: #000000;
-    --md-ref-palette-tertiary0-rgb: 0 0 0;
-    --md-ref-palette-tertiary5: #1c0824;
-    --md-ref-palette-tertiary5-rgb: 28 8 36;
-    --md-ref-palette-tertiary10: #27132f;
-    --md-ref-palette-tertiary10-rgb: 39 19 47;
-    --md-ref-palette-tertiary15: #321e3a;
-    --md-ref-palette-tertiary15-rgb: 50 30 58;
-    --md-ref-palette-tertiary20: #3e2846;
-    --md-ref-palette-tertiary20-rgb: 62 40 70;
-    --md-ref-palette-tertiary25: #493351;
-    --md-ref-palette-tertiary25-rgb: 73 51 81;
-    --md-ref-palette-tertiary30: #553f5d;
-    --md-ref-palette-tertiary30-rgb: 85 63 93;
-    --md-ref-palette-tertiary35: #624a69;
-    --md-ref-palette-tertiary35-rgb: 98 74 105;
-    --md-ref-palette-tertiary40: #6e5676;
-    --md-ref-palette-tertiary40-rgb: 110 86 118;
-    --md-ref-palette-tertiary50: #886e90;
-    --md-ref-palette-tertiary50-rgb: 136 110 144;
-    --md-ref-palette-tertiary60: #a387aa;
-    --md-ref-palette-tertiary60-rgb: 163 135 170;
-    --md-ref-palette-tertiary70: #bea2c6;
-    --md-ref-palette-tertiary70-rgb: 190 162 198;
-    --md-ref-palette-tertiary80: #dbbde2;
-    --md-ref-palette-tertiary80-rgb: 219 189 226;
-    --md-ref-palette-tertiary90: #f8d8ff;
-    --md-ref-palette-tertiary90-rgb: 248 216 255;
-    --md-ref-palette-tertiary95: #feebff;
-    --md-ref-palette-tertiary95-rgb: 254 235 255;
-    --md-ref-palette-tertiary98: #fff7fb;
-    --md-ref-palette-tertiary98-rgb: 255 247 251;
-    --md-ref-palette-tertiary99: #fffbff;
-    --md-ref-palette-tertiary99-rgb: 255 251 255;
+    --md-ref-palette-tertiary5: #001509;
+    --md-ref-palette-tertiary10: #002110;
+    --md-ref-palette-tertiary20: #003920;
+    --md-ref-palette-tertiary25: #004528;
+    --md-ref-palette-tertiary30: #005230;
+    --md-ref-palette-tertiary35: #005f39;
+    --md-ref-palette-tertiary40: #006d41;
+    --md-ref-palette-tertiary50: #1b8856;
+    --md-ref-palette-tertiary60: #3ea26e;
+    --md-ref-palette-tertiary70: #5bbe87;
+    --md-ref-palette-tertiary80: #77daa0;
+    --md-ref-palette-tertiary90: #93f7bb;
+    --md-ref-palette-tertiary95: #c1ffd5;
+    --md-ref-palette-tertiary98: #e9ffed;
+    --md-ref-palette-tertiary99: #f5fff4;
     --md-ref-palette-tertiary100: #ffffff;
-    --md-ref-palette-tertiary100-rgb: 255 255 255;
     /* Secondary */
     --md-ref-palette-secondary0: #000000;
     --md-ref-palette-secondary0-rgb: 0 0 0;
@@ -230,11 +211,11 @@
     /* Error container */
     --md-sys-color-error-container: var(--md-ref-palette-error90);
     /* On tertiary container */
-    --md-sys-color-on-tertiary-container: var(--md-ref-palette-tertiary10);
+    --md-sys-color-on-tertiary-container: #072711;
     /* On tertiary */
     --md-sys-color-on-tertiary: var(--md-ref-palette-tertiary100);
     /* Tertiary container */
-    --md-sys-color-tertiary-container: var(--md-ref-palette-tertiary90);
+    --md-sys-color-tertiary-container: #c4eed0;
     /* Tertiary */
     --md-sys-color-tertiary: var(--md-ref-palette-tertiary40);
     /* Shadow */
@@ -255,6 +236,8 @@
     --md-sys-color-inverse-surface: var(--md-ref-palette-neutral20);
     /* On surface variant */
     --md-sys-color-on-surface-variant: var(--md-ref-palette-neutral-variant30);
+    /* On surface variant channel*/
+    --md-sys-color-on-surface-variantChannel: var(--md-ref-palette-neutral-variant30-rgb);
     /* On surface */
     --md-sys-color-on-surface: var(--md-ref-palette-neutral10);
     /* On surface channel*/
@@ -277,16 +260,22 @@
     --md-sys-color-secondary-containerChannel: var(--md-ref-palette-secondary90-rgb);
     /* Secondary */
     --md-sys-color-secondary: var(--md-ref-palette-secondary40);
+    /* Secondary channel*/
+    --md-sys-color-secondaryChannel: var(--md-ref-palette-secondary40-rgb);
     /* Inverse primary */
     --md-sys-color-inverse-primary: var(--md-ref-palette-primary80);
     /* On primary container */
     --md-sys-color-on-primary-container: var(--md-ref-palette-primary10);
+    /* On primary container channel */
+    --md-sys-color-on-primary-containerChannel: var(--md-ref-palette-primary10-rgb);
     /* On primary */
     --md-sys-color-on-primary: var(--md-ref-palette-primary100);
     /* On primary channel*/
     --md-sys-color-on-primaryChannel: var(--md-ref-palette-primary100-rgb);
     /* Primary container */
     --md-sys-color-primary-container: var(--md-ref-palette-primary90);
+    /* Primary container channel */
+    --md-sys-color-primary-containerChannel: var(--md-ref-palette-primary90-rgb);
     /* Primary */
     --md-sys-color-primary: var(--md-ref-palette-primary40);
     /* Primary channel*/
@@ -295,8 +284,16 @@
 
 :root {
     --md-sys-color-surface-1: rgb(var(--md-sys-color-primaryChannel) / 0.05);
-    --md-sys-color-surface-2: rgb(var(--md-sys-color-primaryChannel) / 0.08);
+    --md-sys-color-surface-2: #edf2f8;
     --md-sys-color-surface-3: rgb(var(--md-sys-color-primaryChannel) / 0.11);
-    --md-sys-color-surface-4: rgb(var(--md-sys-color-primaryChannel) / 0.12);
+    --md-sys-color-surface-4: #e4ebf4;
     --md-sys-color-surface-5: rgb(var(--md-sys-color-primaryChannel) / 0.14);
+
+    --md-sys-color-on-surface-variant-2: rgb(var(--md-sys-color-on-surfaceChannel) / 0.08);
+    --md-sys-color-on-surface-variant-4: rgb(var(--md-sys-color-on-surfaceChannel) / 0.12);
+
+    --md-sys-color-on-surface-2: linear-gradient(0deg, rgba(31, 31, 31, 0.08), rgba(31, 31, 31, 0.08)),
+        var(--md-sys-color-secondary-container);
+    --md-sys-color-on-surface-4: linear-gradient(0deg, rgba(31, 31, 31, 0.12), rgba(31, 31, 31, 0.12)),
+        var(--md-sys-color-secondary-container);
 }

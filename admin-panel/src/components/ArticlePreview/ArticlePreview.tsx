@@ -9,9 +9,10 @@ import styles from './ArticlePreview.module.scss';
 
 interface ArticlePreviewProps {
     article: Article;
+    isBlog?: boolean;
 }
 
-export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
+export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article, isBlog = false }) => {
     const location = useLocation();
 
     const createdOn = moment(article.createdAt).format('L');
@@ -19,14 +20,14 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
     return (
         <div className={styles.root}>
             <div className={styles.top}>
-                <Link to={`/articles/${article._id}`} state={{ from: location }}>
+                <Link to={`/${isBlog ? 'blog' : 'articles'}/${article._id}`} state={{ from: location }}>
                     <div className={styles.top__img} style={{ backgroundImage: `url(${article.cover})` }}></div>
                 </Link>
             </div>
             <div className={styles.bottom}>
                 <div className={styles.info}>
                     <Link
-                        to={`/articles/${article._id}`}
+                        to={`/${isBlog ? 'blog' : 'articles'}/${article._id}`}
                         state={{ from: location }}
                         dangerouslySetInnerHTML={{ __html: article?.title ?? 'Без названия' }}
                         className={styles.headline}

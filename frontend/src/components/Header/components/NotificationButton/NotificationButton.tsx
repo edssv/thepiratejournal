@@ -21,6 +21,7 @@ export const NotificationButton: React.FC<NotificationButtonProps> = ({
         <div className={styles.root}>
             <Button
                 icon
+                color="secondary"
                 onClick={() => {
                     setIsOpenNotifications(!isOpenNotifications);
                     setOverflowBody();

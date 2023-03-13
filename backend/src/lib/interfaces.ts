@@ -25,6 +25,22 @@ export interface Article extends Document {
     isPublished: Boolean;
     isDeleted: Boolean;
 }
+export interface Blog extends Document {
+    title: string;
+    searchTitle: string;
+    description: string;
+    cover: string;
+    blocks: [];
+    tags: [];
+    category: { name: string; game: string; key: string };
+    readingTime: { type: Number; required: true };
+    author: { _id: typeof ObjectId; username: string };
+    createdAt: number;
+    updatedAt: number;
+    viewsCount: number;
+    isPublished: Boolean;
+    isDeleted: Boolean;
+}
 
 export interface Comment extends Document {
     body: string;
@@ -57,6 +73,7 @@ export interface User extends Document {
     isActivated: Boolean;
     avatar: string;
     activation_link: string;
+    role: 'admin' | null;
     follow: [];
     followers: [];
     info: { country: string; city: string };

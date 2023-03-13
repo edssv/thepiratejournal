@@ -1,11 +1,10 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { selectArticle } from '../redux';
+import { articleDataSelector, viewerSelector } from '../redux';
 
 export const useArticle = () => {
-    const article = useSelector(selectArticle);
-    const isLike = article?.viewer?.isLike;
-    const hasBookmark = article?.viewer?.hasBookmark;
+    const article = useSelector(articleDataSelector);
+    const { isLike, hasBookmark } = useSelector(viewerSelector);
 
     return useMemo(() => ({ article, isLike, hasBookmark }), [article, isLike, hasBookmark]);
 };

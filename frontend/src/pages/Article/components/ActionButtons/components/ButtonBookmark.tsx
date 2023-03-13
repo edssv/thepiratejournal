@@ -1,7 +1,14 @@
 import React, { PropsWithChildren, useState } from 'react';
+import { useSelector } from 'react-redux';
+
 import { Button, Variant, Tippy, Snackbar } from '../../../../../components';
-import { useArticle, useAuth } from '../../../../../hooks';
-import { useAddBookmarkMutation, useRemoveBookmarkMutation } from '../../../../../redux';
+import { useAuth } from '../../../../../hooks';
+import {
+    articleDataSelector,
+    useAddBookmarkMutation,
+    useRemoveBookmarkMutation,
+    viewerSelector,
+} from '../../../../../redux';
 
 interface IsBookmarkProps {
     tooltipPosition?: any;
@@ -16,7 +23,8 @@ export const ButtonBookmark: React.FC<PropsWithChildren<IsBookmarkProps>> = ({
     icon = true,
 }) => {
     const { user } = useAuth();
-    const { article, hasBookmark } = useArticle();
+    const article = useSelector(articleDataSelector);
+    const { hasBookmark } = useSelector(viewerSelector);
 
     const [isOpen, setIsOpen] = useState(false);
 

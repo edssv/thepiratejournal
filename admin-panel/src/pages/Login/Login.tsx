@@ -9,7 +9,7 @@ import styles from './Login.module.scss';
 const Login = () => {
     const navigate = useNavigate();
 
-    const [formState, setFormState] = useState<LoginRequest>({ login: '', password: '' });
+    const [formState, setFormState] = useState<LoginRequest>({ email: '', password: '' });
 
     const [login, { isLoading, isError }] = useLoginMutation();
 
@@ -21,11 +21,11 @@ const Login = () => {
             <div className={styles.form}>
                 <TextField
                     onChange={handleChange}
-                    value={formState.login}
-                    name="login"
+                    value={formState.email}
+                    name="email"
                     variant="filled"
                     type="text"
-                    placeholder="Логин"
+                    placeholder="Email"
                 />
                 <TextField
                     onChange={handleChange}
@@ -44,7 +44,7 @@ const Login = () => {
                             <h3>Неверные данные</h3>;
                         }
                     }}
-                    disabled={isLoading || !(formState.login && formState.password)}
+                    disabled={isLoading || !(formState.email && formState.password)}
                     variant="filled"
                 >
                     {isLoading ? 'Секунду' : 'Войти'}

@@ -1,0 +1,15 @@
+.root {
+    margin-top: 56px;
+
+    .container {
+        max-width: 1240px;
+        width: 100%;
+        margin: 0 auto;
+
+        .articlesContainer {
+            display: flex;
+            flex-flow: wrap;
+            align-items: center;
+        }
+    }
+}

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Block, editorDataSelector } from '../../../../redux';
 import { DraftInfoDialog } from '../../components';
 import { Button, DialogTrigger } from '../../../../components';
-import { ConfirmButton, CoverWindow, ListBoxPicker, TagsInput } from './';
+import { ConfirmButton, CoverWindow, DescriptionArea, ListBoxPicker, TagsInput } from './';
 
 import styles from './ConfirmDialog.module.scss';
 import { Dialog, DialogCancelButton, DialogContent, DialogControls, DialogTitle } from '../../../../components/Dialog';
@@ -38,6 +38,10 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ articleContentRef,
                             <div>
                                 <div className={styles.itemHeadline}>Категория *</div>
                                 <ListBoxPicker />
+                            </div>
+                            <div>
+                                <div className={styles.itemHeadline}>Описание</div>
+                                <DescriptionArea />
                             </div>
                             <div>
                                 <div className={styles.itemHeadline}>Теги</div>

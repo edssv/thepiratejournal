@@ -1,8 +1,9 @@
 import React, { PropsWithChildren, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { Snackbar, Button, Variant, Tippy, ButtonColor } from '../../../../../components';
 import { useArticle, useAuth } from '../../../../../hooks';
-import { useLikeMutation, useRemoveLikeMutation } from '../../../../../redux';
+import { articleDataSelector, useLikeMutation, useRemoveLikeMutation, viewerSelector } from '../../../../../redux';
 
 interface IsLikeProps {
     tooltipPosition?: any;
@@ -20,7 +21,8 @@ export const ButtonLike: React.FC<PropsWithChildren<IsLikeProps>> = ({
     icon = false,
 }) => {
     const { user } = useAuth();
-    const { article, isLike } = useArticle();
+    const article = useSelector(articleDataSelector);
+    const { isLike } = useSelector(viewerSelector);
     const [like] = useLikeMutation();
     const [removeLike] = useRemoveLikeMutation();
     const [isOpen, setIsOpen] = useState(false);

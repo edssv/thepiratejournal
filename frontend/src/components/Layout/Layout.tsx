@@ -8,7 +8,11 @@ import { Footer, HamburgerMenu, Header, NavRail } from '..';
 
 import './Layout.scss';
 
-export const Layout: FC = memo(() => {
+interface LayoutProps {
+    padding?: 'small' | 'medium' | 'large';
+}
+
+export const Layout: FC<LayoutProps> = memo(({ padding = 'medium' }) => {
     const isOpenNavRail = useSelector(isOpenNavRailSelector);
     const isTablet = useMediaPredicate('(max-width: 990.98px)');
 
@@ -17,11 +21,10 @@ export const Layout: FC = memo(() => {
             <Header />
             {isTablet ? <HamburgerMenu /> : isOpenNavRail && <NavRail />}
             <main className={isOpenNavRail ? 'withMargin' : ''}>
-                <div className="container-fluid">
+                <div className={`padding-${padding} container-fluid`}>
                     <Outlet />
                 </div>
             </main>
-
             <Footer />
         </>
     );

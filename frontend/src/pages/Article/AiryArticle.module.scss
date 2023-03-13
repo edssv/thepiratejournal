@@ -12,9 +12,6 @@ $infoWidth: 768px;
         @include breakpoint-down(md) {
             padding-top: 40px;
         }
-        @include breakpoint-down(sm) {
-            padding-top: 20px;
-        }
         @include breakpoint(sm) {
             max-width: 840px;
         }
@@ -80,16 +77,31 @@ $infoWidth: 768px;
                         .subHeader {
                             display: flex;
                             justify-content: space-between;
-                            margin: 32px 0;
-                            @include breakpoint-down(sm) {
-                                margin: 16px 0 24px;
-                            }
 
                             .readingTime {
                                 font-size: 20px;
                                 font-weight: 300;
                                 @include breakpoint-down(sm) {
                                     font-size: 18px;
+                                }
+                            }
+
+                            .description {
+                                display: -webkit-box;
+                                -webkit-line-clamp: 4;
+                                -webkit-box-orient: vertical;
+                                max-height: 144px;
+                                margin: 32px 0 40px 0;
+                                font-size: 24px;
+                                line-height: 36px;
+                                font-weight: 300;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                @include breakpoint-down(sm) {
+                                    margin: 24px 0 36px 0;
+                                    font-size: 24px;
+                                    font-weight: 300;
+                                    line-height: 28px;
                                 }
                             }
                         }

@@ -34,7 +34,8 @@ export const BackTopButton = () => {
             aria-label="Scroll back to top"
             type="button"
         >
-            <span className="material-symbols-outlined">expand_less</span>
+            <div className={styles.stateOverlay}></div>
+            <span className="material-symbols-outlined">vertical_align_top</span>
         </button>
     );
 };

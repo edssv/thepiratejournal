@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 
-import { editorDataSelector, selectArticle, setTags } from '../../../../../../redux';
+import { editorDataSelector, setTags } from '../../../../../../redux';
 import { useAppDispatch } from '../../../../../../hooks';
 
 import styles from './TagsInput.module.scss';

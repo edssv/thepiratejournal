@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { selectUser, selectIsLoading } from '../redux/slices/authSlice';
+import { selectUser, selectIsLoading } from '../redux/slices/auth';
 
 export const useAuth = () => {
-    const isAuth = Boolean(useSelector(selectUser));
+    const user = useSelector(selectUser);
     const isLoading = useSelector(selectIsLoading);
 
-    return useMemo(() => ({ isAuth, isLoading }), [isAuth, isLoading]);
+    return useMemo(() => ({ user, isLoading }), [user, isLoading]);
 };

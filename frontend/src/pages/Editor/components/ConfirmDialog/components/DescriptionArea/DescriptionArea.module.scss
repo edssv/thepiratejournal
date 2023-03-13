@@ -1,0 +1,11 @@
+.root {
+    textarea {
+        width: 100%;
+        min-height: 80px;
+        padding: 8px;
+        background-color: transparent;
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-radius: 6px;
+        resize: none;
+    }
+}

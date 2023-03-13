@@ -5,9 +5,8 @@
     flex-direction: column;
     align-items: center;
     height: 100%;
-    padding-top: 20px;
     @include breakpoint(lg) {
-        margin-top: 64px;
+        margin-top: 72px;
     }
 
     ul {

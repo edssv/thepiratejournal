@@ -2,14 +2,25 @@
 
 .root {
     display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
+    flex-direction: column;
+    align-self: center;
+    justify-content: space-between;
+    height: 160px;
+    margin-top: 40px;
+    padding-left: 40px;
     @include breakpoint-down(lg) {
+        flex-direction: row;
+        align-self: self-start;
+        justify-content: flex-start;
+        gap: 16px;
+        height: 100px;
         margin-top: 32px;
-        margin-bottom: 60px;
+        margin-bottom: 0;
+        padding-left: 0;
     }
 
     .link {
+        width: fit-content;
         font-family: 'Roboto Mono';
         font-size: 13.3333px;
         background-color: var(--md-sys-color-surface-2);

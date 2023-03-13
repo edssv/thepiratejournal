@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Snackbar, Button } from '../../../components';
 import { useAppDispatch } from '../../../hooks';
-import { Block, editorDataSelector, selectArticle, setFormStatus, useCreateDraftMutation } from '../../../redux';
+import { Block, editorDataSelector, setFormStatus, useCreateDraftMutation } from '../../../redux';
 
 interface DraftInfoDialogProps {
     blocks: Block[];

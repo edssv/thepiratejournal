@@ -7,7 +7,7 @@ import { ArticlePreview, Overlay } from '../../components';
 
 import styles from './Home.module.scss';
 
-export type SectionHome = 'new' | 'removed';
+export type SectionHome = 'new' | 'removed' | 'blog';
 
 const Home = () => {
     const location = useLocation();
@@ -58,7 +58,9 @@ const Home = () => {
 
     if (isLoading) return null;
 
-    const articlesList = articles.map((article: Article) => <ArticlePreview key={article._id} article={article} />);
+    const articlesList = articles.map((article: Article) => (
+        <ArticlePreview key={article._id} article={article} isBlog={currentSection === 'blog'} />
+    ));
 
     return (
         <div className={`${styles.root} ${isFetching ? styles.isLoadingContent : ''}`}>
@@ -82,6 +84,14 @@ const Home = () => {
                             }
                         >
                             Удаленные
+                        </NavLink>
+                        <NavLink
+                            to="/blog"
+                            className={({ isActive }) =>
+                                [styles.tab, isActive ? styles.active : ''].filter(Boolean).join(' ')
+                            }
+                        >
+                            Блог
                         </NavLink>
                     </div>
                 </div>

@@ -4,8 +4,7 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/ru';
 
-import { selectArticle, useDeleteArticleMutation } from '../../redux';
-import { declinationSubstance } from '../../helpers';
+import { articlePageModeSelector, selectArticle, useDeleteArticleMutation } from '../../redux';
 import { useDocTitle } from '../../hooks';
 import { Button, ButtonDelete } from '../../components';
 import { AuthorInfo, toHtml, BackTopButton } from '.';
@@ -15,6 +14,7 @@ import styles from './AiryArticle.module.scss';
 export const AiryArticle: React.FC = () => {
     useDocTitle('Статья');
     const article = useSelector(selectArticle);
+    const mode = useSelector(articlePageModeSelector);
     const navigate = useNavigate();
     const articleContentRef = useRef<HTMLDivElement>(null);
     const [deleteArticle] = useDeleteArticleMutation();
@@ -27,12 +27,17 @@ export const AiryArticle: React.FC = () => {
                 <div className={styles.content}>
                     <div className={styles.contentContainer}>
                         <div className={styles.actionButtons}>
-                            <Button onClick={() => navigate(`/articles/${article._id}/edit`)} variant="filled">
+                            <Button
+                                onClick={() =>
+                                    navigate(`/${mode === 'blog' ? 'blog' : 'articles'}/${article._id}/edit`)
+                                }
+                                variant="filled"
+                            >
                                 Редактировать
                             </Button>
                             <ButtonDelete
                                 onPrimaryAction={() => {
-                                    deleteArticle(article._id);
+                                    deleteArticle({ id: article._id, type: mode === 'blog' ? 'blog' : 'articles' });
                                     navigate('/');
                                 }}
                                 variant="filledTonal"
@@ -45,12 +50,7 @@ export const AiryArticle: React.FC = () => {
                             <div className={styles.topContent}>
                                 <h1 className={styles.articleHeadline}>{article?.title}</h1>
                                 <div className={styles.subHeader}>
-                                    <div className={styles.readingTime}>
-                                        {article.readingTime
-                                            ? `${declinationSubstance(article.readingTime, 'minutes')} чтения`
-                                            : 'время чтения не подсчитано'}
-                                        {}{' '}
-                                    </div>
+                                    <p>{article.description}</p>
                                 </div>
                             </div>
                         </header>

@@ -10,7 +10,7 @@ class FileController {
             const { buffer, originalname } = req.file;
 
             const timestamp = Date.now();
-            const ref = timestamp + '-' + originalname;
+            const ref = timestamp + '-' + originalname.replace(/\s/g, '');
             const directory = path.join(`media/${ref}`);
 
             await sharp(buffer).resize(1600).jpeg({ quality: 70 }).toFile(directory);
@@ -30,7 +30,7 @@ class FileController {
     };
 
     public deleteFile = async (req: Request, res: Response) => {
-        const filePath = `${req.body.ref}`;
+        const filePath = `media\\${req.body.url.split('api/')[1]}`;
         fs.unlink(filePath, (err: any) => {
             if (err) {
                 return res.status(500).send({

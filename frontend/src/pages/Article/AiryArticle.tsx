@@ -5,8 +5,7 @@ import moment from 'moment';
 import 'moment/locale/ru';
 import '@fontsource/roboto-mono';
 
-import { selectArticle } from '../../redux';
-import { getShowMinutesText } from '../../helpers';
+import { articleDataSelector } from '../../redux';
 import { useDocTitle } from '../../hooks';
 import {
     ActionButtons,
@@ -21,12 +20,15 @@ import {
 } from '.';
 
 import styles from './AiryArticle.module.scss';
+import { useLocation } from 'react-router-dom';
 
 export const AiryArticle: React.FC = () => {
-    const article = useSelector(selectArticle);
+    const location = useLocation();
+    const article = useSelector(articleDataSelector);
     useDocTitle(article.title);
     const articleContentRef = useRef<HTMLDivElement>(null);
     const [isOpenSidebar, setOpenSidebar] = useState(false);
+    const isBlog = Boolean(location.pathname.split('/')[1] === 'blog');
 
     const isTablet = useMediaPredicate('(max-width: 990.98px)');
 
@@ -42,12 +44,13 @@ export const AiryArticle: React.FC = () => {
                             <div className={styles.topContent}>
                                 <h1 className={styles.articleHeadline}>{article?.title}</h1>
                                 <div className={styles.subHeader}>
-                                    <div className={styles.readingTime}>
+                                    {/* <div className={styles.readingTime}>
                                         {article.readingTime
                                             ? `${getShowMinutesText(article.readingTime)} чтения`
                                             : 'время чтения не подсчитано'}
                                         {}{' '}
-                                    </div>
+                                    </div> */}
+                                    <p className={styles.description}>{article.description}</p>
                                     {!isTablet && <ShareButtons />}
                                 </div>
                             </div>
@@ -80,15 +83,16 @@ export const AiryArticle: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <ScrollControls setOpenSidebar={setOpenSidebar} />
+            {!isBlog && <ScrollControls setOpenSidebar={setOpenSidebar} />}
             <div id="articleBottom" className={styles.bottom}>
-                <ActionButtons />
+                {!isBlog && <ActionButtons />}
                 <UpNext />
             </div>
-
-            <Sidebar isOpenSidebar={isOpenSidebar} setOpenSidebar={setOpenSidebar} title="Комментарии">
-                <CommentsBlock />
-            </Sidebar>
+            {!isBlog && (
+                <Sidebar isOpenSidebar={isOpenSidebar} setOpenSidebar={setOpenSidebar} title="Комментарии">
+                    <CommentsBlock />
+                </Sidebar>
+            )}
             <BackTopButton />
         </article>
     );

@@ -10,8 +10,8 @@ import { Layout } from './components/Layout';
 
 const Home = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Home/Home'));
 const Article = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Article/Article'));
-const ArticleEditorPage = lazy(() => import(/* webpackChunkName: "Home" */ './pages/ArticleEditorPage'));
-const LoginPage = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Login/Login'));
+const Editor = lazy(() => import(/* webpackChunkName: "Home" */ './pages/Editor'));
+const LoginPage = lazy(() => import(/* webpackChunkName: "Home" */ './pages/LoginPage/LoginPage'));
 const NotFoundPage = lazy(() => import(/* webpackChunkName: "Home" */ './pages/NotFound'));
 
 function App() {
@@ -23,8 +23,12 @@ function App() {
                         <Route index element={<Home />} />
                         <Route path="/new" element={<Home />} />
                         <Route path="/removed" element={<Home />} />
-                        <Route path="/articles/:id" element={<Article />} />
-                        <Route path="/articles/:id/edit" element={<ArticleEditorPage />} />
+                        <Route path="/blog" element={<Home />} />
+                        <Route path="/blog/:id" element={<Article mode="blog" />} />
+                        <Route path="/blog/new" element={<Editor />} />
+                        <Route path="/blog/:id/edit" element={<Editor />} />
+                        <Route path="/articles/:id" element={<Article mode="default" />} />
+                        <Route path="/articles/:id/edit" element={<Editor />} />
                         <Route path="*" element={<NotFoundPage />} />
                     </Route>
                 </Route>

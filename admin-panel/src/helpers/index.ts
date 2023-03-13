@@ -1,3 +1,3 @@
 export { declinationSubstance } from './declinationSubstance';
-export { readingTimeFunction } from './readingTimeFunction';
+export { readingTime } from './readingTime';
 export { resizeTextareaHeight } from './resizeTextareaHeight';

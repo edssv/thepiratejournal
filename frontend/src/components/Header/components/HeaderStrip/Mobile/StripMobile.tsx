@@ -18,7 +18,7 @@ export const StripMobile = () => {
     return (
         <div className={styles.root}>
             <div className={styles.left}>
-                <Button icon variant="text" onClick={() => dispatch(setIsOpenHamburgerMenu(true))}>
+                <Button icon color="secondary" onClick={() => dispatch(setIsOpenHamburgerMenu(true))}>
                     <span className="material-symbols-outlined">menu</span>
                 </Button>
                 <Link to="/" className={`${styles.logo} icon-center`}>
@@ -35,9 +35,6 @@ export const StripMobile = () => {
                         <NotificationBlock isOpen={isOpenNotifications} setIsOpen={setIsOpenNotifications} />
                     </>
                 )}
-                <Button icon variant="text" onClick={() => navigate('/search')}>
-                    <span className="material-symbols-outlined">search</span>
-                </Button>
             </div>
         </div>
     );

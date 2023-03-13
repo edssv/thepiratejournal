@@ -1,7 +1,9 @@
 import React, { PropsWithChildren, useState } from 'react';
+import { useSelector } from 'react-redux';
+
 import { Tippy, Button, Variant, ButtonColor } from '../../../../../components';
-import { useArticle, useAuth } from '../../../../../hooks';
-import { useLikeCommentMutation, useRemoveLikeCommentMutation } from '../../../../../redux';
+import { useAuth } from '../../../../../hooks';
+import { articleDataSelector, useLikeCommentMutation, useRemoveLikeCommentMutation } from '../../../../../redux';
 
 interface IsLikeProps {
     commentId: string;
@@ -23,7 +25,7 @@ export const ButtonLike: React.FC<PropsWithChildren<IsLikeProps>> = ({
     index,
 }) => {
     const { user } = useAuth();
-    const { article } = useArticle();
+    const article = useSelector(articleDataSelector);
 
     const [isOpen, setIsOpen] = useState(false);
 

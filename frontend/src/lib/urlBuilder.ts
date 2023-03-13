@@ -3,6 +3,8 @@ export enum UrlTemplates {
     Subscriptions = '/subscriptions',
     History = '/history',
     Bookmarks = '/bookmarks',
+    Blog = '/blog',
+    BlogPost = '/blog/:id',
     Search = '/search',
     SearchCategory = '/search/:category',
     Article = '/articles/:id',

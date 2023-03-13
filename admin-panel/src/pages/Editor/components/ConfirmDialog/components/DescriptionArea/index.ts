@@ -1,0 +1,1 @@
+export { DescriptionArea } from './DescriptionArea';

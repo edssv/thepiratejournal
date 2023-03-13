@@ -41,9 +41,9 @@ export const LoginPage = () => {
     });
 
     const loginGoogle = useGoogleLogin({
-        onSuccess: ({ code }) => {
+        onSuccess: async ({ code }) => {
             try {
-                googleLogin({ code });
+                await googleLogin({ code });
                 navigate(fromPage ?? '/');
             } catch (error) {}
         },

@@ -1,5 +1,4 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { Overlay } from '../../../components';
 
 import { useGetCurrentUserQuery } from '../../../redux';
 
@@ -9,7 +8,7 @@ export const LoginProtectedOutlet = () => {
 
     if (isLoading) return null;
 
-    if (data?.user) {
+    if (data?.user._id) {
         return <Navigate to="/" />;
     }
 

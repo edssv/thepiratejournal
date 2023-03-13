@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 const jwt = require('jsonwebtoken');
-import AdminPanelUser from '../../models/admin-panel/user.model';
+import User from '../../models/user.model';
 
 export const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
     // verify authentication
@@ -19,7 +19,7 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
             return res.status(401).json({ message: 'Вы не прошли авторизацию' });
         }
 
-        const user = await AdminPanelUser.findById({ _id });
+        const user = await User.findById({ _id });
 
         req.currentUser = user;
 

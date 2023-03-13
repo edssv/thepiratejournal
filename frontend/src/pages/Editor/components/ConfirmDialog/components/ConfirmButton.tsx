@@ -44,7 +44,7 @@ export const ConfirmButton = ({ articleContentRef, blocks }: ConfirmButtonProps)
             data,
             blocks,
             { readingTime: readingTime(articleContentRef) },
-            { description: description }
+            { description: data.description ?? description }
         );
         mode === 'editing' ? editArticle(formData) : addArticle(formData);
     };

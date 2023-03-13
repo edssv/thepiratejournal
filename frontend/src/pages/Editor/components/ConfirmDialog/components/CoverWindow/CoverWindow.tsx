@@ -23,7 +23,6 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({ selectedFile, setSelec
     const data = useSelector(editorDataSelector);
     const mode = useSelector(modeSelector);
     const filePicker = useRef<HTMLInputElement>(null);
-    const [isMounted, setIsMounted] = useState(mode === 'editing');
     const [addCover, { data: coverData, isLoading }] = useAddCoverMutation();
     const [deleteCover] = useDeleteCoverMutation();
 
@@ -43,10 +42,8 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({ selectedFile, setSelec
     }, [selectedFile, addCover]);
 
     useEffect(() => {
-        if (isMounted) return;
-
         if (selectedFile) handleUpload();
-    }, [selectedFile, isMounted, handleUpload]);
+    }, [selectedFile, handleUpload]);
 
     useEffect(() => {
         if (coverData) {
@@ -56,13 +53,13 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({ selectedFile, setSelec
 
     const handleChange = async (event: any) => {
         setSelectedFile(event.target.files[0]);
+        console.log(event.target.files[0]);
     };
 
     const handleDeleteCover = () => {
-        setIsMounted(false);
         dispatch(setCover(null));
         setSelectedFile(undefined);
-        deleteCover(coverData?.file);
+        deleteCover({ url: data.cover });
     };
 
     return (

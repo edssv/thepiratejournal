@@ -29,6 +29,22 @@ const getUser = async (username) => {
     }
 };
 
+const getBlog = async (articleId) => {
+    try {
+        const res = await fetch(`${process.env.REACT_APP_API_LOCAL_URL}/blog/${articleId}`);
+
+        if (!res.ok) {
+            throw new Error(`Error! status: ${res.status}`);
+        }
+
+        const data = await res.json();
+
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 const getArticle = async (articleId) => {
     try {
         const res = await fetch(`${process.env.REACT_APP_API_LOCAL_URL}/articles/${articleId}`);
@@ -67,6 +83,33 @@ app.get('/@:username', function (req, res) {
             .replace('__META_OG_TYPE__', 'website')
             .replace('__META_OG_URL__', `https://thepirate.press/@${username}`)
             .replace('__META_TWITTER_URL__', `https://thepirate.press/@${username}`);
+
+        res.send(htmlData);
+    });
+});
+
+app.get('/blog/:id', function (req, res) {
+    fs.readFile(pathToIndex, 'utf8', async (err, htmlData) => {
+        const articleId = req.params.id;
+        const article = await getBlog(articleId);
+
+        if (!article) {
+            return res.send(htmlData);
+        }
+
+        // inject meta tags
+        htmlData = htmlData
+            .replace('<title>The Pirate Journal</title>', `<title>${article.title} - The Pirate Journal</title>`)
+            .replace('__META_OG_TITLE__', `${article.title} - The Pirate Journal`)
+            .replace('__META_TWITTER_TITLE__', `${article.title} - The Pirate Journal`)
+            .replace('__META_DESCRIPTION__', article.description)
+            .replace('__META_OG_DESCRIPTION__', article.description)
+            .replace('__META_TWITTER_DESCRIPTION__', article.description)
+            .replace('__META_OG_IMAGE__', `${article.cover}`)
+            .replace('__META_TWITTER_IMAGE__', `${article.cover}`)
+            .replace('__META_OG_TYPE__', 'article')
+            .replace('__META_OG_URL__', `https://thepirate.press/articles/${article._id}`)
+            .replace('__META_TWITTER_URL__', `https://thepirate.press/articles/${article._id}`);
 
         res.send(htmlData);
     });

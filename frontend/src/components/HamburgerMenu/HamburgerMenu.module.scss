@@ -17,7 +17,7 @@
     transition-property: transform, box-shadow;
     transition-duration: 300ms;
     transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
-    background-color: var(--md-sys-color-surface);
+    background-color: var(--md-sys-color-surface-2);
     overflow: hidden;
     z-index: 10;
 
@@ -68,14 +68,14 @@
                 transition-property: transform, opacity;
                 transition-timing-function: linear;
                 border-radius: 100px;
-                background: var(--mio-theme-color-secondary-container);
+                background-color: var(--md-sys-color-secondary-container);
                 content: '';
                 z-index: -1;
             }
 
             &.active {
                 color: var(--md-sys-color-on-secondary-container);
-                background: var(--md-sys-color-surface-4);
+                background: var(--md-sys-color-secondary-container);
 
                 &::before {
                     opacity: 1;
@@ -122,6 +122,8 @@
             height: 46px;
             padding: 12px 16px;
             line-height: 24px;
+            font-size: 16px;
+            font-weight: 400;
 
             span {
                 font-size: 24px;

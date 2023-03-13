@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import AdminPanelRoute from './routes/admin-panel.route';
 import ArticlesRoute from './routes/articles.route';
 import AuthRoute from './routes/auth.route';
+import BlogRoute from './routes/blog.route';
 import DraftsRoute from './routes/drafts.route';
 import UsersRoute from './routes/users.route';
 import UploadsRoute from './routes/uploads.route';
@@ -29,6 +30,7 @@ app.use(
 app.use('/api', UsersRoute);
 app.use('/api', AuthRoute);
 app.use('/api', ArticlesRoute);
+app.use('/api', BlogRoute);
 app.use('/api', DraftsRoute);
 app.use('/api', UploadsRoute);
 app.use('/api/admin', AdminPanelRoute);

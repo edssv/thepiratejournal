@@ -1,0 +1,42 @@
+@use '../../scss/util' as *;
+
+.root {
+    position: fixed;
+    bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 344px;
+    margin: 16px;
+    padding-left: 16px;
+    background-color: var(--md-sys-color-inverse-surface);
+    box-shadow: var(--md-sys-elevation-2);
+    border-radius: 4px;
+    z-index: 999;
+
+    &.left {
+        left: 0;
+    }
+
+    &.center {
+        left: 16px;
+        right: 16px;
+        width: fit-content;
+        margin: 16px auto;
+    }
+
+    .supportingText {
+        min-width: 250px;
+        max-width: 312px;
+        padding: 14px 0;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: var(--md-sys-color-inverse-on-surface);
+    }
+
+    .close {
+        font-variation-settings: 'wght' 300;
+        color: var(--md-sys-color-inverse-on-surface);
+    }
+}

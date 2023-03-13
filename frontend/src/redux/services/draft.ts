@@ -5,6 +5,7 @@ export interface Draft {
     _id: string;
     author: { _id: string; username: string };
     title?: string;
+    description?: string;
     cover?: string;
     blocks?: Block[];
     category?: { name: string; game: string; key: string };

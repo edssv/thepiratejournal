@@ -1,12 +1,26 @@
 import { api } from './api';
 
+export interface User {
+    _id: string;
+    username: string;
+    avatar: string;
+    timestamp: any;
+    info: {
+        city: string;
+        country: string;
+    };
+    isActivated: boolean;
+    followersCount: number;
+    notifications: { totalCount: number };
+}
+
 export interface LoginResponse {
-    user: string;
+    user: User;
     token: string;
 }
 
 export interface LoginRequest {
-    login: string;
+    email: string;
     password: string;
 }
 
@@ -20,6 +34,14 @@ export const authApi = api.injectEndpoints({
             }),
             invalidatesTags: ['Articles'],
         }),
+        googlelogin: builder.mutation<LoginResponse, { code: string } | { credential: string }>({
+            query: (credentials) => ({
+                url: 'auth/google',
+                method: 'POST',
+                body: credentials,
+            }),
+            invalidatesTags: ['Articles'],
+        }),
         logout: builder.mutation({
             query: () => ({
                 url: 'logout',
@@ -27,10 +49,10 @@ export const authApi = api.injectEndpoints({
             }),
             invalidatesTags: ['Articles'],
         }),
-        getCurrentUser: builder.query<{ user: string }, ''>({
+        getCurrentUser: builder.query<{ user: User }, ''>({
             query: () => 'auth',
         }),
     }),
 });
 
-export const { useLoginMutation, useLogoutMutation, useGetCurrentUserQuery } = authApi;
+export const { useLoginMutation, useGoogleloginMutation, useLogoutMutation, useGetCurrentUserQuery } = authApi;

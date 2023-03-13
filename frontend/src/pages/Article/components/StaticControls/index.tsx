@@ -3,17 +3,20 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Dialog } from '@headlessui/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
+    articleDataSelector,
     useAddBookmarkMutation,
     useDeleteArticleMutation,
     useLikeMutation,
     useRemoveBookmarkMutation,
     useRemoveLikeMutation,
+    viewerSelector,
 } from '../../../../redux';
 import { ButtonLike } from '../ActionButtons/components';
 import { Snackbar, Button } from '../../../../components';
 import { useArticle, useAuth } from '../../../../hooks';
 
 import styles from './StaticControls.module.scss';
+import { useSelector } from 'react-redux';
 
 interface StaticControlsProps {
     isOwner: boolean | undefined;
@@ -23,8 +26,10 @@ export const StaticControls: React.FC<StaticControlsProps> = ({ isOwner }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const data = useSelector(articleDataSelector);
+    const { isLike, hasBookmark } = useSelector(viewerSelector);
+
     const { user } = useAuth();
-    const { article, isLike, hasBookmark } = useArticle();
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isOpenTippy, setIsOpenTippy] = useState<boolean>(false);
@@ -40,26 +45,26 @@ export const StaticControls: React.FC<StaticControlsProps> = ({ isOwner }) => {
 
     const handleSetLike = async () => {
         if (!isLike) {
-            await like(article._id);
+            await like(data._id);
             setIsActionText('Добавлено в любимые статьи');
         } else {
-            await removeLike(article._id);
+            await removeLike(data._id);
             setIsActionText('Удалено из любимых статей');
         }
     };
 
     const handleSetBookmark = async () => {
         if (!hasBookmark) {
-            await addBookmark(article._id);
+            await addBookmark(data._id);
             setIsActionText('Добавлено в закладки');
         } else {
-            await removeBookmark(article._id);
+            await removeBookmark(data._id);
             setIsActionText('Удалено из закладок');
         }
     };
 
     const handleDeleteArticle = () => {
-        deleteArticle(article._id);
+        deleteArticle(data._id);
         navigate(fromPage ? fromPage : '/');
     };
 
@@ -89,7 +94,7 @@ export const StaticControls: React.FC<StaticControlsProps> = ({ isOwner }) => {
                 item.action === 'delete'
                     ? handleDeleteArticle()
                     : item.action === 'edit'
-                    ? navigate(`/articles/${article._id}/edit`, {
+                    ? navigate(`/articles/${data._id}/edit`, {
                           state: { from: location },
                       })
                     : item.action === 'like'
@@ -111,7 +116,7 @@ export const StaticControls: React.FC<StaticControlsProps> = ({ isOwner }) => {
         <div className={styles.root}>
             <div className={styles.buttonGroup}>
                 <div className={styles.controls}>
-                    <ButtonLike variant="filledTonal">{article.likesCount}</ButtonLike>
+                    <ButtonLike variant="filledTonal">{'likesCount' in data && data.likesCount}</ButtonLike>
                 </div>
                 {user && (
                     <>

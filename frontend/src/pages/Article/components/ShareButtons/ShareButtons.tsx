@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux';
 
 import { Button } from '../../../../components';
-import { selectArticle } from '../../../../redux';
+import { articleDataSelector } from '../../../../redux';
 
 import styles from './ShareButtons.module.scss';
 
 export const ShareButtons = () => {
-    const article = useSelector(selectArticle);
+    const article = useSelector(articleDataSelector);
 
     return (
         <div className={styles.root}>
@@ -45,7 +45,7 @@ export const ShareButtons = () => {
                         </g>{' '}
                     </g>
                 </svg>
-                Поделиться
+                Репост
             </Button>
             <Button
                 href={`https://twitter.com/intent/tweet?text=${article.title}&url=${process.env.REACT_APP_CLIENT_URL}/articles/${article._id}`}

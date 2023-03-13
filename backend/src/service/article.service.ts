@@ -67,6 +67,10 @@ export default class ArticleService {
 
             return articles;
         }
+
+        if (section === 'blog') {
+            const articles = await Article.find();
+        }
     };
 
     public searchArticles = async function (categoryName: string, query: any) {

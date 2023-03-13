@@ -9,6 +9,7 @@ const UserSchema = new Schema({
     isActivated: { type: Boolean, default: false },
     avatar: { type: String },
     activation_link: { type: String },
+    role: String,
     follow: [{ type: String }],
     followers: [{ type: String }],
     info: { country: String, city: String },

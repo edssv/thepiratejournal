@@ -17,6 +17,7 @@ export const Header = () => {
                     <Link to="/" className={styles.logo}>
                         <img src={logo} alt="Логотип" /> <span>The Pirate Journal</span>
                     </Link>
+                    <Button onClick={() => navigate('/blog/new')}>Добавить блог</Button>
                     <Button
                         onClick={async () => {
                             try {

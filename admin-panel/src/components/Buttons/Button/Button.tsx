@@ -1,4 +1,4 @@
-import React, { ComponentProps, ElementType } from 'react';
+import { ComponentProps, ElementType } from 'react';
 import { MoonLoader } from 'react-spinners';
 
 import styles from './Button.module.scss';
@@ -23,7 +23,7 @@ export interface ButtonOwnProps<E extends ElementType = ElementType> {
 // type OutlinedButtonProps = ButtonOwnProps & { variant: 'outlined'; color?: never };
 // type TextButtonProps = ButtonOwnProps & { variant: 'text'; color?: ButtonColor };
 
-type ButtonProps<E extends ElementType> = ButtonOwnProps<E> & Omit<ComponentProps<E>, keyof ButtonOwnProps>;
+export type ButtonProps<E extends ElementType> = ButtonOwnProps<E> & Omit<ComponentProps<E>, keyof ButtonOwnProps>;
 
 const defaultElement = 'button';
 

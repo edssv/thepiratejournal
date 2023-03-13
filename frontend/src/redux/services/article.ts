@@ -33,6 +33,9 @@ export interface Article {
     comments: { list: Comment[]; totalCount: number };
     viewsCount: number;
     likesCount: number;
+}
+
+interface ArticleResponse extends Article {
     viewer: {
         hasSubscription: boolean;
         hasBookmark: boolean;
@@ -42,7 +45,7 @@ export interface Article {
 
 export const articleApi = api.injectEndpoints({
     endpoints: (build) => ({
-        getArticle: build.query<Article, string>({
+        getArticle: build.query<ArticleResponse, string>({
             query: (id) => `articles/${id}`,
             providesTags: ['Articles'],
         }),
@@ -83,10 +86,10 @@ export const articleApi = api.injectEndpoints({
             }),
         }),
         deleteCover: build.mutation({
-            query: (body) => ({
+            query: (url) => ({
                 url: 'upload',
                 method: 'DELETE',
-                body,
+                body: url,
             }),
         }),
         addArticle: build.mutation({

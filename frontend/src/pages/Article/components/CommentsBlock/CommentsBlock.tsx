@@ -2,20 +2,28 @@ import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { MoonLoader } from 'react-spinners';
 
-import { useArticle, useAuth } from '../../../../hooks';
+import { useAuth } from '../../../../hooks';
 import { Avatar, Button } from '../../../../components';
 import { resizeTextareaHeight } from '../../../../helpers';
-import { useAddCommentMutation, useGetCommentsQuery, useRemoveCommentMutation } from '../../../../redux';
+import {
+    articleDataSelector,
+    commentsSelector,
+    useAddCommentMutation,
+    useGetCommentsQuery,
+    useRemoveCommentMutation,
+} from '../../../../redux';
 import { MoreButtonDialog } from './MoreButtonDialog';
 import { Comment } from './Comment';
 
 import styles from './CommentsBlock.module.scss';
+import { useSelector } from 'react-redux';
 
 export const CommentsBlock = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { user } = useAuth();
-    const { article } = useArticle();
+    const article = useSelector(articleDataSelector);
+    const comments = useSelector(commentsSelector);
     const [textareaValue, setTextareaValue] = useState<string>();
     const [isActiveInput, setIsActiveInput] = useState<boolean>(false);
     const [fetching, setFetching] = useState(false);
@@ -40,7 +48,7 @@ export const CommentsBlock = () => {
                 event.target.documentElement.scrollHeight -
                     (event.target.documentElement.scrollTop + window.innerHeight) <
                     100 &&
-                (article.comments.list?.length ?? 0) < (article.comments?.totalCount ?? 1)
+                (comments.commentsList?.length ?? 0) < (comments?.totalCount ?? 1)
             ) {
                 setFetching(true);
             }
@@ -54,7 +62,7 @@ export const CommentsBlock = () => {
         return function () {
             document.removeEventListener('scroll', scrollHandler);
         };
-    }, [article.comments?.totalCount, scrollHandler]);
+    }, [comments?.totalCount, scrollHandler]);
 
     const handleRemoveComment = (item: any, index: number) => {
         removeComment({
@@ -64,7 +72,7 @@ export const CommentsBlock = () => {
         });
     };
 
-    const commentsItems = article?.comments?.list?.map((item: any, index: number) => (
+    const commentsItems = comments?.commentsList?.map((item: any, index: number) => (
         <li key={index} className={styles.commentsListItem}>
             <Comment comment={item} index={index} />
             {user?.id === item.userId && (

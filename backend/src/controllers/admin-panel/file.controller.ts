@@ -29,10 +29,10 @@ class AdminPanelFileController {
     };
 
     deleteFile = async (req: Request, res: Response) => {
-        const filePath = `${req.body.ref}`;
+        const filePath = `media\\${req.body.url.split('api/')[1]}`;
         fs.unlink(filePath, (err: any) => {
             if (err) {
-                res.status(500).send({
+                return res.status(500).send({
                     message: 'Could not delete the file. ' + err,
                 });
             }

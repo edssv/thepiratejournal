@@ -30,6 +30,9 @@ const slice = createSlice({
         setTitle: (state, { payload }) => {
             state.data.title = payload;
         },
+        setDescription: (state, { payload }) => {
+            state.data.description = payload;
+        },
         setCover: (state, { payload }) => {
             state.data.cover = payload;
         },
@@ -62,7 +65,8 @@ const slice = createSlice({
     },
 });
 
-export const { setMode, setFormStatus, resetData, setTitle, setCover, setTags, setArticleCategory } = slice.actions;
+export const { setMode, setFormStatus, resetData, setTitle, setDescription, setCover, setTags, setArticleCategory } =
+    slice.actions;
 
 export default slice.reducer;
 

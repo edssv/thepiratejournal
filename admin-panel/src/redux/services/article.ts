@@ -13,11 +13,11 @@ export interface Article {
     _id: string;
     author: { _id: string; username: string; avatar: string; subscribersCount: number };
     title: string;
+    description: string;
     cover: string;
-    blocks: [];
+    blocks: Block[];
     tags: [];
     category: { name: string; game: string; key: string };
-    readingTime: number;
     createdAt: number;
     isPublished: boolean;
 }
@@ -29,8 +29,8 @@ interface getArticlesResponse {
 
 export const articleApi = api.injectEndpoints({
     endpoints: (build) => ({
-        getArticle: build.query<{ article: Article }, string>({
-            query: (id) => `articles/${id}`,
+        getArticle: build.query<{ article: Article }, { id: string; type: 'articles' | 'blog' }>({
+            query: ({ id, type }) => `${type}/${id}`,
             providesTags: ['Articles'],
         }),
         getArticles: build.query<getArticlesResponse, { page: number; limit: number; category: string }>({
@@ -45,34 +45,59 @@ export const articleApi = api.injectEndpoints({
             }),
         }),
         deleteCover: build.mutation({
-            query: (body) => ({
+            query: (url) => ({
                 url: 'upload',
                 method: 'DELETE',
-                body,
+                body: url,
             }),
         }),
         deleteArticle: build.mutation({
-            query: (id) => ({
-                url: `articles/${id}`,
+            query: ({ id, type }) => ({
+                url: `${type}/${id}`,
                 method: 'DELETE',
             }),
             invalidatesTags: ['Articles'],
         }),
         editArticle: build.mutation({
-            query: ({ data, id }) => ({
-                url: `articles/${id}/edit`,
+            query: (formData) => ({
+                url: `articles/${formData._id}/edit`,
                 method: 'PUT',
-                body: data,
+                body: formData,
             }),
             invalidatesTags: ['Articles'],
         }),
         publishArticle: build.mutation({
-            query: ({ data, id }) => ({
-                url: `articles/${id}`,
+            query: (formData) => ({
+                url: `articles/${formData._id}`,
                 method: 'PUT',
-                body: data,
+                body: formData,
             }),
             invalidatesTags: ['Articles'],
+        }),
+        publishBlog: build.mutation({
+            query: (formData) => ({
+                url: `blog`,
+                method: 'POST',
+                body: formData,
+            }),
+        }),
+        editBlog: build.mutation({
+            query: (formData) => ({
+                url: `blog/${formData._id}/edit`,
+                method: 'PUT',
+                body: formData,
+            }),
+        }),
+        saveChangesBlog: build.mutation({
+            query: (formData) => ({
+                url: `blog/${formData._id}/save`,
+                method: 'PUT',
+                body: formData,
+            }),
+        }),
+        getBlog: build.query<{ article: Article }, string>({
+            query: (id) => `blog/${id}`,
+            providesTags: ['Articles'],
         }),
     }),
 });
@@ -85,4 +110,8 @@ export const {
     useDeleteArticleMutation,
     useEditArticleMutation,
     usePublishArticleMutation,
+    usePublishBlogMutation,
+    useEditBlogMutation,
+    useSaveChangesBlogMutation,
+    useGetBlogQuery,
 } = articleApi;

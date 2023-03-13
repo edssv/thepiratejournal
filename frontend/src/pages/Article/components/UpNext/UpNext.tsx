@@ -2,13 +2,13 @@ import { useEffect, useCallback, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 
-import { Article, selectArticle, useGetNextArticlesQuery } from '../../../../redux';
+import { Article, articleDataSelector, useGetNextArticlesQuery } from '../../../../redux';
 import { ArticlePreview } from './components/ArticlePreview';
 
 import styles from './UpNext.module.scss';
 
 export const UpNext = () => {
-    const article = useSelector(selectArticle);
+    const article = useSelector(articleDataSelector);
 
     const UpNextRef = useRef<HTMLDivElement>(null);
     const [isMount, setIsMount] = useState(false);
