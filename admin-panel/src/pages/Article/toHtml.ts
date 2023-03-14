@@ -12,7 +12,7 @@ export const toHtml = (blocks: Block[] | undefined) => {
                 convertedHtml += `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
                 break;
             case 'embed':
-                convertedHtml += `<iframe width="560" height="315" src="${block.data.embed}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                convertedHtml += `<figure><div class="imageContainer"><iframe width="100%" height="430" src="${block.data.embed}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><figcaption>${block.data.caption}</figcaption></figure>`;
                 break;
             case 'paragraph':
                 convertedHtml += `<p>${block.data.text}</p>`;
@@ -21,12 +21,7 @@ export const toHtml = (blocks: Block[] | undefined) => {
                 convertedHtml += '<hr class="ce-delimiter cdx-block"/>';
                 break;
             case 'image':
-                convertedHtml += `<figure>
-                                        <div class="imageContainer">
-                                            <img class="imgFluid" src="${block.data?.file?.url}" title="${block.data?.caption}" loading="lazy"/>
-                                        </div>
-                                        <figcaption>${block.data.caption}</figcaption>
-                                </figure>`;
+                convertedHtml += `<figure> <div class="imageContainer"><img class="imgFluid" src="${block.data?.file?.url}" title="${block.data?.caption}" loading="lazy"/></div><figcaption>${block.data.caption}</figcaption></figure>`;
                 break;
             case 'list':
                 convertedHtml += '<ul class="cdx-list">';
