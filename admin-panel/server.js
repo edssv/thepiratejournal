@@ -6,9 +6,9 @@ const app = express();
 
 app.use(compression());
 
-app.use(express.static('build'));
+app.use('/control', express.static('build'));
 
-app.get('*', function (req, res) {
+app.get('/control/*', function (req, res) {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 

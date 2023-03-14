@@ -1,20 +1,5 @@
 version: '3.8'
 services:
-    mongodb:
-        image: mongo
-        restart: unless-stopped
-        env_file: .env
-        environment:
-            - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
-            - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
-        ports:
-            - 27017:27017
-        volumes:
-            - db:/data/db
-        networks:
-            net:
-                ipv4_address: 172.18.0.6
-
     backend:
         restart: unless-stopped
         build:
@@ -23,8 +8,6 @@ services:
             - '5000:5000'
         volumes:
             - media:/usr/src/backend/media
-        depends_on:
-            - mongodb
         networks:
             net:
                 ipv4_address: 172.18.0.5
@@ -57,10 +40,9 @@ services:
         restart: unless-stopped
         build:
             context: nginx
-            target: prod
+            target: dev
         ports:
             - '80:80'
-            - '443:443'
         networks:
             net:
                 ipv4_address: 172.18.0.2

@@ -1,15 +1,10 @@
-FROM node as Production
-
-ENV NODE_ENV=production
-
-WORKDIR /usr/src/admin-panel
-
-COPY ./package.json . /
-
+FROM node:alpine as build
+WORKDIR /app
+COPY package.json .
 RUN npm install --omit=dev
-
 COPY . .
-
 RUN npm run build
 
-CMD ["npm", "run", "start:production" ]
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
