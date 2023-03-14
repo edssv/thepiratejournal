@@ -1,3 +1,4 @@
+import Embed from '@editorjs/embed';
 import Header from '@editorjs/header';
 import Image from '@editorjs/image';
 import List from '@editorjs/list';
@@ -6,6 +7,7 @@ import Marker from '@editorjs/marker';
 import InlineCode from '@editorjs/inline-code';
 
 export const EDITOR_JS_TOOLS = {
+    embed: Embed,
     header: {
         class: Header,
         config: { levels: [2, 3], defaultLevel: 2 },

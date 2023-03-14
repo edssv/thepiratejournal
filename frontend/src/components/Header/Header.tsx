@@ -13,7 +13,6 @@ export const Header = memo(() => {
     const [isVisible, setIsVisible] = useState(true);
     const [prevScrollPosition, setPrevScrollPosition] = useState(0);
     const [isPrimary, setIsPrimary] = useState(!isLoading && !user && isHomeLocation);
-    console.log('rerender');
 
     // скрытие хедера
 

@@ -42,7 +42,7 @@ class AdminPanelController {
 
             // save refreshToken in db and cookies
             await this.AdminPanelTokenService.saveToken(String(user._id), refreshToken);
-            res.cookie('adminPanelRefreshToken', refreshToken, {
+            res.cookie('controlRefreshToken', refreshToken, {
                 maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days
                 httpOnly: true,
             });
@@ -84,7 +84,7 @@ class AdminPanelController {
 
             // save refreshToken in db and cookies
             await this.AdminPanelTokenService.saveToken(String(user._id), refreshToken);
-            res.cookie('refreshToken', refreshToken, {
+            res.cookie('controlRefreshToken', refreshToken, {
                 maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
                 httpOnly: true,
             });
@@ -97,9 +97,9 @@ class AdminPanelController {
 
     public logout = async (req: Request, res: Response) => {
         try {
-            const { adminPanelRefreshToken } = req.cookies;
-            await AdminTokenModel.deleteOne({ adminPanelRefreshToken });
-            res.clearCookie('adminPanelRefreshToken');
+            const { controlRefreshToken } = req.cookies;
+            await AdminTokenModel.deleteOne({ controlRefreshToken });
+            res.clearCookie('controlRefreshToken');
 
             res.status(200).json({ message: 'Вы вышли и токен удален' });
         } catch (error: any) {
@@ -118,16 +118,16 @@ class AdminPanelController {
     };
 
     public refresh = async (req: Request, res: Response) => {
-        const { adminPanelRefreshToken } = req.cookies;
+        const { controlRefreshToken } = req.cookies;
         try {
-            const user = await this.AdminPanelUserService.refresh(adminPanelRefreshToken);
+            const user = await this.AdminPanelUserService.refresh(controlRefreshToken);
 
             const token = createToken(user._id);
             const newRefreshToken = createRefreshToken(user._id);
 
             // save refreshToken in db and cookies
             await this.AdminPanelTokenService.saveToken(user._id, newRefreshToken);
-            res.cookie('adminPanelRefreshToken', newRefreshToken, {
+            res.cookie('controlRefreshToken', newRefreshToken, {
                 maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days
                 httpOnly: true,
             });
