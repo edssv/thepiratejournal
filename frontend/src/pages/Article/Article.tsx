@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-import { setIsOpenNavRail, useGetArticleQuery, useGetBlogQuery } from '../../redux';
+import { setArticlePageMode, setIsOpenNavRail, useGetArticleQuery, useGetBlogQuery } from '../../redux';
 import { useAppDispatch } from '../../hooks';
 import { AiryArticle } from './AiryArticle';
 import NotFoundPage from '../NotFound';
@@ -26,6 +26,10 @@ const Article: React.FC<ArticleProps> = ({ mode }) => {
         refetchOnMountOrArgChange: true,
         skip: mode === 'default',
     });
+
+    useEffect(() => {
+        dispatch(setArticlePageMode(mode));
+    }, [mode]);
 
     useEffect(() => {
         dispatch(setIsOpenNavRail(false));

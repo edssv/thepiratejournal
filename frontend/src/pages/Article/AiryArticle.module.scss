@@ -33,7 +33,6 @@ $infoWidth: 768px;
                 position: relative;
                 display: flex;
                 flex-direction: column;
-
                 @include breakpoint-down(lg) {
                     margin: 0 auto;
                 }
@@ -99,7 +98,7 @@ $infoWidth: 768px;
                                 text-overflow: ellipsis;
                                 @include breakpoint-down(sm) {
                                     margin: 24px 0 36px 0;
-                                    font-size: 24px;
+                                    font-size: 22px;
                                     font-weight: 300;
                                     line-height: 28px;
                                 }
@@ -153,7 +152,7 @@ $infoWidth: 768px;
                     word-wrap: break-word;
 
                     .contentBlocks {
-                        padding-bottom: 40px;
+                        margin: 48px 0;
                         font-family: 'Roboto', 'Arial', sans-serif;
 
                         h1,
@@ -186,6 +185,10 @@ $infoWidth: 768px;
                             font-size: 20px;
                             line-height: 32px;
                             font-weight: 300;
+                            @include breakpoint-down(sm) {
+                                font-size: 18px;
+                                line-height: 28px;
+                            }
                         }
 
                         ul {
@@ -202,7 +205,10 @@ $infoWidth: 768px;
                         }
 
                         figure {
-                            margin: 56px 0;
+                            margin: 48px 0;
+                            @include breakpoint-down(sm) {
+                                margin: 32px 0;
+                            }
 
                             img {
                                 max-height: 960px;

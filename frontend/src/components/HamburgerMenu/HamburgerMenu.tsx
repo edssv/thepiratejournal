@@ -49,9 +49,10 @@ export const HamburgerMenu: React.FC = () => {
                                 dispatch(setIsOpenHamburgerMenu(false));
                                 navigate('/login');
                             }}
+                            icon
                             variant="filledTonal"
                         >
-                            Войти
+                            <span className="material-symbols-outlined">account_circle</span> Войти
                         </Button>
                     )}
                 </div>
@@ -77,7 +78,7 @@ export const HamburgerMenu: React.FC = () => {
                         </Link>
                     </div>
                 )}
-                {user ? (
+                {user && (
                     <Button
                         onClick={async () => {
                             dispatch(setIsOpenHamburgerMenu(false));
@@ -88,17 +89,6 @@ export const HamburgerMenu: React.FC = () => {
                         style={{ marginLeft: '16px' }}
                     >
                         Выйти
-                    </Button>
-                ) : (
-                    <Button
-                        onClick={async () => {
-                            dispatch(setIsOpenHamburgerMenu(false));
-                            navigate('/signup');
-                        }}
-                        variant="filled"
-                        style={{ marginLeft: '16px' }}
-                    >
-                        Регистрация
                     </Button>
                 )}
                 <div className={styles.switchTheme}>

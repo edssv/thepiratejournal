@@ -10,12 +10,13 @@
     padding-left: 40px;
     @include breakpoint-down(lg) {
         flex-direction: row;
+        flex-wrap: wrap;
         align-self: self-start;
         justify-content: flex-start;
-        gap: 16px;
+        column-gap: 16px;
         height: 100px;
         margin-top: 32px;
-        margin-bottom: 0;
+        margin-bottom: 4px;
         padding-left: 0;
     }
 

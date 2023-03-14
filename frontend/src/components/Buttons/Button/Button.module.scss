@@ -137,7 +137,7 @@
         background-color: transparent;
         box-shadow: var(--md-sys-elevation-level0);
         color: var(--color);
-        outline: 1px solid var(--md-sys-color-outline-variant);
+        outline: 1px solid var(--md-sys-color-outline);
         &:disabled {
             outline-color: rgba(var(--md-sys-color-on-surfaceChannel) / 0.12);
         }

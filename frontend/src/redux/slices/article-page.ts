@@ -3,6 +3,7 @@ import { Article, articleApi, Blog, blogApi, Comment, userApi } from '../service
 import type { RootState } from '../store';
 
 type ArticlePageState = {
+    mode: 'default' | 'blog' | null;
     data: Article | Blog;
     comments: { commentsList: Comment[]; totalCount: number };
     viewer: { hasSubscription: boolean | null; hasBookmark: boolean | null; isLike: boolean | null };
@@ -11,6 +12,7 @@ type ArticlePageState = {
 const slice = createSlice({
     name: 'article-page',
     initialState: {
+        mode: null,
         data: {},
         viewer: {
             hasSubscription: null,
@@ -19,6 +21,10 @@ const slice = createSlice({
         },
     } as ArticlePageState,
     reducers: {
+        setArticlePageMode: (state, { payload }) => {
+            state.mode = payload;
+        },
+
         setLike: (state, { payload }) => {
             state.viewer.isLike = payload;
         },
@@ -93,10 +99,11 @@ const slice = createSlice({
     },
 });
 
-export const { setLike } = slice.actions;
+export const { setArticlePageMode, setLike } = slice.actions;
 
 export default slice.reducer;
 
 export const articleDataSelector = (state: RootState) => state.articlePage.data;
+export const articlePageModeSelector = (state: RootState) => state.articlePage.mode;
 export const viewerSelector = (state: RootState) => state.articlePage.viewer;
 export const commentsSelector = (state: RootState) => state.articlePage.comments;

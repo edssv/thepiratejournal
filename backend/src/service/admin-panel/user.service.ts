@@ -24,13 +24,13 @@ export default class AdminPanelUserService {
         return user;
     }
 
-    public async refresh(refreshToken: string) {
-        if (!refreshToken) {
+    public async refresh(controlRefreshToken: string) {
+        if (!controlRefreshToken) {
             throw Error('Рефреш токен отсутствует');
         }
 
-        const user = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-        const refreshTokenFromDb = await Token.findOne({ refreshToken });
+        const user = jwt.verify(controlRefreshToken, process.env.JWT_REFRESH_SECRET);
+        const refreshTokenFromDb = await Token.findOne({ refreshToken: controlRefreshToken });
 
         if (!refreshTokenFromDb) {
             throw Error('Неверный рефреш токен');

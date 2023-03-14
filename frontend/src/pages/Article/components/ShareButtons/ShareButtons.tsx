@@ -1,17 +1,20 @@
 import { useSelector } from 'react-redux';
 
 import { Button } from '../../../../components';
-import { articleDataSelector } from '../../../../redux';
+import { articleDataSelector, articlePageModeSelector } from '../../../../redux';
 
 import styles from './ShareButtons.module.scss';
 
 export const ShareButtons = () => {
     const article = useSelector(articleDataSelector);
+    const mode = useSelector(articlePageModeSelector);
 
     return (
         <div className={styles.root}>
             <Button
-                href={`https://vk.com/share.php?url=${process.env.REACT_APP_CLIENT_URL}/articles/${article._id}`}
+                href={`https://vk.com/share.php?url=${process.env.REACT_APP_CLIENT_URL}/${
+                    mode === 'blog' ? 'blog' : 'articles'
+                }/${article._id}`}
                 target="_blank"
                 className={styles.link}
                 variant="filledTonal"
@@ -48,7 +51,9 @@ export const ShareButtons = () => {
                 Репост
             </Button>
             <Button
-                href={`https://twitter.com/intent/tweet?text=${article.title}&url=${process.env.REACT_APP_CLIENT_URL}/articles/${article._id}`}
+                href={`https://twitter.com/intent/tweet?text=${article.title}&url=${process.env.REACT_APP_CLIENT_URL}/${
+                    mode === 'blog' ? 'blog' : 'articles'
+                }/${article._id}`}
                 target="_blank"
                 className={styles.link}
                 variant="filledTonal"
@@ -76,7 +81,9 @@ export const ShareButtons = () => {
                 Твит
             </Button>
             <Button
-                href={`https://www.facebook.com/sharer/sharer.php?u=${process.env.REACT_APP_CLIENT_URL}/articles/${article._id}`}
+                href={`https://www.facebook.com/sharer/sharer.php?u=${process.env.REACT_APP_CLIENT_URL}/${
+                    mode === 'blog' ? 'blog' : 'articles'
+                }/${article._id}`}
                 target="_blank"
                 className={styles.link}
                 variant="filledTonal"
