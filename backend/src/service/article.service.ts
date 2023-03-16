@@ -1,10 +1,10 @@
 import { ObjectId } from 'mongodb';
-import { Article as IArticle, User } from '../lib/interfaces';
-import Article from '../models/article.model';
+import { Article, Article as IArticle, User } from '../lib/interfaces';
+import ArticleModel from '../models/article.model';
 
 export default class ArticleService {
     public createArticle = async function (authorId: string, authorUsername: string, articleData: IArticle) {
-        const article = await Article.create({
+        const article = await ArticleModel.create({
             title: articleData.title,
             description: articleData.description,
             searchTitle: articleData.title.toLowerCase(),
@@ -20,31 +20,22 @@ export default class ArticleService {
         return article;
     };
 
-    public editArticle = async function (
-        articleId: string,
-        title: string,
-        description: string,
-        cover: string,
-        blocks: [],
-        tags: [],
-        category: {},
-        readingTime: number
-    ) {
-        if (!title || !cover || !blocks) {
-            throw Error('Заголовок обложка и блоки обязательны.');
+    public editArticle = async function (articleId: string, articleData: Article) {
+        if (!articleData.title || !articleData.cover || !articleData.blocks) {
+            throw Error('Заголовок, обложка и блоки обязательны.');
         }
 
-        const article = await Article.updateOne(
+        const article = await ArticleModel.updateOne(
             { _id: articleId },
             {
-                title: title,
-                description: description,
-                searchTitle: title.toLowerCase(),
-                cover: cover,
-                blocks: blocks,
-                tags: tags,
-                category: category,
-                readingTime: readingTime,
+                title: articleData.title,
+                description: articleData.description,
+                searchTitle: articleData.title.toLowerCase(),
+                cover: articleData.cover,
+                blocks: articleData.blocks,
+                tags: articleData.tags,
+                category: articleData.category,
+                readingTime: articleData.readingTime,
                 updatedAt: new Date(),
             }
         );
@@ -55,7 +46,7 @@ export default class ArticleService {
     public getAllArticles = async function (section: string, currentUser: User) {
         if (section === 'following') {
             const followList = currentUser.follow;
-            const articles = await Article.find({
+            const articles = await ArticleModel.find({
                 $and: [{ 'author._id': { $in: followList } }, { isPublished: true }],
             });
 
@@ -63,13 +54,9 @@ export default class ArticleService {
         }
 
         if (section === 'for_you') {
-            const articles = await Article.find({ isPublished: true }).exec();
+            const articles = await ArticleModel.find({ isPublished: true });
 
             return articles;
-        }
-
-        if (section === 'blog') {
-            const articles = await Article.find();
         }
     };
 
@@ -101,13 +88,13 @@ export default class ArticleService {
         };
 
         if (!sortParams) return;
-        const articles = await Article.find(findParams).sort(sortParams());
+        const articles = await ArticleModel.find(findParams).sort(sortParams());
 
         return articles;
     };
 
     public getOneArticle = async function (id: string) {
-        const article = await Article.findOneAndUpdate(
+        const article = await ArticleModel.findOneAndUpdate(
             { _id: id, isPublished: true },
             { $inc: { viewsCount: 1 } },
             { returnDocument: 'after' }
@@ -119,7 +106,7 @@ export default class ArticleService {
     };
 
     public getCommentsArticle = async function (articleId: string, query: any) {
-        const article = await Article.findOne({ _id: articleId }, { comments: 1, _id: 0 });
+        const article = await ArticleModel.findOne({ _id: articleId }, { comments: 1, _id: 0 });
         const totalCount = article?.comments.length ?? 0;
 
         const skip = query.page * query.limit;
@@ -134,7 +121,7 @@ export default class ArticleService {
             $and: [{ isPublished: true }],
         };
 
-        const articles = await Article.find(findParams);
+        const articles = await ArticleModel.find(findParams);
         const filterArticles = articles.filter((item: any) => item._id.toString() !== articleId);
         const totalCount = filterArticles.length;
 
@@ -146,7 +133,7 @@ export default class ArticleService {
     };
 
     public likeArticle = async function (id: string, userId: string) {
-        const article = await Article.findOneAndUpdate(
+        const article = await ArticleModel.findOneAndUpdate(
             { _id: id },
             { $push: { likesUsers: userId }, $inc: { likesCount: 1 } },
             { returnDocument: 'after' }
@@ -156,7 +143,7 @@ export default class ArticleService {
     };
 
     public removeLikeArticle = async function (id: string, userId: string) {
-        await Article.findOneAndUpdate(
+        await ArticleModel.findOneAndUpdate(
             { _id: id },
             { $pull: { likesUsers: userId }, $inc: { likesCount: -1 } },
             { returnDocument: 'after' }
@@ -164,7 +151,7 @@ export default class ArticleService {
     };
 
     public addCommentArticle = async function (articleId: string, commentId: string) {
-        const article = await Article.findOneAndUpdate(
+        const article = await ArticleModel.findOneAndUpdate(
             { _id: articleId },
             { $push: { comments: commentId } },
             { returnDocument: 'after' }
@@ -174,7 +161,7 @@ export default class ArticleService {
     };
 
     public removeCommentArticle = async function (articleId: string, commentId: string) {
-        const article = await Article.findOneAndUpdate(
+        const article = await ArticleModel.findOneAndUpdate(
             { _id: new ObjectId(articleId) },
             { $pull: { comments: new ObjectId(commentId) } },
             { returnDocument: 'after' }

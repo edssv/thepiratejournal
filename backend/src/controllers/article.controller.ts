@@ -51,19 +51,10 @@ class ArticleController {
 
     public editing = async (req: Request, res: Response) => {
         const articleId = req.params.id;
-        const { title, description, cover, blocks, tags, category, readingTime } = req.body;
+        const articleData = req.body;
 
         try {
-            await this.ArticleService.editArticle(
-                articleId,
-                title,
-                description,
-                cover,
-                blocks,
-                tags,
-                category,
-                readingTime
-            );
+            await this.ArticleService.editArticle(articleId, articleData);
             res.status(200).json({ message: 'Статья обновлена' });
         } catch (error: any) {
             res.status(400).json({ message: error.message });
