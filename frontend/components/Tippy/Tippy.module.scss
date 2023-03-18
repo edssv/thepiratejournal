@@ -1,0 +1,54 @@
+@use '../../styles/util' as *;
+
+.root {
+    // position: absolute;
+    z-index: 999;
+}
+
+.overlay {
+    background-color: rgba(0, 0, 0, 0.32);
+    position: fixed;
+    inset: 0 0 0 0;
+    z-index: 11;
+    @include breakpoint(lg) {
+        display: none;
+    }
+}
+
+.dialog {
+    height: fit-content;
+    @include breakpoint-down(lg) {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    .dialogPanel {
+        box-shadow: 0 1px 6px rgb(0 0 0 / 20%);
+        background-color: var(--md-sys-color-primary);
+        padding: 28px;
+        border-radius: 8px;
+        color: var(--md-sys-color-on-primary);
+        @include breakpoint-down(lg) {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .dialogTitle {
+            margin-bottom: 8px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .dialogDescription {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .dialogButtonGroup {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 40px;
+        }
+    }
+}

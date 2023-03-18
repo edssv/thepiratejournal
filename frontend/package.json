@@ -1,8 +1,13 @@
 {
-    "name": "@thepiratejournal/frontend",
+    "name": "thepiratejournal",
     "version": "0.1.0",
-    "proxy": "https://thepirate.press/api",
     "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
     "dependencies": {
         "@editorjs/delimiter": "^1.2.0",
         "@editorjs/editorjs": "^2.26.4",
@@ -12,61 +17,47 @@
         "@editorjs/inline-code": "^1.3.1",
         "@editorjs/list": "^1.7.0",
         "@editorjs/marker": "^1.2.2",
+        "@editorjs/paragraph": "2.9.0",
         "@editorjs/quote": "^2.4.0",
         "@editorjs/warning": "^1.2.0",
         "@fontsource/roboto-mono": "^4.5.10",
         "@headlessui/react": "^1.7.7",
+        "@popperjs/core@": "2.0.0",
         "@react-oauth/google": "^0.8.0",
         "@reduxjs/toolkit": "^1.8.6",
         "@types/body-scroll-lock": "^3.1.0",
         "@types/lodash.debounce": "^4.0.7",
+        "@types/node": "18.15.3",
+        "@types/react": "18.0.28",
+        "@types/react-dom": "18.0.11",
+        "abort-controller": "^3.0.0",
         "body-scroll-lock": "^4.0.0-beta.0",
         "compression": "^1.7.4",
         "dotenv": "^16.0.3",
         "editorjs-html": "^3.4.2",
-        "express": "^4.18.2",
+        "eslint": "8.36.0",
+        "eslint-config-next": "13.2.4",
         "framer-motion": "^8.2.4",
         "lodash.debounce": "^4.0.8",
         "material-symbols": "^0.4.2",
         "moment": "^2.29.4",
+        "next": "^13.2.4",
+        "next-redux-wrapper": "^8.1.0",
+        "node-fetch": "^3.3.1",
         "query-string": "^7.1.1",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
         "react-editor-js": "^2.1.0",
         "react-error-boundary": "^3.1.4",
         "react-hook-form": "^7.38.0",
         "react-loading-skeleton": "^3.1.0",
         "react-media-hook": "^0.5.0",
         "react-popper": "^2.3.0",
-        "react-redux": "^8.0.4",
-        "react-router-dom": "^6.4.2",
-        "react-scripts": "5.0.1",
+        "react-redux": "^8.0.5",
         "react-spinners": "^0.13.7",
-        "sass": "^1.55.0"
-    },
-    "scripts": {
-        "start": "react-scripts start",
-        "start:production": "node server.js",
-        "build": "react-scripts --max-old-space-size=4096 build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject"
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
+        "typescript": "5.0.2"
     },
     "devDependencies": {
-        "@testing-library/jest-dom": "^5.16.5",
-        "@testing-library/react": "^13.4.0",
-        "@testing-library/user-event": "^13.5.0",
-        "autoprefixer": "^10.4.13"
+        "sass": "^1.59.3"
     }
 }

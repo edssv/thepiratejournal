@@ -1,0 +1,63 @@
+@use '../util' as *;
+
+.MenuDropdown {
+    position: relative;
+    @include breakpoint-down(lg) {
+        z-index: 22;
+    }
+
+    &Overlay {
+        position: fixed;
+        inset: 0 0 0 0;
+        background-color: rgba(0, 0, 0, 0.32);
+        opacity: 0;
+        z-index: 10;
+        transition-property: opacity;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+        @include breakpoint-down(lg) {
+            opacity: 1;
+        }
+    }
+
+    &Panel {
+        position: absolute;
+        bottom: -50px;
+        right: 0;
+        background-color: var(--md-sys-color-surface);
+        color: var(--md-sys-color-on-surface);
+        box-shadow: var(--md-sys-elevation-2);
+        border-radius: 4px;
+        z-index: 11;
+
+        @include breakpoint-down(lg) {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            margin: 0 8px 8px 8px;
+            box-shadow: none;
+            border-radius: 8px;
+        }
+
+        .MenuDropdownItems {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 8px 0;
+
+            .MenuDropdownItem {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                padding: 8px 24px 8px 16px;
+                font-weight: 500;
+                cursor: pointer;
+
+                &.active {
+                    font-variation-settings: 'FILL' 1;
+                    color: var(--md-sys-color-primary);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,63 @@
+@use '../../../../styles/util' as *;
+
+.root {
+    background-size: cover;
+    background-position-y: 60%;
+    height: 100%;
+
+    @media (min-width: 510px) {
+        height: 100vh;
+    }
+
+    .background {
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background: var(--md-sys-color-primary-container);
+
+        .inner {
+            display: flex;
+            justify-content: center;
+            height: 100%;
+            gap: 260px;
+
+            .logoAndSpan {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 16px;
+                text-align: left;
+                align-items: flex-start;
+                color: var(--md-sys-color-on-primary-container);
+
+                .logo__wrapper {
+                    display: flex;
+
+                    align-items: center;
+                    gap: 16px;
+
+                    .logo {
+                        height: 80px;
+                    }
+
+                    .logo__text {
+                        font-size: 32px;
+                        line-height: 1.2;
+                    }
+                }
+
+                p {
+                    font-size: 20px;
+                }
+            }
+            .panel {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                height: 100%;
+                width: 510px;
+            }
+        }
+    }
+}
