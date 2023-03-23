@@ -7,6 +7,7 @@ export interface AdminPanelUser extends Document {
 }
 
 export interface Article extends Document {
+    _id: string;
     title: string;
     searchTitle: string;
     description: string;
@@ -60,7 +61,7 @@ export interface Draft extends Document {
     createdAt: number;
 }
 
-export interface Token extends Document {
+export interface Account extends Document {
     user: typeof ObjectId;
     refreshToken: string;
 }
@@ -70,8 +71,8 @@ export interface User extends Document {
     username: string;
     email: string;
     password: string;
-    isActivated: Boolean;
-    avatar: string;
+    emailVerified: Boolean;
+    image: string;
     activation_link: string;
     role: 'admin' | null;
     follow: [];
@@ -86,7 +87,7 @@ export interface User extends Document {
             actor: {
                 id: typeof ObjectId;
                 username: string;
-                avatar: string;
+                image: string;
             };
         }
     ];

@@ -1,0 +1,107 @@
+button {
+    &.primaryColor {
+        &.text,
+        &.outlined {
+            --color: var(--md-sys-color-primary);
+
+            &:disabled {
+                --color: var(--md-sys-color-on-surface);
+            }
+            &:active {
+                --bg-color: var(--md-sys-color-primaryChannel);
+            }
+        }
+    }
+
+    &.secondaryColor {
+        &.text,
+        &.outlined {
+            --color: var(--md-sys-color-secondary);
+
+            &:disabled {
+                --color: var(--md-sys-color-on-surface);
+            }
+            &:active {
+                --bg-color: var(--md-sys-color-secondaryChannel);
+            }
+        }
+    }
+
+    &.elevated {
+        background-color: var(--md-sys-color-surface);
+        box-shadow: var(--md-sys-elevation-1);
+        color: var(--md-sys-color-primary);
+        &:hover {
+            color: var(--md-sys-color-primary);
+            box-shadow: var(--md-sys-elevation-2);
+        }
+        &:active {
+            background-color: var(--md-sys-color-primaryChannel), var(--md-sys-state-pressed-state-layer-opacity);
+        }
+    }
+    &.filled {
+        background-color: var(--md-sys-color-primary);
+        box-shadow: var(--md-sys-elevation-level0), var(--md-sys-color-shadow);
+        color: var(--md-sys-color-on-primary);
+        &:hover {
+            background-color: rgba(
+                var(--md-sys-color-primaryChannel) / calc(1 - var(--md-sys-state-hover-state-layer-opacity))
+            );
+            color: var(--md-sys-color-on-primary);
+            box-shadow: var(--md-sys-elevation-level1), var(--md-sys-color-shadow);
+        }
+        &:active {
+            background-color: rgba(
+                var(--md-sys-color-primaryChannel) / calc(1 - var(--md-sys-state-pressed-state-layer-opacity))
+            );
+        }
+    }
+    &.filledTonal {
+        background-color: var(--md-sys-color-secondary-container);
+        box-shadow: var(--md-sys-elevation-level0), var(--md-sys-color-shadow);
+        color: var(--md-sys-color-on-secondary-container);
+        &:hover {
+            background-color: rgba(
+                var(--md-sys-color-secondary-containerChannel) / calc(1 - var(--md-sys-state-hover-state-layer-opacity))
+            );
+            box-shadow: var(--md-sys-elevation-level1), var(--md-sys-color-shadow);
+        }
+        &:active {
+            background-color: rgba(
+                var(--md-sys-color-secondary-containerChannel) /
+                    calc(1 - var(--md-sys-state-pressed-state-layer-opacity))
+            );
+        }
+    }
+    &.outlined {
+        background-color: transparent;
+        box-shadow: var(--md-sys-elevation-level0);
+        color: var(--color);
+        outline: 1px solid var(--md-sys-color-outline);
+        &:disabled {
+            outline-color: rgba(var(--md-sys-color-on-surfaceChannel) / 0.12);
+        }
+        &:active {
+            background-color: rgba(var(--md-sys-color-primaryChannel), var(--md-sys-state-pressed-state-layer-opacity));
+        }
+    }
+    &.text {
+        min-width: 48px;
+        background-color: transparent;
+        box-shadow: var(--md-sys-elevation-level0), var(--md-sys-color-shadow);
+        color: var(--color);
+
+        &:disabled {
+            background-color: transparent;
+            color: var(--md-sys-color-on-surface);
+            opacity: 38%;
+        }
+        &:active {
+            background-color: var(--md-sys-color-primaryChannel), var(--md-sys-state-pressed-state-layer-opacity);
+        }
+
+        &.iconWithText {
+            padding: 0 16px 0 12px;
+        }
+    }
+}

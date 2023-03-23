@@ -1,8 +1,8 @@
 module.exports = class AuthorDto {
     username;
-    avatar;
+    image;
 
     constructor(model) {
-        (this.userName = model.username), (this.avatar = model.avatar);
+        (this.userName = model.username), (this.image = model.image);
     }
 };

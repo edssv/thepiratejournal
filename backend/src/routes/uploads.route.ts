@@ -8,7 +8,7 @@ const router = Router();
 router.post('/upload', fileMiddleware.single('image'), FileController.uploadFile);
 router.delete('/upload', FileController.deleteFile);
 
-// profile avatar
-router.post('/profile/avatar', fileMiddleware.single('image'), checkUser, FileController.uploadAvatar);
+// profile image
+router.post('/profile/image', fileMiddleware.single('image'), checkUser, FileController.uploadimage);
 
 export default router;

@@ -1,13 +1,14 @@
 import { model, Schema } from 'mongoose';
 import { ObjectId } from 'mongodb';
-import { User } from '../lib/interfaces';
+
+import { User } from '@shared/interfaces/user.interface';
 
 const UserSchema = new Schema({
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    isActivated: { type: Boolean, default: false },
-    avatar: { type: String },
+    emailVerified: { type: Boolean, default: false },
+    image: { type: String },
     activation_link: { type: String },
     role: String,
     follow: [{ type: String }],
@@ -22,7 +23,7 @@ const UserSchema = new Schema({
             actor: {
                 id: { type: ObjectId, required: true },
                 username: { type: String, required: true },
-                avatar: String,
+                image: String,
             },
         },
     ],

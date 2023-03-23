@@ -1,11 +1,11 @@
 import { Schema, model } from 'mongoose';
-import { Token } from '../../lib/interfaces';
+import { Account } from '../../lib/interfaces';
 
 const AdminPanelTokenSchema = new Schema({
     user: { type: String },
     refreshToken: { type: String, required: true },
 });
 
-const AdminPanelToken = model<Token>('AdminPanelToken', AdminPanelTokenSchema);
+const AdminPanelToken = model<Account>('AdminPanelToken', AdminPanelTokenSchema);
 
 export default AdminPanelToken;

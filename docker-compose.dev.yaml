@@ -1,62 +1,78 @@
 version: '3.8'
 services:
-    backend:
-        restart: unless-stopped
-        build:
-            context: backend
-        ports:
-            - '5000:5000'
-        volumes:
-            - media:/usr/src/backend/media
-        networks:
-            net:
-                ipv4_address: 172.18.0.5
-
-    frontend:
-        restart: unless-stopped
-        build:
-            context: frontend
-        ports:
-            - '3000:3000'
-        depends_on:
-            - backend
-        networks:
-            net:
-                ipv4_address: 172.18.0.4
-
-    admin-panel:
-        restart: unless-stopped
-        build:
-            context: admin-panel
-        ports:
-            - '3001:3001'
-        depends_on:
-            - backend
-        networks:
-            net:
-                ipv4_address: 172.18.0.3
-
-    nginx:
-        restart: unless-stopped
-        build:
-            context: nginx
-            target: dev
-        ports:
-            - '80:80'
-        networks:
-            net:
-                ipv4_address: 172.18.0.2
-
-volumes:
     db:
-    media:
+        container_name: postgres_db
+        image: postgres:alpine
+        restart: always
+        ports:
+            - 5432:5432
+        environment:
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: root
+            POSTGRES_DB: tpj
 
-networks:
-    net:
-        driver: bridge
-        ipam:
-            driver: default
-            config:
-                - subnet: 172.18.0.0/24
-        driver_opts:
-            com.docker.network.bridge.name: common-bridge
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080
+#     backend:
+#         restart: unless-stopped
+#         build:
+#             context: backend
+#         ports:
+#             - '5000:5000'
+#         volumes:
+#             - media:/usr/src/backend/media
+#         networks:
+#             net:
+#                 ipv4_address: 172.18.0.5
+
+#     frontend:
+#         restart: unless-stopped
+#         build:
+#             context: frontend
+#         ports:
+#             - '3000:3000'
+#         depends_on:
+#             - backend
+#         networks:
+#             net:
+#                 ipv4_address: 172.18.0.4
+
+#     admin-panel:
+#         restart: unless-stopped
+#         build:
+#             context: admin-panel
+#         ports:
+#             - '3001:3001'
+#         depends_on:
+#             - backend
+#         networks:
+#             net:
+#                 ipv4_address: 172.18.0.3
+
+#     nginx:
+#         restart: unless-stopped
+#         build:
+#             context: nginx
+#             target: dev
+#         ports:
+#             - '80:80'
+#         networks:
+#             net:
+#                 ipv4_address: 172.18.0.2
+
+# volumes:
+#     db:
+#     media:
+
+# networks:
+#     net:
+#         driver: bridge
+#         ipam:
+#             driver: default
+#             config:
+#                 - subnet: 172.18.0.0/24
+#         driver_opts:
+#             com.docker.network.bridge.name: common-bridge

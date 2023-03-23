@@ -34,7 +34,7 @@ export default class UserService {
             user: {
                 _id: user._id,
                 username: user.username,
-                avatar: user.avatar,
+                image: user.image,
                 timestamp: user.time,
                 info: user.info,
                 followersCount: user.followers.length,
@@ -80,7 +80,7 @@ export default class UserService {
                         actor: {
                             id: follower?._id,
                             username: follower?.username,
-                            avatar: follower?.avatar,
+                            image: follower?.image,
                         },
                     },
                 },
@@ -109,7 +109,7 @@ export default class UserService {
                         actor: {
                             id: follower?._id,
                             username: follower?.username,
-                            avatar: follower?.avatar,
+                            image: follower?.image,
                         },
                     },
                 },

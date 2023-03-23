@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const uuid = require('uuid');
 const validator = require('validator');
 import MailService from '../service/mail.service';
-import Token from '../models/token.model';
+import Token from '../models/account.model';
 import User from '../models/user.model';
 
 export default class AuthService {
@@ -84,7 +84,7 @@ export default class AuthService {
         if (!user) {
             throw Error('Неккоректная ссылка активации');
         }
-        user.isActivated = true;
+        user.emailVerified = true;
         await user.save();
     }
 }

@@ -15,7 +15,7 @@ const likeNotification = async (authorId: string, user: IUser) => {
                     actor: {
                         id: user._id,
                         username: user.username,
-                        avatar: user.avatar,
+                        image: user.image,
                     },
                 },
             },
@@ -38,7 +38,7 @@ const commentNotification = async (authorId: string, user: IUser) => {
                     actor: {
                         id: user._id,
                         username: user.username,
-                        avatar: user.avatar,
+                        image: user.image,
                     },
                 },
             },

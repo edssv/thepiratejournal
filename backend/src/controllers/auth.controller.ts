@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { OAuth2Client } from 'google-auth-library';
 import AuthService from '../service/auth.service';
 import TokenService from '../service/token.service';
-import Token from '../models/token.model';
+import Token from '../models/account.model';
 import User from '../models/user.model';
 require('dotenv').config();
 
@@ -11,52 +11,32 @@ class AuthController {
     public TokenService = new TokenService();
     public client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, 'postmessage');
 
-    public signupUser = async (req: Request, res: Response) => {
+    public login = async (req: Request, res: Response) => {
         const { username, email, password } = req.body;
-        try {
-            const user = await this.AuthService.signup(username, email, password);
-
-            const { token, refreshToken } = await this.TokenService.generateTokens(user._id.toString());
-
-            // save refreshToken in db and cookies
-            await Token.create({ user: user._id, refreshToken });
-            res.cookie('refreshToken', refreshToken, {
-                maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-                httpOnly: true,
-            });
-
-            res.status(200).json({
-                user: { username: user.username, avatar: user.avatar, isActivated: user.isActivated },
-                token,
-            });
-        } catch (error: any) {
-            res.status(400).json({ message: error.message });
-        }
-    };
-
-    public loginUser = async (req: Request, res: Response) => {
-        const { email, password } = req.body;
 
         try {
-            const user = await this.AuthService.login(email, password);
+            const isNewUser = (await User.findOne({ email })) === null;
 
-            const { token, refreshToken } = await this.TokenService.generateTokens(user._id.toString());
+            let user;
+            if (isNewUser) {
+                user = await this.AuthService.signup(username, email, password);
+            } else user = await this.AuthService.login(email, password);
 
-            // save refreshToken in db and cookies
+            const { accessToken, maxAge, refreshToken } = await this.TokenService.generateTokens(user._id.toString());
+            const accessTokenExpiry = Date.now() + maxAge; // current date timestamp + 15 minutes
+
             await this.TokenService.saveToken(user._id, refreshToken);
-            res.cookie('refreshToken', refreshToken, {
-                maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-                httpOnly: true,
-            });
 
             res.status(200).json({
                 user: {
                     _id: user._id,
                     username: user.username,
-                    avatar: user.avatar,
-                    isActivated: user.isActivated,
+                    image: user.image,
+                    emailVerified: user.emailVerified,
                 },
-                token,
+                accessToken,
+                accessTokenExpiry,
+                refreshToken,
             });
         } catch (error: any) {
             res.status(400).json({ message: error.message });
@@ -64,21 +44,21 @@ class AuthController {
     };
 
     public refresh = async (req: Request, res: Response) => {
-        const { refreshToken } = req.cookies;
+        const { refreshToken } = req.body;
 
         try {
             const user = await this.AuthService.refresh(refreshToken);
 
-            const { token, refreshToken: newRefreshToken } = await this.TokenService.generateTokens(user._id);
+            const {
+                accessToken,
+                maxAge,
+                refreshToken: newRefreshToken,
+            } = await this.TokenService.generateTokens(user._id);
+            const accessTokenExpiry = Date.now() + maxAge;
 
-            // save refreshToken in db and cookies
             await this.TokenService.saveToken(user._id, newRefreshToken);
-            res.cookie('refreshToken', newRefreshToken, {
-                maxAge: 30 * 24 * 60 * 60 * 1000,
-                httpOnly: true,
-            });
 
-            res.status(200).json({ token });
+            res.status(200).json({ accessToken, accessTokenExpiry, refreshToken: newRefreshToken });
         } catch (error: any) {
             res.status(400).json({ message: error.message });
         }
@@ -116,8 +96,8 @@ class AuthController {
                 user: {
                     id: user._id,
                     username: user.username,
-                    avatar: user.avatar,
-                    isActivated: user.isActivated,
+                    image: user.image,
+                    emailVerified: user.emailVerified,
                     notifications: { totalCount: user.notifications.length },
                 },
             });
@@ -155,13 +135,13 @@ class AuthController {
 
             const user = await User.findOneAndUpdate(
                 { email: payload?.email },
-                { username: payload?.name, avatar: payload?.picture, isActivated: true },
+                { username: payload?.name, image: payload?.picture, emailVerified: true },
                 { upsert: true }
             );
 
             if (!user) return res.status(400).json({ message: 'Нет пользователя' });
             // create a token
-            const { token, refreshToken } = await this.TokenService.generateTokens(user._id.toString());
+            const { accessToken, refreshToken } = await this.TokenService.generateTokens(user._id.toString());
 
             // save refreshToken in db and cookies
             await this.TokenService.saveToken(user._id, refreshToken);
@@ -170,7 +150,7 @@ class AuthController {
                 httpOnly: true,
             });
 
-            res.status(201).json({ user, token: token });
+            res.status(201).json({ user, token: accessToken });
         } catch (error: any) {
             res.status(400).json({ message: error.message });
         }

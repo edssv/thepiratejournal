@@ -1,1 +1,0 @@
-export { PublishArticle } from './PublishArticle';

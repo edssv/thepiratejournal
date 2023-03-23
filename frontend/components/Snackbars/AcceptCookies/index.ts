@@ -1,1 +1,0 @@
-export { AcceptCookies } from './AcceptCookies';

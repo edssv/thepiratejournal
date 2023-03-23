@@ -44,7 +44,7 @@ class FileController {
         });
     };
 
-    public uploadAvatar = async (req: Request, res: Response) => {
+    public uploadimage = async (req: Request, res: Response) => {
         try {
             const { buffer, originalname } = req.file;
             const userId = req.currentUser._id;
@@ -57,7 +57,7 @@ class FileController {
 
             const link = `${process.env.API_URL}/${ref}`;
 
-            const user = await User.findOneAndUpdate({ _id: userId }, { avatar: link });
+            const user = await User.findOneAndUpdate({ _id: userId }, { image: link });
 
             res.json({
                 success: 1,

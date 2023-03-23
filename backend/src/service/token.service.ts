@@ -1,16 +1,18 @@
 const jwt = require('jsonwebtoken');
 import { ObjectId } from 'mongodb';
-import tokenModel from '../models/token.model';
+import Account from '../models/account.model';
 
 export default class TokenService {
     public async generateTokens(_id: string) {
-        const token = jwt.sign({ _id }, process.env.JWT_ACCESS_SECRET, { expiresIn: 15 * 60 * 1000 });
-        const refreshToken = jwt.sign({ _id }, process.env.JWT_REFRESH_SECRET, {
-            expiresIn: 30 * 24 * 60 * 60 * 1000,
+        const maxAge = 2 * 60 * 1000; // 15 minutes
+        const accessToken = jwt.sign({ sub: _id }, process.env.JWT_ACCESS_SECRET, { expiresIn: '2m' });
+        const refreshToken = jwt.sign({ sub: _id }, process.env.JWT_REFRESH_SECRET, {
+            expiresIn: '30d',
         });
 
         return {
-            token,
+            accessToken,
+            maxAge,
             refreshToken,
         };
     }
@@ -33,23 +35,23 @@ export default class TokenService {
     }
 
     async saveToken(userId: string | typeof ObjectId, refreshToken: string) {
-        const tokenData = await tokenModel.findOne({ user: userId });
+        const tokenData = await Account.findOne({ user: userId });
         if (tokenData) {
             tokenData.refreshToken = refreshToken;
             return tokenData.save();
         }
 
-        const token = await tokenModel.create({ user: userId, refreshToken });
+        const token = await Account.create({ user: userId, refreshToken });
         return token;
     }
 
     async removeToken(refreshToken: string) {
-        const tokenData = await tokenModel.deleteOne({ refreshToken });
+        const tokenData = await Account.deleteOne({ refreshToken });
         return tokenData;
     }
 
     async findToken(refreshToken: string) {
-        const tokenData = await tokenModel.findOne({ refreshToken });
+        const tokenData = await Account.findOne({ refreshToken });
         return tokenData;
     }
 }

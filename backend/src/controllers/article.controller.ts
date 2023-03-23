@@ -133,7 +133,7 @@ class ArticleController {
                 author: {
                     _id: author._id,
                     username: author.username,
-                    avatar: author.avatar,
+                    image: author.image,
                     subscribersCount: author.followers.length,
                 },
                 viewer: {
@@ -162,7 +162,7 @@ class ArticleController {
                     commentsList.push(
                         Object.assign({
                             ...comments[i].toJSON(),
-                            author: await User.findOne({ _id: comments[i].userId }, { username: 1, avatar: 1, _id: 0 }),
+                            author: await User.findOne({ _id: comments[i].userId }, { username: 1, image: 1, _id: 0 }),
                             viewer: {
                                 isLike: Boolean(
                                     await Comment.findOne({
@@ -175,7 +175,7 @@ class ArticleController {
                 } else {
                     commentsList.push({
                         comment: comments[i],
-                        author: await User.findOne({ _id: comments[i].userId }, { username: 1, avatar: 1 }),
+                        author: await User.findOne({ _id: comments[i].userId }, { username: 1, image: 1 }),
                     });
                 }
             }
@@ -294,7 +294,7 @@ class ArticleController {
 
             const commentResponse = Object.assign({
                 ...comment.toJSON(),
-                author: await User.findOne({ _id: user._id }, { username: 1, avatar: 1 }),
+                author: await User.findOne({ _id: user._id }, { username: 1, image: 1 }),
 
                 viewer: {
                     isLike: false,

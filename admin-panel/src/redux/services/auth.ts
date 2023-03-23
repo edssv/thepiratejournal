@@ -9,7 +9,7 @@ export interface User {
         city: string;
         country: string;
     };
-    isActivated: boolean;
+    emailVerified: boolean;
     followersCount: number;
     notifications: { totalCount: number };
 }
