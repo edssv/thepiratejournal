@@ -1,5 +1,6 @@
+import { Article } from '@/shared/interfaces/article.interface';
 import { createSlice } from '@reduxjs/toolkit';
-import { Article, articleApi, Blog, blogApi, Comment, userApi } from '../../services';
+import { Blog, blogApi, userApi } from '../../services';
 import type { RootState } from '../store';
 
 type ArticlePageState = {
@@ -34,72 +35,72 @@ const slice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder
-            // get article
-            .addMatcher(articleApi.endpoints.getArticle.matchFulfilled, (state, { payload }) => {
-                state.data = payload;
-            })
-            .addMatcher(blogApi.endpoints.getBlog.matchFulfilled, (state, { payload }) => {
-                state.data = payload;
-            })
+        builder;
+        // get article
+        // .addMatcher(articleApi.endpoints.getArticle.matchFulfilled, (state, { payload }) => {
+        //     state.data = payload;
+        // })
+        // .addMatcher(blogApi.endpoints.getBlog.matchFulfilled, (state, { payload }) => {
+        //     state.data = payload;
+        // })
 
-            // get comments
-            .addMatcher(articleApi.endpoints.getComments.matchFulfilled, (state, { payload }) => {
-                state.comments = payload;
-            })
+        // // get comments
+        // .addMatcher(articleApi.endpoints.getComments.matchFulfilled, (state, { payload }) => {
+        //     state.comments = payload;
+        // })
 
-            // like
-            .addMatcher(articleApi.endpoints.like.matchFulfilled, (state) => {
-                state.viewer.isLike = true;
+        // // like
+        // .addMatcher(articleApi.endpoints.like.matchFulfilled, (state) => {
+        //     state.viewer.isLike = true;
 
-                if ('likesCount' in state.data) {
-                    state.data.likesCount += 1;
-                }
-            })
-            .addMatcher(articleApi.endpoints.removeLike.matchFulfilled, (state) => {
-                state.viewer.isLike = false;
+        //     if ('likesCount' in state.data) {
+        //         state.data.likesCount += 1;
+        //     }
+        // })
+        // .addMatcher(articleApi.endpoints.removeLike.matchFulfilled, (state) => {
+        //     state.viewer.isLike = false;
 
-                if ('likesCount' in state.data) {
-                    state.data.likesCount -= 1;
-                }
-            })
+        //     if ('likesCount' in state.data) {
+        //         state.data.likesCount -= 1;
+        //     }
+        // })
 
-            // bookmark
-            .addMatcher(userApi.endpoints.addBookmark.matchFulfilled, (state) => {
-                state.viewer.hasBookmark = true;
-            })
-            .addMatcher(userApi.endpoints.removeBookmark.matchFulfilled, (state) => {
-                state.viewer.hasBookmark = false;
-            })
+        // // bookmark
+        // .addMatcher(userApi.endpoints.addBookmark.matchFulfilled, (state) => {
+        //     state.viewer.hasBookmark = true;
+        // })
+        // .addMatcher(userApi.endpoints.removeBookmark.matchFulfilled, (state) => {
+        //     state.viewer.hasBookmark = false;
+        // })
 
-            // comments
-            .addMatcher(articleApi.endpoints.addComment.matchFulfilled, (state, { payload }) => {
-                state.comments.commentsList.unshift(payload);
-                state.comments.totalCount += 1;
-            })
-            .addMatcher(articleApi.endpoints.removeComment.matchFulfilled, (state, action) => {
-                const commentIndex = action.meta.arg.originalArgs.index;
-                state.comments.commentsList.splice(commentIndex, 1);
-                state.comments.totalCount -= 1;
-            })
-            // like comment
-            .addMatcher(articleApi.endpoints.likeComment.matchFulfilled, (state, action) => {
-                const commentIndex = action.meta.arg.originalArgs.index;
-                const likesCount = state.comments.commentsList[commentIndex].likesCount;
-                state.comments.commentsList[commentIndex].viewer.isLike = true;
+        // // comments
+        // .addMatcher(articleApi.endpoints.addComment.matchFulfilled, (state, { payload }) => {
+        //     state.comments.commentsList.unshift(payload);
+        //     state.comments.totalCount += 1;
+        // })
+        // .addMatcher(articleApi.endpoints.removeComment.matchFulfilled, (state, action) => {
+        //     const commentIndex = action.meta.arg.originalArgs.index;
+        //     state.comments.commentsList.splice(commentIndex, 1);
+        //     state.comments.totalCount -= 1;
+        // })
+        // // like comment
+        // .addMatcher(articleApi.endpoints.likeComment.matchFulfilled, (state, action) => {
+        //     const commentIndex = action.meta.arg.originalArgs.index;
+        //     const likesCount = state.comments.commentsList[commentIndex].likesCount;
+        //     state.comments.commentsList[commentIndex].viewer.isLike = true;
 
-                if (!likesCount) {
-                    state.comments.commentsList[commentIndex].likesCount = 1;
-                } else {
-                    state.comments.commentsList[commentIndex].likesCount += 1;
-                }
-            })
-            // remove like comment
-            .addMatcher(articleApi.endpoints.removeLikeComment.matchFulfilled, (state, action) => {
-                const commentIndex = action.meta.arg.originalArgs.index;
-                state.comments.commentsList[commentIndex].viewer.isLike = false;
-                state.comments.commentsList[commentIndex].likesCount -= 1;
-            });
+        //     if (!likesCount) {
+        //         state.comments.commentsList[commentIndex].likesCount = 1;
+        //     } else {
+        //         state.comments.commentsList[commentIndex].likesCount += 1;
+        //     }
+        // })
+        // // remove like comment
+        // .addMatcher(articleApi.endpoints.removeLikeComment.matchFulfilled, (state, action) => {
+        //     const commentIndex = action.meta.arg.originalArgs.index;
+        //     state.comments.commentsList[commentIndex].viewer.isLike = false;
+        //     state.comments.commentsList[commentIndex].likesCount -= 1;
+        // });
     },
 });
 

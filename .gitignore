@@ -8,7 +8,8 @@ coverage
 
 # production
 build
-media
+/new-backend/media
+backend/media
 dist
 
 # misc

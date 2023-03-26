@@ -1,14 +1,19 @@
+import { Article } from '@/shared/interfaces/article.interface';
 import { AuthorChoice } from './components/AuthorChoice/AuthorChoice';
 import { BestOfWeek } from './components/BestOfWeek/BestOfWeek';
 import { FindMore } from './components/FindMore/FindMore';
 import { HomeHeader } from './components/HomeHeader/HomeHeader';
 import { NewestArticles } from './components/NewestArticles/NewestArticles';
 
-const SignedOut = () => {
+interface SignedOutProps {
+    articles: Article[];
+}
+
+const SignedOut: React.FC<SignedOutProps> = ({ articles }) => {
     return (
         <>
             <HomeHeader />
-            <AuthorChoice />
+            <AuthorChoice articles={articles} />
             <BestOfWeek />
             <NewestArticles />
             <FindMore />

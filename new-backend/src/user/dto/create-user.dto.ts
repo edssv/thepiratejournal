@@ -1,14 +1,18 @@
-import { IsEmail, IsOptional, Length } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class CreateUserDto {
-    @Length(3, 16, { message: 'Длина никнейма от 3 до 16 символов' })
+    @IsString({ message: 'Никнейм должен быть строкой.' })
+    @IsNotEmpty({ message: 'Никнейм обязательное поле.' })
+    @Length(3, 16, { message: 'Длина никнейма от 3 до 16 символов.' })
     username: string;
 
-    @Length(5, 32, { message: 'Длина почтового адреса от 5 до 32 символов' })
-    @IsEmail(undefined, { message: 'Не является почтовым адресом' })
+    @IsNotEmpty({ message: 'Почтовый адрес обязательное поле.' })
+    @IsEmail(undefined, { message: 'Не является почтовым адресом.' })
+    @Length(5, 32, { message: 'Длина почтового адреса от 5 до 32 символов.' })
     email: string;
 
-    @IsOptional()
-    @Length(8, 32, { message: 'Длина пароля от 8 до 32 символов' })
-    password?: string;
+    // @IsOptional()
+    @IsNotEmpty({ message: 'Пароль обязательное поле.' })
+    @Length(8, 32, { message: 'Длина пароля от 8 до 32 символов.' })
+    password: string;
 }

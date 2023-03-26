@@ -1,11 +1,13 @@
-enum ArticleViewsCountEnum {
-    DESC = 'DESC',
+enum ArticleSortEnum {
+    RECENT = 'recent',
     ASC = 'ASC',
 }
 
 export class SearchArticleDto {
     title?: string;
     body?: string;
-    viewsCount?: ArticleViewsCountEnum;
+    sort?: 'recent' | 'appreciations' | 'views' | '' | undefined;
     tag?: string;
+    limit?: number = 1;
+    page?: number = 10;
 }

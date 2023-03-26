@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import { wrapper } from '@/store';
 import RefreshTokenHandler from '@/components/RefreshTokenHandler/RefreshTokenHandler';
 
-import '../styles/styles.scss';
+import '@/styles/styles.scss';
 
 const roboto = Roboto({
     weight: ['300', '400', '500', '700'],

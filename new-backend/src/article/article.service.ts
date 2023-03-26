@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateArticleDto } from './dto/create-article.dto';
@@ -13,8 +13,8 @@ export class ArticleService {
         private repository: Repository<Article>
     ) {}
 
-    create(createArticleDto: CreateArticleDto) {
-        return this.repository.save(createArticleDto);
+    create(userId: number, createArticleDto: CreateArticleDto) {
+        return this.repository.save({ user: { id: userId }, ...createArticleDto });
     }
 
     findAll() {
@@ -32,16 +32,19 @@ export class ArticleService {
         return { articles, total };
     }
 
-    async search(searchArticleDto: SearchArticleDto) {
+    async search(dto: SearchArticleDto) {
         const qb = this.repository.createQueryBuilder();
+        const skip = dto.limit * dto.page;
+        // console.log(typeof skip);
+        // qb.limit(dto.limit).skip(skip);
 
-        qb.limit(20).skip(20);
+        if (dto.title) qb.andWhere('title LIKE :title', { title: dto.title });
+        if (dto.body) qb.andWhere('body LIKE :body', { body: dto.body });
+        if (dto.tag) qb.andWhere('tag LIKE :tag', { tag: dto.tag });
 
-        if (searchArticleDto.title) qb.where(`p.body ILIKE %${searchArticleDto.title}`);
-
-        if (searchArticleDto.body) qb.where(`p.body ILIKE %${searchArticleDto.body}`);
-
-        if (searchArticleDto.tag) qb.where(`p.body ILIKE %${searchArticleDto.tag}`);
+        if (dto.sort === 'recent') qb.orderBy('created_at', 'DESC');
+        if (dto.sort === 'appreciations') qb.orderBy('likes_count', 'DESC');
+        if (dto.sort === 'views' || dto.sort === undefined) qb.orderBy('views_count', 'DESC');
 
         const [articles, total] = await qb.getManyAndCount();
 
@@ -49,17 +52,21 @@ export class ArticleService {
     }
 
     async findOne(id: number) {
-        const find = await this.repository.findOne({ where: { id } });
+        await this.repository.increment({ id }, 'viewsCount', 1);
+
+        const find = await this.repository.findOne({ where: { id }, relations: ['user'] });
 
         if (!find) throw new NotFoundException('Статья не найдена');
 
-        return this.repository.findOne({ where: { id } });
+        return find;
     }
 
-    async update(id: number, updateArticleDto: UpdateArticleDto) {
-        const find = await this.repository.findOne({ where: { id } });
+    async update(id: number, userId: number, updateArticleDto: UpdateArticleDto) {
+        const find = await this.repository.findOne({ where: { id }, relations: ['user'] });
 
         if (!find) throw new NotFoundException('Статья не найдена');
+
+        if (userId !== find.user.id) throw new ForbiddenException('Статья принадлежит другому пользователю.');
 
         return this.repository.update(id, updateArticleDto);
     }

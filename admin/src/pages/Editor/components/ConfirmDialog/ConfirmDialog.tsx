@@ -3,9 +3,9 @@ import { useMediaPredicate } from 'react-media-hook';
 
 import { useSelector } from 'react-redux';
 import { articleTypeSelector, Block, editorDataSelector } from '../../../../redux';
-import { SaveChanges } from '../../components';
+import { SaveChanges } from '..';
 import { Button, DialogTrigger } from '../../../../components';
-import { ConfirmButton, CoverWindow, DescriptionArea, ListBoxPicker, TagsInput } from './';
+import { ConfirmButton, CoverWindow, DescriptionArea, ListBoxPicker, TagsInput } from '.';
 
 import styles from './ConfirmDialog.module.scss';
 import { Dialog, DialogCancelButton, DialogContent, DialogControls } from '../../../../components/Dialog';

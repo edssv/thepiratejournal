@@ -1,4 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Request, Delete, Query } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common/decorators';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { SearchArticleDto } from './dto/search-article.dto';
@@ -8,9 +10,10 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 export class ArticleController {
     constructor(private readonly articleService: ArticleService) {}
 
+    @UseGuards(JwtAuthGuard)
     @Post()
-    create(@Body() createArticleDto: CreateArticleDto) {
-        return this.articleService.create(createArticleDto);
+    create(@Request() req, @Body() createArticleDto: CreateArticleDto) {
+        return this.articleService.create(req.user.id, createArticleDto);
     }
 
     @Get()
@@ -33,9 +36,10 @@ export class ArticleController {
         return this.articleService.findOne(+id);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Patch(':id')
-    update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
-        return this.articleService.update(+id, updateArticleDto);
+    update(@Request() req, @Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
+        return this.articleService.update(+id, req.user.id, updateArticleDto);
     }
 
     @Delete(':id')

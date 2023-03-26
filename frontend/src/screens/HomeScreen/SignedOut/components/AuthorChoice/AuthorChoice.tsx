@@ -1,4 +1,5 @@
-import { Article, useGetAuthorChoiceQuery } from '@/store';
+import { ArticleService } from '@/store';
+import { Article } from '@/shared/interfaces/article.interface';
 import AiryArticlePreview from '@/components/AiryArticlePreview/AiryArticlePreview';
 import AiryArticleSkeleton from '@/components/AiryArticlePreview/AiryArticleSkeleton';
 
@@ -7,13 +8,10 @@ interface AuthorChoiceProps {
 }
 
 export const AuthorChoice: React.FC<AuthorChoiceProps> = ({ articles }) => {
-    const { data, isLoading } = useGetAuthorChoiceQuery('');
-
     const articlesList = () => {
-        // if (isLoading) {
-        //     return <AiryArticleSkeleton counts={3} />;
-        // }
-        return data?.map((article) => <AiryArticlePreview key={article._id} article={article} size="M" />);
+        return articles
+            ?.slice(0, 3)
+            .map((article) => <AiryArticlePreview key={article.id} article={article} size="M" />);
     };
 
     return (

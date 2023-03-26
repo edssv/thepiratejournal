@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { Article } from '@/store';
+import { Article } from '@/shared/interfaces/article.interface';
 
 import styles from './AiryArticlePreview.module.scss';
 
@@ -12,7 +12,7 @@ interface ArticlePreviewProps {
 const AiryArticlePreview: React.FC<ArticlePreviewProps> = ({ article, size = 'S' }) => {
     return (
         <div className={`${styles.root} ${size === 'S' ? styles.sizeSmall : styles.sizeMedium}`}>
-            <Link href={`/articles/${article._id}`} className={styles.thumbnail}>
+            <Link href={`/articles/${article.id}`} className={styles.thumbnail}>
                 {' '}
                 <div className={styles.thumbContainer} style={{ backgroundImage: `url(${article.cover})` }} />
                 <div className={styles.contentContainer}>

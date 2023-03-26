@@ -1,3 +1,3 @@
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 
-export class SignInDto extends CreateUserDto {}
+export class SignUpDto extends CreateUserDto {}

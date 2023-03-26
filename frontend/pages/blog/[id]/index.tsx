@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-import { NextPageWithLayout } from '@/pages/_app';
+import { NextPageWithLayout } from 'pages/_app';
 import ArticleScreen from '@/screens/ArticleScreen/ArticleScreen';
 import Layout from '@/components/Layout/Layout';
 

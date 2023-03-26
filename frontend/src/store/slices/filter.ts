@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { articleApi } from '../../services';
 import type { RootState } from '../store';
 
 type Category = 'reviews' | 'solutions' | 'mentions';
@@ -40,9 +39,6 @@ const slice = createSlice({
         setQuery(state, { payload }) {
             state.query = payload;
         },
-    },
-    extraReducers: (builder) => {
-        builder.addMatcher(articleApi.endpoints.addArticle.matchFulfilled, (state) => {});
     },
 });
 

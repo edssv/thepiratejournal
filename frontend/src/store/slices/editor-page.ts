@@ -1,5 +1,6 @@
+import { Article } from '@/shared/interfaces/article.interface';
 import { createSlice } from '@reduxjs/toolkit';
-import { Article, articleApi, Draft, draftApi } from '../../services';
+import { Draft, draftApi } from '../../services';
 import type { RootState } from '../store';
 
 type EditorPageState = {
@@ -44,24 +45,24 @@ const slice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addMatcher(articleApi.endpoints.addArticle.matchFulfilled, (state) => {
-            state.formStatus = 'saved';
-        });
-        builder.addMatcher(articleApi.endpoints.getArticle.matchFulfilled, (state, { payload }) => {
-            state.formStatus = 'saved';
-            if (state.mode === 'editing') {
-                state.data = payload;
-            }
-        });
-        builder.addMatcher(draftApi.endpoints.createDraft.matchFulfilled, (state) => {
-            state.formStatus = 'saved';
-        });
-        builder.addMatcher(draftApi.endpoints.getDraft.matchFulfilled, (state, { payload }) => {
-            state.formStatus = 'saved';
-            if (state.mode === 'draft') {
-                state.data = payload;
-            }
-        });
+        // builder.addMatcher(articleApi.endpoints.addArticle.matchFulfilled, (state) => {
+        //     state.formStatus = 'saved';
+        // });
+        // builder.addMatcher(articleApi.endpoints.getArticle.matchFulfilled, (state, { payload }) => {
+        //     state.formStatus = 'saved';
+        //     if (state.mode === 'editing') {
+        //         state.data = payload;
+        //     }
+        // });
+        // builder.addMatcher(draftApi.endpoints.createDraft.matchFulfilled, (state) => {
+        //     state.formStatus = 'saved';
+        // });
+        // builder.addMatcher(draftApi.endpoints.getDraft.matchFulfilled, (state, { payload }) => {
+        //     state.formStatus = 'saved';
+        //     if (state.mode === 'draft') {
+        //         state.data = payload;
+        //     }
+        // });
     },
 });
 

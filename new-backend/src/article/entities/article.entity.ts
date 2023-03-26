@@ -1,4 +1,25 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
+
+export enum ArticleCategory {
+    REVIEWS = 'reviews',
+    MENTIONS = 'mentions',
+    SOLUTIONS = 'solutions',
+}
+
+export interface Block {
+    id: string;
+    type: string;
+    data: any;
+}
 
 @Entity('articles')
 export class Article {
@@ -8,36 +29,30 @@ export class Article {
     @Column()
     title: string;
 
-    // @Column()
-    // searchTitle: string;
+    @Column()
+    searchTitle: string;
 
-    // @Column()
-    // description: string;
+    @Column()
+    description: string;
 
-    // @Column()
-    // cover: string;
+    @Column()
+    cover: string;
 
-    // @Column()
-    // body: [];
+    @Column({ type: 'jsonb' })
+    body: Block[];
 
-    // @Column()
-    // tags: [{ type: String }];
+    @Column({ array: true })
+    tags: string;
 
-    // @Column()
-    // category: {
-    //     name: string;
-    //     game: string;
-    //     key: string;
-    // };
+    @Column({ type: 'enum', enum: ArticleCategory })
+    category: ArticleCategory;
 
-    // @Column()
-    // readingTime: number;
+    @Column()
+    readingTime: number;
 
-    // @Column()
-    // author: {
-    //     _id: { type: ObjectId; required: true };
-    //     username: string;
-    // };
+    @ManyToOne(() => User, { nullable: false })
+    @JoinColumn({ name: 'user_id' })
+    user: User;
 
     @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
     createdAt: Date;
@@ -50,8 +65,8 @@ export class Article {
     })
     updatedAt: Date;
 
-    // @Column()
-    // comments: string[];
+    @Column({ array: true, nullable: true })
+    comments: string;
 
     @Column({ default: 0, name: 'views_count' })
     viewsCount: number;
@@ -59,8 +74,8 @@ export class Article {
     @Column({ default: 0, name: 'likes_count' })
     likesCount: number;
 
-    // @Column()
-    // likesUsers: [];
+    @Column({ array: true, nullable: true })
+    likesUsers: string;
 
     @Column({ select: false, default: false, name: 'is_published' })
     isPublished: boolean;

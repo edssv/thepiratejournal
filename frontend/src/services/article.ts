@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { api } from './api';
 
 export interface Block {
@@ -41,6 +42,15 @@ interface ArticleResponse extends Article {
         isLike: boolean;
     };
 }
+
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
+
+export const ArticleService = {
+    async getAll() {
+        const { data } = await axios.get<Article[]>('/articles');
+        return data;
+    },
+};
 
 export const articleApi = api.injectEndpoints({
     endpoints: (build) => ({

@@ -1,13 +1,15 @@
-import { lazy } from 'react';
-
-import { useAuth, useDocTitle } from '@/hooks';
+import { Article } from '@/shared/interfaces/article.interface';
+import SignedOut from './SignedOut/SignedOut';
 
 import './Home.module.scss';
 import styles from './Home.module.scss';
 
-const SignedIn = lazy(() => import(/* webpackChunkName: "SignedInHome" */ './SignedIn/SignedIn'));
-const SignedOut = lazy(() => import(/* webpackChunkName: "SignedOutHome" */ './SignedOut/SignedOut'));
-
-export default function Home() {
-    return <div className={styles.root}>{<SignedOut />}</div>;
+interface HomeProps {
+    articles: Article[];
 }
+
+const HomeScreen: React.FC<HomeProps> = ({ articles }) => {
+    return <div className={styles.root}>{<SignedOut articles={articles} />}</div>;
+};
+
+export default HomeScreen;

@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { articleApi } from '../../services';
 import type { RootState } from '../store';
 
 type UiState = {
@@ -29,9 +28,9 @@ const slice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addMatcher(articleApi.endpoints.addArticle.matchFulfilled, (state) => {
-            state.isPublishSnackbarVisible = true;
-        });
+        // builder.addMatcher(articleApi.endpoints.addArticle.matchFulfilled, (state) => {
+        //     state.isPublishSnackbarVisible = true;
+        // });
     },
 });
 

@@ -1,4 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    CreateDateColumn,
+    UpdateDateColumn,
+    ManyToOne,
+    JoinColumn,
+    ManyToMany,
+    JoinTable,
+    RelationCount,
+} from 'typeorm';
 
 export enum UserRole {
     ADMIN = 'admin',
@@ -26,6 +37,9 @@ export class User {
     @Column({ nullable: true })
     lastName: string;
 
+    @Column({ nullable: true })
+    image: string;
+
     @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
     role: UserRole;
 
@@ -39,4 +53,14 @@ export class User {
         name: 'updated_at',
     })
     updatedAt: Date;
+
+    @Column({ default: false })
+    emailVerified: boolean;
+
+    @ManyToMany(() => User, (user) => user.following)
+    @JoinTable()
+    followers: User[];
+
+    @ManyToMany(() => User, (user) => user.followers)
+    following: User[];
 }

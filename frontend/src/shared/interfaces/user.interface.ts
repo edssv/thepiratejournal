@@ -9,17 +9,19 @@ export interface UserInfo {
 }
 
 export interface User {
-    _id: string;
+    id: number;
+    username: string;
     email: string;
-    name: string;
-    picture: string;
-    password: string;
+    firstName: string;
+    lastName: string;
+    image: string;
+    role: 'user' | 'editor' | 'admin';
+    createdAt: Date;
+    updatedAt: Date;
     emailVerified: boolean;
-    role: 'admin' | 'user';
-    follow: { userId: string }[];
-    followers: { userId: string }[];
+    followers: User[];
+    following: User[];
     liked: { articleId: string }[];
     appreciated: { articleId: string }[];
     bookmarks: { articleId: string }[];
-    notifications: Notification[];
 }
