@@ -1,22 +1,22 @@
-import { useGetBlogsQuery } from '@/services/blog';
+import { useQuery } from '@tanstack/react-query';
+
+import { BlogService } from '@/services';
 import { ArticlePreview } from './ArticlePreview/ArticlePreview';
 
 import styles from './Blog.module.scss';
 
 const Blog = () => {
-    const { data, isLoading } = useGetBlogsQuery('');
+    const { data: blogs } = useQuery({ queryKey: ['blog'], queryFn: BlogService.getAll });
 
-    if (!data || isLoading) return null;
+    const blogList = () => {
+        return blogs?.map((blog, index) => <ArticlePreview key={blog.id} data={blog} />).slice(1);
+    };
 
     return (
         <div className={styles.root}>
             <div className={styles.container}>
-                <ArticlePreview data={data[0]} featured />
-                <div className={styles.articlesContainer}>
-                    {data?.map((article, index) =>
-                        index > 0 ? <ArticlePreview key={article._id} data={article} /> : null
-                    )}
-                </div>
+                <ArticlePreview data={blogs ? blogs[0] : null} featured />
+                <div className={styles.articlesContainer}>{blogList()}</div>
             </div>
         </div>
     );

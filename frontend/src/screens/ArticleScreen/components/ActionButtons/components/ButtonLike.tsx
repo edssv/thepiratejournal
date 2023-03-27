@@ -1,12 +1,13 @@
 import React, { PropsWithChildren, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useSelector } from 'react-redux';
 
 import { useAuth } from '@/hooks';
 import { articleDataSelector, useLikeMutation, useRemoveLikeMutation, viewerSelector } from '@/store';
-import Tippy from '@/components/Tippy/Tippy';
 import Button, { ButtonColor, Variant } from '@/components/Buttons/Button/Button';
 import Snackbar from '@/components/Snackbar/Snackbar';
 
+const Tippy = dynamic(() => import('@/components/Tippy/Tippy'), { ssr: false });
 interface IsLikeProps {
     tooltipPosition?: any;
     width?: string | number;
@@ -14,7 +15,6 @@ interface IsLikeProps {
     color?: ButtonColor;
     icon?: boolean;
 }
-
 export const ButtonLike: React.FC<PropsWithChildren<IsLikeProps>> = ({
     children,
     tooltipPosition,

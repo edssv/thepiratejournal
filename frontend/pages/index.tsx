@@ -1,6 +1,8 @@
 import { ReactElement } from 'react';
 import { GetServerSideProps } from 'next';
-import { Article } from '@/shared/interfaces/article.interface';
+import { dehydrate, QueryClient } from '@tanstack/react-query';
+
+import { Article } from '@/interfaces/article.interface';
 import HomeScreen from '@/screens/HomeScreen/HomeScreen';
 import Layout from '@/components/Layout/Layout';
 import { NextPageWithLayout } from './_app';
@@ -19,10 +21,13 @@ HomePage.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-    const articles = await ArticleService.getAll();
+    const queryClient = new QueryClient();
+
+    await queryClient.prefetchQuery(['articles'], ArticleService.getAll);
+    await queryClient.prefetchQuery(['bestOfWeek'], ArticleService.getBestOfWeek);
 
     return {
-        props: { articles },
+        props: { dehydratedState: dehydrate(queryClient) },
     };
 };
 

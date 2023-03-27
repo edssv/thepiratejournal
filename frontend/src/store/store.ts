@@ -7,8 +7,8 @@ import articlePageReducer from './slices/article-page';
 import editorPageReducer from './slices/editor-page';
 import filterReducer from './slices/filter';
 import homeReducer from './slices/home-page';
-import userReducer from './slices/user';
 import uiReducer from './slices/ui';
+import { userSlice } from './user/user.slice';
 
 const rootReducer = combineReducers({
     [api.reducerPath]: api.reducer,
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
     editorPage: editorPageReducer,
     filter: filterReducer,
     homePage: homeReducer,
-    user: userReducer,
+    user: userSlice.reducer,
     ui: uiReducer,
 });
 

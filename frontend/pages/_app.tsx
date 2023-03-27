@@ -1,12 +1,14 @@
-import { ReactElement, ReactNode, useState } from 'react';
+import React, { ReactElement, ReactNode, useState } from 'react';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import { Roboto } from 'next/font/google';
 import Head from 'next/head';
+import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider } from 'react-redux';
 
-import { wrapper } from '@/store';
+import { store } from '@/store';
+import AuthProvider from '@/providers/AuthProvider';
 import RefreshTokenHandler from '@/components/RefreshTokenHandler/RefreshTokenHandler';
 
 import '@/styles/styles.scss';
@@ -26,11 +28,9 @@ type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout;
 };
 
-export default function App({ Component, ...rest }: AppPropsWithLayout) {
-    const { store, props } = wrapper.useWrappedStore(rest);
-
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
+    const [queryClient] = React.useState(() => new QueryClient());
     const [interval, setInterval] = useState(0);
-
     const getLayout = Component.getLayout ?? ((page) => page);
 
     return (
@@ -45,12 +45,14 @@ export default function App({ Component, ...rest }: AppPropsWithLayout) {
                     }
                 `}
             </style>
-            <Provider store={store}>
-                <SessionProvider session={props.pageProps.session} refetchInterval={interval}>
-                    {getLayout(<Component {...props.pageProps} />)}
-                    <RefreshTokenHandler setInterval={setInterval} />
-                </SessionProvider>
-            </Provider>
+            <QueryClientProvider client={queryClient}>
+                <Hydrate state={pageProps.dehydratedState}>
+                    <Provider store={store}>
+                        <AuthProvider>{getLayout(<Component {...pageProps} />)}</AuthProvider>
+                        <RefreshTokenHandler setInterval={setInterval} />
+                    </Provider>
+                </Hydrate>
+            </QueryClientProvider>
         </>
     );
 }

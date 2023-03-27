@@ -1,4 +1,4 @@
-import { Article } from '@/shared/interfaces/article.interface';
+import { Article } from '@/interfaces/article.interface';
 import { createSlice } from '@reduxjs/toolkit';
 import { Blog, blogApi, userApi } from '../../services';
 import type { RootState } from '../store';

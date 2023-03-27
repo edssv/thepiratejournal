@@ -1,15 +1,14 @@
-import { useGetBestOfWeakQuery } from '@/store';
+import { useQuery } from '@tanstack/react-query';
+
+import { ArticleService } from '@/store';
 import AiryArticlePreview from '@/components/AiryArticlePreview/AiryArticlePreview';
 import AiryArticleSkeleton from '@/components/AiryArticlePreview/AiryArticleSkeleton';
 
 export const BestOfWeek = () => {
-    const { data, isLoading } = useGetBestOfWeakQuery('');
+    const { data: articles } = useQuery({ queryKey: ['bestOfWeek'], queryFn: ArticleService.getBestOfWeek });
 
-    const articles = () => {
-        if (isLoading) {
-            return <AiryArticleSkeleton counts={6} />;
-        }
-        return data?.map((article) => <AiryArticlePreview key={article._id} article={article} />);
+    const articlesList = () => {
+        return articles?.map((article) => <AiryArticlePreview key={article.id} article={article} />);
     };
 
     return (
@@ -19,7 +18,7 @@ export const BestOfWeek = () => {
                     <h2>Лучшее за неделю</h2>
                     <p>Самые оцененные статьи этой недели.</p>
                 </div>
-                <div className="bestOfWeekList">{articles()}</div>
+                <div className="bestOfWeekList">{articlesList()}</div>
             </div>
         </section>
     );

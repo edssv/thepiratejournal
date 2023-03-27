@@ -1,4 +1,4 @@
-import { Article } from '@/shared/interfaces/article.interface';
+import { Article } from '@/interfaces/article.interface';
 import SignedOut from './SignedOut/SignedOut';
 
 import './Home.module.scss';

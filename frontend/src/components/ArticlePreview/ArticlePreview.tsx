@@ -1,4 +1,4 @@
-import { Article } from '@/services/article';
+import { Article } from '@/services/article.service';
 import { ArticleStats } from './components/ArticleStats';
 
 import styles from './ArticlePreview.module.scss';

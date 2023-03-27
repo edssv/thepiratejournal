@@ -7,4 +7,5 @@ export { ShareButtons } from './ShareButtons';
 export { Sidebar } from './Sidebar';
 export { StaticControls } from './StaticControls';
 export { TableOfContents } from './TableOfContents';
+export { toHtml } from './toHtml';
 export { UpNext } from './UpNext';

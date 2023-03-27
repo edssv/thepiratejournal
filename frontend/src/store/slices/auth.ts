@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { authApi } from '../../services/auth';
+import { authApi } from '../../services/auth/auth.service';
 import { User } from '../../services/user';
 import type { RootState } from '../store';
 

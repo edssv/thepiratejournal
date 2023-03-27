@@ -1,19 +1,24 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { DataSource } from 'typeorm';
 import { join } from 'path';
-import configuration from './config/configuration';
-import { User } from './user/entities/user.entity';
+import appConfig from './config/app.config';
+import authConfig from './config/auth.config';
+import databaseConfig from './config/database.config';
+import fileConfig from './config/file.config';
+import { TypeOrmConfigService } from './database/typeorm-config.service';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ArticleModule } from './article/article.module';
-import { Article } from './article/entities/article.entity';
 import { CommentModule } from './comment/comment.module';
-import { Comment } from './comment/entities/comment.entity';
 import { FileModule } from './file/file.module';
-import authConfig from './config/auth.config';
-import fileConfig from './config/file.config';
+import { Article } from './article/entities/article.entity';
+import { User } from './user/entities/user.entity';
+import { Comment } from './comment/entities/comment.entity';
+import { BlogModule } from './blog/blog.module';
+import { Blog } from './blog/entities/blog.entity';
 
 @Module({
     imports: [
@@ -22,22 +27,27 @@ import fileConfig from './config/file.config';
             serveRoot: '/assets',
             exclude: ['/api/(.*)'],
         }),
-        ConfigModule.forRoot({ isGlobal: true, load: [configuration, fileConfig, authConfig] }),
+        ConfigModule.forRoot({
+            isGlobal: true,
+            load: [databaseConfig, appConfig, fileConfig, authConfig],
+            envFilePath: ['.env'],
+        }),
         TypeOrmModule.forRoot({
             type: 'postgres',
             host: process.env.DATABASE_HOST,
             port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
             username: process.env.DATABASE_USERNAME,
             password: process.env.DATABASE_PASSWORD,
-            database: process.env.DATABASE_DB,
-            entities: [Article, Comment, User],
-            synchronize: process.env.NODE_ENV === 'development',
+            database: process.env.DATABASE_NAME,
+            entities: [Article, Blog, Comment, User],
+            synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
         }),
         ArticleModule,
         AuthModule,
         UserModule,
         CommentModule,
         FileModule,
+        BlogModule,
     ],
 })
 export class AppModule {}

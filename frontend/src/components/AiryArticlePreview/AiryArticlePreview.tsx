@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { Article } from '@/shared/interfaces/article.interface';
+import { Article } from '@/interfaces/article.interface';
 
 import styles from './AiryArticlePreview.module.scss';
 

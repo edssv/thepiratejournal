@@ -35,7 +35,7 @@ export class AuthService {
 
         return {
             userData,
-            access_token: this.generateJwtToken({ ...user, sub: user.id }),
+            accessToken: this.generateJwtToken({ ...user, sub: user.id }),
         };
     }
 
@@ -51,7 +51,7 @@ export class AuthService {
             password: await hash(signUpDto.password),
         });
 
-        return { user, access_token: this.generateJwtToken({ ...user, sub: user.id }) };
+        return { user, accessToken: this.generateJwtToken({ ...user, sub: user.id }) };
     }
 
     async getProfile(user: User) {

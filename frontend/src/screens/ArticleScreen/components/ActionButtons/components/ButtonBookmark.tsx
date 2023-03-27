@@ -1,10 +1,10 @@
 import React, { PropsWithChildren, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useSelector } from 'react-redux';
 
 import { useAuth } from '@/hooks';
 import { articleDataSelector, useAddBookmarkMutation, useRemoveBookmarkMutation, viewerSelector } from '@/store';
 import Button, { Variant } from '@/components/Buttons/Button/Button';
-import Tippy from '@/components/Tippy/Tippy';
 import Snackbar from '@/components/Snackbar/Snackbar';
 
 interface IsBookmarkProps {
@@ -12,6 +12,8 @@ interface IsBookmarkProps {
     variant?: Variant;
     icon?: boolean;
 }
+
+const Tippy = dynamic(() => import('@/components/Tippy/Tippy'), { ssr: false });
 
 export const ButtonBookmark: React.FC<PropsWithChildren<IsBookmarkProps>> = ({
     tooltipPosition,

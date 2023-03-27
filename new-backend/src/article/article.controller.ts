@@ -21,14 +21,24 @@ export class ArticleController {
         return this.articleService.findAll();
     }
 
+    @Get('search')
+    search(@Query() searchArticleDto: SearchArticleDto) {
+        return this.articleService.search(searchArticleDto);
+    }
+
     @Get('popular')
     findPopular() {
         return this.articleService.findPopular();
     }
 
-    @Get('search')
-    search(@Query() searchArticleDto: SearchArticleDto) {
-        return this.articleService.search(searchArticleDto);
+    @Get('newest')
+    findNewest() {
+        return this.articleService.findNewest();
+    }
+
+    @Get('week')
+    findBestOfWeek() {
+        return this.articleService.findBestOfWeek();
     }
 
     @Get(':id')
@@ -42,8 +52,9 @@ export class ArticleController {
         return this.articleService.update(+id, req.user.id, updateArticleDto);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
-    remove(@Param('id') id: string) {
-        return this.articleService.remove(+id);
+    remove(@Request() req, @Param('id') id: string) {
+        return this.articleService.remove(req.user.id, +id);
     }
 }

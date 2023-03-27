@@ -1,17 +1,18 @@
 import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { useSession, signIn, signOut } from 'next-auth/react';
 
 import { useNetworkStatus } from '@/hooks';
-import { useGoogleloginMutation, useLoginMutation } from '@/store';
+import { AuthService, useGoogleloginMutation, useLoginMutation } from '@/store';
 import Button from '@/components/Buttons/Button/Button';
 import { ErrorLabel, Field, Input, Label } from '../components/Field';
 import { VisibilityToggle } from '../components/VisibilityToggle/VisibilityToggle';
 import GoogleButton from '../components/GoogleButton/GoogleButton';
 
 import styles from './LoginPage.module.scss';
+import { AxiosError } from 'axios';
 
 type FormValues = {
     email: string;
@@ -20,10 +21,10 @@ type FormValues = {
 
 const LoginPage = () => {
     const { isOnline } = useNetworkStatus();
-    const [login, { isLoading, isError }] = useLoginMutation();
     const [passwordEye, setPasswordEye] = useState(false);
-    const { push } = useRouter();
+    const { replace } = useRouter();
 
+    const { mutate, isLoading, isError, error } = useMutation<{}, Error>({ mutationFn: AuthService.login });
     const {
         register,
         formState: { errors },
@@ -33,7 +34,8 @@ const LoginPage = () => {
     });
 
     const onSubmit = handleSubmit(async (formData: FormValues) => {
-        signIn('credentials', { ...formData, redirect: true, callbackUrl: '/' });
+        mutate(formData);
+        replace('/');
     });
 
     return (
@@ -82,11 +84,7 @@ const LoginPage = () => {
                             {errors?.password && <ErrorLabel>{errors?.password?.message?.toString()}</ErrorLabel>}
                         </Field>
                     </div>
-                    {isError && (
-                        <ErrorLabel style={{ marginTop: '8px' }}>
-                            Неверный адрес электронной почты или пароль.
-                        </ErrorLabel>
-                    )}
+                    {isError && <ErrorLabel style={{ marginTop: '8px' }}>{error.message}</ErrorLabel>}
                 </section>
                 <section className={styles.submit}>
                     <Button isLoading={isLoading} disabled={!isOnline || isLoading} variant="filled" type="submit">

@@ -1,54 +1,40 @@
+import { axiosClassic } from '@/api/api.interceptor';
+import { Article } from '@/interfaces/article.interface';
+import { ApiUrlBuilder } from '@/lib/apiUrlBuilder';
 import axios from 'axios';
 import { api } from './api';
 
-export interface Block {
-    id: string;
-    type: string;
-    data: {
-        level?: number;
-        text: string;
-    };
-}
-
-export interface Comment {
-    _id: string;
-    body: string;
-    createdAt: number;
-    likesCount: number;
-    author: { _id: string; username: string; avatar: string };
-    viewer: { isLike: boolean };
-}
-export interface Article {
-    _id: string;
-    author: { _id: string; username: string; avatar: string; subscribersCount: number };
-    title: string;
-    description: string;
-    cover: string;
-    blocks: Block[];
-    tags: [];
-    category: { name: string; game: string; key: string };
-    readingTime: number;
-    createdAt: number;
-    isPublished: boolean;
-    comments: { list: Comment[]; totalCount: number };
-    viewsCount: number;
-    likesCount: number;
-}
-
-interface ArticleResponse extends Article {
-    viewer: {
-        hasSubscription: boolean;
-        hasBookmark: boolean;
-        isLike: boolean;
-    };
-}
-
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
-
 export const ArticleService = {
     async getAll() {
-        const { data } = await axios.get<Article[]>('/articles');
-        return data;
+        const res = await axiosClassic<Article[]>({
+            url: ApiUrlBuilder.Articles,
+            method: 'GET',
+        });
+        return res.data;
+    },
+
+    async getOne(id: number) {
+        const res = await axiosClassic<Article>({
+            url: `${ApiUrlBuilder.Articles}/${id}`,
+            method: 'GET',
+        });
+        return res.data;
+    },
+
+    async getPopular() {
+        const res = await axiosClassic<Article[]>({
+            url: ApiUrlBuilder.ArticlesPopular,
+            method: 'GET',
+        });
+        return res.data;
+    },
+
+    async getBestOfWeek() {
+        const res = await axiosClassic<Article[]>({
+            url: ApiUrlBuilder.ArticlesBestOfWeek,
+            method: 'GET',
+        });
+        return res.data;
     },
 };
 

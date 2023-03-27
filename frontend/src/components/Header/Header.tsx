@@ -5,16 +5,14 @@ import { useAuth } from '@/hooks';
 import HeaderStrip from './components/HeaderStrip/HeaderStrip';
 
 import styles from './Header.module.scss';
-import { useSession } from 'next-auth/react';
 
 const Header = memo(() => {
     const { pathname } = useRouter();
-    const isAuthenticated = useAuth();
-    const { data: session } = useSession();
+    const { user } = useAuth();
     const isHomeLocation = pathname.split('/')[1] === '';
     const [isVisible, setIsVisible] = useState(true);
     const [prevScrollPosition, setPrevScrollPosition] = useState(0);
-    const [isPrimary, setIsPrimary] = useState(!isAuthenticated && isHomeLocation);
+    const [isPrimary, setIsPrimary] = useState(!user && isHomeLocation);
 
     // скрытие хедера
 
@@ -43,20 +41,20 @@ const Header = memo(() => {
     // изменение позиции и цвета хедера на домашней странице
 
     useEffect(() => {
-        if (!isAuthenticated) {
+        if (!user) {
             setIsPrimary(isHomeLocation);
         }
-    }, [isAuthenticated, isHomeLocation]);
+    }, [user, isHomeLocation]);
 
     useEffect(() => {
-        if (!isAuthenticated && isHomeLocation) {
+        if (!user && isHomeLocation) {
             window.addEventListener('scroll', changeColorAndPosition);
         }
 
         return () => {
             window.removeEventListener('scroll', changeColorAndPosition);
         };
-    }, [isAuthenticated, isHomeLocation]);
+    }, [user, isHomeLocation]);
 
     const changeColorAndPosition = useCallback(() => {
         const homeHeader = document.getElementById('homeHeader');

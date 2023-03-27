@@ -1,4 +1,4 @@
-import { Article } from '@/shared/interfaces/article.interface';
+import { Article } from '@/interfaces/article.interface';
 import { AuthorChoice } from './components/AuthorChoice/AuthorChoice';
 import { BestOfWeek } from './components/BestOfWeek/BestOfWeek';
 import { FindMore } from './components/FindMore/FindMore';

@@ -16,18 +16,21 @@ services:
         restart: always
         ports:
             - 8080:8080
-#     backend:
-#         restart: unless-stopped
-#         build:
-#             context: backend
-#         ports:
-#             - '5000:5000'
-#         volumes:
-#             - media:/usr/src/backend/media
-#         networks:
-#             net:
-#                 ipv4_address: 172.18.0.5
 
+    # backend:
+    #     container_name: backend
+    #     restart: unless-stopped
+    #     build:
+    #         context: new-backend
+    #     ports:
+    #         - '5000:5000'
+    #     depends_on:
+    #         - db
+    # volumes:
+    #     - media:/usr/src/backend/media
+    # networks:
+    #     net:
+    #         ipv4_address: 172.18.0.5
 #     frontend:
 #         restart: unless-stopped
 #         build:

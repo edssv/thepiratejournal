@@ -2,48 +2,48 @@
 
 $infoWidth: 768px;
 
-:global(.open-sidebar) {
-    &.shot_content {
-        @include breakpoint(lg) {
-            padding-right: 320px;
-            max-width: 1776px !important;
-        }
-    }
-}
-
 .root {
     position: relative;
-    min-height: calc(100vh - $header-height);
 
-    .shot_container {
-        padding: 24px 16px;
-        @include breakpoint(lg) {
-            padding: unset;
+    .container {
+        width: 100%;
+        padding-top: 120px;
+        margin: auto;
+        @include breakpoint-down(md) {
+            padding-top: 40px;
+        }
+        @include breakpoint(sm) {
+            max-width: 840px;
+        }
+        @include breakpoint(xl) {
+            max-width: 1240px;
         }
 
-        .shot_content {
+        .content {
             position: relative;
-            padding-bottom: 24px;
             display: flex;
             background-color: var(--md-sys-color-surface1);
             @include breakpoint(lg) {
-                margin: 0 auto;
+                max-width: 768px;
                 transition: padding 0.4s ease, max-width 0.4s ease;
                 transition-delay: 0.25s;
-                justify-content: space-evenly;
-                max-width: 1536px;
             }
 
-            .shot_content_container {
+            &Container {
                 position: relative;
                 display: flex;
                 flex-direction: column;
-                align-items: center;
-                @include breakpoint(lg) {
-                    padding: 24px;
-                }
                 @include breakpoint-down(lg) {
                     margin: 0 auto;
+                }
+
+                .articleDate {
+                    text-align: left;
+                    font-family: 'Roboto Mono';
+                    @include breakpoint-down(sm) {
+                        font-size: 14px;
+                        line-height: 20px;
+                    }
                 }
 
                 .top {
@@ -53,56 +53,88 @@ $infoWidth: 768px;
                     width: 100%;
                     max-width: $infoWidth;
 
-                    &__content {
+                    &Content {
                         display: flex;
-                        gap: 12px;
-                        max-width: 60%;
-                        @include breakpoint(lg) {
-                            flex-direction: row;
+                        flex-direction: column;
+                        width: 100%;
+
+                        .articleHeadline {
+                            margin: 0;
+                            font-size: 64px;
+                            line-height: 72px;
+                            font-weight: 300 !important;
+                            word-break: break-word;
+                            @include breakpoint-down(sm) {
+                                font-size: 40px;
+                                line-height: 48px;
+                            }
+                            @include breakpoint(xl) {
+                                width: 960px;
+                            }
                         }
 
-                        img {
-                            width: 42px;
-                            height: 42px;
-                        }
-
-                        .text {
+                        .subHeader {
                             display: flex;
-                            flex-direction: column;
                             justify-content: space-between;
-                            width: 100%;
-                            height: 100%;
 
-                            .authorName {
-                                font-weight: 400;
-                            }
                             .readingTime {
-                                color: var(--md-sys-color-secondary-text);
-                            }
-                        }
-
-                        .bottom {
-                            display: flex;
-                            align-items: center;
-                            height: fit-content;
-
-                            .authorNameAndDate {
-                                margin-left: 12px;
-                                align-items: center;
-                                @include breakpoint(lg) {
-                                    display: flex;
-                                    margin-left: unset;
+                                font-size: 20px;
+                                font-weight: 300;
+                                @include breakpoint-down(sm) {
+                                    font-size: 18px;
                                 }
                             }
 
-                            .author_name,
-                            .date {
-                                font-size: 14px;
+                            .description {
+                                display: -webkit-box;
+                                -webkit-line-clamp: 4;
+                                -webkit-box-orient: vertical;
+                                max-height: 144px;
+                                margin: 32px 0 40px 0;
+                                font-size: 24px;
+                                line-height: 36px;
+                                font-weight: 300;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                @include breakpoint-down(sm) {
+                                    margin: 24px 0 36px 0;
+                                    font-size: 22px;
+                                    font-weight: 300;
+                                    line-height: 28px;
+                                }
                             }
                         }
                     }
                 }
-                .content__wrapper {
+
+                .hero {
+                    @include breakpoint(lg) {
+                        margin-top: 72px;
+                    }
+
+                    figure {
+                        @include breakpoint(lg) {
+                            margin: 0 -40px;
+                        }
+                        @include breakpoint(xl) {
+                            margin: 0 -80px;
+                        }
+
+                        .coverContainer {
+                            position: relative;
+                            height: fit-content;
+
+                            .articleCover {
+                                max-height: 760px;
+                                height: auto;
+                                max-width: 100%;
+                                border-radius: 32px;
+                            }
+                        }
+                    }
+                }
+
+                .contentWrapper {
                     max-width: 768px;
 
                     .button {
@@ -114,39 +146,28 @@ $infoWidth: 768px;
                         float: right;
                     }
                 }
-                .content {
-                    padding: 25px 0 15px;
-                    font-size: $fs-lg;
+
+                .articleContent {
                     line-height: 1.5;
                     word-break: break-word;
                     word-wrap: break-word;
 
-                    .articleHeadline {
-                        margin-top: 24px;
-                        font-size: 32px;
-                    }
+                    .contentBlocks {
+                        margin: 48px 0;
 
-                    img {
-                        max-height: 960px;
-                        height: auto;
-                        max-width: 100%;
-                        border-radius: 4px;
-                    }
-
-                    &__blocks {
                         h1,
                         h2,
                         h3,
-                        h4,
-                        h5,
-                        h6,
                         p {
                             margin: 1em 0;
                         }
 
                         h2 {
-                            scroll-margin-top: 1em;
-                            font-size: 22px;
+                            margin-top: 48px;
+                            margin-bottom: 16px;
+                            font-size: 27px;
+                            line-height: 35px;
+                            font-weight: 400 !important;
                         }
 
                         @supports (-webkit-hyphens: none) {
@@ -157,7 +178,13 @@ $infoWidth: 768px;
                         }
 
                         h3 {
-                            font-size: 18px;
+                            font-size: 22px;
+                        }
+
+                        p {
+                            font-size: 20px;
+                            line-height: 32px;
+                            font-weight: 300;
                         }
 
                         ul {
@@ -172,182 +199,62 @@ $infoWidth: 768px;
                             text-decoration: none;
                             transition: color 0.25s, border-bottom-color 0.25s;
                         }
-                    }
-                }
 
-                .shot_controls {
-                    @include breakpoint(lg) {
-                        display: flex;
-                        gap: 18px;
-                        height: 100%;
-
-                        z-index: 10;
-                        align-items: center;
-                        opacity: 1;
-                    }
-
-                    .buttonGroup {
-                        display: flex;
-                        margin-left: 0;
-                        gap: 16px;
-
-                        span {
-                            font-size: 18px;
-                        }
-                    }
-                }
-
-                .shotOther {
-                    display: flex;
-                    justify-content: center;
-                    width: 100%;
-
-                    &Container {
-                        width: 100%;
-
-                        .articleInfoAndComments {
-                            max-width: 1120px;
-                            width: 100%;
-
-                            .bottom {
-                                width: 100%;
-
-                                .well {
-                                    display: flex;
-                                    flex-direction: column;
-                                    gap: 24px;
-                                    width: 100%;
-                                    margin-bottom: 24px;
-                                    padding: 0 4px 20px 4px;
-                                    @include breakpoint-down(lg) {
-                                        margin: 0;
-                                        padding: 0;
-                                    }
-
-                                    .top {
-                                        display: flex;
-                                        align-items: center;
-                                        justify-content: space-between;
-
-                                        .articleTitle {
-                                            font-size: 18px;
-                                        }
-
-                                        .author {
-                                            display: flex;
-                                            align-items: center;
-                                            gap: 12px;
-
-                                            &Info {
-                                                display: flex;
-                                                flex-direction: column;
-
-                                                .authorName {
-                                                    font-size: 16px;
-                                                    font-weight: 500;
-                                                }
-
-                                                .subscribersCount {
-                                                    font-size: 12px;
-                                                    color: var(--md-sys-color-on-surface-variant);
-                                                }
-                                            }
-                                        }
-                                    }
-                                    .dateAndStats {
-                                        display: flex;
-                                        gap: 8px;
-                                        padding: 12px;
-                                        border-radius: 12px;
-                                        background-color: var(--md-sys-color-surface-variant);
-                                        font-weight: 500;
-
-                                        @include breakpoint(lg) {
-                                            flex-direction: column;
-                                            gap: 0;
-                                            padding: 0;
-                                            text-align: right;
-                                            background-color: unset;
-                                        }
-                                    }
-                                }
+                        figure {
+                            margin: 48px 0;
+                            @include breakpoint-down(sm) {
+                                margin: 32px 0;
                             }
-                        }
 
-                        .commentsAndSuggestions {
-                            display: flex;
-                            justify-content: center;
-                            gap: 32px;
-
-                            @include breakpoint-down(lg) {
-                                flex-direction: column;
+                            img {
+                                max-height: 960px;
+                                height: auto;
+                                max-width: 100%;
+                                border-radius: 4px;
                             }
-                        }
-                    }
-                }
-            }
-            .authorPanelContainer {
-                display: none;
-                @include breakpoint(lg) {
-                    position: relative;
-                    display: block;
-                    width: 398px;
-                    padding: 0 32px 0 40px;
-                    border-left: 1px solid rgba(var(--md-sys-color-on-surfaceChannel) / 0.05);
-                }
 
-                .authorPanel {
-                    @include breakpoint(lg) {
-                        display: flex;
-                        flex-direction: column;
-                        position: sticky;
-                        top: 32px;
-                        height: calc(100vh - 40px);
-                        margin-top: 40px;
-                    }
-
-                    .authorInfo {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 8px;
-                        margin-bottom: 48px;
-
-                        .authorName {
-                            margin-top: 12px;
-                            font-size: 16px;
-                            font-weight: 500;
-                        }
-
-                        .subscribersCount {
-                            font-size: 16px;
-                            color: var(--md-sys-color-secondary-text);
-                        }
-
-                        .actionButtons {
-                            margin-top: 16px;
+                            figcaption {
+                                max-width: 728px;
+                                margin-top: 10px;
+                                margin-left: auto;
+                                margin-right: auto;
+                                text-align: center;
+                                color: var(--md-sys-color-secondary-text);
+                            }
                         }
                     }
                 }
             }
         }
     }
+    .bottom {
+        margin: 0 auto;
+        @include breakpoint(sm) {
+            max-width: 840px;
+        }
+        @include breakpoint(xl) {
+            max-width: 1240px;
+        }
+    }
 }
 
-:global {
-    .ce-delimiter {
-        line-height: 1.6em;
-        width: 100%;
-        text-align: center;
-        height: 30px;
-        border: none;
-
-        &::before {
-            display: inline-block;
-            content: '***';
-            font-size: 30px;
-            line-height: 40px;
+.root {
+    :global {
+        .ce-delimiter {
+            line-height: 1.6em;
+            width: 100%;
+            text-align: center;
             height: 30px;
-            letter-spacing: 0.2em;
+            border: none;
+
+            &::before {
+                display: inline-block;
+                content: '***';
+                font-size: 30px;
+                line-height: 40px;
+                height: 30px;
+                letter-spacing: 0.2em;
+            }
         }
     }
 }

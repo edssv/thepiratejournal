@@ -1,7 +1,7 @@
 import { DefaultSession, User } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 
-import { UserInfo } from '@/shared/interfaces/user.interface';
+import { UserInfo } from '@/interfaces/user.interface';
 
 declare module 'next-auth' {
     /**

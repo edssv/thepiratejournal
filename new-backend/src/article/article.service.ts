@@ -21,15 +21,34 @@ export class ArticleService {
         return this.repository.find({ order: { createdAt: 'DESC' } });
     }
 
-    async findPopular() {
-        const qb = this.repository.createQueryBuilder();
+    async findOne(id: number) {
+        await this.repository.increment({ id }, 'viewsCount', 1);
 
-        qb.orderBy('views_count', 'DESC');
-        qb.limit(20);
+        const find = await this.repository.findOne({ where: { id }, relations: ['user'] });
 
-        const [articles, total] = await qb.getManyAndCount();
+        if (!find) throw new NotFoundException('Статья не найдена');
 
-        return { articles, total };
+        return find;
+    }
+
+    async update(id: number, userId: number, updateArticleDto: UpdateArticleDto) {
+        const find = await this.repository.findOne({ where: { id }, relations: ['user'] });
+
+        if (!find) throw new NotFoundException('Статья не найдена');
+
+        if (userId !== find.user.id) throw new ForbiddenException('Статья принадлежит другому пользователю.');
+
+        return this.repository.update(id, updateArticleDto);
+    }
+
+    async remove(userId: number, id: number) {
+        const find = await this.repository.findOne({ where: { id } });
+
+        if (!find) throw new NotFoundException('Статья не найдена');
+
+        if (userId !== find.user.id) throw new ForbiddenException('Статья принадлежит другому пользователю.');
+
+        return this.repository.softDelete(id);
     }
 
     async search(dto: SearchArticleDto) {
@@ -51,31 +70,32 @@ export class ArticleService {
         return { articles, total };
     }
 
-    async findOne(id: number) {
-        await this.repository.increment({ id }, 'viewsCount', 1);
+    async findPopular() {
+        const qb = this.repository.createQueryBuilder();
 
-        const find = await this.repository.findOne({ where: { id }, relations: ['user'] });
+        qb.orderBy('views_count', 'DESC');
+        qb.limit(20);
 
-        if (!find) throw new NotFoundException('Статья не найдена');
+        const [articles, total] = await qb.getManyAndCount();
 
-        return find;
+        return { articles, total };
     }
 
-    async update(id: number, userId: number, updateArticleDto: UpdateArticleDto) {
-        const find = await this.repository.findOne({ where: { id }, relations: ['user'] });
+    async findNewest() {
+        const qb = this.repository.createQueryBuilder();
 
-        if (!find) throw new NotFoundException('Статья не найдена');
+        qb.orderBy('created_at', 'DESC');
+        qb.limit(9);
 
-        if (userId !== find.user.id) throw new ForbiddenException('Статья принадлежит другому пользователю.');
-
-        return this.repository.update(id, updateArticleDto);
+        return qb.getMany();
     }
 
-    async remove(id: number) {
-        const find = await this.repository.findOne({ where: { id } });
+    async findBestOfWeek() {
+        const qb = this.repository.createQueryBuilder();
 
-        if (!find) throw new NotFoundException('Статья не найдена');
+        qb.orderBy('views_count', 'DESC');
+        qb.limit(6);
 
-        return this.repository.softDelete(id);
+        return qb.getMany();
     }
 }

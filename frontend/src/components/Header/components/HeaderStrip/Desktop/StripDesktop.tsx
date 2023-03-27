@@ -19,8 +19,8 @@ import { signOut } from 'next-auth/react';
 
 const StripDesktop = () => {
     const { pathname, push } = useRouter();
+    const { user } = useAuth();
     const dispatch = useAppDispatch();
-    const isAuthenticated = useAuth();
     const isOpenNavRail = useSelector(isOpenNavRailSelector);
     const [isOpenNotifications, setIsOpenNotifications] = useState(false);
 
@@ -44,7 +44,7 @@ const StripDesktop = () => {
             </div>
 
             <div className={styles.right}>
-                {isAuthenticated ? (
+                {user ? (
                     <>
                         <NotificationButton
                             isOpenNotifications={isOpenNotifications}

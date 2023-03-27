@@ -1,5 +1,4 @@
-import { Notification } from './notification.interface';
-
+import { UserRole } from '../lib/enums/user-role.enum';
 export interface UserInfo {
     _id: string;
     name: string;
@@ -15,13 +14,8 @@ export interface User {
     firstName: string;
     lastName: string;
     image: string;
-    role: 'user' | 'editor' | 'admin';
+    role: UserRole;
     createdAt: Date;
     updatedAt: Date;
     emailVerified: boolean;
-    followers: User[];
-    following: User[];
-    liked: { articleId: string }[];
-    appreciated: { articleId: string }[];
-    bookmarks: { articleId: string }[];
 }

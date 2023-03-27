@@ -1,35 +1,20 @@
+import { instance } from '@/api/api.interceptor';
+import { User } from '@/interfaces/user.interface';
+import { ApiUrlBuilder } from '@/lib/apiUrlBuilder';
 import { api } from './api';
-
-export interface User {
-    id: string;
-    username: string;
-    avatar: string;
-    timestamp: any;
-    info: {
-        city: string;
-        country: string;
-    };
-    emailVerified: boolean;
-    followersCount: number;
-    notifications: { totalCount: number };
-}
-
-export interface UserResponse {
-    user: User;
-    content: [];
-    isOwner: boolean;
-    viewer: { hasSubscription: boolean };
-}
-export interface Notification {
-    _id: string;
-    actor: { id: string; username: string; avatar: string };
-    action_key: 'followuser' | 'likearticle';
-    createdAt: number;
-}
 
 export interface NotificationsResponse {
     notifications: { list: Notification[]; totalCount: number };
 }
+
+export const UserService = {
+    async getUser(id: number) {
+        return instance<User>({
+            url: `${ApiUrlBuilder.Users}/${id}`,
+            method: 'GET',
+        });
+    },
+};
 
 export const userApi = api.injectEndpoints({
     endpoints: (builder) => ({

@@ -1,5 +1,5 @@
 import { api } from './api';
-import { Block } from './article';
+import { Block } from './article.service';
 
 export interface Draft {
     _id: string;

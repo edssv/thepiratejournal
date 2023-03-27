@@ -1,5 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
+
 import { ArticleService } from '@/store';
-import { Article } from '@/shared/interfaces/article.interface';
+import { Article } from '@/interfaces/article.interface';
 import AiryArticlePreview from '@/components/AiryArticlePreview/AiryArticlePreview';
 import AiryArticleSkeleton from '@/components/AiryArticlePreview/AiryArticleSkeleton';
 
@@ -7,7 +9,9 @@ interface AuthorChoiceProps {
     articles: Article[];
 }
 
-export const AuthorChoice: React.FC<AuthorChoiceProps> = ({ articles }) => {
+export const AuthorChoice: React.FC<AuthorChoiceProps> = ({}) => {
+    const { data: articles } = useQuery({ queryKey: ['articles'], queryFn: ArticleService.getAll });
+
     const articlesList = () => {
         return articles
             ?.slice(0, 3)

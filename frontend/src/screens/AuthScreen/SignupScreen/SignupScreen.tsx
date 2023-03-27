@@ -1,40 +1,34 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-import { useLoginMutation } from '@/store';
-import { useDocTitle, useNetworkStatus } from '@/hooks';
+import { AuthService, useLoginMutation } from '@/store';
+import { SignupData } from '@/store/user/user.interface';
+import { useDocTitle, useNetworkStatus, UseActions } from '@/hooks';
 import Button from '@/components/Buttons/Button/Button';
 import { ErrorLabel, Field, Input, Label } from '../components/Field';
 import { VisibilityToggle } from '../components/VisibilityToggle/VisibilityToggle';
 
 import styles from './Signup.module.scss';
 
-type FormValues = {
-    username: string;
-    email: string;
-    password: string;
-};
-
 const SignupScreen = () => {
-    useDocTitle('Зарегистрироваться');
     const { isOnline } = useNetworkStatus();
     const { replace } = useRouter();
-    const [signup, { isLoading, isError, error }] = useLoginMutation();
+    const { signup } = UseActions();
 
     const {
         register,
         formState: { errors },
         handleSubmit,
-    } = useForm<FormValues>({
+    } = useForm<SignupData>({
         mode: 'onTouched',
     });
 
-    const onSubmit = handleSubmit(async (formData: FormValues) => {
+    const onSubmit = handleSubmit(async (formData: SignupData) => {
         try {
-            signIn('credentials', { ...formData, redirect: true, callbackUrl: '/' });
+            signup(formData);
+            replace('/');
         } catch (error) {}
     });
     const [passwordEye, setPasswordEye] = useState(false);
@@ -70,7 +64,7 @@ const SignupScreen = () => {
                                 }),
                             }}
                             isError={Boolean(errors?.username)}
-                            disabled={isLoading}
+                            // disabled={isLoading}
                             type="text"
                         />
                         {errors?.username && (
@@ -98,7 +92,7 @@ const SignupScreen = () => {
                                 }),
                             }}
                             isError={Boolean(errors?.email)}
-                            disabled={isLoading}
+                            // disabled={isLoading}
                             type="email"
                         />
                         {errors?.email && <ErrorLabel htmlFor="email">{errors?.email?.message}</ErrorLabel>}
@@ -126,7 +120,7 @@ const SignupScreen = () => {
                                     }),
                                 }}
                                 isError={Boolean(errors?.password)}
-                                disabled={isLoading}
+                                // disabled={isLoading}
                                 type="password"
                             />
                             <VisibilityToggle
@@ -137,10 +131,10 @@ const SignupScreen = () => {
                         </div>
                         {errors?.email && <ErrorLabel htmlFor="password">{errors?.password?.message}</ErrorLabel>}
                     </Field>
-                    {isError && <ErrorLabel>Не получилось ...</ErrorLabel>}
+                    {/* {isError && <ErrorLabel>Не получилось ...</ErrorLabel>} */}
                 </div>
                 <section className={styles.submit}>
-                    <Button isLoading={isLoading} disabled={!isOnline || isLoading} type="submit" variant="filled">
+                    <Button type="submit" variant="filled">
                         Создать
                     </Button>
                 </section>

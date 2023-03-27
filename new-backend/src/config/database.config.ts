@@ -1,18 +1,17 @@
-const DatabaseConfig = () => ({
-    type: 'mysql',
-    host: process.env.DB_HOST || 'localhost',
-    port: parseInt(process.env.DB_PORT) || 3306,
-    database: process.env.DB_NAME || '',
-    username: process.env.DB_USER || '',
-    password: process.env.DB_PASSWORD || '',
-    entities: ['dist/**/*.entity{.ts,.js}'],
-    synchronize: process.env.DB_SYNCHRONIZE || false,
-    migrationsTableName: 'migrations', // this field will be used to create the table by name of migrations. You can name it whatever you want. But make sure to use the sensible name
-    migrations: [
-        'dist/src/migrations/*{.ts,.js}', // This is the path to the migration files created by typeorm cli. You don't have to create dist folder. When you save file, compiled files will be stored in dist folder
-    ],
-    cli: {
-        migrationsDir: 'src/migrations', // This path will be used by typeorm cli when we create a new migration
-    },
-});
-export default DatabaseConfig;
+import { registerAs } from '@nestjs/config';
+
+export default registerAs('database', () => ({
+    type: process.env.DATABASE_TYPE,
+    host: process.env.DATABASE_HOST,
+    port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
+    password: process.env.DATABASE_PASSWORD,
+    name: process.env.DATABASE_NAME,
+    username: process.env.DATABASE_USERNAME,
+    synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
+    maxConnections: parseInt(process.env.DATABASE_MAX_CONNECTIONS, 10) || 100,
+    sslEnabled: process.env.DATABASE_SSL_ENABLED === 'true',
+    rejectUnauthorized: process.env.DATABASE_REJECT_UNAUTHORIZED === 'true',
+    ca: process.env.DATABASE_CA,
+    key: process.env.DATABASE_KEY,
+    cert: process.env.DATABASE_CERT,
+}));

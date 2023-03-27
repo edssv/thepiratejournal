@@ -11,7 +11,12 @@ const HeaderStrip: React.FC = () => {
     const fromLaptop = useMediaPredicate('(min-width: 991px)');
     // const fromLaptop = useMediaQuery('(min-width: 991px)');
 
-    return <div className={styles.root}>{fromLaptop ? <StripDesktop /> : <StripMobile />}</div>;
+    return (
+        <div className={styles.root}>
+            {' '}
+            <StripDesktop />{' '}
+        </div>
+    );
 };
 
 export default HeaderStrip;
