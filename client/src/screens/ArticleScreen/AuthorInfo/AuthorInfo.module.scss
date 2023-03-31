@@ -1,0 +1,21 @@
+@use '../../../styles/util' as *;
+
+.root {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    img {
+        width: 44px;
+        height: 44px;
+    }
+
+    .authorName {
+        font-size: 20px;
+        font-weight: 500;
+    }
+
+    .subscribersCount {
+        font-size: 16px;
+    }
+}

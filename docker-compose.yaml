@@ -1,24 +1,33 @@
 version: '3.8'
 services:
-    mongodb:
-        image: mongo
-        restart: unless-stopped
+    db:
+        container_name: postgres_db
+        image: postgres:alpine
+        restart: always
+        ports:
+            - 5432:5432
         env_file: .env
         environment:
-            - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
-            - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
-        ports:
-            - 27017:27017
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: root
+            POSTGRES_DB: tpj
         volumes:
             - db:/data/db
+            - ./postgres/config/postgresql.conf:/etc/postgresql.conf
         networks:
             net:
                 ipv4_address: 172.18.0.6
 
-    backend:
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080
+
+    server:
         restart: unless-stopped
         build:
-            context: backend
+            context: server
         ports:
             - '5000:5000'
         volumes:
@@ -29,26 +38,26 @@ services:
             net:
                 ipv4_address: 172.18.0.5
 
-    frontend:
+    client:
         restart: unless-stopped
         build:
-            context: frontend
+            context: client
         ports:
             - '3000:3000'
         depends_on:
-            - backend
+            - server
         networks:
             net:
                 ipv4_address: 172.18.0.4
 
-    admin-panel:
+    admin:
         restart: unless-stopped
         build:
-            context: admin-panel
+            context: admin
         ports:
             - '3001:3001'
         depends_on:
-            - backend
+            - server
         networks:
             net:
                 ipv4_address: 172.18.0.3

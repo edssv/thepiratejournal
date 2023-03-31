@@ -5,8 +5,9 @@ services:
         image: postgres:alpine
         restart: always
         ports:
-            - 5432:5432
+            - 5431:5431
         environment:
+            POSTGRES_PORT: 5431
             POSTGRES_USER: admin
             POSTGRES_PASSWORD: root
             POSTGRES_DB: tpj
@@ -21,7 +22,7 @@ services:
     #     container_name: backend
     #     restart: unless-stopped
     #     build:
-    #         context: new-backend
+    #         context: server
     #     ports:
     #         - '5000:5000'
     #     depends_on:
@@ -34,7 +35,7 @@ services:
 #     frontend:
 #         restart: unless-stopped
 #         build:
-#             context: frontend
+#             context: client
 #         ports:
 #             - '3000:3000'
 #         depends_on:

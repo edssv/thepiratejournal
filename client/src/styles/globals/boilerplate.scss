@@ -1,0 +1,163 @@
+@use '../util' as *;
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 100%;
+    overflow-y: scroll;
+    overflow-y: overlay;
+    font-family: var(--roboto-font);
+}
+
+html,
+body,
+#__next,
+.container {
+    height: 100%;
+}
+
+body {
+    touch-action: pan-x pan-y;
+    background-color: #ffffff;
+    color: var(--md-sys-color-on-surface);
+    transition: background-color 0.15s, color 0.25s;
+}
+
+.dark body {
+    background-color: var(--md-sys-color-surface);
+}
+
+span {
+    font-size: 14px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+button,
+input,
+select,
+textarea {
+    color: var(--md-sys-color-on-surface);
+}
+
+button {
+    font-family: inherit;
+    background-color: unset;
+    border: none;
+    width: fit-content;
+    cursor: pointer;
+}
+
+input {
+    outline: none !important;
+
+    &::placeholder {
+        color: var(--md-sys-color-on-surface);
+    }
+}
+
+textarea {
+    font-family: inherit;
+
+    &::placeholder {
+        color: var(--md-sys-color-on-surface);
+    }
+}
+
+::-webkit-scrollbar {
+    width: 16px;
+
+    &-thumb {
+        border: 4px solid transparent;
+        background-clip: padding-box;
+        border-radius: 9999px;
+        background-color: rgba(var(--md-sys-color-on-surfaceChannel) / 0.3);
+
+        &:hover {
+            background-color: rgba(var(--md-sys-color-on-surfaceChannel) / 0.5);
+        }
+    }
+}
+
+//Helper classes
+.overlay {
+    position: fixed;
+    inset: 0 0 0 0;
+    background-color: rgba(0, 0, 0, 0.32);
+}
+
+.articles {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 24px;
+
+    &List {
+        display: grid;
+        flex-wrap: wrap;
+        gap: 24px;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+
+        @media (min-width: 1600px) {
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+        }
+    }
+}
+
+.AiryArticlesList {
+    display: grid;
+    flex-wrap: wrap;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    width: 100%;
+
+    @media (min-width: 1600px) {
+        grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    }
+}
+
+.scrollTarget {
+    position: absolute;
+    top: -1em;
+}
+
+.relative {
+    position: relative;
+}
+
+.icon-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+}
+
+.circle-center {
+    display: flex;
+    justify-content: center;
+}
+
+.hidden {
+    overflow: 0;
+    width: 0;
+    height: 0;
+    line-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    padding: 0;
+    margin: 0;
+}

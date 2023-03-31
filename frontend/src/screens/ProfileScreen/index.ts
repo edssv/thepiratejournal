@@ -1,1 +1,0 @@
-export { DraftsAndBookmarksOutlet } from './DraftsAndBookmarksOutlet';

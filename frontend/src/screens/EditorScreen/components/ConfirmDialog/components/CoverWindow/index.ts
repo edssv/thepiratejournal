@@ -1,1 +1,0 @@
-export { CoverWindow } from './CoverWindow';
