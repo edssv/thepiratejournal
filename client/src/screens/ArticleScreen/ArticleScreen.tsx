@@ -8,6 +8,7 @@ import moment from 'moment';
 import 'moment/locale/ru';
 
 import { ArticleService, BlogService } from '@/services';
+import { ArticlePageMode } from '@/lib/enums';
 import { toHtml } from '@/helpers/toHtml';
 import { robotoMono } from '@/components/fonts/roboto-mono';
 import NotFoundPage from 'pages/404';
@@ -20,16 +21,17 @@ import styles from './Article.module.scss';
 
 const Sidebar = dynamic(() => import('./Sidebar/Sidebar'), { ssr: false });
 
-interface ArticleScreenProps {
-  mode: 'default' | 'blog';
-}
-
-const ArticleScreen: React.FC<ArticleScreenProps> = ({ mode }) => {
+const ArticleScreen: React.FC<{ mode: ArticlePageMode }> = ({ mode }) => {
   const { query } = useRouter();
-  const { data, isLoading, isError } = useQuery([mode === 'default' ? 'article' : 'blog', query.id], () =>
-    mode === 'default' ? ArticleService.getOne(query.id as string) : BlogService.getOne(query.id as string)
-  );
+
   const articleContentRef = useRef<HTMLDivElement>(null);
+  const { data, isLoading, isError } = useQuery(
+    [mode === ArticlePageMode.ARTICLE ? ArticlePageMode.ARTICLE : ArticlePageMode.BLOG, query.id],
+    () =>
+      mode === ArticlePageMode.ARTICLE
+        ? ArticleService.getOne(query.id as string)
+        : BlogService.getOne(query.id as string)
+  );
   const [isOpenSidebar, setOpenSidebar] = useState(false);
 
   const isTablet = useMediaPredicate('(max-width: 990.98px)');
@@ -50,12 +52,12 @@ const ArticleScreen: React.FC<ArticleScreenProps> = ({ mode }) => {
                 <h1 className={styles.articleHeadline}>{data?.title}</h1>
                 <div className={styles.subHeader}>
                   <p className={styles.description}>{data?.description}</p>
-                  {!isTablet && <ShareButtons />}
+                  {!isTablet && <ShareButtons mode={mode} title={data.title} articleId={String(data.id)} />}
                 </div>
               </div>
             </header>
             {data?.user && <AuthorInfo user={data.user} />}
-            {isTablet && <ShareButtons />}
+            {isTablet && <ShareButtons mode={mode} title={data.title} articleId={String(data.id)} />}
             <div className={styles.hero}>
               <figure>
                 <div className={styles.coverContainer}>

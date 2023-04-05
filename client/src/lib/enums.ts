@@ -14,6 +14,11 @@ export enum ArticleType {
   BLOG = 'Блог',
 }
 
+export enum AuthPage {
+  LOGIN = 'login',
+  SIGNUP = 'signup',
+}
+
 export enum EditorPageMode {
   NEW = 'new',
   EDIT = 'edit',

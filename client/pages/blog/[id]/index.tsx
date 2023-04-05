@@ -10,6 +10,7 @@ import { NextPageWithLayout } from 'pages/_app';
 import ArticleScreen from '@/screens/ArticleScreen/ArticleScreen';
 import Layout from '@/components/layout/Layout';
 import Meta from '@/components/meta/Meta';
+import { ArticlePageMode } from '@/lib/enums';
 
 const BlogArticlePage: NextPageWithLayout<{ id: string }> = ({ id }) => {
   const { data } = useQuery(['blog', id], () => BlogService.getOne(id));
@@ -22,7 +23,7 @@ const BlogArticlePage: NextPageWithLayout<{ id: string }> = ({ id }) => {
       image={data?.cover}
       url={getPublicUrl.blog(String(data?.id))}
     >
-      <ArticleScreen mode="blog" />
+      <ArticleScreen mode={ArticlePageMode.BLOG} />
     </Meta>
   );
 };

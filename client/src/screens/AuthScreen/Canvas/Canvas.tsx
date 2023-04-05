@@ -10,7 +10,7 @@ const Canvas: React.FC<React.PropsWithChildren> = ({ children }) => {
       <section className={styles.background}>
         <div className={styles.inner}>
           <div className={styles.logoAndSpan}>
-            <div className={styles.logo__wrapper}>
+            <div className={styles.logoWrapper}>
               <Image width={80} height={80} className={styles.logo} src={logo.src} alt="Logo" />
               <h2 className={styles.logo__text}>
                 The Pirate <br /> Journal

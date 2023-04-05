@@ -32,14 +32,13 @@ export const getPublicUrl = {
   profileWithCategory(id: string | number, category: string) {
     return `/users/${id}/${category}`;
   },
-
-  shareVk(category: 'articles' | 'blog', id: string | number) {
+  shareVk(category: 'articles' | 'blog', id: string) {
     return `https://vk.com/share.php?url=${process.env.NEXT_PUBLIC_CLIENT_URL}/${category}/${id}`;
   },
-  shareTwitter(title: string, category: 'articles' | 'blog', id: string | number) {
+  shareTwitter(title: string, category: 'articles' | 'blog', id: string) {
     return `https://twitter.com/intent/tweet?text=${title}&url=${process.env.NEXT_PUBLIC_CLIENT_URL}/${category}/${id}`;
   },
-  shareFacebook(category: 'articles' | 'blog', id: string | number) {
+  shareFacebook(category: 'articles' | 'blog', id: string) {
     return `https://www.facebook.com/sharer/sharer.php?u=${process.env.NEXT_PUBLIC_CLIENT_URL}/${category}/${id}`;
   },
 };

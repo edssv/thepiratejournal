@@ -4,6 +4,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { motion } from 'framer-motion';
 
 import { ArticleService } from '@/services';
+import { ArticlePageMode } from '@/lib/enums';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import { Params } from '@/interfaces/params.interface';
 import { NextPageWithLayout } from 'pages/_app';
@@ -27,7 +28,7 @@ const ArticlePage: NextPageWithLayout<{ articleId: string }> = ({ articleId }) =
         animate={{ translateY: 0, opacity: 1 }}
         transition={{ duration: 0.3 }}
       >
-        <ArticleScreen mode="default" />
+        <ArticleScreen mode={ArticlePageMode.ARTICLE} />
       </motion.div>
     </Meta>
   );

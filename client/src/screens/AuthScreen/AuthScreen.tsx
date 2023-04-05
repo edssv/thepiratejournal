@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { AnimatePresence, motion } from 'framer-motion';
 
+import { AuthPage } from '@/lib/enums';
 import CardLayout from './CardLayout/CardLayout';
 import LoginScreen from './LoginScreen/LoginScreen';
 import SignupScreen from './SignupScreen/SignupScreen';
@@ -9,17 +9,22 @@ import SignupScreen from './SignupScreen/SignupScreen';
 const Auth = () => {
   const { pathname } = useRouter();
   const currentLocation = pathname.split('/')[1];
-  const [page, setPage] = useState<'login' | 'signup'>(
-    currentLocation === 'login' || currentLocation === 'signup' ? currentLocation : 'login'
+
+  const [page, setPage] = useState<AuthPage>(
+    currentLocation === AuthPage.LOGIN || currentLocation === AuthPage.SIGNUP ? currentLocation : AuthPage.LOGIN
   );
 
   useEffect(() => {
-    if (currentLocation === 'login' || currentLocation === 'signup') {
+    if (currentLocation === AuthPage.LOGIN || currentLocation === AuthPage.SIGNUP) {
       setPage(currentLocation);
     }
   }, [currentLocation]);
 
-  return <CardLayout>{page === 'login' ? <LoginScreen /> : page === 'signup' ? <SignupScreen /> : null}</CardLayout>;
+  return (
+    <CardLayout>
+      {page === AuthPage.LOGIN ? <LoginScreen /> : page === AuthPage.SIGNUP ? <SignupScreen /> : null}
+    </CardLayout>
+  );
 };
 
 export default Auth;

@@ -34,6 +34,7 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
           <main>
             <div className={clsx('container-fluid', 'padding-' + padding)}>{children}</div>
           </main>
+          <Footer />
         </>
       );
     }

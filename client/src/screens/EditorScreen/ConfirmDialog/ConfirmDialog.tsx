@@ -9,7 +9,7 @@ import { useTypedSelector } from '@/hooks/useTypedSelector';
 import Button from '@/components/common/Button/Button';
 import { Dialog, DialogCancelButton, DialogContent, DialogControls } from '@/components/common/Dialog/Dialog';
 import { DraftInfoDialog } from '../DraftInfoDialog/DraftInfoDialog';
-import { CoverWindow } from './CoverWindow/CoverWindow';
+import CoverBlock from './CoverBlock/CoverBlock';
 import { ListBoxPicker } from './ListBoxPicker/ListBoxPicker';
 import { DescriptionArea } from './DescriptionArea/DescriptionArea';
 import { TagsField } from './TagsField/TagsField';
@@ -43,7 +43,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ articleContentRef,
           <DialogContent>
             <div className={styles.plateContent}>
               <div className={styles.coverColumn}>
-                <CoverWindow />
+                <CoverBlock />
               </div>
               <div className={styles.settingsColumn}>
                 <TitleField />
@@ -55,9 +55,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ articleContentRef,
             </div>
           </DialogContent>
           <DialogControls className={styles.controls}>
-            <DialogCancelButton onClick={() => setIsOpen(false)}>
-              {isMobile ? <span className="material-symbols-outlined">undo</span> : 'Отмена'}
-            </DialogCancelButton>
+            <DialogCancelButton onClick={() => setIsOpen(false)}>Отмена</DialogCancelButton>
             <DraftInfoDialog blocks={blocks} />
             <SaveArticle articleContentRef={articleContentRef} blocks={blocks} />
           </DialogControls>
