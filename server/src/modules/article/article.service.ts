@@ -68,14 +68,13 @@ export class ArticleService {
 
   async search(dto: SearchArticleDto) {
     const qb = this.repository.createQueryBuilder('article');
-    console.log(dto);
     // const skip = dto.limit * dto.page;
     // // console.log(typeof skip);
     // // qb.limit(dto.limit).skip(skip);
     qb.leftJoinAndSelect('article.user', 'users');
     if (dto.search) qb.andWhere('title LIKE :title', { title: dto.search });
-    // if (dto.body) qb.andWhere('body LIKE :body', { body: dto.body });
-    // if (dto.tag) qb.andWhere('tag LIKE :tag', { tag: dto.tag });
+    if (dto.body) qb.andWhere('body LIKE :body', { body: dto.body });
+    if (dto.tag) qb.andWhere('tag LIKE :tag', { tag: dto.tag });
 
     if (dto.sort === 'recent') qb.orderBy('created_at', 'DESC');
     if (dto.sort === 'appreciations') qb.orderBy('likes_count', 'DESC');
