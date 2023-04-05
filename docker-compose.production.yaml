@@ -75,9 +75,10 @@ services:
     restart: unless-stopped
     build:
       context: nginx
-      target: dev
+      target: prod
     ports:
       - '80:80'
+      - '443:443'
     networks:
       net:
         ipv4_address: 172.18.0.2
