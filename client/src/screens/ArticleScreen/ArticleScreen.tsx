@@ -50,7 +50,7 @@ const ArticleScreen: React.FC<ArticleScreenProps> = ({ mode }) => {
                 <h1 className={styles.articleHeadline}>{data?.title}</h1>
                 <div className={styles.subHeader}>
                   <p className={styles.description}>{data?.description}</p>
-                  {/* {!isTablet && <ShareButtons />} */}
+                  {!isTablet && <ShareButtons />}
                 </div>
               </div>
             </header>
