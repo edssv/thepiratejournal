@@ -1,0 +1,97 @@
+@use '../../../styles/util' as *;
+
+:global(.dark) {
+    .root {
+        background-color: var(--md-sys-color-surface);
+    }
+}
+
+:global(.open-sidebar) {
+    &.root {
+        visibility: visible;
+        transform: unset;
+    }
+}
+
+.overlay {
+    opacity: 0;
+    visibility: hidden;
+    z-index: 10;
+    transition: opacity 0.25s linear;
+
+    &.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.root {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 414px;
+    z-index: 11;
+    visibility: hidden;
+
+    background-color: #ffffff;
+
+    box-shadow: var(--md-sys-elevation-1);
+    @include breakpoint(lg) {
+        transform: translateX(100%);
+        transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1) 0s, opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1) 0s;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+    @include breakpoint-down(lg) {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        max-width: unset;
+        width: 100%;
+        margin-top: 32px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        transform: translateY(100%);
+        transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1) 0s, opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1) 0s;
+    }
+}
+
+.content {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+
+    .scrollingContainer {
+        height: 100%;
+        // overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+
+        .top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 12px;
+            @include breakpoint-down(lg) {
+                padding: 12px 24px;
+            }
+
+            .left {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .title {
+                font-size: 20px;
+                font-weight: 500;
+                color: var(--md-sys-color-primary);
+            }
+        }
+        .contents {
+            padding: 0 30px;
+        }
+    }
+}

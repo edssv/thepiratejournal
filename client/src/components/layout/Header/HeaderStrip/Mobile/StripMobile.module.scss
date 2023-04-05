@@ -1,0 +1,28 @@
+@use '../../../../../styles/util' as *;
+
+.root {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding: 0 8px;
+    @include breakpoint-down(lg) {
+        display: flex;
+    }
+
+    .left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .logo img {
+            width: 28px;
+            height: 28px;
+        }
+    }
+
+    .right {
+        display: flex;
+        align-items: center;
+    }
+}

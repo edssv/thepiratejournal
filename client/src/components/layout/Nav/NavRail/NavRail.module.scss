@@ -1,0 +1,28 @@
+@use '../../../../styles/util' as *;
+
+.root {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding-top: 80px;
+    background: var(--md-sys-color-surface-2);
+    overflow-y: auto;
+    transition: background-color 0.2s ease-out;
+    z-index: 8;
+    @include breakpoint-down(lg) {
+        display: none;
+    }
+
+    .fab {
+        margin: 0 0 40px;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 80px;
+    }
+}

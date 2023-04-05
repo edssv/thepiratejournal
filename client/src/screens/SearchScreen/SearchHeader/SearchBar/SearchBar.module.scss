@@ -1,0 +1,14 @@
+@use '../../../../styles/util' as *;
+
+.root {
+  .searchWrap {
+    position: relative;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: flex-start;
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: 999px;
+    z-index: 3;
+  }
+}

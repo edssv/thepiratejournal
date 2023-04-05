@@ -1,72 +1,89 @@
 version: '3.8'
 services:
-    mongodb:
-        image: mongo
+    postgres:
+        container_name: postgres_db
+        image: postgres:alpine
         restart: unless-stopped
+        ports:
+            - 5432:5432
         env_file: .env
         environment:
-            - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
-            - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
-        ports:
-            - 27017:27017
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
         volumes:
-            - db:/data/db
+            - pgdata:/var/lib/postgresql/data
         networks:
             net:
                 ipv4_address: 172.18.0.6
 
-    backend:
+    pgadmin:
+        container_name: pgadmin
+        image: dpage/pgadmin4
+        ports:
+            - '8080:80'
+        volumes:
+            - /data/pgadmin:/root/.pgadmin
+        env_file:
+            - .env
+        links:
+            - postgres
+
+    server:
+        container_name: server
         restart: unless-stopped
         build:
-            context: backend
+            context: server
         ports:
             - '5000:5000'
-        volumes:
-            - media:/usr/src/backend/media
         depends_on:
-            - mongodb
+            - postgres
+        volumes:
+            - media:/usr/src/server/media
         networks:
             net:
                 ipv4_address: 172.18.0.5
 
-    frontend:
+    client:
+        container_name: client
         restart: unless-stopped
         build:
-            context: frontend
+            context: client
         ports:
             - '3000:3000'
         depends_on:
-            - backend
+            - server
         networks:
             net:
                 ipv4_address: 172.18.0.4
 
-    admin-panel:
+    dashboard:
+        container_name: dashboard
         restart: unless-stopped
         build:
-            context: admin-panel
+            context: dashboard
         ports:
             - '3001:3001'
         depends_on:
-            - backend
+            - server
         networks:
             net:
                 ipv4_address: 172.18.0.3
 
     nginx:
+        container_name: nginx
         restart: unless-stopped
         build:
             context: nginx
-            target: prod
+            target: dev
         ports:
             - '80:80'
-            - '443:443'
         networks:
             net:
                 ipv4_address: 172.18.0.2
 
 volumes:
-    db:
+    pgdata:
     media:
 
 networks:

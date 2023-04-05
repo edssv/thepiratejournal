@@ -1,1 +1,0 @@
-export { AuthorInfo } from './AuthorInfo';

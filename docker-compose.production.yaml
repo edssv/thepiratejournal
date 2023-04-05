@@ -1,0 +1,94 @@
+version: '3.8'
+services:
+    db:
+        container_name: postgres_db
+        image: postgres:alpine
+        restart: always
+        ports:
+            - 5432:5432
+        env_file: .env
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
+        volumes:
+            - db:/data/db
+            - ./postgres/config/postgresql.conf:/etc/postgresql.conf
+        networks:
+            net:
+                ipv4_address: 172.18.0.6
+
+    adminer:
+        container_name: adminer
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080
+
+    server:
+        container_name: server
+        restart: unless-stopped
+        build:
+            context: server
+        ports:
+            - '5000:5000'
+        volumes:
+            - media:/usr/src/backend/media
+        depends_on:
+            - mongodb
+        networks:
+            net:
+                ipv4_address: 172.18.0.5
+
+    client:
+        container_name: client
+        restart: unless-stopped
+        build:
+            context: client
+        ports:
+            - '3000:3000'
+        depends_on:
+            - server
+        networks:
+            net:
+                ipv4_address: 172.18.0.4
+
+    dashboard:
+        container_name: dashboard
+        restart: unless-stopped
+        build:
+            context: admin
+        ports:
+            - '3001:3001'
+        depends_on:
+            - server
+        networks:
+            net:
+                ipv4_address: 172.18.0.3
+
+    nginx:
+        container_name: nginx
+        restart: unless-stopped
+        build:
+            context: nginx
+            target: prod
+        ports:
+            - '80:80'
+            - '443:443'
+        networks:
+            net:
+                ipv4_address: 172.18.0.2
+
+volumes:
+    db:
+    media:
+
+networks:
+    net:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.18.0.0/24
+        driver_opts:
+            com.docker.network.bridge.name: common-bridge

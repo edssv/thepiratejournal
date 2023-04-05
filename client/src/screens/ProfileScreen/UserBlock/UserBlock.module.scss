@@ -1,0 +1,79 @@
+@use '../../../styles/util' as *;
+
+.top {
+  position: relative;
+  gap: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 35px;
+  @include breakpoint(xl) {
+    background-color: var(--md-sys-color-surface-2);
+    padding: 25px 30px 16px;
+    min-width: 360px;
+    border-radius: 3px;
+    height: 100%;
+  }
+
+  &__img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+  }
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+
+    .info__headline {
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .info__counters,
+    .location,
+    .signupDate {
+      gap: 14px;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--md-sys-color-secondary-text);
+    }
+
+    .location {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      span {
+        font-size: 16px;
+      }
+    }
+
+    .info__counters {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .signupDate {
+    display: none;
+    position: absolute;
+    bottom: 20px;
+    font-weight: 500;
+    color: var(--md-sys-color-secondary-text);
+    @include breakpoint(xl) {
+      display: block;
+    }
+  }
+}
