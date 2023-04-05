@@ -39,7 +39,7 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./media:/usr/src/server/media
+      - ./server/media:/usr/src/server/media
       - media:/usr/src/server/media
     networks:
       net:
