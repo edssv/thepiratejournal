@@ -1,38 +1,54 @@
 @use '../../../styles/util' as *;
 
 .plateContent {
+  display: flex;
+  min-height: 540px;
+  height: 100%;
+  width: 860px;
+  z-index: 999;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 4px;
+  @include breakpoint-down(lg) {
+    flex-direction: column;
+    max-height: 80vh;
+    width: 100%;
+    overflow: auto;
+  }
+
+  .coverColumn {
+    width: 364px;
+    padding: 32px;
+    background-color: var(--md-sys-color-inverse-on-surface);
+    @include breakpoint(lg) {
+      border-right: 1px solid var(--md-sys-color-outline-variant);
+    }
+    @include breakpoint-down(lg) {
+      width: 100%;
+    }
+  }
+
+  .settingsColumn {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    z-index: 999;
-
-    .itemHeadline {
-        margin-bottom: 8px;
-        font-size: 14px;
-    }
+    flex: 1;
+    gap: 32px;
+    padding: 32px;
+  }
 }
 
 .controls {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 64px;
-    @include breakpoint-down(sm) {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin: 16px;
-    }
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+  @include breakpoint-down(lg) {
+    margin: 16px;
+    background-color: var(--md-sys-color-surface);
+  }
 
-    .draftAndSaveButtons {
-        display: flex;
-        gap: 16px;
-    }
-
-    button {
-        height: 36px;
-    }
+  button {
+    height: 36px;
+  }
 }

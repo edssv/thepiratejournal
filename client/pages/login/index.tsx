@@ -9,19 +9,17 @@ import Meta from '@/components/meta/Meta';
 const AuthOutlet = dynamic(() => import('@/components/outlets/AuthOutlet/AuthOutlet'), { ssr: false });
 
 const Page: NextPageWithLayout = () => {
-    return (
-        <Meta noRobots>
-            <AuthScreen />
-        </Meta>
-    );
+  return (
+    <Meta noRobots>
+      <AuthOutlet>
+        <AuthScreen />
+      </AuthOutlet>
+    </Meta>
+  );
 };
 
 Page.getLayout = function getLayout(page: ReactElement) {
-    return (
-        <AuthOutlet>
-            <Canvas>{page}</Canvas>
-        </AuthOutlet>
-    );
+  return <Canvas>{page}</Canvas>;
 };
 
 export default Page;

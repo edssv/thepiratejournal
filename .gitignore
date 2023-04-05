@@ -11,6 +11,8 @@ build
 /new-backend/media
 backend/media
 dist
+/.data
+
 
 # misc
 .DS_Store

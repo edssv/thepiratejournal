@@ -10,112 +10,116 @@ import { SocialInterface } from 'src/social/interfaces/social.interface';
 
 @Injectable()
 export class AuthService {
-    constructor(
-        private configService: ConfigService,
-        private readonly userService: UserService,
-        private jwtService: JwtService
-    ) {}
+  constructor(
+    private configService: ConfigService,
+    private readonly userService: UserService,
+    private jwtService: JwtService
+  ) {}
 
-    async validateUser(email: string, password: string): Promise<any> {
-        const user = await this.userService.findOneForAuth(email);
-        if (!user) throw new NotFoundException('Пользователь не найден.');
+  async validateUser(email: string, password: string): Promise<any> {
+    const user = await this.userService.findOneForAuth(email);
+    if (!user) throw new NotFoundException('Пользователь не найден.');
+    if (!user.password) throw new NotFoundException('Зарегистрирован через социальную сеть или пароль не найден.');
 
-        const isValidPassword = await verify(user.password, password);
-        if (!isValidPassword) throw new UnauthorizedException('Неверный почтовый адрес или пароль.');
+    const isValidPassword = await verify(user.password, password);
 
-        if (user && isValidPassword) {
-            const { password, ...result } = user;
-            return result;
-        }
+    if (!isValidPassword) throw new UnauthorizedException('Неверный почтовый адрес или пароль.');
 
-        return null;
+    if (user && isValidPassword) {
+      const { password, ...result } = user;
+      return result;
     }
 
-    async validateSocialLogin(socialData: SocialInterface) {
-        let user: User;
-        const socialEmail = socialData.email?.toLowerCase();
-        const userByEmail = await this.userService.findOneByEmail(socialEmail);
-        user = userByEmail;
+    return null;
+  }
 
-        if (userByEmail) {
-            this.userService.update(user.id, {
-                username: `${socialData.firstName} ${socialData.lastName}`,
-                email: socialEmail,
-                firstName: socialData.firstName,
-                lastName: socialData.lastName,
-                image: socialData.image,
-            });
-        } else {
-            user = await this.userService.create({
-                username: `${socialData.firstName} ${socialData.lastName}`,
-                email: socialEmail,
-                firstName: socialData.firstName,
-                lastName: socialData.lastName,
-                image: socialData.image,
-            });
+  async validateSocialLogin(socialData: SocialInterface) {
+    let user: User;
+    const socialEmail = socialData.email?.toLowerCase();
+    const userByEmail = await this.userService.findOneByEmail(socialEmail);
+    user = userByEmail;
 
-            user = await this.userService.findOne(user.id);
-        }
+    if (userByEmail) {
+      this.userService.update(user.id, {
+        username: `${socialData.firstName} ${socialData.lastName}`,
+        email: socialEmail,
+        firstName: socialData.firstName,
+        lastName: socialData.lastName,
+        image: socialData.image,
+      });
+    } else {
+      user = await this.userService.create({
+        username: `${socialData.firstName} ${socialData.lastName}`,
+        email: socialEmail,
+        firstName: socialData.firstName,
+        lastName: socialData.lastName,
+        image: socialData.image,
+      });
 
-        return {
-            user: user,
-            accessToken: this.generateJwtTokens({ ...user, sub: user.id }).accessToken,
-            refreshToken: this.generateJwtTokens({ ...user, sub: user.id }).refreshToken,
-        };
+      user = await this.userService.findOne(user.id);
     }
 
-    generateJwtTokens(dto: GenerateJwtTokenDto) {
-        const payload = { email: dto.email, sub: dto.sub, role: dto.role };
+    return {
+      user: user,
+      accessToken: this.generateJwtTokens({ ...user, sub: user.id }).accessToken,
+      refreshToken: this.generateJwtTokens({ ...user, sub: user.id }).refreshToken,
+    };
+  }
 
-        const accessToken = this.jwtService.sign(payload);
-        const refreshToken = this.jwtService.sign(payload, {
-            secret: this.configService.get('auth.refreshSecret'),
-            expiresIn: this.configService.get('auth.refreshExpires'),
-        });
+  generateJwtTokens(dto: GenerateJwtTokenDto) {
+    const payload = { email: dto.email, sub: dto.sub, role: dto.role };
 
-        return { accessToken, refreshToken };
-    }
+    const accessToken = this.jwtService.sign(payload);
+    const refreshToken = this.jwtService.sign(payload, {
+      secret: this.configService.get('auth.refreshSecret'),
+      expiresIn: this.configService.get('auth.refreshExpires'),
+    });
 
-    async login(user: User) {
-        const { password, ...userData } = user;
+    return { accessToken, refreshToken };
+  }
 
-        return {
-            user: userData,
-            accessToken: this.generateJwtTokens({ ...user, sub: user.id }).accessToken,
-            refreshToken: this.generateJwtTokens({ ...user, sub: user.id }).refreshToken,
-        };
-    }
+  async login(user: User) {
+    const { password, ...userData } = user;
 
-    async signUp(signUpDto: SignUpDto) {
-        const findByEmail = await this.userService.findOneForAuth(signUpDto.email);
-        const findByUsername = await this.userService.findOneByUsername(signUpDto.username);
-        if (findByEmail) throw new BadRequestException('Данный почтовый адрес уже занят.');
-        if (findByUsername) throw new BadRequestException('Данный никнейм уже занят.');
+    return {
+      user: userData,
+      accessToken: this.generateJwtTokens({ ...user, sub: user.id }).accessToken,
+      refreshToken: this.generateJwtTokens({ ...user, sub: user.id }).refreshToken,
+    };
+  }
 
-        const { password, ...user } = await this.userService.create({
-            username: signUpDto.username,
-            email: signUpDto.email,
-            password: await hash(signUpDto.password),
-        });
+  async signUp(signUpDto: SignUpDto) {
+    const findByEmail = await this.userService.findOneForAuth(signUpDto.email);
+    const findByUsername = await this.userService.findOneByUsername(signUpDto.username);
+    if (findByEmail) throw new BadRequestException('Данный почтовый адрес уже занят.');
+    if (findByUsername) throw new BadRequestException('Данный никнейм уже занят.');
 
-        return {
-            user,
-            accessToken: this.generateJwtTokens({ ...user, sub: user.id }).accessToken,
-            refreshToken: this.generateJwtTokens({ ...user, sub: user.id }).refreshToken,
-        };
-    }
+    const { password, ...user } = await this.userService.create({
+      username: signUpDto.username,
+      email: signUpDto.email,
+      password: await hash(signUpDto.password),
+    });
 
-    async refresh(id: number) {
-        const user = await this.userService.findOne(id);
+    return {
+      user,
+      accessToken: this.generateJwtTokens({ ...user, sub: user.id }).accessToken,
+      refreshToken: this.generateJwtTokens({ ...user, sub: user.id }).refreshToken,
+    };
+  }
 
-        return {
-            user,
-            accessToken: this.generateJwtTokens({ ...user, sub: user.id }).accessToken,
-            refreshToken: this.generateJwtTokens({ ...user, sub: user.id }).refreshToken,
-        };
-    }
+  async refresh(id: number) {
+    const user = await this.userService.findOne(id);
 
-    async getProfile(user: User) {
-        return this.userService.findOne(user.id);
-    }
+    if (!user) throw new UnauthorizedException('Пользователь не найден');
+
+    return {
+      user,
+      accessToken: this.generateJwtTokens({ ...user, sub: user.id }).accessToken,
+      refreshToken: this.generateJwtTokens({ ...user, sub: user.id }).refreshToken,
+    };
+  }
+
+  async getProfile(user: User) {
+    return this.userService.findOne(user.id);
+  }
 }

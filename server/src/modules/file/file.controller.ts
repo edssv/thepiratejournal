@@ -7,7 +7,7 @@ import { FileService } from './file.service';
 export class FileController {
     constructor(private readonly fileService: FileService) {}
 
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     @Post('upload')
     @UseInterceptors(FileInterceptor('image'))
     uploadFile(@UploadedFile() file: Express.Multer.File) {

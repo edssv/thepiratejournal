@@ -1,0 +1,56 @@
+.root {
+  .label {
+    display: inline-block;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 15.6px;
+  }
+
+  .inputWrapper {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    &:focus-within {
+      border: 1px solid var(--md-sys-color-surface);
+      outline: 2px solid var(--md-sys-color-primary);
+    }
+
+    .tagsList {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0;
+      margin: 8px 0 0 0;
+
+      .tag {
+        width: auto;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--md-sys-color-on-secondary-container);
+        padding: 0 8px;
+        font-size: 14px;
+        font-weight: 500;
+        list-style: none;
+        border-radius: 6px;
+        margin: 0 8px 8px 0;
+        background-color: var(--md-sys-color-secondary-container);
+
+        .tagTitle {
+          margin-top: 3px;
+        }
+
+        .tagCloseButton {
+          width: 18px;
+          height: 18px;
+          margin-left: 8px;
+          color: var(--md-sys-color-primary);
+
+          span {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+}

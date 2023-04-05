@@ -1,13 +1,9 @@
-import Cookies from 'js-cookie';
-
+import { useMutation } from '@tanstack/react-query';
 import { axiosClassic, instance, refreshInstance } from '@/api/api.interceptor';
-import { getContentType } from '@/api/api.helper';
 import { AuthResponse, LoginData, SignupData } from '@/store/user/user.interface';
-import { Tokens } from '@/lib/enums';
 import { ApiUrlBuilder, getApiUrl } from '@/lib/apiUrlBuilder';
 import { User } from '@/interfaces/user.interface';
 import { saveToStorage } from './auth.helper';
-import { useMutation } from '@tanstack/react-query';
 
 export interface LoginRequest {
     username?: string;
@@ -40,8 +36,9 @@ export const AuthService = {
     },
 
     async getNewTokens() {
-        const { data } = await refreshInstance.post<string, { data: AuthResponse }>(ApiUrlBuilder.Refresh, {
-            headers: getContentType(),
+        const { data } = await refreshInstance<string, { data: AuthResponse }>({
+            url: ApiUrlBuilder.Refresh,
+            method: 'POST',
         });
 
         if (data.accessToken) saveToStorage(data);

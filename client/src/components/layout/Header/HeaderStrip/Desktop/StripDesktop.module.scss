@@ -1,56 +1,56 @@
 @use '../../../../../styles/util' as *;
 
 .root {
-    display: none;
-    justify-content: space-between;
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  @include breakpoint(lg) {
+    display: flex;
+  }
+
+  .left {
+    display: flex;
     align-items: center;
-    height: 100%;
-    @include breakpoint(lg) {
-        display: flex;
-    }
 
-    .left {
-        display: flex;
-        align-items: center;
+    .navRailOpenContainer {
+      margin: 0 19px;
 
-        .navRailOpenContainer {
-            margin: 0 19px;
+      .navRailOpen {
+        min-width: 40px;
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        border-radius: 21px;
 
-            .navRailOpen {
-                min-width: 40px;
-                width: 42px;
-                height: 42px;
-                padding: 0;
-                border-radius: 21px;
-
-                span {
-                    font-size: 24px;
-                    color: var(--md-sys-color-on-surface-variant);
-                }
-            }
+        span {
+          font-size: 24px;
+          color: var(--md-sys-color-on-surface-variant);
         }
-
-        .logo {
-            gap: 12px;
-            margin-right: 80px;
-
-            img {
-                height: 36px;
-            }
-
-            span {
-                width: 80px;
-                font-size: 16px;
-                font-weight: 500;
-                color: var(--md-sys-color-on-surface-variant);
-            }
-        }
+      }
     }
 
-    .right {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 16px;
+    .logo {
+      margin-right: 80px;
+
+      img {
+        height: 36px;
+      }
+
+      span {
+        width: auto;
+        font-size: 18px;
+        line-height: 24px;
+        font-weight: 500;
+        color: var(--md-sys-color-on-surface);
+      }
     }
+  }
+
+  .right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+  }
 }

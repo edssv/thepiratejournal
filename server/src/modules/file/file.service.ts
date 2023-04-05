@@ -19,7 +19,9 @@ export class FileService {
         }
 
         const directory = file.path;
-        const url = `${this.configService.get('app.apiUrl')}/assets/${file.filename}`;
+        const url = `${this.configService.get('app.serverDomain')}/${this.configService.get('app.assetsPrefix')}/${
+            file.filename
+        }`;
 
         return {
             success: 1,

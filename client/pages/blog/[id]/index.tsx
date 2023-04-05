@@ -12,51 +12,48 @@ import Layout from '@/components/layout/Layout';
 import Meta from '@/components/meta/Meta';
 
 const BlogArticlePage: NextPageWithLayout<{ id: string }> = ({ id }) => {
-    const { data } = useQuery(['blog', id], () => BlogService.getOne(id));
+  const { data } = useQuery(['blog', id], () => BlogService.getOne(id));
 
-    return (
-        <Meta
-            title={data?.title}
-            type="article"
-            description={data?.description}
-            image={data?.cover}
-            url={getPublicUrl.blog(String(data?.id))}
-        >
-            <ArticleScreen mode="blog" />
-        </Meta>
-    );
+  return (
+    <Meta
+      title={data?.title}
+      type="article"
+      description={data?.description}
+      image={data?.cover}
+      url={getPublicUrl.blog(String(data?.id))}
+    >
+      <ArticleScreen mode="blog" />
+    </Meta>
+  );
 };
 
 BlogArticlePage.getLayout = function getLayout(page: ReactElement) {
-    return (
-        <Layout changeVisibleHeader>
-            <motion.div initial={{ y: 20, opacity: 0.5 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.3 }}>
-                {page}
-            </motion.div>
-        </Layout>
-    );
+  return (
+    <Layout isBlog>
+      <motion.div initial={{ y: 20, opacity: 0.5 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.3 }}>
+        {page}
+      </motion.div>
+    </Layout>
+  );
 };
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
-    const data = await BlogService.getAll();
-
-    return {
-        paths: data?.map((item) => ({ params: { id: item.id.toString() } })) ?? [],
-        fallback: 'blocking',
-    };
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const queryClient = new QueryClient();
+  const id = params?.id;
 
-    const id = params?.id;
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(['blog', id], () => BlogService.getOne(id as string, true));
 
-    await queryClient.prefetchQuery(['blog', id], () => BlogService.getOne(String(id)));
-
-    return {
-        props: { dehydratedState: dehydrate(queryClient), id },
-        revalidate: 300,
-    };
+  return {
+    props: { dehydratedState: dehydrate(queryClient), id },
+    revalidate: 300,
+  };
 };
 
 export default BlogArticlePage;

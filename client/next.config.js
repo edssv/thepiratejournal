@@ -6,8 +6,10 @@ const nextConfig = {
     sassOptions: {
         includePaths: [path.join(__dirname, 'styles')],
     },
-
     images: {
+        imageSizes: [16, 32, 48, 64, 96, 128, 256],
+        minimumCacheTTL: 3600,
+        formats: ['image/webp'],
         remotePatterns: [
             {
                 protocol: 'https',
@@ -15,6 +17,7 @@ const nextConfig = {
             },
         ],
     },
+    output: 'standalone',
 };
 
 module.exports = nextConfig;

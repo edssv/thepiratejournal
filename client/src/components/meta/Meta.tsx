@@ -7,7 +7,7 @@ const projectName = process.env.NEXT_PUBLIC_PROJECT_NAME;
 
 const Meta: React.FC<PropsWithChildren<Meta>> = ({
     title = projectName,
-    description = 'Самые свежие и интересные игровые статьи.',
+    description = 'Переиграли и уничтожили.',
     image = `${process.env.NEXT_PUBLIC_CLIENT_URL}/assets/og/logo-banner.jpg`,
     type = 'website',
     url = '',

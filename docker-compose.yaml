@@ -1,44 +1,51 @@
 version: '3.8'
 services:
-    db:
+    postgres:
         container_name: postgres_db
         image: postgres:alpine
-        restart: always
+        restart: unless-stopped
         ports:
             - 5432:5432
         env_file: .env
         environment:
-            POSTGRES_USER: admin
-            POSTGRES_PASSWORD: root
-            POSTGRES_DB: tpj
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
         volumes:
-            - db:/data/db
-            - ./postgres/config/postgresql.conf:/etc/postgresql.conf
+            - pgdata:/var/lib/postgresql/data
         networks:
             net:
                 ipv4_address: 172.18.0.6
 
-    adminer:
-        image: adminer
-        restart: always
+    pgadmin:
+        container_name: pgadmin
+        image: dpage/pgadmin4
         ports:
-            - 8080:8080
+            - '8080:80'
+        volumes:
+            - /data/pgadmin:/root/.pgadmin
+        env_file:
+            - .env
+        links:
+            - postgres
 
     server:
+        container_name: server
         restart: unless-stopped
         build:
             context: server
         ports:
             - '5000:5000'
-        volumes:
-            - media:/usr/src/backend/media
         depends_on:
-            - mongodb
+            - postgres
+        volumes:
+            - media:/usr/src/server/media
         networks:
             net:
                 ipv4_address: 172.18.0.5
 
     client:
+        container_name: client
         restart: unless-stopped
         build:
             context: client
@@ -50,10 +57,11 @@ services:
             net:
                 ipv4_address: 172.18.0.4
 
-    admin:
+    dashboard:
+        container_name: dashboard
         restart: unless-stopped
         build:
-            context: admin
+            context: dashboard
         ports:
             - '3001:3001'
         depends_on:
@@ -63,19 +71,19 @@ services:
                 ipv4_address: 172.18.0.3
 
     nginx:
+        container_name: nginx
         restart: unless-stopped
         build:
             context: nginx
-            target: prod
+            target: dev
         ports:
             - '80:80'
-            - '443:443'
         networks:
             net:
                 ipv4_address: 172.18.0.2
 
 volumes:
-    db:
+    pgdata:
     media:
 
 networks:

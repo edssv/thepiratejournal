@@ -31,6 +31,8 @@ export const UpNext = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [handleScroll]);
 
+    if (!data?.length) return null;
+
     return (
         <div ref={UpNextRef} className={styles.root}>
             <h2>Читать дальше</h2>

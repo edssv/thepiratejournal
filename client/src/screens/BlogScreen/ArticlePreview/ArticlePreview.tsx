@@ -1,6 +1,6 @@
-import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
+import clsx from 'clsx';
 import moment from 'moment';
 import 'moment/locale/ru';
 
@@ -42,7 +42,7 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({ data, featured =
                         </div>
                     </div>
                     <div className={styles.articleImage}>
-                        <img style={{ width: '100%', height: 'auto' }} src={data?.cover} alt="Обложка" />
+                        <img src={data?.cover} alt="Обложка" />
                     </div>
                 </div>
             </Link>

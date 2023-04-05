@@ -22,7 +22,7 @@
         "@editorjs/quote": "^2.4.0",
         "@editorjs/warning": "^1.2.0",
         "@headlessui/react": "^1.7.7",
-        "@popperjs/core@": "2.0.0",
+        "@popperjs/core": "^2.11.7",
         "@react-oauth/google": "^0.8.0",
         "@reduxjs/toolkit": "^1.8.6",
         "@tanstack/react-query": "^4.28.0",
@@ -49,12 +49,12 @@
         "react-redux": "^8.0.5",
         "react-spinners": "^0.13.7",
         "react-top-loading-bar": "^2.3.1",
+        "sharp": "^0.32.0",
         "typescript": "5.0.2"
     },
     "devDependencies": {
         "@types/body-scroll-lock": "^3.1.0",
         "@types/js-cookie": "^3.0.3",
-        "@types/jsonwebtoken": "^9.0.1",
         "@types/lodash.debounce": "^4.0.7",
         "@types/node": "18.15.3",
         "@types/react": "^18.0.28",

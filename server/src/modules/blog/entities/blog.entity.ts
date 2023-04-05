@@ -10,9 +10,9 @@ import {
 import { User } from 'src/modules/user/entities/user.entity';
 
 export enum BlogCategory {
-    REVIEWS = 'reviews',
-    MENTIONS = 'mentions',
-    SOLUTIONS = 'solutions',
+    REVIEWS = 'Обзоры',
+    MENTIONS = 'Отзывы',
+    SOLUTIONS = 'Прохождения',
 }
 
 export interface Block {

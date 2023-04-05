@@ -9,26 +9,26 @@ import Layout from '@/components/layout/Layout';
 import Meta from '@/components/meta/Meta';
 
 const HomePage: NextPageWithLayout = () => {
-    return (
-        <Meta home>
-            <HomeScreen />
-        </Meta>
-    );
+  return (
+    <Meta home>
+      <HomeScreen />
+    </Meta>
+  );
 };
 
 HomePage.getLayout = function getLayout(page: ReactElement) {
-    return <Layout padding="small">{page}</Layout>;
+  return <Layout padding="small">{page}</Layout>;
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-    const queryClient = new QueryClient();
+  const queryClient = new QueryClient();
 
-    await queryClient.prefetchQuery(['articles'], ArticleService.getAll);
-    await queryClient.prefetchQuery(['bestOfWeek'], ArticleService.getBestOfWeek);
+  await queryClient.prefetchQuery(['articles'], () => ArticleService.getAll(true));
+  await queryClient.prefetchQuery(['bestOfWeek'], () => ArticleService.getBestOfWeek(true));
 
-    return {
-        props: { dehydratedState: dehydrate(queryClient) },
-    };
+  return {
+    props: { dehydratedState: dehydrate(queryClient) },
+  };
 };
 
 export default HomePage;

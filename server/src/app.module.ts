@@ -32,13 +32,13 @@ import { User } from './modules/user/entities/user.entity';
     imports: [
         ServeStaticModule.forRoot({
             rootPath: join(__dirname, '..', 'media'),
-            serveRoot: '/assets',
-            exclude: ['/api/(.*)'],
+            serveRoot: `/assets`,
+            exclude: [`/${process.env.API_PREFIX}/.*`],
         }),
         ConfigModule.forRoot({
             isGlobal: true,
             load: [databaseConfig, appConfig, authConfig, fileConfig, googleConfig],
-            envFilePath: ['.env'],
+            envFilePath: [`.env.${process.env.NODE_ENV || 'production'}`],
         }),
         TypeOrmModule.forRoot({
             type: 'postgres',

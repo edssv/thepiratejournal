@@ -1,10 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
-
-import { ArticleService } from '@/services';
+import { useGetArticlesQuery } from '@/services';
 import AiryArticlePreview from '@/components/AiryArticlePreview/AiryArticlePreview';
 
 export const AuthorChoice: React.FC = () => {
-    const { data: articles } = useQuery({ queryKey: ['articles'], queryFn: ArticleService.getAll });
+    const { data: articles } = useGetArticlesQuery();
 
     const articlesList = () => {
         return articles

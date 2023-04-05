@@ -19,15 +19,6 @@
                 flex-direction: column;
                 gap: $gap-lg;
                 margin-top: 32px;
-
-                .passwordField {
-                    position: relative;
-
-                    svg {
-                        height: 18px;
-                        width: 18px;
-                    }
-                }
             }
         }
         .submit {

@@ -1,16 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { RootState } from '../store';
 
 type UiState = {
     isOpenHamburgerMenu: boolean;
     isOpenNavRail: boolean;
-    isPublishSnackbarVisible: boolean;
+    alert: string | null;
 };
 
 const initialState: UiState = {
     isOpenHamburgerMenu: false,
     isOpenNavRail: true,
-    isPublishSnackbarVisible: false,
+    alert: null,
 };
 
 export const uiSlice = createSlice({
@@ -23,13 +22,8 @@ export const uiSlice = createSlice({
         setIsOpenNavRail(state, { payload }) {
             state.isOpenNavRail = payload;
         },
-        setPublishSnackbarVisible(state, { payload }) {
-            state.isPublishSnackbarVisible = payload;
+        setAlert(state, { payload }) {
+            state.alert = payload;
         },
-    },
-    extraReducers: (builder) => {
-        // builder.addMatcher(articleApi.endpoints.addArticle.matchFulfilled, (state) => {
-        //     state.isPublishSnackbarVisible = true;
-        // });
     },
 });

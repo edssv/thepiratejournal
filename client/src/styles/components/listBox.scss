@@ -1,78 +1,79 @@
 @use '../util' as *;
 
 .listBox {
-    position: relative;
+  position: relative;
 
-    .listBoxButton {
-        position: relative;
+  .listBoxButton {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 240px;
+    min-height: 34px;
+    padding: 6px 12px;
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    &.openListBox {
+      border-color: var(--md-sys-color-surface);
+      outline: 2px solid var(--md-sys-color-primary);
+    }
+
+    span {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--md-sys-color-outline);
+      margin-right: -5px;
+    }
+
+    .unfoldMoreIcon {
+      position: absolute;
+      right: 12px;
+    }
+  }
+
+  .listBoxOptions {
+    position: absolute;
+    top: 38px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    max-width: 240px;
+    width: 100%;
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+    box-shadow: var(--md-sys-elevation-2);
+    border-radius: 4px;
+    z-index: 999;
+
+    .listBoxOption {
+      .optionContent {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        min-width: 240px;
-        min-height: 34px;
-        padding: 6px 12px;
-        border: 1px solid var(--md-sys-color-outline-variant);
-        border-radius: 8px;
+        gap: 8px;
+        padding: 10px 12px 10px 44px;
         font-size: 14px;
         line-height: 20px;
 
+        &:hover {
+          background-color: var(--md-sys-color-surface-1);
+        }
+
         &:active {
-            border-color: var(--md-sys-color-primary);
+          background-color: var(--md-sys-color-surface-3);
         }
 
-        span {
-            font-size: 20px;
-            font-weight: 500;
-            color: var(--md-sys-color-outline);
-            margin-right: -5px;
+        &.selected {
+          padding: 6px 12px 6px;
+          background-color: var(--md-sys-color-secondary-container);
+          font-weight: 500;
+          span {
+            font-weight: 400;
+          }
         }
-
-        .unfoldMoreIcon {
-            position: absolute;
-            right: 12px;
-        }
+      }
     }
-
-    .listBoxOptions {
-        position: absolute;
-        top: 38px;
-        left: 0;
-        display: flex;
-        flex-direction: column;
-        max-width: 240px;
-        width: 100%;
-        background-color: var(--md-sys-color-surface);
-        color: var(--md-sys-color-on-surface);
-        box-shadow: var(--md-sys-elevation-2);
-        border-radius: 4px;
-        z-index: 999;
-
-        .listBoxOption {
-            .optionContent {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                padding: 10px 12px 10px 44px;
-                font-size: 14px;
-                line-height: 20px;
-
-                &:hover {
-                    background-color: var(--md-sys-color-surface-1);
-                }
-
-                &:active {
-                    background-color: var(--md-sys-color-surface-3);
-                }
-
-                &.selected {
-                    padding: 6px 12px 6px;
-                    background-color: var(--md-sys-color-secondary-container);
-                    font-weight: 500;
-                    span {
-                        font-weight: 400;
-                    }
-                }
-            }
-        }
-    }
+  }
 }

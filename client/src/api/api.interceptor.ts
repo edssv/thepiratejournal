@@ -9,9 +9,14 @@ export const axiosOptions = {
     headers: getContentType(),
 };
 
-export const axiosClassic = axios.create(axiosOptions);
+export const serverAxiosOptions = {
+    baseURL: process.env.NEXT_PUBLIC_API_CONTAINER_URL,
+    headers: getContentType(),
+};
 
+export const axiosClassic = axios.create(axiosOptions);
 export const instance = axios.create(axiosOptions);
+export const serverAxiosClassic = axios.create(serverAxiosOptions);
 
 instance.interceptors.request.use(async (config) => {
     const accessToken = getAccessToken();
@@ -41,7 +46,7 @@ instance.interceptors.response.use(
                 await AuthService.getNewTokens();
                 return instance.request(originalRequest);
             } catch (error) {
-                if (errorCatch(error) === 'jwt expired') {
+                if (errorCatch(error) === 'jwt expired' || errorCatch(error) === 'Unauthorized') {
                     removeFromStorage();
                 }
             }
@@ -62,3 +67,14 @@ refreshInstance.interceptors.request.use(async (config) => {
 
     return config;
 });
+
+refreshInstance.interceptors.response.use(
+    (config) => config,
+    async (error) => {
+        if (error.response.status === 401) {
+            removeFromStorage();
+        }
+
+        throw error;
+    }
+);

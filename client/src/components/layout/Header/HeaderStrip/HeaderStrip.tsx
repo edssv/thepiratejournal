@@ -8,17 +8,17 @@ import styles from './HeaderStrip.module.scss';
 // import StripMobile from './Mobile/StripMobile';
 import dynamic from 'next/dynamic';
 
-const StripDesktop = dynamic(() => import('./Desktop/StripDesktop'), { ssr: false });
-const StripMobile = dynamic(() => import('./Mobile/StripMobile'), { ssr: false });
+const StripDesktop = dynamic(() => import('./desktop/StripDesktop'), { ssr: false });
+const StripMobile = dynamic(() => import('./mobile/StripMobile'), { ssr: false });
 
 const HeaderStrip: React.FC = () => {
-    const fromLaptop = useMediaPredicate('(min-width: 991px)');
+  const fromLaptop = useMediaPredicate('(min-width: 991px)');
 
-    return (
-        <div className={styles.root}>
-            <StripDesktop /> <StripMobile />
-        </div>
-    );
+  return (
+    <div className={styles.root}>
+      <StripDesktop /> <StripMobile />
+    </div>
+  );
 };
 
 export default HeaderStrip;
