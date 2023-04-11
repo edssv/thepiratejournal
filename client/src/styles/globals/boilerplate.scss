@@ -18,18 +18,18 @@ html {
 html,
 body,
 #__next,
+main,
 .container {
   height: 100%;
 }
 
 body {
   touch-action: pan-x pan-y;
-  background-color: #ffffff;
   color: var(--md-sys-color-on-surface);
   transition: background-color 0.15s, color 0.25s;
 }
 
-.dark body {
+[data-theme] body {
   background-color: var(--md-sys-color-surface);
 }
 
@@ -70,12 +70,12 @@ input {
 }
 
 ::-webkit-scrollbar {
-  width: 16px;
+  width: 8px;
 
   &-thumb {
-    border: 4px solid transparent;
+    border: 0px solid transparent;
     background-clip: padding-box;
-    border-radius: 9999px;
+    border-radius: 16px;
     background-color: rgba(var(--md-sys-color-on-surfaceChannel) / 0.3);
 
     &:hover {

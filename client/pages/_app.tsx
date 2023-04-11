@@ -2,14 +2,13 @@ import { ReactElement, ReactNode, useState } from 'react';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
-import Head from 'next/head';
 import { Roboto } from 'next/font/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider } from 'react-redux';
+import { ThemeProvider } from 'next-themes';
 
 import { store } from '@/store';
-import { useTheme } from '@/hooks';
 import AuthProvider from '@/components/providers/AuthProvider';
 
 import '@/styles/styles.scss';
@@ -35,16 +34,12 @@ export const roboto = Roboto({
 const GoogleOneTap = dynamic(() => import('@/components/GoogleOneTap/GoogleOneTap'), { ssr: false });
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
-  useTheme();
   const [queryClient] = useState(() => new QueryClient());
 
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
     <>
-      <Head>
-        <title>The Pirate Journal</title>
-      </Head>
       <style jsx global>
         {`
           html {
@@ -57,9 +52,11 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           <Provider store={store}>
             <AuthProvider>
               <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ''}>
-                {getLayout(<Component {...pageProps} />)}
-                <GoogleOneTap />
-                <CrossScreensSnackbars />
+                <ThemeProvider>
+                  {getLayout(<Component {...pageProps} />)}
+                  <GoogleOneTap />
+                  <CrossScreensSnackbars />
+                </ThemeProvider>
               </GoogleOAuthProvider>
             </AuthProvider>
           </Provider>

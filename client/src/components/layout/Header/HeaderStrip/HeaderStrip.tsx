@@ -1,9 +1,7 @@
-import dynamic from 'next/dynamic';
+import StripDesktop from './Desktop/StripDesktop';
+import StripMobile from './Mobile/StripMobile';
 
 import styles from './HeaderStrip.module.scss';
-
-const StripDesktop = dynamic(() => import('./Desktop/StripDesktop'), { ssr: false });
-const StripMobile = dynamic(() => import('./Mobile/StripMobile'), { ssr: false });
 
 const HeaderStrip: React.FC = () => {
   return (

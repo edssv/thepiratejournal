@@ -10,7 +10,6 @@ export const login = createAsyncThunk<AuthResponse, LoginData>(ApiUrlBuilder.Log
   try {
     return await AuthService.login(data);
   } catch (error) {
-    console.log(error);
     return thunkApi.rejectWithValue(error);
   }
 });

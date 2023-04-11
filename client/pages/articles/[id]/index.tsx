@@ -23,19 +23,23 @@ const ArticlePage: NextPageWithLayout<{ articleId: string }> = ({ articleId }) =
       image={data?.cover}
       url={getPublicUrl.article(String(data?.id))}
     >
-      <motion.div
-        initial={{ translateY: 20, opacity: 0.5 }}
-        animate={{ translateY: 0, opacity: 1 }}
-        transition={{ duration: 0.3 }}
-      >
-        <ArticleScreen mode={ArticlePageMode.ARTICLE} />
-      </motion.div>
+      <ArticleScreen mode={ArticlePageMode.ARTICLE} />
     </Meta>
   );
 };
 
 ArticlePage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout changeVisibleHeader>{page}</Layout>;
+  return (
+    <Layout>
+      <motion.div
+        initial={{ translateY: 20, opacity: 0.5 }}
+        animate={{ translateY: 0, opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      >
+        {page}
+      </motion.div>
+    </Layout>
+  );
 };
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
@@ -49,7 +53,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const articleId = params?.id;
 
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(['article', articleId], () => ArticleService.getOne(articleId as string, true));
+  await queryClient.prefetchQuery(['article', articleId], () => ArticleService.getOne(String(articleId), true));
 
   return {
     props: { dehydratedState: dehydrate(queryClient), articleId },

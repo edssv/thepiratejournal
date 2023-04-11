@@ -5,11 +5,11 @@ import SubscriptionsScreen from '@/screens/SubscriptionsScreen/SubscriptionsScre
 import Layout from '@/components/layout/Layout';
 
 const SubscriptionsPage: NextPageWithLayout = () => {
-    return <SubscriptionsScreen />;
+  return <SubscriptionsScreen />;
 };
 
 SubscriptionsPage.getLayout = function getLayout(page: ReactElement) {
-    return <Layout padding="small">{page}</Layout>;
+  return <Layout padding="medium">{page}</Layout>;
 };
 
 export default SubscriptionsPage;

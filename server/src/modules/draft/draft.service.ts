@@ -7,28 +7,28 @@ import { Draft } from './entities/draft.entity';
 
 @Injectable()
 export class DraftService {
-    constructor(
-        @InjectRepository(Draft)
-        private repository: Repository<Draft>
-    ) {}
+  constructor(
+    @InjectRepository(Draft)
+    private repository: Repository<Draft>
+  ) {}
 
-    create(userId: number, createDraftDto: CreateDraftDto) {
-        return this.repository.save({ user: { id: userId }, ...createDraftDto });
-    }
+  create(userId: number, createDraftDto: CreateDraftDto) {
+    return this.repository.save({ user: { id: userId }, ...createDraftDto });
+  }
 
-    findAll() {
-        return `This action returns all draft`;
-    }
+  findAll() {
+    return `This action returns all draft`;
+  }
 
-    findOne(id: number) {
-        return this.repository.findOne({ where: { id } });
-    }
+  findOne(id: number) {
+    return this.repository.findOne({ where: { id } });
+  }
 
-    update(id: number, updateDraftDto: UpdateDraftDto) {
-        return this.repository.update(id, updateDraftDto);
-    }
+  update(id: number, updateDraftDto: UpdateDraftDto) {
+    return this.repository.update(id, updateDraftDto);
+  }
 
-    remove(id: number) {
-        return this.repository.softDelete(id);
-    }
+  remove(id: number) {
+    return this.repository.delete(id);
+  }
 }

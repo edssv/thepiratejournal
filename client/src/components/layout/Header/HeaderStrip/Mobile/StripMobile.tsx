@@ -1,17 +1,16 @@
-import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
-import { useActions, useAuth } from '@/hooks';
+import { useActions } from '@/hooks';
 import Button from '@/components/common/Button/Button';
-import NotificationButton from '../../NotificationButton/NotificationButton';
-import NotificationBlock from '../../NotificationBlock/NotificationBlock';
+
 import styles from './StripMobile.module.scss';
+
+const UserControls = dynamic(() => import('./UserControls/UserControls'), { ssr: false });
 
 const StripMobile = () => {
   const { setIsOpenHamburgerMenu } = useActions();
-  const { user } = useAuth();
-  const [isOpenNotifications, setIsOpenNotifications] = useState(false);
 
   return (
     <div className={styles.root}>
@@ -43,15 +42,7 @@ const StripMobile = () => {
         </Link>
       </div>
       <div className={styles.right}>
-        {user && (
-          <>
-            <NotificationButton
-              isOpenNotifications={isOpenNotifications}
-              setIsOpenNotifications={setIsOpenNotifications}
-            />
-            <NotificationBlock isOpen={isOpenNotifications} setIsOpen={setIsOpenNotifications} />
-          </>
-        )}
+        <UserControls />
       </div>
     </div>
   );

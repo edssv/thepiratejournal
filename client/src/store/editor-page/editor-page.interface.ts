@@ -8,4 +8,5 @@ export interface InitialState {
   data: Partial<Article>;
   isLoading: boolean;
   error: string | null;
+  draftId: number | null;
 }

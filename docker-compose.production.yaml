@@ -58,18 +58,18 @@ services:
       net:
         ipv4_address: 172.18.0.4
 
-  dashboard:
-    container_name: dashboard
-    restart: unless-stopped
-    build:
-      context: dashboard
-    ports:
-      - '3001:3001'
-    depends_on:
-      - server
-    networks:
-      net:
-        ipv4_address: 172.18.0.3
+  # dashboard:
+  #   container_name: dashboard
+  #   restart: unless-stopped
+  #   build:
+  #     context: dashboard
+  #   ports:
+  #     - '3001:3001'
+  #   depends_on:
+  #     - server
+  #   networks:
+  #     net:
+  #       ipv4_address: 172.18.0.3
 
   nginx:
     container_name: nginx

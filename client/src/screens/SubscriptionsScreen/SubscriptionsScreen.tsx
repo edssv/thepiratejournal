@@ -5,13 +5,13 @@ import { SignOut } from './SignOut';
 import styles from './Subscriptions.module.scss';
 
 const Subscriptions = () => {
-    const { user, isLoading } = useAuth();
+  const { user, isLoading } = useAuth();
 
-    if (isLoading) return null;
+  if (isLoading) return null;
 
-    if (user) return <Component />;
+  if (user) return <Component />;
 
-    return <SignOut />;
+  return <SignOut />;
 };
 
 export default Subscriptions;

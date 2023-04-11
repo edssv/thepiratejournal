@@ -38,6 +38,11 @@ export enum ProfileSection {
   Drafts = 'drafts',
 }
 
+export enum ThemeMode {
+  LIGHT = 'light',
+  DARK = 'dark',
+}
+
 export enum Tokens {
   ACCESS_TOKEN = 'accessToken',
   REFRESH_TOKEN = 'refreshToken',

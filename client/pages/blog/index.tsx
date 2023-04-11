@@ -5,7 +5,7 @@ import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { NextPageWithLayout } from '../_app';
 import { BlogService } from '@/services';
 import BlogScreen from '@/screens/BlogScreen/BlogScreen';
-import Layout from '@/components/layout/Layout';
+import BlogLayout from '@/components/layout/BlogLayout/BlogLayout';
 import Meta from '@/components/meta/Meta';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
 
@@ -16,7 +16,7 @@ const BlogPage: NextPageWithLayout = () => {
 BlogPage.getLayout = function getLayout(page: ReactElement) {
   return (
     <Meta title="Blog" url={getPublicUrl.blogPage()}>
-      <Layout isBlog>{page}</Layout>
+      <BlogLayout>{page}</BlogLayout>
     </Meta>
   );
 };

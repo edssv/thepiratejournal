@@ -1,15 +1,15 @@
 import { MutableRefObject } from 'react';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useMediaPredicate } from 'react-media-hook';
 
-import { readingTime } from '@/helpers';
-import { useActions, useAuth } from '@/hooks';
-import Button from '@/components/common/Button/Button';
-import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { useCreateArticleMutation, useCreateBlogMutation, useUpdateArticleMutation } from '@/services';
 import { ArticleType, EditorPageMode, UserRole } from '@/lib/enums';
 import { Block } from '@/interfaces/block.interface';
+import { readingTime } from '@/helpers';
+import { useActions, useAuth } from '@/hooks';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
+import { getPublicUrl } from '@/lib/publicUrlBuilder';
+import Button from '@/components/common/Button/Button';
 
 interface ConfirmButtonProps {
   articleContentRef?: React.Ref<HTMLDivElement>;
@@ -20,7 +20,7 @@ const SaveArticle: React.FC<ConfirmButtonProps> = ({ articleContentRef, blocks }
   const { replace } = useRouter();
 
   const { user } = useAuth();
-  const { data, mode, articleType } = useTypedSelector((state) => state.editorPage);
+  const { data, mode, articleType, draftId } = useTypedSelector((state) => state.editorPage);
 
   const { setAlert } = useActions();
   const { mutate, isLoading, isError } = useCreateArticleMutation();
@@ -36,6 +36,7 @@ const SaveArticle: React.FC<ConfirmButtonProps> = ({ articleContentRef, blocks }
 
     const formData = Object.assign({
       ...data,
+      draftId,
       body: blocks,
       readingTime: readingTime(articleContentRef),
       description: data.description ?? description,
@@ -43,14 +44,14 @@ const SaveArticle: React.FC<ConfirmButtonProps> = ({ articleContentRef, blocks }
 
     if (articleType === ArticleType.BLOG) {
       if (mode === EditorPageMode.NEW) {
-        createBlog(formData, { onSuccess: () => replace('/') });
+        createBlog(formData, { onSuccess: () => replace(getPublicUrl.home()) });
       }
     }
 
     if (articleType === ArticleType.ARTICLE) {
       if (mode === EditorPageMode.EDIT) {
-        updateMutation(formData, { onSuccess: () => replace('/') });
-      } else mutate(formData, { onSuccess: () => replace('/') });
+        updateMutation(formData, { onSuccess: () => replace(getPublicUrl.home()) });
+      } else mutate(formData, { onSuccess: () => replace(getPublicUrl.home()) });
     }
   };
 

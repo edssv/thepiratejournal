@@ -5,15 +5,15 @@ import { HomeHeader } from './HomeHeader/HomeHeader';
 import { NewestArticles } from './NewestArticles/NewestArticles';
 
 const SignedOut: React.FC = () => {
-    return (
-        <>
-            <HomeHeader />
-            <AuthorChoice />
-            <BestOfWeek />
-            <NewestArticles />
-            <FindMore />
-        </>
-    );
+  return (
+    <>
+      <HomeHeader />
+      <AuthorChoice />
+      <BestOfWeek />
+      <NewestArticles />
+      <FindMore />
+    </>
+  );
 };
 
 export default SignedOut;

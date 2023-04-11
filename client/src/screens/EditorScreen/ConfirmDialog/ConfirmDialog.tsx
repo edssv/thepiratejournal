@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { useMediaPredicate } from 'react-media-hook';
 
 import { Block } from '@/interfaces/block.interface';
 import { UserRole } from '@/lib/enums';
@@ -8,34 +7,32 @@ import { useAuth } from '@/hooks';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import Button from '@/components/common/Button/Button';
 import { Dialog, DialogCancelButton, DialogContent, DialogControls } from '@/components/common/Dialog/Dialog';
-import { DraftInfoDialog } from '../DraftInfoDialog/DraftInfoDialog';
+import DraftSave from '../DraftSave/DraftSave';
 import CoverBlock from './CoverBlock/CoverBlock';
 import { ListBoxPicker } from './ListBoxPicker/ListBoxPicker';
 import { DescriptionArea } from './DescriptionArea/DescriptionArea';
 import { TagsField } from './TagsField/TagsField';
 import TitleField from './TitleField/TitleField';
 import TypePicker from './TypePicker/TypePicker';
+import SaveArticle from './SaveArticle/SaveArticle';
 
 import styles from './ConfirmDialog.module.scss';
 
 const DialogTrigger = dynamic(() => import('@/components/common/DialogTrigger/DialogTrigger'), { ssr: false });
-const SaveArticle = dynamic(() => import('./SaveArticle/SaveArticle'), { ssr: false });
 interface ConfirmDialogProps {
   articleContentRef?: React.Ref<HTMLDivElement>;
   blocks: Block[];
 }
 
-export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ articleContentRef, blocks }) => {
+const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ articleContentRef, blocks }) => {
   const { user } = useAuth();
   const { data } = useTypedSelector((state) => state.editorPage);
   const [isOpen, setIsOpen] = useState(false);
 
-  const isMobile = useMediaPredicate('(max-width: 551px)');
-
   return (
     <>
       {' '}
-      <Button onClick={() => setIsOpen(true)} disabled={!data?.title} variant="filled">
+      <Button onClick={() => setIsOpen(true)} disabled={!data?.title && !blocks.length} variant="filled">
         Продолжить
       </Button>
       <DialogTrigger isVisible={isOpen} onClose={setIsOpen}>
@@ -56,7 +53,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ articleContentRef,
           </DialogContent>
           <DialogControls className={styles.controls}>
             <DialogCancelButton onClick={() => setIsOpen(false)}>Отмена</DialogCancelButton>
-            <DraftInfoDialog blocks={blocks} />
+            <DraftSave blocks={blocks} />
             <SaveArticle articleContentRef={articleContentRef} blocks={blocks} />
           </DialogControls>
         </Dialog>
@@ -64,3 +61,5 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ articleContentRef,
     </>
   );
 };
+
+export default ConfirmDialog;

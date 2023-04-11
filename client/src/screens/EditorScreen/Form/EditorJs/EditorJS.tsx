@@ -1,14 +1,17 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { createReactEditorJS } from 'react-editor-js';
-import debounce from 'lodash.debounce';
 
-import { EDITOR_JS_TOOLS } from './tools';
-import { i18n } from './i18n';
 import { Block } from '@/interfaces/block.interface';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
+import { EDITOR_JS_TOOLS } from './tools';
+import { i18n } from './i18n';
 import { EditorCore } from './EditorCore.interface';
 
-const EditorJS: React.FC<{ setBlocks: React.Dispatch<React.SetStateAction<Block[]>> }> = ({ setBlocks }) => {
+interface EditorProps {
+  setBlocks: React.Dispatch<React.SetStateAction<Block[]>>;
+}
+
+const EditorJS: React.FC<EditorProps> = ({ setBlocks }) => {
   const editorCore = useRef<any>(null);
   const ReactEditorJS = createReactEditorJS();
 
@@ -26,24 +29,11 @@ const EditorJS: React.FC<{ setBlocks: React.Dispatch<React.SetStateAction<Block[
     setBlocks(savedData.blocks);
   }, [setBlocks]);
 
-  // const autoSave = useCallback(
-  //     debounce(async () => {
-  //         const savedData = await handleSave();
-  //         console.log(savedData);
-  //         setBlocks(savedData);
-
-  //         // const formData = Object.assign({ intent: 'draft' }, article, blocks);
-  //         // saveArticle(formData);
-  //     }, 150),
-  //     []
-  // );
-
   // if (mode !== 'new' && !data.body) return null;
 
   return (
     <ReactEditorJS
       onInitialize={handleInitialize}
-      placeholder="Давай напишем классную статью!"
       defaultValue={{
         blocks: data?.body ?? [],
       }}

@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { motion } from 'framer-motion';
@@ -8,7 +7,7 @@ import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import { Params } from '@/interfaces/params.interface';
 import { NextPageWithLayout } from 'pages/_app';
 import ArticleScreen from '@/screens/ArticleScreen/ArticleScreen';
-import Layout from '@/components/layout/Layout';
+import BlogLayout from '@/components/layout/BlogLayout/BlogLayout';
 import Meta from '@/components/meta/Meta';
 import { ArticlePageMode } from '@/lib/enums';
 
@@ -28,13 +27,13 @@ const BlogArticlePage: NextPageWithLayout<{ id: string }> = ({ id }) => {
   );
 };
 
-BlogArticlePage.getLayout = function getLayout(page: ReactElement) {
+BlogArticlePage.getLayout = function getLayout(page: React.ReactElement) {
   return (
-    <Layout isBlog>
+    <BlogLayout>
       <motion.div initial={{ y: 20, opacity: 0.5 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.3 }}>
         {page}
       </motion.div>
-    </Layout>
+    </BlogLayout>
   );
 };
 
@@ -49,7 +48,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params?.id;
 
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(['blog', id], () => BlogService.getOne(id as string, true));
+  await queryClient.prefetchQuery(['blog', id], () => BlogService.getOne(String(id), true));
 
   return {
     props: { dehydratedState: dehydrate(queryClient), id },

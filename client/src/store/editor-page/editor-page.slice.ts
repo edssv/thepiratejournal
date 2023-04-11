@@ -10,6 +10,7 @@ const initialState: InitialState = {
   data: { category: ArticleCategory.REVIEWS },
   isLoading: false,
   error: null,
+  draftId: null,
 };
 
 export const editorPageSlice = createSlice({
@@ -24,6 +25,9 @@ export const editorPageSlice = createSlice({
     },
     setArticleType(state, { payload }) {
       state.articleType = payload;
+    },
+    setDraftId(state, { payload }) {
+      state.draftId = payload;
     },
     resetData(state) {
       state.data = {};

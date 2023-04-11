@@ -29,28 +29,5 @@
         }
       }
     }
-
-    .logo {
-      margin-right: 80px;
-
-      img {
-        height: 36px;
-      }
-
-      span {
-        width: auto;
-        font-size: 18px;
-        line-height: 24px;
-        font-weight: 500;
-        color: var(--md-sys-color-on-surface);
-      }
-    }
-  }
-
-  .right {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 16px;
   }
 }

@@ -1,0 +1,51 @@
+@use '../../../styles/util' as *;
+
+.root {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 0 24px;
+  @include breakpoint(lg) {
+    display: flex;
+    flex-direction: column;
+    width: 480px;
+    min-height: 100%;
+    margin: 0;
+    padding: 24px;
+    background-color: var(--md-sys-color-surface);
+    border-radius: 16px;
+  }
+  @include breakpoint(lg) {
+    min-width: 380px;
+  }
+
+  .formStatus {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    font-weight: 400;
+    @include breakpoint-down(lg) {
+      display: none;
+    }
+    span {
+      font-size: 80px;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 12px;
+    @include breakpoint(lg) {
+      flex-direction: column-reverse;
+      align-items: center;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}

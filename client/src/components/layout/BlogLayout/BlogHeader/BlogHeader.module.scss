@@ -1,16 +1,10 @@
-@use '../../../styles/util' as *;
-
-:global(.dark) {
-  .root {
-    background-color: var(--md-sys-color-surface);
-  }
-}
+@use '../../../../styles/util' as *;
 
 .root {
   position: sticky;
   top: 0;
   padding: 0 24px;
-  background-color: #ffffff;
+  background: var(--md-sys-color-surface);
   z-index: 999;
 
   .container {

@@ -9,53 +9,34 @@ import NavRail from './Nav/NavRail/NavRail';
 import Loader from './Loader/Loader';
 
 import styles from './Layout.module.scss';
-import BlogHeader from './BlogHeader/BlogHeader';
-
 interface LayoutProps {
-  padding?: 'small' | 'medium' | 'large';
-  changeVisibleHeader?: boolean;
-  isBlog?: boolean;
+  padding?: 'small' | 'medium' | 'large' | null;
+  hiddenContainer?: boolean;
 }
 
 const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
   children,
   padding = 'medium',
-  changeVisibleHeader = false,
-  isBlog = false,
+  hiddenContainer = false,
 }) => {
   const isOpenNavRail = useTypedSelector((state) => state.ui.isOpenNavRail);
   const isTablet = useMediaPredicate('(max-width: 990.98px)');
 
-  const getLayoutContent = () => {
-    if (isBlog) {
-      return (
-        <>
-          <BlogHeader />
-          <main>
-            <div className={clsx('container-fluid', 'padding-' + padding)}>{children}</div>
-          </main>
-          <Footer />
-        </>
-      );
-    }
-
-    return (
-      <>
-        <Header changeVisible={changeVisibleHeader} />
-        {isTablet ? <HamburgerMenu /> : isOpenNavRail && <NavRail />}
-        <main className={clsx(isOpenNavRail && 'withMargin')}>
-          <div className={clsx('container-fluid', 'padding-' + padding)}>{children}</div>
-        </main>
-        <Footer />
-      </>
-    );
-  };
-
   return (
-    <>
+    <div className={styles.root}>
       {!isTablet && <Loader />}
-      <div className={styles.root}>{getLayoutContent()}</div>
-    </>
+      <Header />
+      {isTablet ? <HamburgerMenu /> : isOpenNavRail && <NavRail />}
+      <main className={clsx(styles.main, isOpenNavRail && styles.withMargin)}>
+        <div id="wrapper" className={styles.wrap}>
+          <div className={clsx('container-fluid', padding && 'padding-' + padding, hiddenContainer && styles.hidden)}>
+            {children}
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </div>
   );
 };
+
 export default Layout;

@@ -2,33 +2,36 @@ import { IsArray, IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString 
 import { ArticleCategory, Block } from '../entities/article.entity';
 
 export class CreateArticleDto {
-    @IsNotEmpty()
-    @IsString()
-    title: string;
+  @IsNotEmpty()
+  @IsString()
+  title: string;
 
-    searchTitle: string;
+  searchTitle: string;
 
-    @IsNotEmpty()
-    @IsString()
-    description: string;
+  @IsNotEmpty()
+  @IsString()
+  description: string;
 
-    @IsNotEmpty()
-    @IsString()
-    cover: string;
+  @IsNotEmpty()
+  @IsString()
+  cover: string;
 
-    @IsNotEmpty()
-    @IsArray()
-    body: Block[];
+  @IsNotEmpty()
+  @IsArray()
+  body: Block[];
 
-    @IsOptional()
-    @IsArray()
-    tags?: string;
+  @IsOptional()
+  @IsArray()
+  tags?: string;
 
-    @IsNotEmpty()
-    @IsEnum(ArticleCategory)
-    category: ArticleCategory;
+  @IsNotEmpty()
+  @IsEnum(ArticleCategory)
+  category: ArticleCategory;
 
-    @IsNotEmpty()
-    @IsNumber()
-    readingTime: number;
+  @IsNotEmpty()
+  @IsNumber()
+  readingTime: number;
+
+  @IsNumber()
+  draftId?: number;
 }

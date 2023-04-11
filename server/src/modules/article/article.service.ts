@@ -5,20 +5,34 @@ import { CreateArticleDto } from './dto/create-article.dto';
 import { SearchArticleDto } from './dto/search-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { Article } from './entities/article.entity';
+import { DraftService } from '../draft/draft.service';
 
 @Injectable()
 export class ArticleService {
   constructor(
     @InjectRepository(Article)
-    private repository: Repository<Article>
+    private repository: Repository<Article>,
+    private readonly draftService: DraftService
   ) {}
 
   create(userId: number, createArticleDto: CreateArticleDto) {
-    return this.repository.save({
+    const article = this.repository.save({
       user: { id: userId },
-      ...createArticleDto,
+      title: createArticleDto.title,
       searchTitle: createArticleDto.title.toLowerCase(),
+      description: createArticleDto.description,
+      cover: createArticleDto.cover,
+      body: createArticleDto.body,
+      tags: createArticleDto.tags,
+      category: createArticleDto.category,
+      readingTime: createArticleDto.readingTime,
     });
+
+    if (createArticleDto.draftId) {
+      this.draftService.remove(createArticleDto.draftId);
+    }
+
+    return article;
   }
 
   findAll() {

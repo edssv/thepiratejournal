@@ -14,6 +14,9 @@ export const getPublicUrl = {
   article(id: string | number) {
     return `/articles/${id}`;
   },
+  articleNew() {
+    return '/articles/new';
+  },
   articleEdit(id: string | number) {
     return `/articles/${id}/edit`;
   },

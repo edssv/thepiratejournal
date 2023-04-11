@@ -1,0 +1,65 @@
+@use '../../styles/util' as *;
+
+.root {
+  display: flex;
+  gap: 16px;
+  min-height: 100%;
+  background-color: var(--md-sys-color-surface-1);
+  @include breakpoint(lg) {
+    height: 100%;
+    border-radius: 16px;
+  }
+  @include breakpoint-down(lg) {
+    flex-direction: column;
+  }
+
+  .container {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    width: 100%;
+    background-color: var(--md-sys-color-surface);
+    @include breakpoint(lg) {
+      border-radius: 16px;
+      overflow-y: hidden;
+    }
+    @include breakpoint-down(lg) {
+      padding: 24px;
+    }
+
+    .textarea__wrapper {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin: 32px 0 24px;
+      @include breakpoint(lg) {
+        margin: 48px 0 32px;
+      }
+
+      .writingHeader {
+        background-color: transparent;
+        max-width: 656px;
+        width: 100%;
+        padding: 0;
+        border: none;
+        resize: none;
+        outline: 0 !important;
+        font-size: 32px;
+        line-height: 1.3em;
+        font-weight: 700;
+        color: currentColor;
+        @include breakpoint-down(lg) {
+          font-size: 24px;
+        }
+
+        &::placeholder {
+          color: var(--md-sys-color-secondary-text);
+        }
+
+        &:focus {
+          box-shadow: none;
+        }
+      }
+    }
+  }
+}
