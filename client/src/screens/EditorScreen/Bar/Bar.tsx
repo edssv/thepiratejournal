@@ -10,6 +10,8 @@ import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
 import DraftSave from '../DraftSave/DraftSave';
 
 import styles from './Bar.module.scss';
+import { useState } from 'react';
+import LeaveDialog from './LeaveDialog/LeaveDialog';
 
 interface BarProps {
   mode: EditorPageMode;
@@ -23,6 +25,7 @@ const Bar: React.FC<BarProps> = ({ mode, blocks, articleContentRef, isLoading, i
   const { back } = useRouter();
 
   const { formStatus } = useTypedSelector((state) => state.editorPage);
+  const [isOpenLeaveDialog, setIsOpenLeaveDialog] = useState(false);
 
   const getStatusContent = () => {
     if (isLoading) {
@@ -73,10 +76,11 @@ const Bar: React.FC<BarProps> = ({ mode, blocks, articleContentRef, isLoading, i
         </motion.div>
       </AnimatePresence>
       <div className={styles.buttons}>
-        <Button onClick={() => back()}>Отмена</Button>
+        <Button onClick={() => setIsOpenLeaveDialog(true)}>Отмена</Button>
         {mode !== EditorPageMode.EDIT && <DraftSave blocks={blocks} />}
         <ConfirmDialog articleContentRef={articleContentRef} blocks={blocks} />
       </div>
+      <LeaveDialog isOpen={isOpenLeaveDialog} setIsOpen={setIsOpenLeaveDialog} />
     </div>
   );
 };

@@ -1,27 +1,30 @@
-import { useActions } from '@/hooks';
+import { useActions, useAuth } from '@/hooks';
 import { getAccessToken } from '@/services/auth/auth.helper';
 import { GoogleLogin } from '@react-oauth/google';
 import { useRouter } from 'next/router';
 
 const GoogleOneTap = () => {
-    const accessToken = getAccessToken();
-    const { googleOneTap } = useActions();
-    const { pathname } = useRouter();
-    const currentLocation = pathname.split('/')[1];
+  const { pathname } = useRouter();
 
-    return (
-        <div className="hidden">
-            {!accessToken && currentLocation !== 'login' && currentLocation !== 'signup' && (
-                <GoogleLogin
-                    onSuccess={({ credential }) => {
-                        googleOneTap(credential ?? '');
-                    }}
-                    useOneTap
-                    cancel_on_tap_outside={false}
-                />
-            )}
-        </div>
-    );
+  const { user } = useAuth();
+
+  const { googleOneTap } = useActions();
+
+  const currentLocation = pathname.split('/')[1];
+
+  return (
+    <div className="hidden">
+      {!user && currentLocation !== 'login' && currentLocation !== 'signup' && (
+        <GoogleLogin
+          onSuccess={({ credential }) => {
+            googleOneTap(credential ?? '');
+          }}
+          useOneTap
+          cancel_on_tap_outside={false}
+        />
+      )}
+    </div>
+  );
 };
 
 export default GoogleOneTap;

@@ -17,25 +17,9 @@ interface FormProps {
 }
 
 const Form: React.FC<FormProps> = ({ blocks, setBlocks }) => {
+  const { data } = useTypedSelector((state) => state.editorPage);
+
   const { setFormStatus } = useActions();
-  const { data, formStatus } = useTypedSelector((state) => state.editorPage);
-
-  useEffect(() => {
-    const handler = (event: BeforeUnloadEvent) => {
-      event.preventDefault();
-      event.returnValue = '';
-    };
-
-    if (formStatus === EditorFormStatus.MODIFIED) {
-      window.addEventListener('beforeunload', handler);
-
-      return () => {
-        window.removeEventListener('beforeunload', handler);
-      };
-    }
-
-    return;
-  }, [formStatus]);
 
   useEffect(() => {
     if (data.title || blocks.length) {

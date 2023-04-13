@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { ArticleService, AuthService } from '@/services';
-import { ApiUrlBuilder, getApiUrl } from '@/lib/apiUrlBuilder';
+import { ArticleService } from '@/services';
 import { Article } from '@/interfaces/article.interface';
 
 export const getArticle = createAsyncThunk<Article, string>('get article', async (id, thunkApi) => {

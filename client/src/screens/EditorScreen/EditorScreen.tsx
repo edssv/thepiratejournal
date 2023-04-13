@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 
-import NotFoundPage from '../NotFoundScreen/NotFoundScreen';
 import { useActions, useAuth } from '@/hooks';
 import { EditorFormStatus, EditorPageMode } from '@/lib/enums';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { useCreateDraftMutation, useGetArticleQuery, useGetOneDraftQuery, useUpdateDraftMutation } from '@/services';
+import NotFoundPage from '../NotFoundScreen/NotFoundScreen';
 import Form from './Form/Form';
 import Bar from './Bar/Bar';
 
@@ -19,9 +19,9 @@ const EditorScreen: React.FC<{ mode: EditorPageMode }> = ({ mode }) => {
   const { data, formStatus } = useTypedSelector((state) => state.editorPage);
   const [blocks, setBlocks] = useState(data?.body ?? []);
 
-  const { setMode, resetData, setFormStatus, setDraftId } = useActions();
-  const { isError } = useGetArticleQuery(query.id as string, mode === EditorPageMode.EDIT);
-  const { isError: isErrorDraft } = useGetOneDraftQuery(query.id as string, mode === EditorPageMode.DRAFT);
+  const { setMode, resetData, setFormStatus, setDraftId, getArticle } = useActions();
+  // const { isError } = useGetArticleQuery(query.id as string, mode === EditorPageMode.EDIT);
+  // const { isError: isErrorDraft } = useGetOneDraftQuery(query.id as string, mode === EditorPageMode.DRAFT);
   const {
     mutate: createDraft,
     data: draftData,
@@ -34,11 +34,18 @@ const EditorScreen: React.FC<{ mode: EditorPageMode }> = ({ mode }) => {
     isError: isErrorUpdateDraft,
   } = useUpdateDraftMutation();
 
+  // useEffect(() => {
+  //   getArticle(String(query?.id));
+  // }, [query, getArticle]);
+
+  // useEffect(() => {
+  //   setBlocks(data?.body ?? []);
+  // }, [data]);
+
   useEffect(() => {
     setMode(mode);
 
     if (mode === EditorPageMode.NEW) return;
-
     if (!data.user) return;
 
     if (user?.id !== data.user.id) {
@@ -80,7 +87,7 @@ const EditorScreen: React.FC<{ mode: EditorPageMode }> = ({ mode }) => {
     };
   }, [resetData, setMode, setBlocks]);
 
-  if ((isError && mode === EditorPageMode.EDIT) || isErrorDraft) return <NotFoundPage />;
+  // if ((isError && mode === EditorPageMode.EDIT) || isErrorDraft) return <NotFoundPage />;
 
   return (
     <div className={styles.root}>

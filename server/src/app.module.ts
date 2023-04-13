@@ -29,38 +29,38 @@ import { Like } from './modules/like/entities/like.entity';
 import { User } from './modules/user/entities/user.entity';
 
 @Module({
-    imports: [
-        ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '..', 'media'),
-            serveRoot: `/assets`,
-            exclude: [`/${process.env.API_PREFIX}/.*`],
-        }),
-        ConfigModule.forRoot({
-            isGlobal: true,
-            load: [databaseConfig, appConfig, authConfig, fileConfig, googleConfig],
-            envFilePath: [`.env.${process.env.NODE_ENV || 'production'}`],
-        }),
-        TypeOrmModule.forRoot({
-            type: 'postgres',
-            host: process.env.DATABASE_HOST,
-            port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
-            username: process.env.DATABASE_USERNAME,
-            password: process.env.DATABASE_PASSWORD,
-            database: process.env.DATABASE_NAME,
-            entities: [Article, Blog, Bookmark, Comment, Draft, Follower, Like, User],
-            synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
-        }),
-        ArticleModule,
-        AuthModule,
-        UserModule,
-        CommentModule,
-        FileModule,
-        BlogModule,
-        LikeModule,
-        BookmarkModule,
-        FollowerModule,
-        AuthGoogleModule,
-        DraftModule,
-    ],
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'media'),
+      serveRoot: `/assets`,
+      exclude: [`/${process.env.API_PREFIX}/.*`],
+    }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [databaseConfig, appConfig, authConfig, fileConfig, googleConfig],
+      envFilePath: [`.env.${process.env.NODE_ENV || 'production'}`],
+    }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DATABASE_HOST,
+      port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
+      username: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
+      entities: [Article, Blog, Bookmark, Comment, Draft, Follower, Like, User],
+      synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
+    }),
+    ArticleModule,
+    AuthModule,
+    UserModule,
+    CommentModule,
+    FileModule,
+    BlogModule,
+    LikeModule,
+    BookmarkModule,
+    FollowerModule,
+    AuthGoogleModule,
+    DraftModule,
+  ],
 })
 export class AppModule {}

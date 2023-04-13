@@ -55,7 +55,7 @@ export const editorPageSlice = createSlice({
       })
       .addCase(getArticle.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        // state.data = payload;
+        state.data = payload;
       })
       .addCase(getArticle.rejected, (state, { payload }: any) => {
         state.isLoading = false;
