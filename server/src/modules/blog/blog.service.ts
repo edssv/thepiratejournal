@@ -3,55 +3,55 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
+import { CreateBlogInput } from './inputs/create-blog.input';
 import { Blog } from './entities/blog.entity';
 
 @Injectable()
 export class BlogService {
-    constructor(
-        @InjectRepository(Blog)
-        private repository: Repository<Blog>
-    ) {}
+  constructor(
+    @InjectRepository(Blog)
+    private repository: Repository<Blog>
+  ) {}
 
-    create(user, createBlogDto: CreateBlogDto) {
-        console.log(user);
-        if (user.role === 'editor' || user.role === 'admin') {
-            return this.repository.save({ user: { id: user.id }, ...createBlogDto });
-        }
-
-        throw new ForbiddenException('Нет доступа.');
+  create(user, createBlogInput: CreateBlogDto) {
+    if (user.role === 'editor' || user.role === 'admin') {
+      return this.repository.save({ user: { id: user.id }, ...createBlogInput });
     }
 
-    findAll() {
-        return this.repository.find({ order: { createdAt: 'DESC' } });
-    }
+    throw new ForbiddenException('Нет доступа.');
+  }
 
-    async findOne(id: number) {
-        await this.repository.increment({ id }, 'viewsCount', 1);
+  findAll() {
+    return this.repository.find({ order: { createdAt: 'DESC' } });
+  }
 
-        const find = await this.repository.findOne({ where: { id }, relations: ['user'] });
+  async findOne(id: number) {
+    await this.repository.increment({ id }, 'viewsCount', 1);
 
-        if (!find) throw new NotFoundException('Статья не найдена');
+    const find = await this.repository.findOne({ where: { id }, relations: ['user'] });
 
-        return find;
-    }
+    if (!find) throw new NotFoundException('Статья не найдена');
 
-    async update(id: number, userId: number, updateBlogDto: UpdateBlogDto) {
-        const find = await this.repository.findOne({ where: { id }, relations: ['user'] });
+    return find;
+  }
 
-        if (!find) throw new NotFoundException('Статья не найдена');
+  async update(id: number, userId: number, updateBlogDto: UpdateBlogDto) {
+    const find = await this.repository.findOne({ where: { id }, relations: ['user'] });
 
-        if (userId !== find.user.id) throw new ForbiddenException('Статья принадлежит другому пользователю.');
+    if (!find) throw new NotFoundException('Статья не найдена');
 
-        return this.repository.update(id, updateBlogDto);
-    }
+    if (userId !== find.user.id) throw new ForbiddenException('Статья принадлежит другому пользователю.');
 
-    async remove(id: number, userId: number) {
-        const find = await this.repository.findOne({ where: { id }, relations: ['user'] });
+    return this.repository.update(id, updateBlogDto);
+  }
 
-        if (!find) throw new NotFoundException('Статья не найдена');
+  async remove(id: number, userId: number) {
+    const find = await this.repository.findOne({ where: { id }, relations: ['user'] });
 
-        if (userId !== find.user.id) throw new ForbiddenException('Статья принадлежит другому пользователю.');
+    if (!find) throw new NotFoundException('Статья не найдена');
 
-        return this.repository.softDelete(id);
-    }
+    if (userId !== find.user.id) throw new ForbiddenException('Статья принадлежит другому пользователю.');
+
+    return this.repository.softDelete(id);
+  }
 }

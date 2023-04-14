@@ -12,7 +12,7 @@ const BlogLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   return (
     <>
-      {!isTablet && <Loader />}
+      {!isTablet && <Loader color="var(--md-sys-color-on-surface)" />}
       <BlogHeader />
       <main>
         <div className={clsx('padding-medium', 'container-fluid')}>{children}</div>

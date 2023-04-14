@@ -13,7 +13,7 @@ import Layout from '@/components/layout/Layout';
 import Meta from '@/components/meta/Meta';
 
 const ArticlePage: NextPageWithLayout<{ articleId: string }> = ({ articleId }) => {
-  const { data } = useQuery(['article', articleId], () => ArticleService.getOne(articleId));
+  const { data } = useQuery([`get article ${articleId}`], () => ArticleService.getOne(articleId));
 
   return (
     <Meta
@@ -53,7 +53,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const articleId = params?.id;
 
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(['article', articleId], () => ArticleService.getOne(String(articleId), true));
+  const data = await queryClient.prefetchQuery(['article', articleId], () =>
+    ArticleService.getOne(String(articleId), true)
+  );
 
   return {
     props: { dehydratedState: dehydrate(queryClient), articleId },

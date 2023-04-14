@@ -3,17 +3,18 @@ import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import { Roboto } from 'next/font/google';
+import { ApolloProvider } from '@apollo/client';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'next-themes';
 
+import client from '@/apollo/client';
 import { store } from '@/store';
 import AuthProvider from '@/components/providers/AuthProvider';
+import CrossScreensSnackbars from '@/components/Snackbars/CrossScreensSnackbars/Component';
 
 import '@/styles/styles.scss';
-
-import CrossScreensSnackbars from '@/components/Snackbars/CrossScreensSnackbars/Component';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -47,21 +48,23 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           }
         `}
       </style>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <Provider store={store}>
-            <AuthProvider>
-              <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ''}>
-                <ThemeProvider>
-                  {getLayout(<Component {...pageProps} />)}
-                  <GoogleOneTap />
-                  <CrossScreensSnackbars />
-                </ThemeProvider>
-              </GoogleOAuthProvider>
-            </AuthProvider>
-          </Provider>
-        </Hydrate>
-      </QueryClientProvider>
+      <ApolloProvider client={client}>
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <Provider store={store}>
+              <AuthProvider>
+                <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ''}>
+                  <ThemeProvider>
+                    {getLayout(<Component {...pageProps} />)}
+                    <GoogleOneTap />
+                    <CrossScreensSnackbars />
+                  </ThemeProvider>
+                </GoogleOAuthProvider>
+              </AuthProvider>
+            </Provider>
+          </Hydrate>
+        </QueryClientProvider>
+      </ApolloProvider>
     </>
   );
 }

@@ -12,7 +12,7 @@ import Meta from '@/components/meta/Meta';
 import { ArticlePageMode } from '@/lib/enums';
 
 const BlogArticlePage: NextPageWithLayout<{ id: string }> = ({ id }) => {
-  const { data } = useQuery(['blog', id], () => BlogService.getOne(id));
+  const { data } = useQuery([`get blog ${id}`], () => BlogService.getOne(id));
 
   return (
     <Meta

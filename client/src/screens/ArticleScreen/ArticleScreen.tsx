@@ -19,7 +19,7 @@ const ArticleScreen: React.FC<{ mode: ArticlePageMode }> = ({ mode }) => {
   const { query } = useRouter();
 
   const { data, isLoading, isError } = useQuery(
-    [mode === ArticlePageMode.ARTICLE ?? ArticlePageMode.BLOG, query.id],
+    [`get ${mode === ArticlePageMode.ARTICLE ? 'article' : 'blog'} ${query.id}`],
     () =>
       mode === ArticlePageMode.ARTICLE ? ArticleService.getOne(String(query.id)) : BlogService.getOne(String(query.id))
   );

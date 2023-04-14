@@ -10,6 +10,7 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@apollo/client": "^3.7.12",
         "@editorjs/delimiter": "^1.2.0",
         "@editorjs/editorjs": "^2.26.4",
         "@editorjs/embed": "^2.5.3",
@@ -33,6 +34,7 @@
         "eslint": "8.36.0",
         "eslint-config-next": "13.2.4",
         "framer-motion": "^8.2.4",
+        "graphql": "^16.6.0",
         "js-cookie": "^3.0.1",
         "lodash.debounce": "^4.0.8",
         "material-symbols": "^0.4.2",
