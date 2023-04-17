@@ -3,10 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BlogService } from './blog.service';
 import { BlogController } from './blog.controller';
 import { Blog } from './entities/blog.entity';
-import { BlogResolver } from './resolvers/blog.resolver';
+import { BlogResolver } from './blog.resolver';
+import { DraftModule } from '../draft/draft.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Blog])],
+  imports: [TypeOrmModule.forFeature([Blog]), DraftModule],
   controllers: [BlogController],
   providers: [BlogService, BlogResolver],
 })

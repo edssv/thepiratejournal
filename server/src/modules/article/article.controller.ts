@@ -13,7 +13,7 @@ export class ArticleController {
   @UseGuards(JwtAuthGuard)
   @Post()
   create(@Request() req, @Body() createArticleDto: CreateArticleDto) {
-    return this.articleService.create(req.user.id, createArticleDto);
+    // return this.articleService.create(req.user.id, createArticleDto);
   }
 
   @Get()
@@ -28,7 +28,7 @@ export class ArticleController {
 
   @Get('popular')
   findPopular() {
-    return this.articleService.findPopular();
+    // return this.articleService.findPopular();
   }
 
   @Get('newest')
@@ -59,7 +59,7 @@ export class ArticleController {
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Request() req, @Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
-    return this.articleService.update(+id, req.user.id, updateArticleDto);
+    // return this.articleService.update(+id, req.user.id, updateArticleDto);
   }
 
   @UseGuards(JwtAuthGuard)

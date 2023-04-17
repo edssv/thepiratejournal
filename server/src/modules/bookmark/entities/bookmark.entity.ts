@@ -1,18 +1,25 @@
-import { Article } from 'src/modules/article/entities/article.entity';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Article } from 'src/modules/article/entities/article.entity';
 import { User } from 'src/modules/user/entities/user.entity';
 
+@ObjectType()
 @Entity('bookmarks')
 export class Bookmark {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Field(() => ID)
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @ManyToOne(() => User, (user) => user.bookmarks)
-    user: User;
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.bookmarks)
+  user: User;
 
-    @ManyToOne(() => Article)
-    article: Article;
+  @Field(() => Article)
+  @ManyToOne(() => Article)
+  article: Article;
 
-    @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
-    createdAt: Date;
+  @Field()
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
+  createdAt: Date;
 }

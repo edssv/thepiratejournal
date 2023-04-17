@@ -1,84 +1,99 @@
+import { ObjectType, Field, ID } from '@nestjs/graphql';
 import {
-    Column,
-    CreateDateColumn,
-    Entity,
-    JoinColumn,
-    ManyToOne,
-    OneToMany,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
+
 import { User } from 'src/modules/user/entities/user.entity';
 import { Like } from 'src/modules/like/entities/like.entity';
+import { Block } from 'src/lib/block.type';
 
 export enum ArticleCategory {
-    REVIEWS = 'Обзоры',
-    MENTIONS = 'Отзывы',
-    SOLUTIONS = 'Прохождения',
+  REVIEWS = 'Обзоры',
+  MENTIONS = 'Отзывы',
+  SOLUTIONS = 'Прохождения',
 }
 
-export interface Block {
-    id: string;
-    type: string;
-    data: any;
-}
-
+@ObjectType()
 @Entity('articles')
 export class Article {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Field(() => ID)
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    title: string;
+  @Field()
+  @Column()
+  title: string;
 
-    @Column()
-    searchTitle: string;
+  @Field()
+  @Column()
+  searchTitle: string;
 
-    @Column()
-    description: string;
+  @Field()
+  @Column()
+  description: string;
 
-    @Column()
-    cover: string;
+  @Field()
+  @Column()
+  cover: string;
 
-    @Column({ type: 'jsonb' })
-    body: Block[];
+  @Field(() => [Block])
+  @Column({ type: 'jsonb', nullable: false })
+  body: Block[];
 
-    @Column({ array: true, nullable: true })
-    tags: string;
+  @Field({ nullable: true })
+  @Column({ array: true, nullable: true })
+  tags: string;
 
-    @Column({ type: 'enum', enum: ArticleCategory })
-    category: ArticleCategory;
+  @Field()
+  @Column({ type: 'enum', enum: ArticleCategory })
+  category: ArticleCategory;
 
-    @Column()
-    readingTime: number;
+  @Field()
+  @Column()
+  readingTime: number;
 
-    @ManyToOne(() => User, { nullable: false })
-    @JoinColumn({ name: 'user_id' })
-    user: User;
+  @Field(() => User)
+  @ManyToOne(() => User, { nullable: false })
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 
-    @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
-    createdAt: Date;
+  @Field()
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
+  createdAt: Date;
 
-    @UpdateDateColumn({
-        type: 'timestamp',
-        default: () => 'CURRENT_TIMESTAMP',
-        onUpdate: 'CURRENT_TIMESTAMP',
-        name: 'updated_at',
-    })
-    updatedAt: Date;
+  @Field()
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+    name: 'updated_at',
+  })
+  updatedAt: Date;
 
-    @Column({ array: true, nullable: true })
-    comments: string;
+  @Field()
+  @Column({ array: true, nullable: true })
+  comments: string;
 
-    @Column({ default: 0, name: 'views_count' })
-    viewsCount: number;
+  @Field()
+  @Column({ default: 0, name: 'views_count' })
+  viewsCount: number;
 
-    @OneToMany(() => Like, (likes) => likes.article)
-    likes: Like[];
+  @Field(() => [Like])
+  @OneToMany(() => Like, (likes) => likes.article)
+  likes: Like[];
 
-    @Column({ select: false, default: false, name: 'is_published' })
-    isPublished: boolean;
+  @Field()
+  @Column({ select: false, default: false, name: 'is_published' })
+  isPublished: boolean;
 
-    @Column({ select: false, default: false, name: 'is_deleted' })
-    isDeleted: boolean;
+  @Field()
+  @Column({ select: false, default: false, name: 'is_deleted' })
+  isDeleted: boolean;
 }

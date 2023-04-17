@@ -1,0 +1,32 @@
+query ArticleQuery($id: Float!) {
+  getArticle(id: $id) {
+    id
+    title
+    description
+    body {
+      id
+      type
+      data {
+        text
+        level
+        file {
+          ref
+          url
+        }
+        caption
+        stretched
+        withBackground
+        withBorder
+        items
+      }
+    }
+    cover
+    readingTime
+    createdAt
+    user {
+      id
+      username
+      image
+    }
+  }
+}

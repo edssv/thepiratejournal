@@ -1,8 +1,8 @@
-import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { motion } from 'framer-motion';
 
-import { BlogService } from '@/services';
+import client from '@/apollo/client';
+import { BlogQuery, BlogQueryDocument } from '@/gql/__generated__';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import { Params } from '@/interfaces/params.interface';
 import { NextPageWithLayout } from 'pages/_app';
@@ -11,18 +11,12 @@ import BlogLayout from '@/components/layout/BlogLayout/BlogLayout';
 import Meta from '@/components/meta/Meta';
 import { ArticlePageMode } from '@/lib/enums';
 
-const BlogArticlePage: NextPageWithLayout<{ id: string }> = ({ id }) => {
-  const { data } = useQuery([`get blog ${id}`], () => BlogService.getOne(id));
+const BlogArticlePage: NextPageWithLayout<{ data: BlogQuery }> = ({ data }) => {
+  const { title, description, cover, id } = data.getOneBlog;
 
   return (
-    <Meta
-      title={data?.title}
-      type="article"
-      description={data?.description}
-      image={data?.cover}
-      url={getPublicUrl.blog(String(data?.id))}
-    >
-      <ArticleScreen mode={ArticlePageMode.BLOG} />
+    <Meta title={title} type="article" description={description} image={cover} url={getPublicUrl.blog(String(id))}>
+      <ArticleScreen data={data} mode={ArticlePageMode.BLOG} />
     </Meta>
   );
 };
@@ -47,11 +41,10 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params?.id;
 
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(['blog', id], () => BlogService.getOne(String(id), true));
+  const { data } = await client.query({ query: BlogQueryDocument, variables: { id: Number(id) } });
 
   return {
-    props: { dehydratedState: dehydrate(queryClient), id },
+    props: { data },
     revalidate: 300,
   };
 };

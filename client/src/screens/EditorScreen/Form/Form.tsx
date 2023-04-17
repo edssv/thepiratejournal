@@ -1,19 +1,19 @@
 import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 
+import { BlockType } from '@/gql/__generated__';
 import { useActions } from '@/hooks';
+import TitleBlock from './TitleBlock/TitleBlock';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { EditorFormStatus } from '@/lib/enums';
-import { Block } from '@/interfaces/block.interface';
 
 import styles from './Form.module.scss';
-import TitleBlock from './TitleBlock/TitleBlock';
 
 const Editor = dynamic(() => import('./EditorJs/EditorJS'), { ssr: false });
 
 interface FormProps {
-  blocks: Block[];
-  setBlocks: React.Dispatch<React.SetStateAction<Block[]>>;
+  blocks: BlockType[];
+  setBlocks: React.Dispatch<React.SetStateAction<BlockType[]>>;
 }
 
 const Form: React.FC<FormProps> = ({ blocks, setBlocks }) => {

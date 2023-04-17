@@ -10,7 +10,7 @@ module.exports = {
         'prettier/prettier': [2, { parser: 'graphql' }],
         '@graphql-eslint/avoid-duplicate-fields': 'error',
         '@graphql-eslint/executable-definitions': 'error',
-        '@graphql-eslint/fieds-on-correct-type': 'error',
+        '@graphql-eslint/fields-on-correct-type': 'error',
         '@graphql-eslint/fragments-on-composite-type': 'error',
         '@graphql-eslint/known-argument-names': 'error',
         '@graphql-eslint/known-directives': 'error',
@@ -25,6 +25,7 @@ module.exports = {
         '@graphql-eslint/unique-variable-names': 'error',
         '@graphql-eslint/value-literals-of-correct-type': 'error',
         '@graphql-eslint/variables-are-input-types': 'error',
+        '@graphql-eslint/variables-in-allowed-position': 'error',
         '@graphql-eslint/match-document-filename': [
           'error',
           {

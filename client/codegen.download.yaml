@@ -1,0 +1,8 @@
+schema:
+  - http://localhost:5000/graphql
+generates:
+  ./schema.graphql:
+    plugins:
+      - schema-ast
+    config:
+      includeDirectives: false

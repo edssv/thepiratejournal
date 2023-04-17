@@ -2,6 +2,7 @@ import { ArticleCategory, ArticleType, EditorFormStatus, EditorPageMode } from '
 import { createSlice } from '@reduxjs/toolkit';
 import { getArticle } from './editor-page.actions';
 import { InitialState } from './editor-page.interface';
+import { ArticleQuery } from '@/gql/__generated__';
 
 const initialState: InitialState = {
   mode: null,
@@ -28,6 +29,10 @@ export const editorPageSlice = createSlice({
     },
     setDraftId(state, { payload }) {
       state.draftId = payload;
+    },
+    setEditorData(state, { payload }: { payload: ArticleQuery }) {
+      const {} = payload;
+      state.data = payload.getArticle;
     },
     resetData(state) {
       state.data = {};

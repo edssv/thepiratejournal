@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 
-import { Block } from '@/interfaces/block.interface';
+import { Block } from '@/gql/__generated__';
 import { UserRole } from '@/lib/enums';
 import { useAuth } from '@/hooks';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
@@ -32,7 +32,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ articleContentRef, blocks
   return (
     <>
       {' '}
-      <Button onClick={() => setIsOpen(true)} disabled={!data?.title && !blocks.length} variant="filled">
+      <Button onClick={() => setIsOpen(true)} disabled={!(data?.title && blocks.length)} variant="filled">
         Продолжить
       </Button>
       <DialogTrigger isVisible={isOpen} onClose={setIsOpen}>

@@ -1,9 +1,9 @@
 import { ReactElement } from 'react';
-import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { motion } from 'framer-motion';
 
-import { ArticleService } from '@/services';
+import { ArticleQuery, ArticleQueryDocument } from '@/gql/__generated__';
+import apolloClient from '@/apollo/client';
 import { ArticlePageMode } from '@/lib/enums';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import { Params } from '@/interfaces/params.interface';
@@ -12,18 +12,12 @@ import ArticleScreen from '@/screens/ArticleScreen/ArticleScreen';
 import Layout from '@/components/layout/Layout';
 import Meta from '@/components/meta/Meta';
 
-const ArticlePage: NextPageWithLayout<{ articleId: string }> = ({ articleId }) => {
-  const { data } = useQuery([`get article ${articleId}`], () => ArticleService.getOne(articleId));
+const ArticlePage: NextPageWithLayout<{ data: ArticleQuery }> = ({ data }) => {
+  const { title, description, cover, id } = data.getArticle;
 
   return (
-    <Meta
-      title={data?.title}
-      type="article"
-      description={data?.description}
-      image={data?.cover}
-      url={getPublicUrl.article(String(data?.id))}
-    >
-      <ArticleScreen mode={ArticlePageMode.ARTICLE} />
+    <Meta title={title} type="article" description={description} image={cover} url={getPublicUrl.article(String(id))}>
+      <ArticleScreen data={data} mode={ArticlePageMode.ARTICLE} />
     </Meta>
   );
 };
@@ -52,13 +46,10 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const articleId = params?.id;
 
-  const queryClient = new QueryClient();
-  const data = await queryClient.prefetchQuery(['article', articleId], () =>
-    ArticleService.getOne(String(articleId), true)
-  );
+  const { data } = await apolloClient.query({ query: ArticleQueryDocument, variables: { id: Number(articleId) } });
 
   return {
-    props: { dehydratedState: dehydrate(queryClient), articleId },
+    props: { data },
     revalidate: 60,
   };
 };

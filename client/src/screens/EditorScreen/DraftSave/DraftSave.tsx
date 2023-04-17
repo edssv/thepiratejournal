@@ -8,8 +8,9 @@ import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { Block } from '@/interfaces/block.interface';
 import { EditorFormStatus } from '@/lib/enums';
 import Button from '@/components/common/Button/Button';
+import { BlockType } from '@/gql/__generated__';
 
-const DraftSave: React.FC<{ blocks: Block[] }> = ({ blocks }) => {
+const DraftSave: React.FC<{ blocks: BlockType[] }> = ({ blocks }) => {
   const { replace } = useRouter();
 
   const { data, draftId } = useTypedSelector((state) => state.editorPage);

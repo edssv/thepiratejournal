@@ -1,0 +1,21 @@
+query UserQuery($id: Float!, $articles: String!) {
+  getUser(id: $id) {
+    id
+    username
+    image
+    createdAt
+    followers {
+      id
+    }
+  }
+
+  getUserContent(id: $id, articles: $articles) {
+    id
+    title
+    cover
+    user {
+      id
+      username
+    }
+  }
+}

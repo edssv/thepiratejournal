@@ -1,27 +1,32 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 
+import { BlockType } from '@/gql/__generated__';
 import { useActions, useAuth } from '@/hooks';
 import { EditorFormStatus, EditorPageMode } from '@/lib/enums';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-import { useCreateDraftMutation, useGetArticleQuery, useGetOneDraftQuery, useUpdateDraftMutation } from '@/services';
-import NotFoundPage from '../NotFoundScreen/NotFoundScreen';
+import { useCreateDraftMutation, useUpdateDraftMutation } from '@/services';
 import Form from './Form/Form';
 import Bar from './Bar/Bar';
 
 import styles from './EditorScreen.module.scss';
 
-const EditorScreen: React.FC<{ mode: EditorPageMode }> = ({ mode }) => {
-  const { back, query } = useRouter();
+interface EditorScreenProps {
+  body: BlockType[] | null | undefined;
+  mode: EditorPageMode;
+}
+
+const EditorScreen: React.FC<EditorScreenProps> = ({ body, mode }) => {
+  const { back } = useRouter();
 
   const articleContentRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
   const { data, formStatus } = useTypedSelector((state) => state.editorPage);
-  const [blocks, setBlocks] = useState(data?.body ?? []);
 
-  const { setMode, resetData, setFormStatus, setDraftId, getArticle } = useActions();
-  // const { isError } = useGetArticleQuery(query.id as string, mode === EditorPageMode.EDIT);
-  // const { isError: isErrorDraft } = useGetOneDraftQuery(query.id as string, mode === EditorPageMode.DRAFT);
+  const [blocks, setBlocks] = useState(body ?? []);
+
+  const { setMode, resetData, setFormStatus, setDraftId } = useActions();
+
   const {
     mutate: createDraft,
     data: draftData,
@@ -34,26 +39,20 @@ const EditorScreen: React.FC<{ mode: EditorPageMode }> = ({ mode }) => {
     isError: isErrorUpdateDraft,
   } = useUpdateDraftMutation();
 
-  // useEffect(() => {
-  //   getArticle(String(query?.id));
-  // }, [query, getArticle]);
-
-  // useEffect(() => {
-  //   setBlocks(data?.body ?? []);
-  // }, [data]);
-
   useEffect(() => {
     setMode(mode);
 
     if (mode === EditorPageMode.NEW) return;
     if (!data.user) return;
 
-    if (user?.id !== data.user.id) {
+    if (user?.id !== +data.user.id) {
       back();
     }
   }, [mode, data, back, setMode, user?.id]);
 
   useEffect(() => {
+    if (mode !== EditorPageMode.NEW) return;
+
     if (!data.title && !blocks.length) {
       setFormStatus(EditorFormStatus.UNCHANGED);
     }
@@ -86,8 +85,6 @@ const EditorScreen: React.FC<{ mode: EditorPageMode }> = ({ mode }) => {
       setBlocks([]);
     };
   }, [resetData, setMode, setBlocks]);
-
-  // if ((isError && mode === EditorPageMode.EDIT) || isErrorDraft) return <NotFoundPage />;
 
   return (
     <div className={styles.root}>

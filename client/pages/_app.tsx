@@ -9,7 +9,7 @@ import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'next-themes';
 
-import client from '@/apollo/client';
+import apolloClient from '@/apollo/client';
 import { store } from '@/store';
 import AuthProvider from '@/components/providers/AuthProvider';
 import CrossScreensSnackbars from '@/components/Snackbars/CrossScreensSnackbars/Component';
@@ -27,7 +27,7 @@ type AppPropsWithLayout = AppProps & {
 export const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
   style: ['normal'],
-  subsets: ['latin', 'cyrillic', 'cyrillic-ext'],
+  subsets: ['cyrillic', 'latin'],
   display: 'block',
   variable: '--roboto-font',
 });
@@ -48,7 +48,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           }
         `}
       </style>
-      <ApolloProvider client={client}>
+      <ApolloProvider client={apolloClient}>
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
             <Provider store={store}>

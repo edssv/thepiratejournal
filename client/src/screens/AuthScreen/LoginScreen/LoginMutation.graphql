@@ -1,0 +1,12 @@
+mutation LoginMuration($loginInput: EmailLoginInput!) {
+  login(loginInput: $loginInput) {
+    user {
+      id
+      username
+      image
+      role
+    }
+    accessToken
+    refreshToken
+  }
+}

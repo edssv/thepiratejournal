@@ -2,9 +2,9 @@ import { MutableRefObject } from 'react';
 import { useRouter } from 'next/router';
 import { useMediaPredicate } from 'react-media-hook';
 
-import { useCreateArticleMutation, useCreateBlogMutation, useUpdateArticleMutation } from '@/services';
+import { Block, useCreateBlogMutation, useUpdateBlogMutation } from '@/gql/__generated__';
+import { useCreateArticleMutation, useUpdateArticleMutation } from '@/services';
 import { ArticleType, EditorPageMode, UserRole } from '@/lib/enums';
-import { Block } from '@/interfaces/block.interface';
 import { readingTime } from '@/helpers';
 import { useActions, useAuth } from '@/hooks';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
@@ -24,8 +24,13 @@ const SaveArticle: React.FC<ConfirmButtonProps> = ({ articleContentRef, blocks }
 
   const { setAlert } = useActions();
   const { mutate, isLoading, isError } = useCreateArticleMutation();
-  const { mutate: createBlog, isLoading: isLoadingBlog, isError: isErrorBlog } = useCreateBlogMutation();
   const { mutate: updateMutation, isLoading: isLoadingUpdate, isError: isErrorUpdate } = useUpdateArticleMutation();
+  const [createBlog, { loading: isLoadingBlog, error: isErrorBlog }] = useCreateBlogMutation({
+    onCompleted: () => replace(getPublicUrl.home()),
+  });
+  const [updateBlog, { loading: isLoadingUpdateBlog, error: isErrorUpdateBlog }] = useUpdateBlogMutation({
+    onCompleted: () => replace(getPublicUrl.home()),
+  });
 
   const isMobile = useMediaPredicate('(max-width: 551px)');
 
@@ -43,9 +48,9 @@ const SaveArticle: React.FC<ConfirmButtonProps> = ({ articleContentRef, blocks }
     });
 
     if (articleType === ArticleType.BLOG) {
-      if (mode === EditorPageMode.NEW) {
-        createBlog(formData, { onSuccess: () => replace(getPublicUrl.home()) });
-      }
+      if (mode === EditorPageMode.EDIT) {
+        updateBlog({ variables: { updateBlogInput: formData } });
+      } else createBlog({ variables: { createBlogInput: formData } });
     }
 
     if (articleType === ArticleType.ARTICLE) {
@@ -75,8 +80,14 @@ const SaveArticle: React.FC<ConfirmButtonProps> = ({ articleContentRef, blocks }
 
   return (
     <Button
-      isLoading={isLoading || isLoadingUpdate || isLoadingBlog}
-      disabled={isLoading || isLoadingUpdate || isLoadingBlog || !(data.category && data?.cover && data.description)}
+      isLoading={isLoading || isLoadingUpdate || isLoadingBlog || isLoadingUpdateBlog}
+      disabled={
+        isLoading ||
+        isLoadingUpdate ||
+        isLoadingBlog ||
+        isLoadingUpdateBlog ||
+        !(data.category && data?.cover && data.description && blocks)
+      }
       onClick={async () => {
         await saveArticle(), setAlert(getSnackbarText());
       }}

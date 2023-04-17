@@ -1,0 +1,9 @@
+query BlogListQuery {
+  getAllBlog {
+    id
+    title
+    description
+    cover
+    createdAt
+  }
+}

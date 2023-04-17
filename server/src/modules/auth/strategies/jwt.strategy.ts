@@ -8,15 +8,15 @@ type JwtPayload = Pick<User, 'email' | 'role'> & { sub: string } & { iat: number
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-    constructor(private configService: ConfigService) {
-        super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration: false,
-            secretOrKey: configService.get('auth.secret'),
-        });
-    }
+  constructor(private configService: ConfigService) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
+      secretOrKey: configService.get('auth.secret'),
+    });
+  }
 
-    async validate(payload: JwtPayload) {
-        return { id: payload.sub, email: payload.email, role: payload.role };
-    }
+  async validate(payload: JwtPayload) {
+    return { id: payload.sub, email: payload.email, role: payload.role };
+  }
 }

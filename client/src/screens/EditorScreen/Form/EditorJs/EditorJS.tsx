@@ -1,14 +1,14 @@
 import { useCallback, useRef } from 'react';
 import { createReactEditorJS } from 'react-editor-js';
 
-import { Block } from '@/interfaces/block.interface';
+import { BlockType } from '@/gql/__generated__';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { EDITOR_JS_TOOLS } from './tools';
 import { i18n } from './i18n';
 import { EditorCore } from './EditorCore.interface';
 
 interface EditorProps {
-  setBlocks: React.Dispatch<React.SetStateAction<Block[]>>;
+  setBlocks: React.Dispatch<React.SetStateAction<BlockType[]>>;
 }
 
 const EditorJS: React.FC<EditorProps> = ({ setBlocks }) => {
@@ -28,8 +28,6 @@ const EditorJS: React.FC<EditorProps> = ({ setBlocks }) => {
 
     setBlocks(savedData.blocks);
   }, [setBlocks]);
-
-  // if (mode !== 'new' && !data.body) return null;
 
   return (
     <ReactEditorJS

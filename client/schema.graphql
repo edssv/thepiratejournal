@@ -1,0 +1,236 @@
+type Article {
+  body: [Block!]!
+  category: String!
+  comments: String!
+  cover: String!
+  createdAt: DateTime!
+  description: String!
+  id: ID!
+  isDeleted: Boolean!
+  isPublished: Boolean!
+  likes: [Like!]!
+  readingTime: Float!
+  searchTitle: String!
+  tags: String
+  title: String!
+  updatedAt: DateTime!
+  user: User!
+  viewsCount: Float!
+}
+
+type Auth {
+  """JWT access token"""
+  accessToken: String!
+
+  """JWT refresh token"""
+  refreshToken: String!
+  user: User!
+}
+
+type Block {
+  data: BlockData!
+  id: String!
+  type: String!
+}
+
+type BlockData {
+  caption: String
+  file: FileData
+  items: [String!]
+  level: Float
+  stretched: Boolean
+  style: String
+  text: String
+  withBackground: Boolean
+  withBorder: Boolean
+}
+
+type Blog {
+  body: [Block!]!
+  category: String!
+  cover: String!
+  createdAt: DateTime!
+  description: String!
+  id: ID!
+  isDeleted: Boolean
+  isPublished: Boolean!
+  likesCount: Float!
+  readingTime: Float!
+  tags: String
+  title: String!
+  updatedAt: DateTime!
+  user: User!
+  viewsCount: Float!
+}
+
+type Bookmark {
+  article: Article!
+  createdAt: DateTime!
+  id: ID!
+  user: User!
+}
+
+input CreateArticleInput {
+  body: [InputBlock!]!
+  category: String!
+  cover: String!
+  description: String!
+  draftId: Float
+  readingTime: Float!
+  tags: String
+  title: String!
+}
+
+input CreateBlogInput {
+  body: [InputBlock!]!
+  category: String
+  cover: String!
+  description: String!
+  draftId: Float!
+  readingTime: Float!
+  tags: String
+  title: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Draft {
+  body: [Block!]
+  category: String
+  cover: String
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  tags: [String!]
+  title: String
+  updatedAt: DateTime!
+  user: User!
+}
+
+input EmailLoginInput {
+  email: String!
+  password: String!
+}
+
+type FileData {
+  ref: String
+  url: String
+}
+
+type Follower {
+  createdAt: DateTime!
+  followingTo: [User!]!
+  id: ID!
+  user: [User!]!
+}
+
+input InputBlock {
+  data: InputBlockData!
+  id: String!
+  type: String!
+}
+
+input InputBlockData {
+  caption: String
+  file: InputFileData
+  items: [String!]
+  level: Float
+  stretched: Boolean
+  style: String
+  text: String
+  withBackground: Boolean
+  withBorder: Boolean
+}
+
+input InputFileData {
+  ref: String
+  url: String
+}
+
+type Like {
+  article: Article!
+  createdAt: DateTime!
+  id: ID!
+  user: User!
+}
+
+type Mutation {
+  createArticle(createArticleInput: CreateArticleInput!): Article!
+  createBlog(createBlogInput: CreateBlogInput!): Blog!
+  login(loginInput: EmailLoginInput!): Auth!
+  removeArticle(id: Float!): Article!
+  removeBlog(id: Float!): Blog!
+  signup(signupInput: SignUpInput!): Auth!
+  updateArticle(updateArticleInput: UpdateArticleInput!): Article!
+  updateBlog(updateBlogInput: UpdateBlogInput!): Blog!
+}
+
+type Query {
+  getAllArticles: [Article!]!
+  getAllBlog: [Blog!]!
+  getArticle(id: Float!): Article!
+  getAuthorChoiceArticles: [Article!]!
+  getBestOfWeekArticles: [Article!]!
+  getDraft(id: Float!): Draft!
+  getNewestArticles: [Article!]!
+  getNextArticles(id: Float!): [Article!]!
+  getNextBlogs(id: Float!): [Blog!]!
+  getOneBlog(id: Float!): Blog!
+  getUser(id: Float!): User!
+  getUserContent(articles: String!, id: Float!): [Article!]
+}
+
+input SignUpInput {
+  email: String!
+  firstName: String
+  image: String
+  lastName: String
+  password: String
+  username: String!
+}
+
+input UpdateArticleInput {
+  body: [InputBlock!]!
+  category: String!
+  cover: String!
+  description: String!
+  draftId: Float
+  id: Float!
+  readingTime: Float!
+  tags: String
+  title: String!
+}
+
+input UpdateBlogInput {
+  body: [InputBlock!]!
+  category: String
+  cover: String!
+  description: String!
+  draftId: Float!
+  id: ID!
+  readingTime: Float!
+  tags: String
+  title: String!
+}
+
+type User {
+  articles: [Article!]
+  bookmarks: [Bookmark!]
+  createdAt: DateTime!
+  drafts: [Draft!]
+  email: String!
+  emailVerified: Boolean!
+  firstName: String
+  followers: [Follower!]
+  following: [Follower!]
+  id: ID!
+  image: String
+  lastName: String
+  likes: [Like!]
+  role: String!
+  updatedAt: DateTime!
+  username: String!
+}

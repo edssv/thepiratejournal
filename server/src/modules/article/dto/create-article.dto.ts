@@ -1,5 +1,6 @@
 import { IsArray, IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
-import { ArticleCategory, Block } from '../entities/article.entity';
+import { ArticleCategory } from '../entities/article.entity';
+import { Block } from 'src/lib/block.type';
 
 export class CreateArticleDto {
   @IsNotEmpty()

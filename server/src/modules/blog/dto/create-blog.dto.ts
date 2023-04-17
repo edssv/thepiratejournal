@@ -1,5 +1,6 @@
-import { IsArray, IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
-import { Block, BlogCategory } from '../entities/blog.entity';
+import { IsArray, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { BlogCategory } from '../entities/blog.entity';
+import { Block } from 'src/lib/block.type';
 
 export class CreateBlogDto {
   @IsNotEmpty()

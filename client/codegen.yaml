@@ -1,0 +1,21 @@
+schema: schema.graphql
+documents: 'src/**/*.graphql'
+generates:
+  src/gql/__generated__.ts:
+    plugins:
+      - add:
+          content:
+            - '// NOTICE: __generated__ folders should be added to .gitignore'
+            - '// In this repo I keep generated files only for demo purposes!'
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+config:
+  documentMode: 'documentNodeImportFragments'
+  namingConvention: 'keep'
+  nonOptionalTypename: true
+  dedupeOperationSuffix: true
+  omitOperationSuffix: true
+  withComponent: false
+  withHooks: true
+  withHOC: false

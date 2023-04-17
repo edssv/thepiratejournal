@@ -1,11 +1,12 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
-import { CreateArticleDto } from './dto/create-article.dto';
+
 import { SearchArticleDto } from './dto/search-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto';
 import { Article } from './entities/article.entity';
 import { DraftService } from '../draft/draft.service';
+import { UpdateArticleInput } from './inputs/update-article.input';
+import { CreateArticleInput } from './inputs/create-article.input';
 
 @Injectable()
 export class ArticleService {
@@ -15,21 +16,21 @@ export class ArticleService {
     private readonly draftService: DraftService
   ) {}
 
-  create(userId: number, createArticleDto: CreateArticleDto) {
+  create(userId: number, createArticleInput: CreateArticleInput) {
     const article = this.repository.save({
       user: { id: userId },
-      title: createArticleDto.title,
-      searchTitle: createArticleDto.title.toLowerCase(),
-      description: createArticleDto.description,
-      cover: createArticleDto.cover,
-      body: createArticleDto.body,
-      tags: createArticleDto.tags,
-      category: createArticleDto.category,
-      readingTime: createArticleDto.readingTime,
+      title: createArticleInput.title,
+      searchTitle: createArticleInput.title.toLowerCase(),
+      description: createArticleInput.description,
+      cover: createArticleInput.cover,
+      body: createArticleInput.body,
+      tags: createArticleInput.tags,
+      category: createArticleInput.category,
+      readingTime: createArticleInput.readingTime,
     });
 
-    if (createArticleDto.draftId) {
-      this.draftService.remove(createArticleDto.draftId);
+    if (createArticleInput.draftId) {
+      this.draftService.remove(createArticleInput.draftId);
     }
 
     return article;
@@ -46,7 +47,6 @@ export class ArticleService {
   async findOneById(id: number) {
     await this.repository.increment({ id }, 'viewsCount', 1);
 
-    // const find = await this.repository.findOne({ where: { id }, relations: ['user'] });
     const find = await this.repository
       .createQueryBuilder('articles')
       .where({ id })
@@ -60,14 +60,16 @@ export class ArticleService {
     return find;
   }
 
-  async update(id: number, userId: number, updateArticleDto: UpdateArticleDto) {
+  async update(userId: number, updateArticleInput: UpdateArticleInput) {
+    const { id, ...articleData } = updateArticleInput;
+
     const find = await this.repository.findOne({ where: { id }, relations: ['user'] });
 
     if (!find) throw new NotFoundException('Статья не найдена');
 
     if (userId !== find.user.id) throw new ForbiddenException('Статья принадлежит другому пользователю.');
 
-    return this.repository.update(id, { ...updateArticleDto, searchTitle: updateArticleDto.title.toLowerCase() });
+    return this.repository.update(id, { ...articleData, searchTitle: articleData.title.toLowerCase() });
   }
 
   async remove(userId: number, id: number) {
@@ -82,9 +84,6 @@ export class ArticleService {
 
   async search(dto: SearchArticleDto) {
     const qb = this.repository.createQueryBuilder('article');
-    // const skip = dto.limit * dto.page;
-    // // console.log(typeof skip);
-    // // qb.limit(dto.limit).skip(skip);
     qb.leftJoinAndSelect('article.user', 'users');
     if (dto.search) qb.andWhere('title LIKE :title', { title: dto.search });
     if (dto.body) qb.andWhere('body LIKE :body', { body: dto.body });
@@ -99,15 +98,13 @@ export class ArticleService {
     return { articles, total };
   }
 
-  async findPopular() {
+  async findSixMostPopular() {
     const qb = this.repository.createQueryBuilder();
 
     qb.orderBy('views_count', 'DESC');
-    qb.limit(20);
+    qb.limit(6);
 
-    const [articles, total] = await qb.getManyAndCount();
-
-    return { articles, total };
+    return await qb.getMany();
   }
 
   async findNewest() {
@@ -115,6 +112,15 @@ export class ArticleService {
 
     qb.orderBy('created_at', 'DESC');
     qb.limit(9);
+
+    return qb.getMany();
+  }
+
+  async findAuthorChoice() {
+    const qb = this.repository.createQueryBuilder();
+
+    qb.orderBy('views_count', 'DESC');
+    qb.limit(6);
 
     return qb.getMany();
   }

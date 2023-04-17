@@ -1,0 +1,31 @@
+query DraftQuery($id: Float!) {
+  getDraft(id: $id) {
+    id
+    title
+    description
+    body {
+      id
+      type
+      data {
+        text
+        level
+        file {
+          ref
+          url
+        }
+        caption
+        stretched
+        withBackground
+        withBorder
+        items
+      }
+    }
+    cover
+    createdAt
+    user {
+      id
+      username
+      image
+    }
+  }
+}

@@ -1,20 +1,20 @@
-import { IsArray, IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { Field, InputType } from '@nestjs/graphql';
-import { Block, BlogCategory } from '../entities/blog.entity';
+import { BlogCategory } from '../entities/blog.entity';
+import { InputBlock } from 'src/lib/block.type';
 
 @InputType()
 export class CreateBlogInput {
-  @Field({ nullable: false })
+  @Field()
   title: string;
 
-  @Field({ nullable: false })
+  @Field()
   description: string;
 
-  @Field({ nullable: false })
+  @Field()
   cover: string;
 
-  //   @Field({ nullable: false })
-  //   body: Block[];
+  @Field(() => [InputBlock])
+  body: InputBlock[];
 
   @Field({ nullable: true })
   tags?: string;
@@ -24,4 +24,7 @@ export class CreateBlogInput {
 
   @Field({ nullable: false })
   readingTime: number;
+
+  @Field()
+  draftId: number;
 }

@@ -1,17 +1,17 @@
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { AnimatePresence, motion } from 'framer-motion';
 import clsx from 'clsx';
 
+import { Block } from '@/gql/__generated__';
 import { EditorFormStatus, EditorPageMode } from '@/lib/enums';
-import { Block } from '@/interfaces/block.interface';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import Button from '@/components/common/Button/Button';
 import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
 import DraftSave from '../DraftSave/DraftSave';
+import LeaveDialog from './LeaveDialog/LeaveDialog';
 
 import styles from './Bar.module.scss';
-import { useState } from 'react';
-import LeaveDialog from './LeaveDialog/LeaveDialog';
 
 interface BarProps {
   mode: EditorPageMode;
@@ -63,18 +63,20 @@ const Bar: React.FC<BarProps> = ({ mode, blocks, articleContentRef, isLoading, i
 
   return (
     <div className={styles.root}>
-      <div></div>
-      <AnimatePresence mode="wait">
-        <motion.div
-          className={clsx(styles.formStatus, 'icon-center')}
-          key={formStatus}
-          initial={{ opacity: 0, fontVariationSettings: '"FILL" 0, "wght" 500, "opsz" 24' }}
-          animate={{ opacity: 1, fontVariationSettings: '"FILL" 0, "wght" 300, "opsz" 24' }}
-          transition={{ delay: 0.3 }}
-        >
-          {getStatusContent()}
-        </motion.div>
-      </AnimatePresence>
+      <div />
+      {mode === EditorPageMode.NEW && (
+        <AnimatePresence mode="wait">
+          <motion.div
+            className={clsx(styles.formStatus, 'icon-center')}
+            key={formStatus}
+            initial={{ opacity: 0, fontVariationSettings: '"FILL" 0, "wght" 500, "opsz" 24' }}
+            animate={{ opacity: 1, fontVariationSettings: '"FILL" 0, "wght" 300, "opsz" 24' }}
+            transition={{ delay: 0.3 }}
+          >
+            {getStatusContent()}
+          </motion.div>
+        </AnimatePresence>
+      )}
       <div className={styles.buttons}>
         <Button onClick={() => setIsOpenLeaveDialog(true)}>Отмена</Button>
         {mode !== EditorPageMode.EDIT && <DraftSave blocks={blocks} />}

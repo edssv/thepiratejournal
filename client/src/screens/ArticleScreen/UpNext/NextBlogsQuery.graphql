@@ -1,0 +1,8 @@
+query NextBlogsQuery($id: Float!) {
+  getNextBlogs(id: $id) {
+    id
+    title
+    cover
+    category
+  }
+}

@@ -1,21 +1,27 @@
 import { useRouter } from 'next/router';
 
-import { useGetUser } from '@/services';
+import { useUserQuery } from '@/gql/__generated__';
 import { NextPageWithLayout } from 'pages/_app';
 import ProfileScreen from '@/screens/ProfileScreen/ProfileScreen';
 import Layout from '@/components/layout/Layout';
 import Meta from '@/components/meta/Meta';
+import NotFoundPage from '@/screens/NotFoundScreen/NotFoundScreen';
 
 const ProfilePage: NextPageWithLayout = () => {
-  const { query } = useRouter();
+  const { query, isReady } = useRouter();
 
-  const userId = (query?.id && query?.id[0].toString()) ?? '';
+  const userId = (query?.id && query?.id[0]) ?? '';
+  const articles = (query?.id && query?.id[1]) ?? 'articles';
 
-  const { data } = useGetUser(userId, 'articles');
+  const { data, loading } = useUserQuery({ variables: { id: +userId, articles: articles }, skip: !isReady });
+
+  if (loading || !isReady) return null;
+
+  if (!data?.getUser) return <NotFoundPage />;
 
   return (
-    <Meta title={data?.username} image={data?.image} url={String(data?.id)}>
-      <ProfileScreen />
+    <Meta title={data.getUser.username} image={data.getUser.image ?? ''} url={data.getUser.id}>
+      <ProfileScreen data={data} />
     </Meta>
   );
 };

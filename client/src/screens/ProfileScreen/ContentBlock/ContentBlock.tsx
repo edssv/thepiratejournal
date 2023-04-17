@@ -8,11 +8,13 @@ import styles from './ContentBlock.module.scss';
 
 interface ContentBlockProps {
   currentSection: string;
-  content: Article[];
+  content: any;
   isOwner: boolean;
 }
 
 const ContentBlock: React.FC<ContentBlockProps> = ({ currentSection, content, isOwner }) => {
+  if (!content) return null;
+
   const getContentList = () => {
     if (currentSection !== ProfileSection.Drafts) {
       return content?.map((article: Article) => <ArticlePreview article={article} key={article.id} />);

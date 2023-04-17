@@ -1,16 +1,16 @@
 import { ReactElement } from 'react';
 import { GetServerSideProps } from 'next';
-import { dehydrate, QueryClient } from '@tanstack/react-query';
 
+import client from '@/apollo/client';
+import { BlogListQuery, BlogListQueryDocument } from '@/gql/__generated__';
 import { NextPageWithLayout } from '../_app';
-import { BlogService } from '@/services';
+import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import BlogScreen from '@/screens/BlogScreen/BlogScreen';
 import BlogLayout from '@/components/layout/BlogLayout/BlogLayout';
 import Meta from '@/components/meta/Meta';
-import { getPublicUrl } from '@/lib/publicUrlBuilder';
 
-const BlogPage: NextPageWithLayout = () => {
-  return <BlogScreen />;
+const BlogPage: NextPageWithLayout<{ data: BlogListQuery }> = ({ data }) => {
+  return <BlogScreen data={data} />;
 };
 
 BlogPage.getLayout = function getLayout(page: ReactElement) {
@@ -22,12 +22,10 @@ BlogPage.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery(['blog'], () => BlogService.getAll(true));
+  const { data } = await client.query({ query: BlogListQueryDocument });
 
   return {
-    props: { dehydratedState: dehydrate(queryClient) },
+    props: { data },
   };
 };
 
