@@ -9,7 +9,6 @@ import ArticleScreen from '@/screens/ArticleScreen/ArticleScreen';
 import BlogLayout from '@/components/layout/BlogLayout/BlogLayout';
 import Meta from '@/components/meta/Meta';
 import { ArticlePageMode } from '@/lib/enums';
-import { getClient } from '@/apollo/getClient';
 import apolloClient from '@/apollo/client';
 
 const BlogArticlePage: NextPageWithLayout<{ data: BlogQuery }> = ({ data }) => {
@@ -45,12 +44,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { data } = await apolloClient.query({
     query: BlogQueryDocument,
     variables: { id: Number(id) },
-    context: { fetchOptions: { next: { revalidate: 1 } } },
   });
 
   return {
     props: { data },
-    revalidate: 1,
+    revalidate: 60,
   };
 };
 
