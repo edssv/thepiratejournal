@@ -16,8 +16,13 @@ export const getUserFromStorage = async () => {
 };
 
 export const saveTokensStorage = (data: Tokens) => {
-  Cookies.set(TokensEnum.ACCESS_TOKEN, data.accessToken, { expires: 30 });
-  Cookies.set(TokensEnum.REFRESH_TOKEN, data.refreshToken, { expires: 30 });
+  Cookies.set(TokensEnum.ACCESS_TOKEN, data.accessToken, {
+    expires: 30,
+    domain: 'http://localhost:3000',
+    sameSite: 'Strict',
+    secure: true,
+  });
+  Cookies.set(TokensEnum.REFRESH_TOKEN, data.refreshToken, { expires: 30, sameSite: 'Strict', secure: true });
 };
 
 export const removeFromStorage = () => {

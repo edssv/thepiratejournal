@@ -28,10 +28,10 @@ export class CreateArticleInput {
   @IsArray()
   body: InputBlock[];
 
-  @Field({ nullable: true })
+  @Field(() => [String], { nullable: true })
   @IsOptional()
   @IsArray()
-  tags?: string;
+  tags?: string[];
 
   @Field()
   @IsNotEmpty()

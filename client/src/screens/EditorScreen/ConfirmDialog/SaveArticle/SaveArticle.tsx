@@ -56,19 +56,18 @@ const SaveArticle: React.FC<ConfirmButtonProps> = ({ articleContentRef, blocks }
       category: data.category,
       body: blocks,
       readingTime: readingTime(articleContentRef),
-      id: Number(data.id),
       draftId,
     });
 
     if (articleType === ArticleType.BLOG) {
       if (mode === EditorPageMode.EDIT) {
-        updateBlog({ variables: { updateBlogInput: formData } });
+        updateBlog({ variables: { updateBlogInput: { ...formData, id: Number(data.id) } } });
       } else createBlog({ variables: { createBlogInput: formData } });
     }
 
     if (articleType === ArticleType.ARTICLE) {
       if (mode === EditorPageMode.EDIT) {
-        updateArticle({ variables: { updateArticleInput: formData } });
+        updateArticle({ variables: { updateArticleInput: { ...formData, id: Number(data.id) } } });
       } else createArticle({ variables: { createArticleInput: formData } });
     }
   };

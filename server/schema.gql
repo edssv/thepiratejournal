@@ -15,7 +15,7 @@ type Article {
   likes: [Like!]!
   readingTime: Float!
   searchTitle: String!
-  tags: String
+  tags: [String!]
   title: String!
   updatedAt: DateTime!
   user: User!
@@ -60,7 +60,7 @@ type Blog {
   isPublished: Boolean!
   likesCount: Float!
   readingTime: Float!
-  tags: String
+  tags: [String!]
   title: String!
   updatedAt: DateTime!
   user: User!
@@ -81,7 +81,7 @@ input CreateArticleInput {
   description: String!
   draftId: Float
   readingTime: Float!
-  tags: String
+  tags: [String!]
   title: String!
 }
 
@@ -92,7 +92,7 @@ input CreateBlogInput {
   description: String!
   draftId: Float
   readingTime: Float!
-  tags: String
+  tags: [String!]
   title: String!
 }
 
@@ -206,7 +206,7 @@ input UpdateArticleInput {
   draftId: Float
   id: Float!
   readingTime: Float!
-  tags: String
+  tags: [String!]
   title: String!
 }
 
@@ -218,7 +218,7 @@ input UpdateBlogInput {
   draftId: Float
   id: ID!
   readingTime: Float!
-  tags: String
+  tags: [String!]
   title: String!
 }
 

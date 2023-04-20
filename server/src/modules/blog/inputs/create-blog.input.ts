@@ -1,6 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { BlogCategory } from '../entities/blog.entity';
 import { InputBlock } from 'src/lib/block.type';
+import { IsArray, IsOptional } from 'class-validator';
 
 @InputType()
 export class CreateBlogInput {
@@ -16,8 +17,10 @@ export class CreateBlogInput {
   @Field(() => [InputBlock])
   body: InputBlock[];
 
-  @Field({ nullable: true })
-  tags?: string;
+  @Field(() => [String], { nullable: true })
+  @IsOptional()
+  @IsArray()
+  tags?: string[];
 
   @Field({ nullable: true })
   category?: BlogCategory;

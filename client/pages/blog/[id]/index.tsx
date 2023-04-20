@@ -10,6 +10,7 @@ import BlogLayout from '@/components/layout/BlogLayout/BlogLayout';
 import Meta from '@/components/meta/Meta';
 import { ArticlePageMode } from '@/lib/enums';
 import { getClient } from '@/apollo/getClient';
+import apolloClient from '@/apollo/client';
 
 const BlogArticlePage: NextPageWithLayout<{ data: BlogQuery }> = ({ data }) => {
   const { title, description, cover, id } = data.getOneBlog;
@@ -41,9 +42,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params?.id;
 
-  const client = getClient();
-
-  const { data } = await client.query({
+  const { data } = await apolloClient.query({
     query: BlogQueryDocument,
     variables: { id: Number(id) },
     context: { fetchOptions: { next: { revalidate: 1 } } },

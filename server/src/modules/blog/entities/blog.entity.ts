@@ -40,9 +40,9 @@ export class Blog {
   @Column({ type: 'jsonb' })
   body: Block[];
 
-  @Field({ nullable: true })
-  @Column({ array: true, nullable: true })
-  tags: string;
+  @Field(() => [String], { nullable: true })
+  @Column({ type: 'jsonb', nullable: true })
+  tags: string[];
 
   @Field()
   @Column({ type: 'enum', enum: BlogCategory, nullable: true })
