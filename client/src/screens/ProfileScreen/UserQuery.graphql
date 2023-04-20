@@ -13,6 +13,7 @@ query UserQuery($id: Float!, $articles: String!) {
     id
     title
     cover
+    viewsCount
     user {
       id
       username

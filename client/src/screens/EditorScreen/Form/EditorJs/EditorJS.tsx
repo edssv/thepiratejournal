@@ -1,14 +1,14 @@
 import { useCallback, useRef } from 'react';
 import { createReactEditorJS } from 'react-editor-js';
 
-import { BlockType } from '@/gql/__generated__';
+import { Block } from '@/gql/__generated__';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { EDITOR_JS_TOOLS } from './tools';
 import { i18n } from './i18n';
 import { EditorCore } from './EditorCore.interface';
 
 interface EditorProps {
-  setBlocks: React.Dispatch<React.SetStateAction<BlockType[]>>;
+  setBlocks: React.Dispatch<React.SetStateAction<Block[]>>;
 }
 
 const EditorJS: React.FC<EditorProps> = ({ setBlocks }) => {

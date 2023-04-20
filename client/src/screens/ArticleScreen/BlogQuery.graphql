@@ -23,6 +23,8 @@ query BlogQuery($id: Float!) {
     cover
     readingTime
     createdAt
+    category
+    tags
     user {
       id
       username

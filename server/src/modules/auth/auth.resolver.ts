@@ -1,11 +1,11 @@
 import { Args, Resolver, Mutation, Context } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
-import { SignUpInput } from '../inputs/sign-up.input';
-import { AuthService } from '../auth.service';
-import { LocalAuthGuard } from '../guards/local-auth.guard';
-import { Auth } from '../models/auth.model';
-import { EmailLoginInput } from '../inputs/email-login.input';
+import { SignUpInput } from './inputs/sign-up.input';
+import { AuthService } from './auth.service';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { Auth } from './models/auth.model';
+import { EmailLoginInput } from './inputs/email-login.input';
 
 @Resolver('Auth')
 export class AuthResolver {

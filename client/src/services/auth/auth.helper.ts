@@ -16,7 +16,7 @@ export const getUserFromStorage = async () => {
 };
 
 export const saveTokensStorage = (data: Tokens) => {
-  Cookies.set(TokensEnum.ACCESS_TOKEN, data.accessToken);
+  Cookies.set(TokensEnum.ACCESS_TOKEN, data.accessToken, { expires: 30 });
   Cookies.set(TokensEnum.REFRESH_TOKEN, data.refreshToken, { expires: 30 });
 };
 

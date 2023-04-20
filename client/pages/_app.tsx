@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import { Roboto } from 'next/font/google';
 import { ApolloProvider } from '@apollo/client';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'next-themes';
 
@@ -41,6 +41,21 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <>
+      <ApolloProvider client={apolloClient}>
+        <QueryClientProvider client={queryClient}>
+          <Provider store={store}>
+            <AuthProvider>
+              <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ''}>
+                <ThemeProvider>
+                  {getLayout(<Component {...pageProps} />)}
+                  <GoogleOneTap />
+                  <CrossScreensSnackbars />
+                </ThemeProvider>
+              </GoogleOAuthProvider>
+            </AuthProvider>
+          </Provider>
+        </QueryClientProvider>
+      </ApolloProvider>
       <style jsx global>
         {`
           html {
@@ -48,23 +63,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           }
         `}
       </style>
-      <ApolloProvider client={apolloClient}>
-        <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
-            <Provider store={store}>
-              <AuthProvider>
-                <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ''}>
-                  <ThemeProvider>
-                    {getLayout(<Component {...pageProps} />)}
-                    <GoogleOneTap />
-                    <CrossScreensSnackbars />
-                  </ThemeProvider>
-                </GoogleOAuthProvider>
-              </AuthProvider>
-            </Provider>
-          </Hydrate>
-        </QueryClientProvider>
-      </ApolloProvider>
     </>
   );
 }

@@ -1,17 +1,17 @@
 import { ReactElement } from 'react';
 import { GetServerSideProps } from 'next';
-import { dehydrate, QueryClient } from '@tanstack/react-query';
 
-import { ArticleService } from '@/services';
+import apolloClient from '@/apollo/client';
+import { HomeSignedOutQuery, HomeSignedOutQueryDocument } from '@/gql/__generated__';
 import { NextPageWithLayout } from './_app';
 import HomeScreen from '@/screens/HomeScreen/HomeScreen';
 import Layout from '@/components/layout/Layout';
 import Meta from '@/components/meta/Meta';
 
-const HomePage: NextPageWithLayout = () => {
+const HomePage: NextPageWithLayout<{ data: HomeSignedOutQuery }> = ({ data }) => {
   return (
     <Meta home>
-      <HomeScreen />
+      <HomeScreen data={data} />
     </Meta>
   );
 };
@@ -21,13 +21,10 @@ HomePage.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery(['articles'], () => ArticleService.getAll(true));
-  await queryClient.prefetchQuery(['bestOfWeek'], () => ArticleService.getBestOfWeek(true));
+  const { data } = await apolloClient.query({ query: HomeSignedOutQueryDocument });
 
   return {
-    props: { dehydratedState: dehydrate(queryClient) },
+    props: { data },
   };
 };
 

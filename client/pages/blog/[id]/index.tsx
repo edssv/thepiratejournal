@@ -1,7 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { motion } from 'framer-motion';
 
-import client from '@/apollo/client';
 import { BlogQuery, BlogQueryDocument } from '@/gql/__generated__';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import { Params } from '@/interfaces/params.interface';
@@ -10,6 +9,7 @@ import ArticleScreen from '@/screens/ArticleScreen/ArticleScreen';
 import BlogLayout from '@/components/layout/BlogLayout/BlogLayout';
 import Meta from '@/components/meta/Meta';
 import { ArticlePageMode } from '@/lib/enums';
+import { getClient } from '@/apollo/getClient';
 
 const BlogArticlePage: NextPageWithLayout<{ data: BlogQuery }> = ({ data }) => {
   const { title, description, cover, id } = data.getOneBlog;
@@ -41,11 +41,17 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params?.id;
 
-  const { data } = await client.query({ query: BlogQueryDocument, variables: { id: Number(id) } });
+  const client = getClient();
+
+  const { data } = await client.query({
+    query: BlogQueryDocument,
+    variables: { id: Number(id) },
+    context: { fetchOptions: { next: { revalidate: 1 } } },
+  });
 
   return {
     props: { data },
-    revalidate: 300,
+    revalidate: 1,
   };
 };
 

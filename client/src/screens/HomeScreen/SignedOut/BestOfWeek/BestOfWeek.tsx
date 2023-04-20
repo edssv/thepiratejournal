@@ -1,11 +1,10 @@
-import { useGetArticlesQuery, useGetBestOfWeekQuery } from '@/services';
+import { HomeSignedOutQuery } from '@/gql/__generated__';
+import { useGetBestOfWeekQuery } from '@/services';
 import AiryArticlePreview from '@/components/AiryArticlePreview/AiryArticlePreview';
 
-export const BestOfWeek = () => {
-  const { data: articles } = useGetBestOfWeekQuery();
-
+export const BestOfWeek: React.FC<{ data: HomeSignedOutQuery['getBestOfWeekArticles'] }> = ({ data }) => {
   const articlesList = () => {
-    return articles?.map((article) => <AiryArticlePreview key={article.id} article={article} />);
+    return data?.map((article) => <AiryArticlePreview key={article.id} article={article} />);
   };
 
   return (

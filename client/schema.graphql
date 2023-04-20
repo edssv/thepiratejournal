@@ -86,7 +86,7 @@ input CreateBlogInput {
   category: String
   cover: String!
   description: String!
-  draftId: Float!
+  draftId: Float
   readingTime: Float!
   tags: String
   title: String!
@@ -160,9 +160,11 @@ type Like {
 type Mutation {
   createArticle(createArticleInput: CreateArticleInput!): Article!
   createBlog(createBlogInput: CreateBlogInput!): Blog!
+  createLike(articleId: Float!): ID!
   login(loginInput: EmailLoginInput!): Auth!
   removeArticle(id: Float!): Article!
   removeBlog(id: Float!): Blog!
+  removeLike(articleId: Float!): ID!
   signup(signupInput: SignUpInput!): Auth!
   updateArticle(updateArticleInput: UpdateArticleInput!): Article!
   updateBlog(updateBlogInput: UpdateBlogInput!): Blog!
@@ -209,7 +211,7 @@ input UpdateBlogInput {
   category: String
   cover: String!
   description: String!
-  draftId: Float!
+  draftId: Float
   id: ID!
   readingTime: Float!
   tags: String

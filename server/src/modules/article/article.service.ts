@@ -69,7 +69,18 @@ export class ArticleService {
 
     if (userId !== find.user.id) throw new ForbiddenException('Статья принадлежит другому пользователю.');
 
-    return this.repository.update(id, { ...articleData, searchTitle: articleData.title.toLowerCase() });
+    this.repository.update(id, {
+      title: articleData.title,
+      description: articleData.description,
+      cover: articleData.cover,
+      body: articleData.body,
+      tags: articleData.tags,
+      category: articleData.category,
+      readingTime: articleData.readingTime,
+      searchTitle: articleData.title.toLowerCase(),
+    });
+
+    return this.repository.findOne({ where: { id } });
   }
 
   async remove(userId: number, id: number) {
@@ -122,7 +133,7 @@ export class ArticleService {
     qb.orderBy('views_count', 'DESC');
     qb.limit(6);
 
-    return qb.getMany();
+    return await qb.getMany();
   }
 
   async findBestOfWeek() {

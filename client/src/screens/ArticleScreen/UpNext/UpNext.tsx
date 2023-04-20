@@ -15,10 +15,16 @@ export const UpNext: React.FC<{ mode: ArticlePageMode }> = ({ mode }) => {
   const UpNextRef = useRef<HTMLDivElement>(null);
   const [isMount, setIsMount] = useState(false);
 
-  const articlesList =
-    mode === ArticlePageMode.ARTICLE
-      ? useNextArticlesQuery({ variables: { id: Number(query.id) } }).data?.getNextArticles
-      : useNextBlogsQuery({ variables: { id: Number(query.id) } }).data?.getNextBlogs;
+  const { data: articlesData } = useNextArticlesQuery({
+    variables: { id: Number(query.id) },
+    skip: mode === ArticlePageMode.BLOG,
+  });
+  const { data: blogData } = useNextBlogsQuery({
+    variables: { id: Number(query.id) },
+    skip: mode === ArticlePageMode.ARTICLE,
+  });
+
+  const articlesList = mode === ArticlePageMode.ARTICLE ? articlesData?.getNextArticles : blogData?.getNextBlogs;
 
   const handleScroll = useCallback(() => {
     const screenHeight = window.screen.height;

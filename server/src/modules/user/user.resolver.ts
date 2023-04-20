@@ -1,7 +1,7 @@
 import { Args, Resolver, Query } from '@nestjs/graphql';
 
-import { User } from '../entities/user.entity';
-import { UserService } from '../user.service';
+import { User } from './entities/user.entity';
+import { UserService } from './user.service';
 import { Article } from 'src/modules/article/entities/article.entity';
 
 @Resolver('User')

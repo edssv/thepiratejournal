@@ -1,4 +1,4 @@
-import { BlockType } from '@/gql/__generated__';
+import { Block } from '@/gql/__generated__';
 import { Comment } from './comments.interface';
 import { User } from './user.interface';
 
@@ -8,7 +8,7 @@ export interface Article {
   searchTitle: string;
   description: string;
   cover: string;
-  body: BlockType[];
+  body: Block[];
   tags: string[];
   category: string;
   readingTime: number;

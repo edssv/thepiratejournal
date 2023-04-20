@@ -30,9 +30,8 @@ export const editorPageSlice = createSlice({
     setDraftId(state, { payload }) {
       state.draftId = payload;
     },
-    setEditorData(state, { payload }: { payload: ArticleQuery }) {
-      const {} = payload;
-      state.data = payload.getArticle;
+    setEditorData(state, { payload }) {
+      state.data = payload;
     },
     resetData(state) {
       state.data = {};

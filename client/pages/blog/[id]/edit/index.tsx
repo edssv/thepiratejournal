@@ -11,24 +11,26 @@ import Meta from '@/components/meta/Meta';
 import NotFoundPage from '@/screens/NotFoundScreen/NotFoundScreen';
 
 const EditorPage: NextPageWithLayout = () => {
-  const { query } = useRouter();
+  const { query, isReady } = useRouter();
 
-  const { data, loading } = useBlogQuery({
+  const { data, loading, error } = useBlogQuery({
     variables: { id: Number(query.id) },
     onCompleted(data) {
+      setArticleType('Блог');
       setEditorData(data.getOneBlog);
     },
+    skip: !isReady,
   });
 
-  const { setEditorData } = useActions();
+  const { setEditorData, setArticleType } = useActions();
 
   if (loading) return null;
-  if (!data) return <NotFoundPage />;
+  if (error) return <NotFoundPage />;
 
   return (
     <Meta title="Редактирование статьи">
       <PrivateOutlet>
-        <EditorScreen body={data.getOneBlog.body} mode={EditorPageMode.EDIT} />
+        <EditorScreen body={data?.getOneBlog.body} mode={EditorPageMode.EDIT} />
       </PrivateOutlet>
     </Meta>
   );

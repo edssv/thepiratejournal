@@ -44,6 +44,5 @@ export class CreateArticleInput {
   readingTime: number;
 
   @Field({ nullable: true })
-  @IsNumber()
   draftId?: number;
 }

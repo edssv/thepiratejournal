@@ -22,9 +22,9 @@ export class CreateBlogInput {
   @Field({ nullable: true })
   category?: BlogCategory;
 
-  @Field({ nullable: false })
+  @Field()
   readingTime: number;
 
-  @Field()
-  draftId: number;
+  @Field({ nullable: true })
+  draftId?: number;
 }

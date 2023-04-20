@@ -4,4 +4,7 @@ module.exports = {
   useTabs: false,
   tabWidth: 2,
   singleQuote: true,
+  importOrder: ['<THIRD_PARTY_MODULES>'],
+  importOrderSeparation: false,
+  // importOrderSortSpecifiers: true,
 };

@@ -17,7 +17,7 @@ const ProfilePage: NextPageWithLayout = () => {
 
   if (loading || !isReady) return null;
 
-  if (!data?.getUser) return <NotFoundPage />;
+  if (!data) return <NotFoundPage />;
 
   return (
     <Meta title={data.getUser.username} image={data.getUser.image ?? ''} url={data.getUser.id}>

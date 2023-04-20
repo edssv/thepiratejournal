@@ -1,0 +1,20 @@
+query HomeSignedOutQuery {
+  getAuthorChoiceArticles {
+    id
+    title
+    description
+    cover
+  }
+  getBestOfWeekArticles {
+    id
+    title
+    description
+    cover
+  }
+  getNewestArticles {
+    id
+    title
+    description
+    cover
+  }
+}

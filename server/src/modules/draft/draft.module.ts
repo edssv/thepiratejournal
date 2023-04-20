@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { DraftService } from './draft.service';
 import { DraftController } from './draft.controller';
 import { Draft } from './entities/draft.entity';
-import { DraftResolver } from './resolvers/draft.resolver';
+import { DraftResolver } from './draft.resolver';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Draft])],

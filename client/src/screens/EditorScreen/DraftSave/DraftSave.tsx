@@ -1,16 +1,15 @@
-import { useMediaPredicate } from 'react-media-hook';
 import { useRouter } from 'next/router';
+import { useMediaPredicate } from 'react-media-hook';
 
+import { Block } from '@/gql/__generated__';
 import { useActions } from '@/hooks';
 import { useCreateDraftMutation, useUpdateDraftMutation } from '@/services';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-import { Block } from '@/interfaces/block.interface';
 import { EditorFormStatus } from '@/lib/enums';
 import Button from '@/components/common/Button/Button';
-import { BlockType } from '@/gql/__generated__';
 
-const DraftSave: React.FC<{ blocks: BlockType[] }> = ({ blocks }) => {
+const DraftSave: React.FC<{ blocks: Block[] }> = ({ blocks }) => {
   const { replace } = useRouter();
 
   const { data, draftId } = useTypedSelector((state) => state.editorPage);

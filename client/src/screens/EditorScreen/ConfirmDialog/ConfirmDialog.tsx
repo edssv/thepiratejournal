@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 
 import { Block } from '@/gql/__generated__';
-import { UserRole } from '@/lib/enums';
+import { EditorPageMode, UserRole } from '@/lib/enums';
 import { useAuth } from '@/hooks';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import Button from '@/components/common/Button/Button';
@@ -26,7 +26,7 @@ interface ConfirmDialogProps {
 
 const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ articleContentRef, blocks }) => {
   const { user } = useAuth();
-  const { data } = useTypedSelector((state) => state.editorPage);
+  const { data, mode } = useTypedSelector((state) => state.editorPage);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -47,7 +47,9 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ articleContentRef, blocks
                 <DescriptionArea />
                 <ListBoxPicker />
                 <TagsField />
-                {(user?.role === UserRole.EDITOR || user?.role === UserRole.ADMIN) && <TypePicker />}
+                {mode === EditorPageMode.NEW && (user?.role === UserRole.EDITOR || user?.role === UserRole.ADMIN) && (
+                  <TypePicker />
+                )}
               </div>
             </div>
           </DialogContent>

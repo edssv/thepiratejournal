@@ -1,5 +1,4 @@
 export { useActions } from './useActions';
-export { useMatchMedia } from './use-match-media';
 export { useNetworkStatus } from './useNetworkStatus';
 export { useAppDispatch } from './useAppDispatch';
 export { useAuth } from './useAuth';

@@ -1,3 +1,4 @@
+overwrite: true
 schema: schema.graphql
 documents: 'src/**/*.graphql'
 generates:
@@ -16,6 +17,7 @@ config:
   nonOptionalTypename: true
   dedupeOperationSuffix: true
   omitOperationSuffix: true
+  skipTypename: true
   withComponent: false
   withHooks: true
   withHOC: false

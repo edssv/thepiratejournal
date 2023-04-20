@@ -1,22 +1,21 @@
-import { useGetArticlesQuery } from '@/services';
-import { Article } from '@/interfaces/article.interface';
+import { useArticlesListQuery } from '@/gql/__generated__';
 import AiryArticlePreview from '@/components/AiryArticlePreview/AiryArticlePreview';
 import AiryArticleSkeleton from '@/components/AiryArticlePreview/Skeleton/AiryArticleSkeleton';
 import { Prompt } from './Prompt';
 
 export const Component = () => {
-  const { data, isLoading, isSuccess, isError } = useGetArticlesQuery();
+  const { data, loading, error } = useArticlesListQuery();
 
   const articlesList = () => {
-    if (isLoading) return <AiryArticleSkeleton counts={12} />;
-    if (isError) return <h3>Здесь появятся статьи для тебя</h3>;
-    if (isSuccess) {
-      return data?.map((article: Article, id: number) => <AiryArticlePreview key={id} article={article} />);
+    if (loading) return <AiryArticleSkeleton counts={12} />;
+    if (error) return <h3>Здесь появятся статьи для тебя</h3>;
+    if (data) {
+      return data.getAllArticles?.map((article, id: number) => <AiryArticlePreview key={id} article={article} />);
     }
   };
 
   const articles = () => {
-    if (isSuccess && !data) {
+    if (!data?.getAllArticles.length) {
       return (
         <Prompt
           headline="Ты еще не подписан ни на одного автора."

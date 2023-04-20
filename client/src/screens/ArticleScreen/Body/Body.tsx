@@ -1,9 +1,9 @@
-import { BlockType } from '@/gql/__generated__';
+import { Block } from '@/gql/__generated__';
 import { toHtml } from '@/helpers/toHtml';
 
 import styles from './Body.module.scss';
 
-const Body: React.FC<{ body: BlockType[] }> = ({ body }) => {
+const Body: React.FC<{ body: Block[] }> = ({ body }) => {
   const getBodyContent = () => {
     return toHtml(body);
   };

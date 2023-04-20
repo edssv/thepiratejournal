@@ -1,6 +1,6 @@
-import { BlockType } from '@/gql/__generated__';
+import { Block } from '@/gql/__generated__';
 
-export const toHtml = (blocks: BlockType[] | undefined) => {
+export const toHtml = (blocks: Block[] | undefined) => {
   let convertedHtml = '';
   blocks?.map((block: any) => {
     switch (block.type) {

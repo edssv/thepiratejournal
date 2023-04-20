@@ -1,7 +1,6 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
-import { UpdateBlogDto } from './dto/update-blog.dto';
 import { Blog } from './entities/blog.entity';
 import { DraftService } from '../draft/draft.service';
 import { CreateBlogInput } from './inputs/create-blog.input';
@@ -20,7 +19,17 @@ export class BlogService {
       throw new ForbiddenException('Нет доступа.');
     }
 
-    const blog = this.repository.save({ user: { id: user.id }, ...createBlogInput });
+    const blog = this.repository.save({
+      user: { id: user.id },
+      title: createBlogInput.title,
+      searchTitle: createBlogInput.title.toLowerCase(),
+      description: createBlogInput.description,
+      cover: createBlogInput.cover,
+      body: createBlogInput.body,
+      tags: createBlogInput.tags,
+      category: createBlogInput.category,
+      readingTime: createBlogInput.readingTime,
+    });
 
     if (createBlogInput.draftId) {
       this.draftService.remove(createBlogInput.draftId);
@@ -52,7 +61,17 @@ export class BlogService {
 
     if (userId !== find.user.id) throw new ForbiddenException('Статья принадлежит другому пользователю.');
 
-    return this.repository.update(id, blogData);
+    this.repository.update(id, {
+      title: blogData.title,
+      description: blogData.description,
+      cover: blogData.cover,
+      body: blogData.body,
+      tags: blogData.tags,
+      category: blogData.category,
+      readingTime: blogData.readingTime,
+    });
+
+    return this.repository.findOne({ where: { id } });
   }
 
   async remove(id: number, userId: number) {

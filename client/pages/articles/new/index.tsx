@@ -8,7 +8,7 @@ import Meta from '@/components/meta/Meta';
 const EditorPageNew: NextPageWithLayout = () => {
   return (
     <PrivateOutlet>
-      <EditorScreen mode={EditorPageMode.NEW} />
+      <EditorScreen body={null} mode={EditorPageMode.NEW} />
     </PrivateOutlet>
   );
 };

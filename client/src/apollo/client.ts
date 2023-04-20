@@ -1,13 +1,15 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, InMemoryCache, from } from '@apollo/client';
 
-import { getAccessToken } from '@/services/auth/auth.helper';
-
-const accessToken = getAccessToken();
+import errorLink from './errorLink';
+import authLink from './authLink';
+import httpLink from './httpLink';
 
 const apolloClient = new ApolloClient({
-  uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
-  cache: new InMemoryCache(),
-  headers: { authorization: accessToken ? `Bearer ${accessToken}` : '' },
+  link: from([authLink, errorLink, httpLink]),
+  cache: new InMemoryCache({
+    addTypename: false,
+  }),
+  ssrMode: typeof window === 'undefined',
 });
 
 export default apolloClient;

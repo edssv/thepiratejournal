@@ -8,7 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { RtStrategy } from './strategies/rt.strategy';
-import { AuthResolver } from './resolvers/auth.resolver';
+import { AuthResolver } from './auth.resolver';
 
 @Module({
   imports: [

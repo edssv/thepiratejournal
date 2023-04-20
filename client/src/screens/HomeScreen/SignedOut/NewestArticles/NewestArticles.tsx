@@ -1,18 +1,7 @@
-import { useGetArticlesQuery } from '@/services';
-import { Article } from '@/interfaces/article.interface';
 import AiryArticlePreview from '@/components/AiryArticlePreview/AiryArticlePreview';
-import AiryArticleSkeleton from '@/components/AiryArticlePreview/Skeleton/AiryArticleSkeleton';
+import { HomeSignedOutQuery } from '@/gql/__generated__';
 
-export const NewestArticles: React.FC = () => {
-  const { data, isLoading, isSuccess } = useGetArticlesQuery();
-
-  const articles = () => {
-    if (isLoading) return <AiryArticleSkeleton counts={12} />;
-
-    if (isSuccess) {
-      return data?.map((article: Article) => <AiryArticlePreview key={article.id} article={article} />).slice(0, 9);
-    }
-  };
+export const NewestArticles: React.FC<{ data: HomeSignedOutQuery['getNewestArticles'] }> = ({ data }) => {
   return (
     <section className="homeSection">
       <div className="contentContainer">
@@ -20,7 +9,11 @@ export const NewestArticles: React.FC = () => {
           <h2>Самое новое</h2>
           <p>Только что опубликованные статьи.</p>
         </div>
-        <div className="newestArticlesList">{articles()}</div>
+        <div className="newestArticlesList">
+          {data?.map((article) => (
+            <AiryArticlePreview key={article.id} article={article} />
+          ))}
+        </div>
       </div>
     </section>
   );

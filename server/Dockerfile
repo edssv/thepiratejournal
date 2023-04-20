@@ -23,5 +23,5 @@ COPY package.json .
 RUN yarn install --production
 RUN yarn add @types/multer -D
 COPY . .
-RUN yarn run build
-CMD ["yarn", "run", "start:prod" ]
+RUN yarn build
+CMD ["yarn", "start:prod" ]

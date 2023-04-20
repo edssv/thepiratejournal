@@ -23,6 +23,8 @@ query ArticleQuery($id: Float!) {
     cover
     readingTime
     createdAt
+    tags
+    category
     user {
       id
       username

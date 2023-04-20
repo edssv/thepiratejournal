@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 
-import { BlockType } from '@/gql/__generated__';
+import { Block } from '@/gql/__generated__';
 import { useActions, useAuth } from '@/hooks';
 import { EditorFormStatus, EditorPageMode } from '@/lib/enums';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
@@ -12,7 +12,7 @@ import Bar from './Bar/Bar';
 import styles from './EditorScreen.module.scss';
 
 interface EditorScreenProps {
-  body: BlockType[] | null | undefined;
+  body: Block[] | null | undefined;
   mode: EditorPageMode;
 }
 
@@ -22,11 +22,9 @@ const EditorScreen: React.FC<EditorScreenProps> = ({ body, mode }) => {
   const articleContentRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
   const { data, formStatus } = useTypedSelector((state) => state.editorPage);
-
   const [blocks, setBlocks] = useState(body ?? []);
 
   const { setMode, resetData, setFormStatus, setDraftId } = useActions();
-
   const {
     mutate: createDraft,
     data: draftData,

@@ -1,0 +1,3 @@
+mutation RemoveLikeMutation($articleId: Float!) {
+  removeLike(articleId: $articleId)
+}

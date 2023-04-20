@@ -24,7 +24,7 @@ export class ArticleResolver {
 
   @Query(() => Article)
   async getArticle(@Args('id') id: number) {
-    return await this.articleService.findOne(id);
+    return await this.articleService.findOneById(id);
   }
 
   @UseGuards(JwtAuthGuard)
