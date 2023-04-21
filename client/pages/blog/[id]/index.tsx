@@ -22,13 +22,7 @@ const BlogArticlePage: NextPageWithLayout<{ data: BlogQuery }> = ({ data }) => {
 };
 
 BlogArticlePage.getLayout = function getLayout(page: React.ReactElement) {
-  return (
-    <BlogLayout>
-      <motion.div initial={{ y: 20, opacity: 0.5 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.3 }}>
-        {page}
-      </motion.div>
-    </BlogLayout>
-  );
+  return <BlogLayout>{page}</BlogLayout>;
 };
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {

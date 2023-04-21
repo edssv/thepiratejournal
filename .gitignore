@@ -29,3 +29,6 @@ yarn-error.log*
 
 # codegen
 codegen.download.yaml
+
+# dashboard
+/dashboard

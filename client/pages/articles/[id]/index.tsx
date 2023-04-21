@@ -26,8 +26,9 @@ ArticlePage.getLayout = function getLayout(page: ReactElement) {
   return (
     <Layout>
       <motion.div
-        initial={{ translateY: 20, opacity: 0.5 }}
-        animate={{ translateY: 0, opacity: 1 }}
+        initial={{ y: 24, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: -24, opacity: 0 }}
         transition={{ duration: 0.3 }}
       >
         {page}
