@@ -17,17 +17,17 @@ services:
       net:
         ipv4_address: 172.18.0.6
 
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    ports:
-      - '8080:80'
-    volumes:
-      - /data/pgadmin:/root/.pgadmin
-    env_file:
-      - .env
-    links:
-      - postgres
+  # pgadmin:
+  #   container_name: pgadmin
+  #   image: dpage/pgadmin4
+  #   ports:
+  #     - '8080:80'
+  #   volumes:
+  #     - /data/pgadmin:/root/.pgadmin
+  #   env_file:
+  #     - .env
+  #   links:
+  #     - postgres
 
   server:
     container_name: server
