@@ -1,1 +1,0 @@
-export { Tippy } from './Tippy';

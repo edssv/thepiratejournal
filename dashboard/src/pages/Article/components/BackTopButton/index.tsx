@@ -1,1 +1,0 @@
-export { BackTopButton } from './BackTopButton';

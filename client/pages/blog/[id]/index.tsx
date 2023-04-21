@@ -1,5 +1,4 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { motion } from 'framer-motion';
 
 import { BlogQuery, BlogQueryDocument } from '@/gql/__generated__';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
