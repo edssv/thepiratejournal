@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-import { NextPageWithLayout } from '../_app';
+import { NextPageWithLayout } from '../../_app';
 import SubscriptionsScreen from '@/screens/SubscriptionsScreen/SubscriptionsScreen';
 import Layout from '@/components/layout/Layout';
 

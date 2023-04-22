@@ -1,4 +1,4 @@
-import { NextPageWithLayout } from '../../_app';
+import { NextPageWithLayout } from '../../..//_app';
 import SearchScreen from '@/screens/SearchScreen/SearchScreen';
 import Layout from '@/components/layout/Layout';
 
