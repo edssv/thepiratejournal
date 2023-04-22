@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 
+import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import Button from '@/components/common/Button/Button';
 
 import styles from './HomeHeader.module.scss';
@@ -17,7 +18,7 @@ export const HomeHeader = () => {
             статьи.
           </p>
         </div>
-        <Button onClick={() => push('/signup')} variant="filled">
+        <Button onClick={() => push(getPublicUrl.signup())} variant="filled">
           Читать
         </Button>
       </div>

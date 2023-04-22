@@ -14,7 +14,7 @@ export type ProfileSectionType = 'articles' | 'likes' | 'bookmarks' | 'drafts';
 
 const ProfileScreen: React.FC<{ data: UserQuery }> = ({ data }) => {
   const { asPath } = useRouter();
-  const currentSection = asPath.split('/')[3] || ProfileSection.Articles;
+  const currentSection = asPath.split('/')[4] || ProfileSection.Articles;
 
   const { user } = useAuth();
 

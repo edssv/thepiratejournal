@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { ArticlePreview } from '@/gql/__generated__';
 
 import styles from './AiryArticlePreview.module.scss';
+import { getPublicUrl } from '@/lib/publicUrlBuilder';
 
 interface ArticlePreviewProps {
   article: ArticlePreview;
@@ -13,7 +14,7 @@ interface ArticlePreviewProps {
 const AiryArticlePreview: React.FC<ArticlePreviewProps> = ({ article, size = 'S' }) => {
   return (
     <div className={`${styles.root} ${size === 'S' ? styles.sizeSmall : styles.sizeMedium}`}>
-      <Link href={`/articles/${article.id}`} className={styles.thumbnail}>
+      <Link href={getPublicUrl.article(article.id)} className={styles.thumbnail}>
         {' '}
         <div className={styles.thumbContainer}>
           <Image

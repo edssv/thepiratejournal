@@ -1,31 +1,32 @@
 import { ReactElement } from 'react';
 import { GetServerSideProps } from 'next';
 
-import apolloClient from '@/apollo/client';
-import { HomeSignedOutQuery, HomeSignedOutQueryDocument } from '@/gql/__generated__';
+import client from '@/apollo/client';
+import { BlogListQuery, BlogListQueryDocument } from '@/gql/__generated__';
 import { NextPageWithLayout } from './_app';
-import HomeScreen from '@/screens/HomeScreen/HomeScreen';
-import Layout from '@/components/layout/Layout';
+import { getPublicUrl } from '@/lib/publicUrlBuilder';
+import BlogScreen from '@/screens/BlogScreen/BlogScreen';
+import BlogLayout from '@/components/layout/BlogLayout/BlogLayout';
 import Meta from '@/components/meta/Meta';
 
-const HomePage: NextPageWithLayout<{ data: HomeSignedOutQuery }> = ({ data }) => {
+const BlogPage: NextPageWithLayout<{ data: BlogListQuery }> = ({ data }) => {
+  return <BlogScreen data={data} />;
+};
+
+BlogPage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <Meta home>
-      <HomeScreen data={data} />
+    <Meta home url={getPublicUrl.home()}>
+      <BlogLayout>{page}</BlogLayout>
     </Meta>
   );
 };
 
-HomePage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout padding="small">{page}</Layout>;
-};
-
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { data } = await apolloClient.query({ query: HomeSignedOutQueryDocument });
+  const { data } = await client.query({ query: BlogListQueryDocument });
 
   return {
     props: { data },
   };
 };
 
-export default HomePage;
+export default BlogPage;

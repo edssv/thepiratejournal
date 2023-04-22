@@ -33,18 +33,23 @@ type Auth {
 
 type Block {
   data: BlockData!
-  id: String!
+  id: ID!
   type: String!
 }
 
 type BlockData {
   caption: String
+  embed: String
   file: FileData
+  height: Float
   items: [String!]
   level: Float
+  service: String
+  source: String
   stretched: Boolean
   style: String
   text: String
+  width: Float
   withBackground: Boolean
   withBorder: Boolean
 }
@@ -133,18 +138,23 @@ type Follower {
 
 input InputBlock {
   data: InputBlockData!
-  id: String!
+  id: ID!
   type: String!
 }
 
 input InputBlockData {
   caption: String
+  embed: String
   file: InputFileData
+  height: Float
   items: [String!]
   level: Float
+  service: String
+  source: String
   stretched: Boolean
   style: String
   text: String
+  width: Float
   withBackground: Boolean
   withBorder: Boolean
 }

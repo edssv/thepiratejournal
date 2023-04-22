@@ -1,32 +1,25 @@
-@use '../../../../styles/util' as *;
+@use '@/styles/util' as *;
 
 .root {
   position: sticky;
   top: 0;
   padding: 0 24px;
   background: var(--md-sys-color-surface);
+  transition: background-color 0.15s, color 0.25s;
   z-index: 999;
 
   .container {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     max-width: 1240px;
     width: 100%;
     height: 72px;
     margin: 0 auto;
 
-    .brand {
+    .rightPart {
       display: flex;
-
-      span {
-        font-size: 16px;
-        line-height: 24px;
-        font-weight: 500;
-        color: var(--md-sys-color-on-surface);
-        @include breakpoint(lg) {
-          font-size: 18px;
-        }
-      }
+      gap: 12px;
     }
   }
 }

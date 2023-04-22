@@ -12,38 +12,38 @@ import { ButtonBookmark } from './ButtonBookmark';
 import styles from './ActionButtons.module.scss';
 
 export const ActionButtons = () => {
-    const { push } = useRouter();
-    const { user } = useAuth();
+  const { push } = useRouter();
+  const { user } = useAuth();
 
-    const article = useTypedSelector((state) => state.articlePage.data);
+  const article = useTypedSelector((state) => state.articlePage.data);
 
-    const { mutate: deleteArticle } = useDeleteArticleMutation();
+  const { mutate: deleteArticle } = useDeleteArticleMutation();
 
-    const authorId = article?.user?.id || 'deleted';
-    const isOwner = user?.id === authorId;
+  const authorId = article?.user?.id || 'deleted';
+  const isOwner = user?.id === authorId;
 
-    return (
-        <div className={styles.root}>
-            <div className={styles.buttonGroup}>
-                {<ButtonLike variant="filledTonal">Нравится</ButtonLike>}
-                {!isOwner && <ButtonBookmark variant="filledTonal">В закладки</ButtonBookmark>}
-                {isOwner && (
-                    <>
-                        <Button variant="filledTonal" onClick={() => push(getPublicUrl.articleEdit(article.id))}>
-                            <span className="material-symbols-outlined">edit</span>Изменить
-                        </Button>
+  return (
+    <div className={styles.root}>
+      <div className={styles.buttonGroup}>
+        {<ButtonLike variant="filledTonal">Нравится</ButtonLike>}
+        {!isOwner && <ButtonBookmark variant="filledTonal">В закладки</ButtonBookmark>}
+        {isOwner && (
+          <>
+            <Button variant="filledTonal" onClick={() => push(getPublicUrl.articleEdit(article.id))}>
+              <span className="material-symbols-outlined">edit</span>Изменить
+            </Button>
 
-                        <ButtonDelete
-                            variant="filledTonal"
-                            onPrimaryAction={() => {
-                                deleteArticle(String(article.id), { onSuccess: () => push('/') });
-                            }}
-                        >
-                            <span className="material-symbols-outlined">delete</span>Удалить
-                        </ButtonDelete>
-                    </>
-                )}
-            </div>
-        </div>
-    );
+            <ButtonDelete
+              variant="filledTonal"
+              onPrimaryAction={() => {
+                deleteArticle(String(article.id), { onSuccess: () => push(getPublicUrl.home()) });
+              }}
+            >
+              <span className="material-symbols-outlined">delete</span>Удалить
+            </ButtonDelete>
+          </>
+        )}
+      </div>
+    </div>
+  );
 };

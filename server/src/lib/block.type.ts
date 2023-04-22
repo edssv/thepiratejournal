@@ -1,4 +1,4 @@
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class FileData {
@@ -37,11 +37,26 @@ export class BlockData {
 
   @Field({ nullable: true })
   style: string;
+
+  @Field({ nullable: true })
+  service: string;
+
+  @Field({ nullable: true })
+  source: string;
+
+  @Field({ nullable: true })
+  embed: string;
+
+  @Field({ nullable: true })
+  width: number;
+
+  @Field({ nullable: true })
+  height: number;
 }
 
 @ObjectType()
 export class Block {
-  @Field()
+  @Field(() => ID)
   id: string;
 
   @Field()
@@ -90,11 +105,26 @@ export class InputBlockData {
 
   @Field({ nullable: true })
   style: string;
+
+  @Field({ nullable: true })
+  service: string;
+
+  @Field({ nullable: true })
+  source: string;
+
+  @Field({ nullable: true })
+  embed: string;
+
+  @Field({ nullable: true })
+  width: number;
+
+  @Field({ nullable: true })
+  height: number;
 }
 
 @InputType()
 export class InputBlock {
-  @Field()
+  @Field(() => ID)
   id: string;
 
   @Field()

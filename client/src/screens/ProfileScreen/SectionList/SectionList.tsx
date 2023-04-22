@@ -4,6 +4,7 @@ import clsx from 'clsx';
 
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import { profileNavData } from '@/lib/profileNavData';
+
 import styles from './SectionList.module.scss';
 
 const SectionList: React.FC<{ isOwner: boolean; currentSection: string }> = ({ isOwner, currentSection }) => {
@@ -12,7 +13,7 @@ const SectionList: React.FC<{ isOwner: boolean; currentSection: string }> = ({ i
   const navListItems = profileNavData.map((item, i) => (
     <li key={i}>
       <Link
-        href={getPublicUrl.profileWithCategory(asPath.split('/')[2], item.category)}
+        href={getPublicUrl.profileWithCategory(asPath.split('/')[3], item.category)}
         className={clsx(styles.tabItem, currentSection === item.category && styles.active)}
       >
         <span className={styles.tabLabel}>

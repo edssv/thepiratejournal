@@ -32,7 +32,7 @@ export type Article = {
   likes: Array<Like>;
   readingTime: Scalars['Float'];
   searchTitle: Scalars['String'];
-  tags?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Scalars['String']>>;
   title: Scalars['String'];
   updatedAt: Scalars['DateTime'];
   user: User;
@@ -49,18 +49,23 @@ export type Auth = {
 
 export type Block = {
   data: BlockData;
-  id: Scalars['String'];
+  id: Scalars['ID'];
   type: Scalars['String'];
 };
 
 export type BlockData = {
   caption?: Maybe<Scalars['String']>;
+  embed?: Maybe<Scalars['String']>;
   file?: Maybe<FileData>;
+  height?: Maybe<Scalars['Float']>;
   items?: Maybe<Array<Scalars['String']>>;
   level?: Maybe<Scalars['Float']>;
+  service?: Maybe<Scalars['String']>;
+  source?: Maybe<Scalars['String']>;
   stretched?: Maybe<Scalars['Boolean']>;
   style?: Maybe<Scalars['String']>;
   text?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
   withBackground?: Maybe<Scalars['Boolean']>;
   withBorder?: Maybe<Scalars['Boolean']>;
 };
@@ -76,7 +81,7 @@ export type Blog = {
   isPublished: Scalars['Boolean'];
   likesCount: Scalars['Float'];
   readingTime: Scalars['Float'];
-  tags?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Scalars['String']>>;
   title: Scalars['String'];
   updatedAt: Scalars['DateTime'];
   user: User;
@@ -97,7 +102,7 @@ export type CreateArticleInput = {
   description: Scalars['String'];
   draftId?: InputMaybe<Scalars['Float']>;
   readingTime: Scalars['Float'];
-  tags?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Array<Scalars['String']>>;
   title: Scalars['String'];
 };
 
@@ -108,7 +113,7 @@ export type CreateBlogInput = {
   description: Scalars['String'];
   draftId?: InputMaybe<Scalars['Float']>;
   readingTime: Scalars['Float'];
-  tags?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Array<Scalars['String']>>;
   title: Scalars['String'];
 };
 
@@ -144,18 +149,23 @@ export type Follower = {
 
 export type InputBlock = {
   data: InputBlockData;
-  id: Scalars['String'];
+  id: Scalars['ID'];
   type: Scalars['String'];
 };
 
 export type InputBlockData = {
   caption?: InputMaybe<Scalars['String']>;
+  embed?: InputMaybe<Scalars['String']>;
   file?: InputMaybe<InputFileData>;
+  height?: InputMaybe<Scalars['Float']>;
   items?: InputMaybe<Array<Scalars['String']>>;
   level?: InputMaybe<Scalars['Float']>;
+  service?: InputMaybe<Scalars['String']>;
+  source?: InputMaybe<Scalars['String']>;
   stretched?: InputMaybe<Scalars['Boolean']>;
   style?: InputMaybe<Scalars['String']>;
   text?: InputMaybe<Scalars['String']>;
+  width?: InputMaybe<Scalars['Float']>;
   withBackground?: InputMaybe<Scalars['Boolean']>;
   withBorder?: InputMaybe<Scalars['Boolean']>;
 };
@@ -303,7 +313,7 @@ export type UpdateArticleInput = {
   draftId?: InputMaybe<Scalars['Float']>;
   id: Scalars['Float'];
   readingTime: Scalars['Float'];
-  tags?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Array<Scalars['String']>>;
   title: Scalars['String'];
 };
 
@@ -315,7 +325,7 @@ export type UpdateBlogInput = {
   draftId?: InputMaybe<Scalars['Float']>;
   id: Scalars['ID'];
   readingTime: Scalars['Float'];
-  tags?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Array<Scalars['String']>>;
   title: Scalars['String'];
 };
 
@@ -345,14 +355,14 @@ export type ArticleQueryVariables = Exact<{
 }>;
 
 
-export type ArticleQuery = { __typename: 'Query', getArticle: { __typename: 'Article', id: string, title: string, description: string, cover: string, readingTime: number, createdAt: any, tags?: string | null, category: string, body: Array<{ __typename: 'Block', id: string, type: string, data: { __typename: 'BlockData', text?: string | null, level?: number | null, caption?: string | null, stretched?: boolean | null, withBackground?: boolean | null, withBorder?: boolean | null, items?: Array<string> | null, file?: { __typename: 'FileData', ref?: string | null, url?: string | null } | null } }>, user: { __typename: 'User', id: string, username: string, image?: string | null } } };
+export type ArticleQuery = { __typename: 'Query', getArticle: { __typename: 'Article', id: string, title: string, description: string, cover: string, readingTime: number, createdAt: any, tags?: Array<string> | null, category: string, body: Array<{ __typename: 'Block', id: string, type: string, data: { __typename: 'BlockData', text?: string | null, level?: number | null, caption?: string | null, stretched?: boolean | null, withBackground?: boolean | null, withBorder?: boolean | null, items?: Array<string> | null, file?: { __typename: 'FileData', ref?: string | null, url?: string | null } | null } }>, user: { __typename: 'User', id: string, username: string, image?: string | null } } };
 
 export type BlogQueryVariables = Exact<{
   id: Scalars['Float'];
 }>;
 
 
-export type BlogQuery = { __typename: 'Query', getOneBlog: { __typename: 'Blog', id: string, title: string, description: string, cover: string, readingTime: number, createdAt: any, category: string, tags?: string | null, body: Array<{ __typename: 'Block', id: string, type: string, data: { __typename: 'BlockData', text?: string | null, level?: number | null, caption?: string | null, stretched?: boolean | null, withBackground?: boolean | null, withBorder?: boolean | null, items?: Array<string> | null, file?: { __typename: 'FileData', ref?: string | null, url?: string | null } | null } }>, user: { __typename: 'User', id: string, username: string, image?: string | null } } };
+export type BlogQuery = { __typename: 'Query', getOneBlog: { __typename: 'Blog', id: string, title: string, description: string, cover: string, readingTime: number, createdAt: any, category: string, tags?: Array<string> | null, body: Array<{ __typename: 'Block', id: string, type: string, data: { __typename: 'BlockData', text?: string | null, level?: number | null, caption?: string | null, stretched?: boolean | null, withBackground?: boolean | null, withBorder?: boolean | null, items?: Array<string> | null, source?: string | null, embed?: string | null, width?: number | null, height?: number | null, file?: { __typename: 'FileData', ref?: string | null, url?: string | null } | null } }>, user: { __typename: 'User', id: string, username: string, image?: string | null } } };
 
 export type CreateLikeMutationVariables = Exact<{
   articleId: Scalars['Float'];
@@ -477,7 +487,7 @@ export function useArticleQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type ArticleQueryHookResult = ReturnType<typeof useArticleQuery>;
 export type ArticleQueryLazyQueryHookResult = ReturnType<typeof useArticleQueryLazyQuery>;
 export type ArticleQueryQueryResult = Apollo.QueryResult<ArticleQuery, ArticleQueryVariables>;
-export const BlogQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BlogQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getOneBlog"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"body"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"file"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ref"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"stretched"}},{"kind":"Field","name":{"kind":"Name","value":"withBackground"}},{"kind":"Field","name":{"kind":"Name","value":"withBorder"}},{"kind":"Field","name":{"kind":"Name","value":"items"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"cover"}},{"kind":"Field","name":{"kind":"Name","value":"readingTime"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"tags"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}}]}}]}}]} as unknown as DocumentNode;
+export const BlogQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BlogQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getOneBlog"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"body"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"file"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ref"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"stretched"}},{"kind":"Field","name":{"kind":"Name","value":"withBackground"}},{"kind":"Field","name":{"kind":"Name","value":"withBorder"}},{"kind":"Field","name":{"kind":"Name","value":"items"}},{"kind":"Field","name":{"kind":"Name","value":"source"}},{"kind":"Field","name":{"kind":"Name","value":"embed"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"cover"}},{"kind":"Field","name":{"kind":"Name","value":"readingTime"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"tags"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**
  * __useBlogQuery__

@@ -18,6 +18,10 @@ query BlogQuery($id: Float!) {
         withBackground
         withBorder
         items
+        source
+        embed
+        width
+        height
       }
     }
     cover

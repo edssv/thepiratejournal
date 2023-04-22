@@ -50,8 +50,8 @@ const DraftPreview: React.FC<{ draft: Partial<Article> }> = ({ draft }) => {
             </div>
             <div className={styles.details}>
               <div className={styles.info}>
-                <h4>{draft.title ? draft.title : ''}</h4>
-                <Link href="/" className={styles.authorName}>
+                <h4>{draft.title ?? ''}</h4>
+                <Link href={getPublicUrl.user(String(draft?.user?.id))} className={styles.authorName}>
                   {draft?.user?.id}
                 </Link>
               </div>

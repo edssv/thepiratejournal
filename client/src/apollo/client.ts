@@ -5,7 +5,7 @@ import authLink from './authLink';
 import httpLink from './httpLink';
 
 const apolloClient = new ApolloClient({
-  link: from([authLink, errorLink, httpLink]),
+  link: from([authLink, httpLink]),
   cache: new InMemoryCache({
     addTypename: typeof window === 'undefined',
 
