@@ -1,23 +1,25 @@
-import { useActions, useAuth } from '@/hooks';
-import { getAccessToken } from '@/services/auth/auth.helper';
-import { GoogleLogin } from '@react-oauth/google';
 import { useRouter } from 'next/router';
+import { GoogleLogin } from '@react-oauth/google';
+
+import { useAuth } from '@/hooks';
+import { getPublicUrl } from '@/lib/publicUrlBuilder';
+import { useGoogleOneTapMutation } from '@/services/auth/auth.service';
 
 const GoogleOneTap = () => {
   const { pathname } = useRouter();
 
   const { user } = useAuth();
 
-  const { googleOneTap } = useActions();
+  const [login] = useGoogleOneTapMutation();
 
   const currentLocation = pathname.split('/')[1];
 
   return (
     <div className="hidden">
-      {!user && currentLocation !== 'login' && currentLocation !== 'signup' && (
+      {!user && currentLocation !== getPublicUrl.login() && currentLocation !== getPublicUrl.signup() && (
         <GoogleLogin
           onSuccess={({ credential }) => {
-            googleOneTap(credential ?? '');
+            login(credential ?? '');
           }}
           useOneTap
           cancel_on_tap_outside={false}

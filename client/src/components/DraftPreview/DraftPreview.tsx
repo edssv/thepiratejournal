@@ -1,10 +1,10 @@
-import moment from 'moment';
-import 'moment/locale/ru';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Image from 'next/image';
+import moment from 'moment';
+import 'moment/locale/ru';
 
-import { useDeleteDraftMutation } from '@/services';
-import { Article } from '@/interfaces/article.interface';
+import { Draft, useRemoveDraftMutation } from '@/gql/__generated__';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import Button from '../common/Button/Button';
 import ButtonDelete from '../Buttons/ButtonDelete';
@@ -12,9 +12,9 @@ import ArticleStats from '../ArticlePreview/ArticleStats/ArticleStats';
 
 import styles from './DraftPreview.module.scss';
 
-const DraftPreview: React.FC<{ draft: Partial<Article> }> = ({ draft }) => {
+const DraftPreview: React.FC<{ draft: Draft }> = ({ draft }) => {
   const { push } = useRouter();
-  const { mutate: deleteDraft } = useDeleteDraftMutation();
+  const [removeDraft] = useRemoveDraftMutation();
 
   const a = moment.utc(draft.createdAt);
   const time = moment(a).local().startOf('hour').fromNow();
@@ -31,7 +31,16 @@ const DraftPreview: React.FC<{ draft: Partial<Article> }> = ({ draft }) => {
                 <span className="material-symbols-outlined">image</span>
               </div>
             )}
-            <img src={draft.cover} alt="Обложка" />
+            {draft.cover && (
+              <Image
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{ width: '100%', height: '100%' }}
+                src={draft.cover}
+                alt="Обложка"
+              />
+            )}
           </div>
           <div className={styles.cover__overlay}>
             <div className={styles.controls}>
@@ -40,7 +49,7 @@ const DraftPreview: React.FC<{ draft: Partial<Article> }> = ({ draft }) => {
               </Button>
               <ButtonDelete
                 onPrimaryAction={() => {
-                  deleteDraft(String(draft.id));
+                  removeDraft({ variables: { id: Number(draft.id) } });
                 }}
                 variant="filledTonal"
               >

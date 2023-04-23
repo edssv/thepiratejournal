@@ -1,24 +1,21 @@
-import { useMutation } from '@tanstack/react-query';
-
-import { instance } from '@/api/api.interceptor';
 import { getApiUrl } from '@/lib/apiUrlBuilder';
+import { api } from '../api/api';
 
 interface FileData {
   file: { url: string; ref: string };
 }
 
-export const FileService = {
-  async uploadFile(formData: FormData) {
-    const { data } = await instance<FileData>({
-      url: getApiUrl.fileUpload(),
-      method: 'POST',
-      data: formData,
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-    return data;
-  },
-};
+export const fileApi = api.injectEndpoints({
+  endpoints: (builder) => ({
+    uploadFile: builder.mutation<FileData, FormData>({
+      query: (formData: FormData) => ({
+        url: getApiUrl.fileUpload(),
+        method: 'POST',
+        body: formData,
+        headers: { 'Content-Type': 'multipart/form-data' },
+      }),
+    }),
+  }),
+});
 
-export const useUploadFileMutation = () => {
-  return useMutation(['upload'], FileService.uploadFile);
-};
+export const { useUploadFileMutation } = fileApi;

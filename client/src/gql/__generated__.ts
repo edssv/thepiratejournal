@@ -117,6 +117,15 @@ export type CreateBlogInput = {
   title: Scalars['String'];
 };
 
+export type CreateDraftInput = {
+  body?: InputMaybe<Array<InputBlock>>;
+  category?: InputMaybe<Scalars['String']>;
+  cover?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Array<Scalars['String']>>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
 export type Draft = {
   body?: Maybe<Array<Block>>;
   category?: Maybe<Scalars['String']>;
@@ -185,14 +194,17 @@ export type Like = {
 export type Mutation = {
   createArticle: Article;
   createBlog: Blog;
+  createDraft: Draft;
   createLike: Scalars['ID'];
   login: Auth;
   removeArticle: Article;
   removeBlog: Blog;
+  removeDraft: Draft;
   removeLike: Scalars['ID'];
   signup: Auth;
   updateArticle: Article;
   updateBlog: Blog;
+  updateDraft: Draft;
 };
 
 
@@ -203,6 +215,11 @@ export type MutationcreateArticleArgs = {
 
 export type MutationcreateBlogArgs = {
   createBlogInput: CreateBlogInput;
+};
+
+
+export type MutationcreateDraftArgs = {
+  createDraftInput: CreateDraftInput;
 };
 
 
@@ -226,6 +243,11 @@ export type MutationremoveBlogArgs = {
 };
 
 
+export type MutationremoveDraftArgs = {
+  id: Scalars['Float'];
+};
+
+
 export type MutationremoveLikeArgs = {
   articleId: Scalars['Float'];
 };
@@ -243,6 +265,11 @@ export type MutationupdateArticleArgs = {
 
 export type MutationupdateBlogArgs = {
   updateBlogInput: UpdateBlogInput;
+};
+
+
+export type MutationupdateDraftArgs = {
+  updateDraftInput: UpdateDraftInput;
 };
 
 export type Query = {
@@ -311,7 +338,7 @@ export type UpdateArticleInput = {
   cover: Scalars['String'];
   description: Scalars['String'];
   draftId?: InputMaybe<Scalars['Float']>;
-  id: Scalars['Float'];
+  id: Scalars['ID'];
   readingTime: Scalars['Float'];
   tags?: InputMaybe<Array<Scalars['String']>>;
   title: Scalars['String'];
@@ -327,6 +354,16 @@ export type UpdateBlogInput = {
   readingTime: Scalars['Float'];
   tags?: InputMaybe<Array<Scalars['String']>>;
   title: Scalars['String'];
+};
+
+export type UpdateDraftInput = {
+  body?: InputMaybe<Array<InputBlock>>;
+  category?: InputMaybe<Scalars['String']>;
+  cover?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+  tags?: InputMaybe<Array<Scalars['String']>>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 export type User = {
@@ -348,7 +385,21 @@ export type User = {
   username: Scalars['String'];
 };
 
+export type RemoveDraftMutationVariables = Exact<{
+  id: Scalars['Float'];
+}>;
+
+
+export type RemoveDraftMutation = { __typename: 'Mutation', removeDraft: { __typename: 'Draft', id: string } };
+
 export type ArticlePreview = { __typename: 'Article', id: string, title: string, description: string, cover: string };
+
+export type RemoveArticleMutationVariables = Exact<{
+  id: Scalars['Float'];
+}>;
+
+
+export type RemoveArticleMutation = { __typename: 'Mutation', removeArticle: { __typename: 'Article', id: string } };
 
 export type ArticleQueryVariables = Exact<{
   id: Scalars['Float'];
@@ -392,12 +443,19 @@ export type NextBlogsQueryVariables = Exact<{
 
 export type NextBlogsQuery = { __typename: 'Query', getNextBlogs: Array<{ __typename: 'Blog', id: string, title: string, cover: string, category: string }> };
 
-export type LoginMurationVariables = Exact<{
+export type LoginMutationVariables = Exact<{
   loginInput: EmailLoginInput;
 }>;
 
 
-export type LoginMuration = { __typename: 'Mutation', login: { __typename: 'Auth', accessToken: string, refreshToken: string, user: { __typename: 'User', id: string, username: string, image?: string | null, role: string } } };
+export type LoginMutation = { __typename: 'Mutation', login: { __typename: 'Auth', accessToken: string, refreshToken: string, user: { __typename: 'User', id: string, username: string, image?: string | null, role: string, emailVerified: boolean } } };
+
+export type SignupMutationVariables = Exact<{
+  signupInput: SignUpInput;
+}>;
+
+
+export type SignupMutation = { __typename: 'Mutation', signup: { __typename: 'Auth', accessToken: string, refreshToken: string, user: { __typename: 'User', id: string, username: string, image?: string | null, role: string, emailVerified: boolean } } };
 
 export type BlogListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -439,6 +497,20 @@ export type DraftQueryVariables = Exact<{
 
 export type DraftQuery = { __typename: 'Query', getDraft: { __typename: 'Draft', id: string, title?: string | null, description?: string | null, cover?: string | null, createdAt: any, body?: Array<{ __typename: 'Block', id: string, type: string, data: { __typename: 'BlockData', text?: string | null, level?: number | null, caption?: string | null, stretched?: boolean | null, withBackground?: boolean | null, withBorder?: boolean | null, items?: Array<string> | null, file?: { __typename: 'FileData', ref?: string | null, url?: string | null } | null } }> | null, user: { __typename: 'User', id: string, username: string, image?: string | null } } };
 
+export type CreateDraftMutationVariables = Exact<{
+  createDraftInput: CreateDraftInput;
+}>;
+
+
+export type CreateDraftMutation = { __typename: 'Mutation', createDraft: { __typename: 'Draft', id: string } };
+
+export type UpdateDraftMutationVariables = Exact<{
+  updateDraftInput: UpdateDraftInput;
+}>;
+
+
+export type UpdateDraftMutation = { __typename: 'Mutation', updateDraft: { __typename: 'Draft', id: string } };
+
 export type ArticlesListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -458,6 +530,60 @@ export type UserQueryVariables = Exact<{
 export type UserQuery = { __typename: 'Query', getUser: { __typename: 'User', id: string, username: string, image?: string | null, createdAt: any, followers?: Array<{ __typename: 'Follower', id: string }> | null }, getUserContent?: Array<{ __typename: 'Article', id: string, title: string, cover: string, viewsCount: number, user: { __typename: 'User', id: string, username: string } }> | null };
 
 export const ArticlePreview = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArticlePreview"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Article"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"cover"}}]}}]} as unknown as DocumentNode;
+export const RemoveDraftMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveDraftMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"removeDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode;
+export type RemoveDraftMutationMutationFn = Apollo.MutationFunction<RemoveDraftMutation, RemoveDraftMutationVariables>;
+
+/**
+ * __useRemoveDraftMutation__
+ *
+ * To run a mutation, you first call `useRemoveDraftMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveDraftMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeDraftMutation, { data, loading, error }] = useRemoveDraftMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRemoveDraftMutation(baseOptions?: Apollo.MutationHookOptions<RemoveDraftMutation, RemoveDraftMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveDraftMutation, RemoveDraftMutationVariables>(RemoveDraftMutationDocument, options);
+      }
+export type RemoveDraftMutationHookResult = ReturnType<typeof useRemoveDraftMutation>;
+export type RemoveDraftMutationMutationResult = Apollo.MutationResult<RemoveDraftMutation>;
+export type RemoveDraftMutationMutationOptions = Apollo.BaseMutationOptions<RemoveDraftMutation, RemoveDraftMutationVariables>;
+export const RemoveArticleMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveArticleMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"removeArticle"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode;
+export type RemoveArticleMutationMutationFn = Apollo.MutationFunction<RemoveArticleMutation, RemoveArticleMutationVariables>;
+
+/**
+ * __useRemoveArticleMutation__
+ *
+ * To run a mutation, you first call `useRemoveArticleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveArticleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeArticleMutation, { data, loading, error }] = useRemoveArticleMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRemoveArticleMutation(baseOptions?: Apollo.MutationHookOptions<RemoveArticleMutation, RemoveArticleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveArticleMutation, RemoveArticleMutationVariables>(RemoveArticleMutationDocument, options);
+      }
+export type RemoveArticleMutationHookResult = ReturnType<typeof useRemoveArticleMutation>;
+export type RemoveArticleMutationMutationResult = Apollo.MutationResult<RemoveArticleMutation>;
+export type RemoveArticleMutationMutationOptions = Apollo.BaseMutationOptions<RemoveArticleMutation, RemoveArticleMutationVariables>;
 export const ArticleQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ArticleQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getArticle"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"body"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"file"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ref"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"stretched"}},{"kind":"Field","name":{"kind":"Name","value":"withBackground"}},{"kind":"Field","name":{"kind":"Name","value":"withBorder"}},{"kind":"Field","name":{"kind":"Name","value":"items"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"cover"}},{"kind":"Field","name":{"kind":"Name","value":"readingTime"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"tags"}},{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**
@@ -628,33 +754,60 @@ export function useNextBlogsQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type NextBlogsQueryHookResult = ReturnType<typeof useNextBlogsQuery>;
 export type NextBlogsQueryLazyQueryHookResult = ReturnType<typeof useNextBlogsQueryLazyQuery>;
 export type NextBlogsQueryQueryResult = Apollo.QueryResult<NextBlogsQuery, NextBlogsQueryVariables>;
-export const LoginMurationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginMuration"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"EmailLoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loginInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"role"}}]}},{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"refreshToken"}}]}}]}}]} as unknown as DocumentNode;
-export type LoginMurationMutationFn = Apollo.MutationFunction<LoginMuration, LoginMurationVariables>;
+export const LoginMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"EmailLoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loginInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"emailVerified"}}]}},{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"refreshToken"}}]}}]}}]} as unknown as DocumentNode;
+export type LoginMutationMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**
- * __useLoginMuration__
+ * __useLoginMutation__
  *
- * To run a mutation, you first call `useLoginMuration` within a React component and pass it any options that fit your needs.
- * When your component renders, `useLoginMuration` returns a tuple that includes:
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [loginMuration, { data, loading, error }] = useLoginMuration({
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
  *   variables: {
  *      loginInput: // value for 'loginInput'
  *   },
  * });
  */
-export function useLoginMuration(baseOptions?: Apollo.MutationHookOptions<LoginMuration, LoginMurationVariables>) {
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LoginMuration, LoginMurationVariables>(LoginMurationDocument, options);
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginMutationDocument, options);
       }
-export type LoginMurationHookResult = ReturnType<typeof useLoginMuration>;
-export type LoginMurationMutationResult = Apollo.MutationResult<LoginMuration>;
-export type LoginMurationMutationOptions = Apollo.BaseMutationOptions<LoginMuration, LoginMurationVariables>;
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const SignupMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SignupMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"signupInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SignUpInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signup"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"signupInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"signupInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"refreshToken"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"emailVerified"}}]}}]}}]}}]} as unknown as DocumentNode;
+export type SignupMutationMutationFn = Apollo.MutationFunction<SignupMutation, SignupMutationVariables>;
+
+/**
+ * __useSignupMutation__
+ *
+ * To run a mutation, you first call `useSignupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signupMutation, { data, loading, error }] = useSignupMutation({
+ *   variables: {
+ *      signupInput: // value for 'signupInput'
+ *   },
+ * });
+ */
+export function useSignupMutation(baseOptions?: Apollo.MutationHookOptions<SignupMutation, SignupMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignupMutation, SignupMutationVariables>(SignupMutationDocument, options);
+      }
+export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
+export type SignupMutationMutationResult = Apollo.MutationResult<SignupMutation>;
+export type SignupMutationMutationOptions = Apollo.BaseMutationOptions<SignupMutation, SignupMutationVariables>;
 export const BlogListQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BlogListQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllBlog"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"cover"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode;
 
 /**
@@ -820,6 +973,60 @@ export function useDraftQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type DraftQueryHookResult = ReturnType<typeof useDraftQuery>;
 export type DraftQueryLazyQueryHookResult = ReturnType<typeof useDraftQueryLazyQuery>;
 export type DraftQueryQueryResult = Apollo.QueryResult<DraftQuery, DraftQueryVariables>;
+export const CreateDraftMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateDraftMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createDraftInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateDraftInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createDraftInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createDraftInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode;
+export type CreateDraftMutationMutationFn = Apollo.MutationFunction<CreateDraftMutation, CreateDraftMutationVariables>;
+
+/**
+ * __useCreateDraftMutation__
+ *
+ * To run a mutation, you first call `useCreateDraftMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateDraftMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createDraftMutation, { data, loading, error }] = useCreateDraftMutation({
+ *   variables: {
+ *      createDraftInput: // value for 'createDraftInput'
+ *   },
+ * });
+ */
+export function useCreateDraftMutation(baseOptions?: Apollo.MutationHookOptions<CreateDraftMutation, CreateDraftMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateDraftMutation, CreateDraftMutationVariables>(CreateDraftMutationDocument, options);
+      }
+export type CreateDraftMutationHookResult = ReturnType<typeof useCreateDraftMutation>;
+export type CreateDraftMutationMutationResult = Apollo.MutationResult<CreateDraftMutation>;
+export type CreateDraftMutationMutationOptions = Apollo.BaseMutationOptions<CreateDraftMutation, CreateDraftMutationVariables>;
+export const UpdateDraftMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateDraftMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateDraftInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateDraftInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateDraftInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateDraftInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode;
+export type UpdateDraftMutationMutationFn = Apollo.MutationFunction<UpdateDraftMutation, UpdateDraftMutationVariables>;
+
+/**
+ * __useUpdateDraftMutation__
+ *
+ * To run a mutation, you first call `useUpdateDraftMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateDraftMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateDraftMutation, { data, loading, error }] = useUpdateDraftMutation({
+ *   variables: {
+ *      updateDraftInput: // value for 'updateDraftInput'
+ *   },
+ * });
+ */
+export function useUpdateDraftMutation(baseOptions?: Apollo.MutationHookOptions<UpdateDraftMutation, UpdateDraftMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateDraftMutation, UpdateDraftMutationVariables>(UpdateDraftMutationDocument, options);
+      }
+export type UpdateDraftMutationHookResult = ReturnType<typeof useUpdateDraftMutation>;
+export type UpdateDraftMutationMutationResult = Apollo.MutationResult<UpdateDraftMutation>;
+export type UpdateDraftMutationMutationOptions = Apollo.BaseMutationOptions<UpdateDraftMutation, UpdateDraftMutationVariables>;
 export const ArticlesListQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ArticlesListQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllArticles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"cover"}}]}}]}}]} as unknown as DocumentNode;
 
 /**

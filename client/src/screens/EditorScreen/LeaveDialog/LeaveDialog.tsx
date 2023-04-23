@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 
@@ -13,7 +13,6 @@ import {
   DialogTitle,
 } from '@/components/common/Dialog/Dialog';
 import Button from '@/components/common/Button/Button';
-import SaveArticle from '../ConfirmDialog/SaveArticle/SaveArticle';
 
 const DialogTrigger = dynamic(() => import('@/components/common/DialogTrigger/DialogTrigger'), { ssr: false });
 
@@ -23,10 +22,10 @@ const LeaveDialog: React.FC = () => {
   const { formStatus } = useTypedSelector((state) => state.editorPage);
   const [isVisible, setIsVisible] = useState(false);
 
-  const handleBrowseAway = () => {
+  const handleBrowseAway = useCallback(() => {
     setIsVisible(true);
     throw router.events.emit('routeChangeError');
-  };
+  }, [router.events]);
   const handleOff = () => {
     setIsVisible(false);
     router.events.emit('routeChangeComplete');
@@ -49,7 +48,7 @@ const LeaveDialog: React.FC = () => {
     }
 
     return;
-  }, [formStatus, router]);
+  }, [formStatus, router, handleBrowseAway]);
   return (
     <DialogTrigger isVisible={isVisible} onClose={handleOff}>
       <Dialog size="M">

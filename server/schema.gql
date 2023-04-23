@@ -101,6 +101,15 @@ input CreateBlogInput {
   title: String!
 }
 
+input CreateDraftInput {
+  body: [InputBlock!]
+  category: String
+  cover: String
+  description: String
+  tags: [String!]
+  title: String
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -174,14 +183,17 @@ type Like {
 type Mutation {
   createArticle(createArticleInput: CreateArticleInput!): Article!
   createBlog(createBlogInput: CreateBlogInput!): Blog!
+  createDraft(createDraftInput: CreateDraftInput!): Draft!
   createLike(articleId: Float!): ID!
   login(loginInput: EmailLoginInput!): Auth!
   removeArticle(id: Float!): Article!
   removeBlog(id: Float!): Blog!
+  removeDraft(id: Float!): Draft!
   removeLike(articleId: Float!): ID!
   signup(signupInput: SignUpInput!): Auth!
   updateArticle(updateArticleInput: UpdateArticleInput!): Article!
   updateBlog(updateBlogInput: UpdateBlogInput!): Blog!
+  updateDraft(updateDraftInput: UpdateDraftInput!): Draft!
 }
 
 type Query {
@@ -214,7 +226,7 @@ input UpdateArticleInput {
   cover: String!
   description: String!
   draftId: Float
-  id: Float!
+  id: ID!
   readingTime: Float!
   tags: [String!]
   title: String!
@@ -230,6 +242,16 @@ input UpdateBlogInput {
   readingTime: Float!
   tags: [String!]
   title: String!
+}
+
+input UpdateDraftInput {
+  body: [InputBlock!]
+  category: String
+  cover: String
+  description: String
+  id: ID!
+  tags: [String!]
+  title: String
 }
 
 type User {

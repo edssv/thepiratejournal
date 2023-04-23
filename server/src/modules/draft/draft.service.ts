@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateDraftDto } from './dto/create-draft.dto';
-import { UpdateDraftDto } from './dto/update-draft.dto';
 import { Draft } from './entities/draft.entity';
+import { CreateDraftInput } from './inputs/create-draft.input';
+import { UpdateDraftInput } from './inputs/update-draft.input';
 
 @Injectable()
 export class DraftService {
@@ -12,8 +12,8 @@ export class DraftService {
     private repository: Repository<Draft>
   ) {}
 
-  create(userId: number, createDraftDto: CreateDraftDto) {
-    return this.repository.save({ user: { id: userId }, ...createDraftDto });
+  create(userId: number, createDraftInput: CreateDraftInput) {
+    return this.repository.save({ user: { id: userId }, createDraftInput });
   }
 
   findAll() {
@@ -24,8 +24,9 @@ export class DraftService {
     return this.repository.findOne({ where: { id } });
   }
 
-  update(id: number, updateDraftDto: UpdateDraftDto) {
-    return this.repository.update(id, updateDraftDto);
+  update(updateDraftInput: UpdateDraftInput) {
+    const { id, ...draftData } = updateDraftInput;
+    return this.repository.update(id, draftData);
   }
 
   remove(id: number) {

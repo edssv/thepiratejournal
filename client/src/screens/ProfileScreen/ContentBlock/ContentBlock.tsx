@@ -1,3 +1,4 @@
+import { Draft } from '@/gql/__generated__';
 import { ProfileSection } from '@/lib/enums';
 import { Article } from '@/interfaces/article.interface';
 import ArticlePreview from '@/components/ArticlePreview/ArticlePreview';
@@ -21,7 +22,7 @@ const ContentBlock: React.FC<ContentBlockProps> = ({ currentSection, content, is
     }
 
     if (currentSection === ProfileSection.Drafts) {
-      return content.map((draft: Partial<Article>) => <DraftPreview draft={draft} key={draft.id} />);
+      return content.map((draft: Draft) => <DraftPreview draft={draft} key={draft.id} />);
     }
   };
 

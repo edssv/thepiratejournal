@@ -18,9 +18,8 @@ export const getUserFromStorage = async () => {
 export const saveTokensStorage = (data: Tokens) => {
   Cookies.set(TokensEnum.ACCESS_TOKEN, data.accessToken, {
     expires: 30,
-    // domain: process.env.NEXT_PUBLIC_CLIENT_URL,
-    // sameSite: 'Strict',
-    // secure: true,
+    sameSite: 'Strict',
+    secure: true,
   });
   Cookies.set(TokensEnum.REFRESH_TOKEN, data.refreshToken, { expires: 30, sameSite: 'Strict', secure: true });
 };

@@ -2,10 +2,12 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
+import { useSignupMutation } from '@/gql/__generated__';
+import { useNetworkStatus } from '@/hooks';
 import { SignupData } from '@/store/user/user.interface';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
-import { useActions, useNetworkStatus } from '@/hooks';
+
 import Button from '@/components/common/Button/Button';
 import PasswordField from '../Fields/PasswordField/PasswordField';
 import EmailField from '../Fields/EmailField/EmailField';
@@ -18,9 +20,9 @@ const SignupScreen = () => {
   const { replace } = useRouter();
 
   const { isOnline } = useNetworkStatus();
-  const { user, isLoading, error } = useTypedSelector((state) => state.user);
+  const { user } = useTypedSelector((state) => state.user);
 
-  const { signup } = useActions();
+  const [signup, { loading, error }] = useSignupMutation();
 
   const {
     register,
@@ -32,7 +34,7 @@ const SignupScreen = () => {
 
   const onSubmit = handleSubmit(async (formData: SignupData) => {
     try {
-      signup(formData);
+      signup({ variables: { signupInput: formData } });
       user && replace(getPublicUrl.home());
     } catch (error) {}
   });
@@ -50,10 +52,10 @@ const SignupScreen = () => {
           <UsernameField register={register} errors={errors} />
           <EmailField register={register} errors={errors} />
           <PasswordField register={register} errors={errors} />
-          {error && <ErrorLabel>{error}</ErrorLabel>}
+          {error && <ErrorLabel>{error.message}</ErrorLabel>}
         </div>
         <section className={styles.submit}>
-          <Button isLoading={isLoading} disabled={!isOnline || isLoading} type="submit" variant="filled">
+          <Button isLoading={loading} disabled={!isOnline || loading} type="submit" variant="filled">
             Создать
           </Button>
         </section>

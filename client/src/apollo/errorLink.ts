@@ -1,5 +1,4 @@
 import { onError } from '@apollo/client/link/error';
-import { AuthService } from '@/services';
 import { getAccessToken } from '@/services/auth/auth.helper';
 
 const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
@@ -9,7 +8,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) 
         // Apollo Server sets code to UNAUTHENTICATED
         // when an AuthenticationError is thrown in a resolver
         case 'UNAUTHENTICATED':
-          AuthService.getNewTokens();
+          // getNewTokens();
           // Modify the operation context with a new token
           const oldHeaders = operation.getContext().headers;
 

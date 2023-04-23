@@ -24,7 +24,7 @@ export const SearchBar: React.FC = () => {
     setSort(sort);
     setSearch(search);
     setTag(tag);
-  }, [query]);
+  }, [query, setCategory, search, setQuery, setSort, setTag, setSearch]);
 
   useEffect(() => {
     const queryParams = {
@@ -39,7 +39,7 @@ export const SearchBar: React.FC = () => {
     setQuery(decodeURI(decodeUrl));
 
     push(getPublicUrl.search(decodeUrl));
-  }, [category, sort, tag, search]);
+  }, [category, sort, tag, search, setQuery, push]);
 
   return (
     <div className={styles.root}>

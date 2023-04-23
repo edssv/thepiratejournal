@@ -18,7 +18,6 @@ export interface Tokens {
 export interface InitialState {
   user: UserState | null;
   isLoading: boolean;
-  error: string | null;
 }
 
 export interface LoginData {

@@ -1,0 +1,5 @@
+mutation UpdateDraftMutation($updateDraftInput: UpdateDraftInput!) {
+  updateDraft(updateDraftInput: $updateDraftInput) {
+    id
+  }
+}

@@ -1,5 +1,4 @@
 import { HomeSignedOutQuery } from '@/gql/__generated__';
-import { useGetBestOfWeekQuery } from '@/services';
 import AiryArticlePreview from '@/components/AiryArticlePreview/AiryArticlePreview';
 
 export const BestOfWeek: React.FC<{ data: HomeSignedOutQuery['getBestOfWeekArticles'] }> = ({ data }) => {

@@ -10,7 +10,7 @@ import styles from './CoverBlock.module.scss';
 
 const CoverBlock: React.FC = () => {
   const { setCover } = useActions();
-  const { mutate, data: coverData, isLoading, isError } = useUploadFileMutation();
+  const [uploadFile, { data: coverData, isLoading, isError }] = useUploadFileMutation();
 
   const { data } = useTypedSelector((state) => state.editorPage);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -23,8 +23,8 @@ const CoverBlock: React.FC = () => {
     const formData = new FormData();
     formData.append('image', selectedFile ?? '');
 
-    mutate(formData);
-  }, [selectedFile, mutate]);
+    uploadFile(formData);
+  }, [selectedFile, uploadFile]);
 
   useEffect(() => {
     if (selectedFile) {

@@ -1,9 +1,9 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, ID, InputType } from '@nestjs/graphql';
 
 import { CreateArticleInput } from './create-article.input';
 
 @InputType()
 export class UpdateArticleInput extends CreateArticleInput {
-  @Field()
+  @Field(() => ID)
   id: number;
 }

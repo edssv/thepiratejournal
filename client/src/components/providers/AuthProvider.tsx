@@ -4,25 +4,27 @@ import { useEffect } from 'react';
 import { useAuth } from '@/hooks';
 import { useActions } from '@/hooks/useActions';
 import { getAccessToken, getRefreshToken } from '@/services/auth/auth.helper';
+import { useLazyGetNewTokensQuery } from '@/services/auth/auth.service';
 
 const AuthProvider: React.FC<any> = ({ children }) => {
   const { user } = useAuth();
-  const { checkAuth, logout } = useActions();
+  const { logout } = useActions();
+  const [getNewTokens] = useLazyGetNewTokensQuery();
   const { pathname } = useRouter();
 
   useEffect(() => {
     const accessToken = getAccessToken();
 
     if (accessToken) {
-      checkAuth();
+      getNewTokens();
     }
-  }, [checkAuth]);
+  }, [getNewTokens]);
 
   useEffect(() => {
     const refreshToken = getRefreshToken();
 
     if (!refreshToken && user) {
-      logout();
+      // logout();
     }
   }, [pathname, logout, user]);
 

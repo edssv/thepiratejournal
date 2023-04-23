@@ -1,0 +1,5 @@
+mutation RemoveArticleMutation($id: Float!) {
+  removeArticle(id: $id) {
+    id
+  }
+}

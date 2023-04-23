@@ -33,6 +33,10 @@ body {
   background-color: var(--md-sys-color-surface);
 }
 
+[data-theme='light'] body {
+  color: #212121;
+}
+
 span {
   font-size: 14px;
 }

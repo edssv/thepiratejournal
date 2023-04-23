@@ -2,12 +2,11 @@ import React, { PropsWithChildren, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useSelector } from 'react-redux';
 
+import { useCreateLikeMutation, useRemoveLikeMutation } from '@/gql/__generated__';
 import { useAuth } from '@/hooks';
 import { articleDataSelector, viewerSelector } from '@/store';
-import { useLikeArticleMutation, useRemoveLikeArticleMutation } from '@/services/like/like.service';
 import Button, { ButtonColor, Variant } from '@/components/common/Button/Button';
 import Snackbar from '@/components/common/Snackbar/Snackbar';
-import { useCreateLikeMutation, useRemoveLikeMutation } from '@/gql/__generated__';
 
 const Tippy = dynamic(() => import('@/components/common/Tippy/Tippy'), { ssr: false });
 interface IsLikeProps {
@@ -27,9 +26,10 @@ export const ButtonLike: React.FC<PropsWithChildren<IsLikeProps>> = ({
   const { user } = useAuth();
   const article = useSelector(articleDataSelector);
   const { isLike } = useSelector(viewerSelector);
+  const [isOpen, setIsOpen] = useState(false);
+
   const [createLike] = useCreateLikeMutation();
   const [removeLike] = useRemoveLikeMutation();
-  const [isOpen, setIsOpen] = useState(false);
 
   const handleLike = async () => {
     if (isLike) {

@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 
-import { Block } from '@/gql/__generated__';
+import { Block, useCreateDraftMutation, useUpdateDraftMutation } from '@/gql/__generated__';
 import { useActions, useAuth } from '@/hooks';
 import { EditorFormStatus, EditorPageMode } from '@/lib/enums';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-import { useCreateDraftMutation, useUpdateDraftMutation } from '@/services';
 import Form from './Form/Form';
 import Bar from './Bar/Bar';
 
@@ -25,17 +24,9 @@ const EditorScreen: React.FC<EditorScreenProps> = ({ body, mode }) => {
   const [blocks, setBlocks] = useState(body ?? []);
 
   const { setMode, resetData, setFormStatus, setDraftId } = useActions();
-  const {
-    mutate: createDraft,
-    data: draftData,
-    isLoading: isLoadingCreatDraft,
-    isError: isErrorCreateDraft,
-  } = useCreateDraftMutation();
-  const {
-    mutate: updateDraft,
-    isLoading: isLoadingUpdateDraft,
-    isError: isErrorUpdateDraft,
-  } = useUpdateDraftMutation();
+  const [createDraft, { data: draftData, loading: isLoadingCreatDraft, error: isErrorCreateDraft }] =
+    useCreateDraftMutation();
+  const [updateDraft, { loading: isLoadingUpdateDraft, error: isErrorUpdateDraft }] = useUpdateDraftMutation();
 
   useEffect(() => {
     setMode(mode);
@@ -57,24 +48,43 @@ const EditorScreen: React.FC<EditorScreenProps> = ({ body, mode }) => {
 
     if (formStatus === EditorFormStatus.SAVED || formStatus === EditorFormStatus.UNCHANGED) return;
 
-    if (!draftData?.id) {
-      createDraft(
-        { ...data, body: [...blocks] },
-        {
-          onSuccess: ({ id }) => {
-            setDraftId(id), setFormStatus(EditorFormStatus.SAVED);
+    if (!draftData?.createDraft.id) {
+      createDraft({
+        variables: {
+          createDraftInput: {
+            title: data.title,
+            description: data.description,
+            cover: data.cover,
+            body: blocks,
+            category: data.category,
+            tags: data.tags,
           },
-        }
-      );
+        },
+        onCompleted: ({ createDraft }) => {
+          setDraftId(createDraft.id), setFormStatus(EditorFormStatus.SAVED);
+        },
+      });
     }
 
-    if (draftData?.id) {
-      updateDraft(
-        { ...draftData, ...data, body: [...blocks] },
-        { onSuccess: () => setFormStatus(EditorFormStatus.SAVED) }
-      );
+    if (draftData?.createDraft.id) {
+      updateDraft({
+        variables: {
+          updateDraftInput: {
+            title: data.title,
+            description: data.description,
+            cover: data.cover,
+            body: blocks,
+            category: data.category,
+            tags: data.tags,
+            id: String(data.id),
+          },
+        },
+        onCompleted: ({ updateDraft }) => {
+          setDraftId(updateDraft.id), setFormStatus(EditorFormStatus.SAVED);
+        },
+      });
     }
-  }, [data, blocks, draftData, formStatus]);
+  }, [data, blocks, draftData, formStatus, createDraft, mode, setDraftId, setFormStatus, updateDraft]);
 
   useEffect(() => {
     return () => {
@@ -94,7 +104,7 @@ const EditorScreen: React.FC<EditorScreenProps> = ({ body, mode }) => {
         blocks={blocks}
         articleContentRef={articleContentRef}
         isLoading={isLoadingCreatDraft || isLoadingUpdateDraft}
-        isError={isErrorCreateDraft || isErrorUpdateDraft}
+        isError={Boolean(isErrorCreateDraft) || Boolean(isErrorUpdateDraft)}
       />
     </div>
   );

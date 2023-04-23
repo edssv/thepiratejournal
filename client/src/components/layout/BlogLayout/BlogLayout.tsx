@@ -6,11 +6,13 @@ import BlogHeader from './BlogHeader/BlogHeader';
 import Loader from '../Loader/Loader';
 import Footer from '../Footer/Footer';
 
+import styles from './BlogLayout.module.scss';
+
 const BlogLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const isTablet = useMediaPredicate('(max-width: 990.98px)');
 
   return (
-    <div>
+    <div className={styles.root}>
       {!isTablet && <Loader color="var(--md-sys-color-on-surface)" />}
       <BlogHeader />
       <main>

@@ -1,11 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
-
-import { AuthService } from '@/services';
+import { useGetProfileQuery } from '@/services/auth/auth.service';
 
 export const useProfile = () => {
-    const { data } = useQuery(['get profile'], () => AuthService.getProfile(), {
-        select: ({ data }) => data,
-    });
+  const { data } = useGetProfileQuery();
 
-    return { profile: data };
+  return { profile: data };
 };

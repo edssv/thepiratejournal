@@ -18,9 +18,12 @@ const TitleBlock = () => {
   const debounceFunction = debounce((title) => {
     setTitle(title);
   }, 300);
-  const debounceUseCallback = useCallback((title: string | undefined) => {
-    debounceFunction(title);
-  }, []);
+  const debounceUseCallback = useCallback(
+    (title: string | undefined) => {
+      debounceFunction(title);
+    },
+    [debounceFunction]
+  );
 
   const onChangeTitle = (e: React.ChangeEvent<HTMLTextAreaElement> | undefined) => {
     debounceUseCallback(e?.target.value);

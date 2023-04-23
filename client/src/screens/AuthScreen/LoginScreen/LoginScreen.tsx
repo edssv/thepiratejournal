@@ -3,9 +3,11 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useGoogleLogin } from '@react-oauth/google';
 
+import { useLoginMutation } from '@/gql/__generated__';
 import { LoginData } from '@/store/user/user.interface';
+import { useGoogleLoginMutation } from '@/services/auth/auth.service';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
-import { useActions, useNetworkStatus } from '@/hooks';
+import { useNetworkStatus } from '@/hooks';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 
 import Button from '@/components/common/Button/Button';
@@ -13,7 +15,6 @@ import PasswordField from '../Fields/PasswordField/PasswordField';
 import EmailField from '../Fields/EmailField/EmailField';
 import { ErrorLabel } from '../Fields/Field/Field';
 import GoogleButton from '../Buttons/GoogleButton/GoogleButton';
-import FacebookButton from '../Buttons/FacebookButton/FacebookButton';
 
 import styles from './LoginPage.module.scss';
 
@@ -21,9 +22,10 @@ const LoginScreen = () => {
   const { replace } = useRouter();
 
   const { isOnline } = useNetworkStatus();
-  const { user, isLoading, error } = useTypedSelector((state) => state.user);
+  const { user, isLoading } = useTypedSelector((state) => state.user);
 
-  const { login, googleLogin } = useActions();
+  const [login, { error }] = useLoginMutation();
+  const [googleLogin, { error: googleLoginError }] = useGoogleLoginMutation();
 
   const {
     register,
@@ -35,7 +37,7 @@ const LoginScreen = () => {
 
   const onSubmit = handleSubmit((formData: LoginData) => {
     try {
-      login(formData);
+      login({ variables: { loginInput: formData } });
       user && replace(getPublicUrl.home());
     } catch (error) {}
   });
@@ -63,7 +65,7 @@ const LoginScreen = () => {
             <EmailField register={register} errors={errors} strict={false} />
             <PasswordField register={register} errors={errors} strict={false} />
           </div>
-          {error && <ErrorLabel style={{ marginTop: '8px' }}>{error}</ErrorLabel>}
+          {error && <ErrorLabel style={{ marginTop: '8px' }}>{error.message}</ErrorLabel>}
         </section>
         <section className={styles.submit}>
           <Button isLoading={isLoading} disabled={!isOnline || isLoading} variant="filled" type="submit">
@@ -74,7 +76,6 @@ const LoginScreen = () => {
       <div className={styles.socials__separator}>Или</div>
       <section className={styles.social__buttons}>
         <GoogleButton onClick={loginGoogle} />
-        {/* <FacebookButton /> */}
       </section>
     </section>
   );

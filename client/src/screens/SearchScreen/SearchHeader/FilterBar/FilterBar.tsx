@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Listbox } from '@headlessui/react';
 
-import { useGetTags } from '@/services';
+import { useGetTagsQuery } from '@/services/article/article.service';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { sortData } from '@/lib/sortData';
 import { useActions } from '@/hooks';
@@ -11,7 +11,7 @@ import styles from './FilterBar.module.scss';
 
 export const FilterBar: React.FC = () => {
   const { sort, tag } = useTypedSelector((state) => state.filter);
-  const { data } = useGetTags();
+  const { data } = useGetTagsQuery();
   const [selectedCategory, setSelectedCategory] = useState(
     sort === 'views'
       ? sortData[0]

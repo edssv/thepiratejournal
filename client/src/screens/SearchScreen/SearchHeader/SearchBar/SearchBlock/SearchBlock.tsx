@@ -1,7 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useCallback, useState } from 'react';
 import debounce from 'lodash.debounce';
-import queryString from 'query-string';
 
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { useActions } from '@/hooks';
@@ -9,9 +7,7 @@ import { useActions } from '@/hooks';
 import styles from './SearchBlock.module.scss';
 
 const SearchBlock = () => {
-  const { query } = useRouter();
-
-  const { category, sort, search, tag } = useTypedSelector((state) => state.filter);
+  const { search } = useTypedSelector((state) => state.filter);
   const [inputValue, setInputValue] = useState(search);
 
   const { setSearch } = useActions();
@@ -24,6 +20,7 @@ const SearchBlock = () => {
   //   }
   // }, [query.search]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateSearchValue = useCallback(
     debounce((search: string) => setSearch(search), 300),
     []

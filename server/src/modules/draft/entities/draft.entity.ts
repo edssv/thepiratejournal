@@ -37,8 +37,8 @@ export class Draft {
   body: Block[];
 
   @Field(() => [String], { nullable: true })
-  @Column({ array: true, nullable: true })
-  tags: string;
+  @Column({ type: 'jsonb', nullable: true })
+  tags: string[];
 
   @Field({ nullable: true })
   @Column({ type: 'enum', enum: ArticleCategory, nullable: true })

@@ -15,8 +15,8 @@ const BlogHeader = () => {
           <Brand />
         </div>
         <div className={styles.rightPart}>
-          <CommunityButton />
           <ThemeButton />
+          <CommunityButton />
         </div>
       </div>
     </header>

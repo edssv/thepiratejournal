@@ -1,4 +1,3 @@
-import { useGetArticlesQuery } from '@/services';
 import AiryArticlePreview from '@/components/AiryArticlePreview/AiryArticlePreview';
 import { HomeSignedOutQuery } from '@/gql/__generated__';
 

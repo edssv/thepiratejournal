@@ -11,7 +11,7 @@ export class DraftController {
   @UseGuards(JwtAuthGuard)
   @Post()
   create(@Request() req, @Body() createDraftDto: CreateDraftDto) {
-    return this.draftService.create(req.user.id, createDraftDto);
+    // return this.draftService.create(req.user.id, createDraftDto);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -29,7 +29,7 @@ export class DraftController {
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateDraftDto: UpdateDraftDto) {
-    return this.draftService.update(+id, updateDraftDto);
+    // return this.draftService.update(+id, updateDraftDto);
   }
 
   @UseGuards(JwtAuthGuard)

@@ -1,8 +1,6 @@
-import { ArticleCategory, ArticleType, EditorFormStatus, EditorPageMode } from '@/lib/enums';
+import { ArticleCategory, ArticleType, EditorFormStatus } from '@/lib/enums';
 import { createSlice } from '@reduxjs/toolkit';
-import { getArticle } from './editor-page.actions';
 import { InitialState } from './editor-page.interface';
-import { ArticleQuery } from '@/gql/__generated__';
 
 const initialState: InitialState = {
   mode: null,
@@ -51,19 +49,5 @@ export const editorPageSlice = createSlice({
     setArticleCategory: (state, { payload }) => {
       state.data.category = payload;
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(getArticle.pending, (state, { payload }) => {
-        state.isLoading = true;
-      })
-      .addCase(getArticle.fulfilled, (state, { payload }) => {
-        state.isLoading = false;
-        state.data = payload;
-      })
-      .addCase(getArticle.rejected, (state, { payload }: any) => {
-        state.isLoading = false;
-        state.error = payload;
-      });
   },
 });

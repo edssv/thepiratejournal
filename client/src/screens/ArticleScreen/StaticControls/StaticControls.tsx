@@ -3,18 +3,15 @@ import { useRouter } from 'next/router';
 import { Dialog } from '@headlessui/react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import { articleDataSelector, viewerSelector } from '@/store';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
+import { useCreateBookmarkMutation, useRemoveBookmarkMutation } from '@/services/bookmark/bookmark.service';
+import { useCreateLikeMutation, useRemoveArticleMutation, useRemoveLikeMutation } from '@/gql/__generated__';
 import Button from '@/components/common/Button/Button';
 import Snackbar from '@/components/common/Snackbar/Snackbar';
 import { ButtonLike } from '../ActionButtons/ButtonLike';
 import { useAuth } from '@/hooks';
 
 import styles from './StaticControls.module.scss';
-import { useLikeArticleMutation, useRemoveLikeArticleMutation } from '@/services/like/like.service';
-import { useDeleteArticleMutation } from '@/services';
-import { useTypedSelector } from '@/hooks/useTypedSelector';
-import { useCreateBookmarkMutation, useDeleteBookmarkMutation } from '@/services/bookmark/bookmark.service';
-import { useCreateLikeMutation, useRemoveLikeMutation } from '@/gql/__generated__';
 
 interface StaticControlsProps {
   isOwner: boolean | undefined;
@@ -34,9 +31,9 @@ export const StaticControls: React.FC<StaticControlsProps> = ({ isOwner }) => {
 
   const [createLike] = useCreateLikeMutation();
   const [removeLike] = useRemoveLikeMutation();
-  const { mutate: addBookmark } = useCreateBookmarkMutation();
-  const { mutate: removeBookmark } = useDeleteBookmarkMutation();
-  const { mutate: deleteArticle } = useDeleteArticleMutation();
+  const [addBookmark] = useCreateBookmarkMutation();
+  const [removeBookmark] = useRemoveBookmarkMutation();
+  const [removeArticle] = useRemoveArticleMutation();
 
   // const handleSetLike = async () => {
   //     if (!isLike) {
@@ -59,7 +56,7 @@ export const StaticControls: React.FC<StaticControlsProps> = ({ isOwner }) => {
   // };
 
   const handleDeleteArticle = () => {
-    deleteArticle(String(data.id));
+    removeArticle({ variables: { id: data.id } });
     push('/');
   };
 

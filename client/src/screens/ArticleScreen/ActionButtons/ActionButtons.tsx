@@ -1,9 +1,9 @@
 import { useRouter } from 'next/navigation';
 
+import { useRemoveArticleMutation } from '@/gql/__generated__';
 import { useAuth } from '@/hooks';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-import { useDeleteArticleMutation } from '@/services';
 import Button from '@/components/common/Button/Button';
 import ButtonDelete from '@/components/Buttons/ButtonDelete';
 import { ButtonLike } from './ButtonLike';
@@ -17,7 +17,7 @@ export const ActionButtons = () => {
 
   const article = useTypedSelector((state) => state.articlePage.data);
 
-  const { mutate: deleteArticle } = useDeleteArticleMutation();
+  const [removeArticle] = useRemoveArticleMutation();
 
   const authorId = article?.user?.id || 'deleted';
   const isOwner = user?.id === authorId;
@@ -36,7 +36,7 @@ export const ActionButtons = () => {
             <ButtonDelete
               variant="filledTonal"
               onPrimaryAction={() => {
-                deleteArticle(String(article.id), { onSuccess: () => push(getPublicUrl.home()) });
+                removeArticle({ variables: { id: article.id }, onCompleted: () => push(getPublicUrl.community()) });
               }}
             >
               <span className="material-symbols-outlined">delete</span>Удалить

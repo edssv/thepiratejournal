@@ -1,13 +1,18 @@
 .root {
-    width: 100%;
-    max-width: 720px;
-    border-radius: 8px !important;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 840px;
+  border-radius: 8px !important;
 
-    p {
-        max-width: unset !important;
-    }
+  p {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: unset !important;
+  }
 
-    button {
-        color: var(--md-sys-color-inverse-primary);
-    }
+  button {
+    color: var(--md-sys-color-inverse-primary);
+  }
 }

@@ -1,10 +1,11 @@
-mutation LoginMuration($loginInput: EmailLoginInput!) {
+mutation LoginMutation($loginInput: EmailLoginInput!) {
   login(loginInput: $loginInput) {
     user {
       id
       username
       image
       role
+      emailVerified
     }
     accessToken
     refreshToken

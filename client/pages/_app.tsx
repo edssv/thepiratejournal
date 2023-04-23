@@ -1,16 +1,17 @@
-import { ReactElement, ReactNode, useState } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import { Roboto } from 'next/font/google';
 import { ApolloProvider } from '@apollo/client';
+import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'next-themes';
 
 import apolloClient from '@/apollo/client';
 import { store } from '@/store';
+import { api } from '@/services/api/api';
 import AuthProvider from '@/components/providers/AuthProvider';
 import CrossScreensSnackbars from '@/components/Snackbars/CrossScreensSnackbars/Component';
 
@@ -35,14 +36,12 @@ export const roboto = Roboto({
 const GoogleOneTap = dynamic(() => import('@/components/GoogleOneTap/GoogleOneTap'), { ssr: false });
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
-  const [queryClient] = useState(() => new QueryClient());
-
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
     <>
       <ApolloProvider client={apolloClient}>
-        <QueryClientProvider client={queryClient}>
+        <ApiProvider api={api}>
           <Provider store={store}>
             <AuthProvider>
               <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ''}>
@@ -54,7 +53,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
               </GoogleOAuthProvider>
             </AuthProvider>
           </Provider>
-        </QueryClientProvider>
+        </ApiProvider>
       </ApolloProvider>
       <style jsx global>
         {`

@@ -1,5 +1,8 @@
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 
+import { useRemoveDraftMutation } from '@/gql/__generated__';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
 import {
   Dialog,
   DialogActionButton,
@@ -7,9 +10,6 @@ import {
   DialogContent,
   DialogControls,
 } from '@/components/common/Dialog/Dialog';
-import { useRouter } from 'next/router';
-import { useDeleteDraftMutation } from '@/services';
-import { useTypedSelector } from '@/hooks/useTypedSelector';
 
 const DialogTrigger = dynamic(() => import('@/components/common/DialogTrigger/DialogTrigger'), { ssr: false });
 
@@ -23,10 +23,10 @@ const LeaveDialog: React.FC<LeaveDialogProps> = ({ isOpen, setIsOpen }) => {
 
   const { draftId } = useTypedSelector((state) => state.editorPage);
 
-  const { mutate: deleteDraft } = useDeleteDraftMutation();
+  const [removeDraft] = useRemoveDraftMutation();
 
   const handleLeave = () => {
-    deleteDraft(String(draftId));
+    draftId && removeDraft({ variables: { id: draftId } });
     back();
   };
   return (

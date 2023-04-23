@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router';
 import { useMediaPredicate } from 'react-media-hook';
 
-import { Block } from '@/gql/__generated__';
+import { Block, useCreateDraftMutation, useUpdateDraftMutation } from '@/gql/__generated__';
 import { useActions } from '@/hooks';
-import { useCreateDraftMutation, useUpdateDraftMutation } from '@/services';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { EditorFormStatus } from '@/lib/enums';
@@ -15,17 +14,20 @@ const DraftSave: React.FC<{ blocks: Block[] }> = ({ blocks }) => {
   const { data, draftId } = useTypedSelector((state) => state.editorPage);
 
   const { setFormStatus } = useActions();
-  const { mutate, isLoading } = useCreateDraftMutation();
-  const { mutate: updateDraft, isLoading: isLoadingUpdate } = useUpdateDraftMutation();
+  const [createDraft, { loading }] = useCreateDraftMutation();
+  const [updateDraft, { loading: isLoadingUpdate }] = useUpdateDraftMutation();
 
   const saveDraft = () => {
     const formData = { ...data, body: blocks };
 
     if (draftId) {
-      updateDraft({ ...formData, id: draftId }, { onSuccess: () => replace(getPublicUrl.home()) });
+      updateDraft({
+        variables: { updateDraftInput: { ...formData, id: String(draftId) } },
+        onCompleted: () => replace(getPublicUrl.community()),
+      });
     }
     if (!draftId) {
-      mutate(formData, { onSuccess: () => replace(getPublicUrl.home()) });
+      createDraft({ variables: { createDraftInput: formData }, onCompleted: () => replace(getPublicUrl.community()) });
     }
 
     setFormStatus(EditorFormStatus.SAVED);
@@ -41,8 +43,8 @@ const DraftSave: React.FC<{ blocks: Block[] }> = ({ blocks }) => {
   return (
     <Button
       onClick={saveDraft}
-      isLoading={isLoading || isLoadingUpdate}
-      disabled={isLoading || isLoadingUpdate || !(data.title || blocks.length)}
+      isLoading={loading || isLoadingUpdate}
+      disabled={loading || isLoadingUpdate || !(data.title || blocks.length)}
       variant="filledTonal"
     >
       {getButtonText()}

@@ -1,9 +1,8 @@
-import { useMutation } from '@tanstack/react-query';
-import { axiosClassic, instance, refreshInstance } from '@/api/api.interceptor';
 import { AuthResponse, LoginData, SignupData } from '@/store/user/user.interface';
-import { ApiUrlBuilder, getApiUrl } from '@/lib/apiUrlBuilder';
+import { getApiUrl } from '@/lib/apiUrlBuilder';
 import { User } from '@/interfaces/user.interface';
-import { saveToStorage } from './auth.helper';
+import { getRefreshToken } from './auth.helper';
+import { api } from '../api/api';
 
 export interface LoginRequest {
   username?: string;
@@ -11,71 +10,55 @@ export interface LoginRequest {
   password: string;
 }
 
-export const AuthService = {
-  async login(formData: LoginData) {
-    const { data } = await axiosClassic<AuthResponse>({
-      url: ApiUrlBuilder.Login,
-      method: 'POST',
-      data: formData,
-    });
+const refreshToken = getRefreshToken();
 
-    if (data.accessToken) saveToStorage(data);
-    return data;
-  },
+export const authApi = api.injectEndpoints({
+  endpoints: (builder) => ({
+    login: builder.mutation<AuthResponse, LoginData>({
+      query: (formData: LoginData) => ({
+        url: getApiUrl.login(),
+        method: 'POST',
+        body: formData,
+      }),
+    }),
+    signup: builder.mutation<AuthResponse, SignupData>({
+      query: (formData: SignupData) => ({
+        url: getApiUrl.signup(),
+        method: 'POST',
+        body: formData,
+      }),
+    }),
+    getNewTokens: builder.query<AuthResponse, void>({
+      query: () => ({
+        url: getApiUrl.refresh(),
+        headers: { authorization: `Bearer ${refreshToken}` },
+      }),
+    }),
+    getProfile: builder.query<User, void>({
+      query: () => getApiUrl.profile(),
+    }),
+    googleLogin: builder.mutation<AuthResponse, string>({
+      query: (code: string) => ({
+        url: getApiUrl.googleLogin(),
+        method: 'POST',
+        body: code,
+      }),
+    }),
+    googleOneTap: builder.mutation<AuthResponse, string>({
+      query: (credential: string) => ({
+        url: getApiUrl.googleOneTap(),
+        method: 'POST',
+        body: { credential },
+      }),
+    }),
+  }),
+});
 
-  async signup(formData: SignupData) {
-    const { data } = await axiosClassic<AuthResponse>({
-      url: ApiUrlBuilder.Signup,
-      method: 'POST',
-      data: formData,
-    });
-
-    if (data.accessToken) saveToStorage(data);
-
-    return data;
-  },
-
-  async getNewTokens() {
-    const { data } = await refreshInstance<string, { data: AuthResponse }>({
-      url: ApiUrlBuilder.Refresh,
-      method: 'POST',
-    });
-
-    if (data.accessToken) saveToStorage(data);
-
-    return data;
-  },
-
-  async getProfile() {
-    return instance<User>({
-      url: ApiUrlBuilder.Profile,
-      method: 'GET',
-    });
-  },
-
-  async googleLogin(code: string) {
-    const { data } = await axiosClassic<AuthResponse>({
-      url: getApiUrl.googleLogin(),
-      method: 'POST',
-      data: { code: code },
-    });
-
-    if (data.accessToken) saveToStorage(data);
-    return data;
-  },
-
-  async googleOneTap(credential: string) {
-    const { data } = await axiosClassic<AuthResponse>({
-      url: getApiUrl.googleOneTap(),
-      method: 'POST',
-      data: { credential: credential },
-    });
-
-    if (data.accessToken) saveToStorage(data);
-    return data;
-  },
-};
-
-export const useLoginMutation = () => {
-  return useMutation(['create article'], AuthService.login);
-};
+export const {
+  useLoginMutation,
+  useSignupMutation,
+  useLazyGetNewTokensQuery,
+  useGetProfileQuery,
+  useGoogleLoginMutation,
+  useGoogleOneTapMutation,
+} = authApi;

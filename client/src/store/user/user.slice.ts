@@ -1,57 +1,83 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import { getLocalStorage } from '@/utils';
-import type { RootState } from '../store';
-import { checkAuth, googleLogin, googleOneTap, login, logout, signup } from './user.actions';
 import { InitialState } from './user.interface';
+import { authApi } from '@/services/auth/auth.service';
+import { removeFromStorage, saveToStorage } from '@/services/auth/auth.helper';
 
 const initialState: InitialState = {
   user: getLocalStorage('user'),
   isLoading: false,
-  error: null,
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    tokenReceived: (state, { payload }) => {
+      saveToStorage(payload);
+    },
+    logout: (state) => {
+      state.user = null;
+      removeFromStorage();
+    },
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(login.pending, (state) => {
+      .addMatcher(authApi.endpoints.login.matchPending, (state) => {
         state.isLoading = true;
       })
-      .addCase(login.fulfilled, (state, { payload }) => {
-        state.isLoading = false;
+      .addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }) => {
         state.user = payload.user;
-      })
-      .addCase(login.rejected, (state, { payload }: any) => {
+        saveToStorage(payload);
         state.isLoading = false;
-        state.error = payload.response.data.message;
       })
-      .addCase(signup.pending, (state) => {
+      .addMatcher(authApi.endpoints.login.matchRejected, (state) => {
+        state.isLoading = false;
+      })
+      .addMatcher(authApi.endpoints.signup.matchPending, (state) => {
         state.isLoading = true;
       })
-      .addCase(signup.fulfilled, (state, { payload }) => {
+      .addMatcher(authApi.endpoints.signup.matchFulfilled, (state, { payload }) => {
+        state.user = payload.user;
+        saveToStorage(payload);
         state.isLoading = false;
-        state.user = payload.user;
       })
-      .addCase(signup.rejected, (state, { payload }: any) => {
+      .addMatcher(authApi.endpoints.signup.matchRejected, (state) => {
         state.isLoading = false;
-        state.error = payload.response.data.message;
       })
-      .addCase(logout.fulfilled, (state) => {
+      .addMatcher(authApi.endpoints.getNewTokens.matchPending, (state) => {
+        state.isLoading = true;
+      })
+      .addMatcher(authApi.endpoints.getNewTokens.matchFulfilled, (state, { payload }) => {
+        state.user = payload.user;
+        saveToStorage(payload);
         state.isLoading = false;
-        state.user = null;
       })
-      .addCase(checkAuth.fulfilled, (state, { payload }) => {
-        state.user = payload.user;
+      .addMatcher(authApi.endpoints.getNewTokens.matchRejected, (state) => {
+        state.isLoading = false;
       })
-      .addCase(googleLogin.fulfilled, (state, { payload }) => {
-        state.user = payload.user;
+      .addMatcher(authApi.endpoints.googleLogin.matchPending, (state) => {
+        state.isLoading = true;
       })
-      .addCase(googleOneTap.fulfilled, (state, { payload }) => {
+      .addMatcher(authApi.endpoints.googleLogin.matchFulfilled, (state, { payload }) => {
         state.user = payload.user;
+        saveToStorage(payload);
+        state.isLoading = false;
+      })
+      .addMatcher(authApi.endpoints.googleLogin.matchRejected, (state) => {
+        state.isLoading = false;
+      })
+      .addMatcher(authApi.endpoints.googleOneTap.matchPending, (state) => {
+        state.isLoading = true;
+      })
+      .addMatcher(authApi.endpoints.googleOneTap.matchFulfilled, (state, { payload }) => {
+        state.user = payload.user;
+        saveToStorage(payload);
+        state.isLoading = false;
+      })
+      .addMatcher(authApi.endpoints.googleOneTap.matchRejected, (state) => {
+        state.isLoading = false;
       });
   },
 });
-
-export const selectUser = (state: RootState) => state.user.user;

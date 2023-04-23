@@ -14,6 +14,18 @@ export const ApiUrlBuilder = {
 };
 
 export const getApiUrl = {
+  login() {
+    return ApiUrlBuilder.Login;
+  },
+  signup() {
+    return ApiUrlBuilder.Signup;
+  },
+  refresh() {
+    return ApiUrlBuilder.Refresh;
+  },
+  profile() {
+    return ApiUrlBuilder.Profile;
+  },
   googleLogin() {
     return '/auth/google/login';
   },

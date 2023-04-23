@@ -1,0 +1,5 @@
+mutation RemoveDraftMutation($id: Float!) {
+  removeDraft(id: $id) {
+    id
+  }
+}

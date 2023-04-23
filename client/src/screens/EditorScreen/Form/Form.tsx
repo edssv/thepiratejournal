@@ -25,7 +25,7 @@ const Form: React.FC<FormProps> = ({ blocks, setBlocks }) => {
     if (data.title || blocks.length) {
       setFormStatus(EditorFormStatus.MODIFIED);
     }
-  }, [data.title, blocks]);
+  }, [data.title, blocks, setFormStatus]);
 
   return (
     <form className={styles.root}>
