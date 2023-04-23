@@ -25,12 +25,7 @@ const ArticlePage: NextPageWithLayout<{ data: ArticleQuery }> = ({ data }) => {
 ArticlePage.getLayout = function getLayout(page: ReactElement) {
   return (
     <Layout>
-      <motion.div
-        initial={{ y: 24, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: -24, opacity: 0 }}
-        transition={{ duration: 0.3 }}
-      >
+      <motion.div initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.3 }}>
         {page}
       </motion.div>
     </Layout>

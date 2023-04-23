@@ -17,12 +17,7 @@ const BlogLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
       <BlogHeader />
       <main>
         <div className={clsx('padding-medium', 'container-fluid')}>
-          <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            exit={{ y: -30, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
+          <motion.div initial={{ y: 30, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} transition={{ duration: 0.3 }}>
             {children}
           </motion.div>
         </div>
