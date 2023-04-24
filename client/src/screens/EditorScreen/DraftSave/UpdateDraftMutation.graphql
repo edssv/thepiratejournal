@@ -1,5 +1,3 @@
 mutation UpdateDraftMutation($updateDraftInput: UpdateDraftInput!) {
-  updateDraft(updateDraftInput: $updateDraftInput) {
-    id
-  }
+  updateDraft(updateDraftInput: $updateDraftInput)
 }

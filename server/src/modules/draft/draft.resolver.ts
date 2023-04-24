@@ -24,7 +24,7 @@ export class DraftResolver {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Mutation(() => Draft)
+  @Mutation(() => Number)
   async updateDraft(@Context() context, @Args('updateDraftInput') updateDraftInput: UpdateDraftInput) {
     return await this.draftService.update(updateDraftInput);
   }

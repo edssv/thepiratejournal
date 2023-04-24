@@ -193,7 +193,7 @@ type Mutation {
   signup(signupInput: SignUpInput!): Auth!
   updateArticle(updateArticleInput: UpdateArticleInput!): Article!
   updateBlog(updateBlogInput: UpdateBlogInput!): Blog!
-  updateDraft(updateDraftInput: UpdateDraftInput!): Draft!
+  updateDraft(updateDraftInput: UpdateDraftInput!): Float!
 }
 
 type Query {
@@ -249,7 +249,7 @@ input UpdateDraftInput {
   category: String
   cover: String
   description: String
-  id: ID!
+  id: Float!
   tags: [String!]
   title: String
 }

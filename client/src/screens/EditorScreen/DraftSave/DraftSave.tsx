@@ -22,7 +22,7 @@ const DraftSave: React.FC<{ blocks: Block[] }> = ({ blocks }) => {
 
     if (draftId) {
       updateDraft({
-        variables: { updateDraftInput: { ...formData, id: String(draftId) } },
+        variables: { updateDraftInput: { ...formData, id: draftId } },
         onCompleted: () => replace(getPublicUrl.community()),
       });
     }

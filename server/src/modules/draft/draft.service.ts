@@ -26,7 +26,8 @@ export class DraftService {
 
   update(updateDraftInput: UpdateDraftInput) {
     const { id, ...draftData } = updateDraftInput;
-    return this.repository.update(id, draftData);
+    this.repository.update(id, draftData);
+    return id;
   }
 
   remove(id: number) {

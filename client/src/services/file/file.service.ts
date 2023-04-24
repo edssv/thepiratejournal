@@ -12,7 +12,6 @@ export const fileApi = api.injectEndpoints({
         url: getApiUrl.fileUpload(),
         method: 'POST',
         body: formData,
-        headers: { 'Content-Type': 'multipart/form-data' },
       }),
     }),
   }),

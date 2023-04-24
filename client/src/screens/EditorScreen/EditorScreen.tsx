@@ -20,7 +20,7 @@ const EditorScreen: React.FC<EditorScreenProps> = ({ body, mode }) => {
 
   const articleContentRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
-  const { data, formStatus } = useTypedSelector((state) => state.editorPage);
+  const { data, formStatus, draftId } = useTypedSelector((state) => state.editorPage);
   const [blocks, setBlocks] = useState(body ?? []);
 
   const { setMode, resetData, setFormStatus, setDraftId } = useActions();
@@ -48,7 +48,7 @@ const EditorScreen: React.FC<EditorScreenProps> = ({ body, mode }) => {
 
     if (formStatus === EditorFormStatus.SAVED || formStatus === EditorFormStatus.UNCHANGED) return;
 
-    if (!draftData?.createDraft.id) {
+    if (!draftId) {
       createDraft({
         variables: {
           createDraftInput: {
@@ -66,7 +66,7 @@ const EditorScreen: React.FC<EditorScreenProps> = ({ body, mode }) => {
       });
     }
 
-    if (draftData?.createDraft.id) {
+    if (draftId) {
       updateDraft({
         variables: {
           updateDraftInput: {
@@ -76,15 +76,15 @@ const EditorScreen: React.FC<EditorScreenProps> = ({ body, mode }) => {
             body: blocks,
             category: data.category,
             tags: data.tags,
-            id: String(data.id),
+            id: Number(draftId),
           },
         },
-        onCompleted: ({ updateDraft }) => {
-          setDraftId(updateDraft.id), setFormStatus(EditorFormStatus.SAVED);
+        onCompleted: () => {
+          setFormStatus(EditorFormStatus.SAVED);
         },
       });
     }
-  }, [data, blocks, draftData, formStatus, createDraft, mode, setDraftId, setFormStatus, updateDraft]);
+  }, [data, blocks, draftData, formStatus, createDraft, mode, setDraftId, setFormStatus, updateDraft, draftId]);
 
   useEffect(() => {
     return () => {

@@ -204,7 +204,7 @@ export type Mutation = {
   signup: Auth;
   updateArticle: Article;
   updateBlog: Blog;
-  updateDraft: Draft;
+  updateDraft: Scalars['Float'];
 };
 
 
@@ -361,7 +361,7 @@ export type UpdateDraftInput = {
   category?: InputMaybe<Scalars['String']>;
   cover?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
-  id: Scalars['ID'];
+  id: Scalars['Float'];
   tags?: InputMaybe<Array<Scalars['String']>>;
   title?: InputMaybe<Scalars['String']>;
 };
@@ -509,7 +509,7 @@ export type UpdateDraftMutationVariables = Exact<{
 }>;
 
 
-export type UpdateDraftMutation = { __typename: 'Mutation', updateDraft: { __typename: 'Draft', id: string } };
+export type UpdateDraftMutation = { __typename: 'Mutation', updateDraft: number };
 
 export type ArticlesListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1000,7 +1000,7 @@ export function useCreateDraftMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateDraftMutationHookResult = ReturnType<typeof useCreateDraftMutation>;
 export type CreateDraftMutationMutationResult = Apollo.MutationResult<CreateDraftMutation>;
 export type CreateDraftMutationMutationOptions = Apollo.BaseMutationOptions<CreateDraftMutation, CreateDraftMutationVariables>;
-export const UpdateDraftMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateDraftMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateDraftInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateDraftInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateDraftInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateDraftInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode;
+export const UpdateDraftMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateDraftMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateDraftInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateDraftInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updateDraftInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateDraftInput"}}}]}]}}]} as unknown as DocumentNode;
 export type UpdateDraftMutationMutationFn = Apollo.MutationFunction<UpdateDraftMutation, UpdateDraftMutationVariables>;
 
 /**

@@ -18,7 +18,7 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const baseQueryWithRetry = retry(baseQuery, { maxRetries: 2 });
+const baseQueryWithRetry = retry(baseQuery, { maxRetries: 1 });
 
 const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
   args,

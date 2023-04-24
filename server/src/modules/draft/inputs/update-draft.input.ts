@@ -1,8 +1,8 @@
-import { Field, ID, InputType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { CreateDraftInput } from './create-draft.input';
 
 @InputType()
 export class UpdateDraftInput extends CreateDraftInput {
-  @Field(() => ID)
+  @Field()
   id: number;
 }
