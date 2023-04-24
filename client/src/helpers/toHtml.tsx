@@ -14,7 +14,7 @@ export const toHtml = (blocks: Block[]) => {
             </div>
           );
         }
-        return `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
+        if (block.data.level === 3) return <h3>{block.data.text}</h3>;
 
       case 'embed':
         return (
