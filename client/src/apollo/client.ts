@@ -3,6 +3,7 @@ import { ApolloClient, InMemoryCache, from } from '@apollo/client';
 import errorLink from './errorLink';
 import authLink from './authLink';
 import httpLink from './httpLink';
+import { Block } from '@/gql/__generated__';
 
 const apolloClient = new ApolloClient({
   link: from([authLink, httpLink]),

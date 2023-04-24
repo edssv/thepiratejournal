@@ -46,19 +46,7 @@ export const toHtml = (blocks: Block[]) => {
           block.data?.file?.url && (
             <figure>
               <div className="imageContainer">
-                <Image
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  style={{ width: '100%', height: '100%' }}
-                  src={
-                    (process.env.SERVER_DOMAIN ?? process.env.NEXT_PUBLIC_SERVER_DOMAIN) +
-                    '/' +
-                    process.env.NEXT_PUBLIC_ASSETS_PREFIX +
-                    block.data.file.url.split(`/${process.env.NEXT_PUBLIC_ASSETS_PREFIX}`)[1]
-                  }
-                  alt="Image"
-                />
+                <img src={block.data?.file?.url} alt="Image" />
               </div>
               <figcaption>{block.data.caption}</figcaption>
             </figure>
