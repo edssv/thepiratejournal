@@ -9,7 +9,7 @@ const Body: React.FC<{ body: Block[] }> = ({ body }) => {
   };
   return (
     <div className={styles.root}>
-      <div dangerouslySetInnerHTML={{ __html: getBodyContent() }} className={styles.content} />
+      <div className={styles.content}>{getBodyContent()}</div>
     </div>
   );
 };
