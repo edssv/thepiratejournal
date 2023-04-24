@@ -25,16 +25,17 @@ const Meta: React.FC<PropsWithChildren<Meta>> = ({
         <title>{fullTitle}</title>
         <meta property="og:title" content={title} key="title" />
         <meta name="twitter:title" content={title} />
-        <meta name="og:type" content={type} />
-        <meta name="og:site_name" content={projectName} />
+        <meta property="og:type" content={type} />
+        <meta property="og:site_name" content={projectName} />
         <meta name="description" content={description} />
-        <meta name="og:description" content={description} />
+        <meta property="og:description" content={description} />
         <meta name="twitter:description" content={description} />
-        <meta name="og:image" content={image} />
+        <meta property="og:image" content={image} />
         <meta name="twitter:image" content={image} />
-        <meta name="og:url" content={fullUrl} />
+        <meta property="og:url" content={fullUrl} />
         <meta name="twitter:url" content={fullUrl} />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="yandex-verification" content="2fb5232a43f9c3a6" />
         <meta name="robots" content={robotsContent} />
       </Head>
       {children}
