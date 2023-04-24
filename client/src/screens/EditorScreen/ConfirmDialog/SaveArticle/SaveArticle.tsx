@@ -56,7 +56,7 @@ const SaveArticle: React.FC<ConfirmButtonProps> = ({ articleContentRef, blocks }
       category: data.category,
       body: blocks,
       readingTime: readingTime(articleContentRef),
-      draftId,
+      draftId: Number(draftId),
     });
 
     if (articleType === ArticleType.BLOG) {
