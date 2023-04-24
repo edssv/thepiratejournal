@@ -52,11 +52,10 @@ export const toHtml = (blocks: Block[]) => {
                   sizes="100vw"
                   style={{ width: '100%', height: '100%' }}
                   src={
-                    process.env.SERVER_DOMAIN ??
-                    process.env.NEXT_PUBLIC_SERVER_DOMAIN +
-                      '/' +
-                      process.env.NEXT_PUBLIC_ASSETS_PREFIX +
-                      block.data.file.url.split(`/${process.env.NEXT_PUBLIC_ASSETS_PREFIX}`)[1]
+                    (process.env.SERVER_DOMAIN ?? process.env.NEXT_PUBLIC_SERVER_DOMAIN) +
+                    '/' +
+                    process.env.NEXT_PUBLIC_ASSETS_PREFIX +
+                    block.data.file.url.split(`/${process.env.NEXT_PUBLIC_ASSETS_PREFIX}`)[1]
                   }
                   alt="Image"
                 />
