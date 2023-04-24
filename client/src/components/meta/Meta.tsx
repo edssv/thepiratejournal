@@ -36,6 +36,7 @@ const Meta: React.FC<PropsWithChildren<Meta>> = ({
         <meta name="twitter:url" content={fullUrl} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="yandex-verification" content="2fb5232a43f9c3a6" />
+        <meta name="google-site-verification" content="2NihTUNNRZaWfOf4vg3_xeqDysO3l7dgRg64CK2f7PE" />
         <meta name="robots" content={robotsContent} />
       </Head>
       {children}
