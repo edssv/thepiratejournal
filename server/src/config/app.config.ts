@@ -12,4 +12,5 @@ export default registerAs('app', () => ({
   assetsPrefix: process.env.ASSETS_PREFIX || 'assets',
   fallbackLanguage: process.env.APP_FALLBACK_LANGUAGE || 'en',
   headerLanguage: process.env.APP_HEADER_LANGUAGE || 'x-custom-lang',
+  uploadFolder: process.env.UPLOAD_FOLDER,
 }));

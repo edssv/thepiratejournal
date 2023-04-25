@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ServeStaticModule } from '@nestjs/serve-static';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
-import { join } from 'path';
 import { DataSource } from 'typeorm';
 import { TypeOrmConfigService } from 'src/database/typeorm-config.service';
 import appConfig from '../config/app.config';
@@ -26,11 +24,6 @@ import { FollowerModule } from './follower/follower.module';
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../..', 'media'),
-      serveRoot: `/assets`,
-      exclude: [`/${process.env.API_PREFIX}/.*`],
-    }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig, appConfig, authConfig, fileConfig, googleConfig],
