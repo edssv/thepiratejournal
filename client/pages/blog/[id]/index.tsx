@@ -15,7 +15,7 @@ const BlogArticlePage: NextPageWithLayout<{ data: BlogQuery }> = ({ data }) => {
 
   return (
     <Meta title={title} type="article" description={description} image={cover} url={getPublicUrl.blog(String(id))}>
-      <ArticleScreen data={data} mode={ArticlePageMode.BLOG} />
+      <ArticleScreen data={data.getOneBlog} mode={ArticlePageMode.BLOG} />
     </Meta>
   );
 };

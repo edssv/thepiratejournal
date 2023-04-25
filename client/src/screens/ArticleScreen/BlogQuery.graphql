@@ -3,6 +3,9 @@ query BlogQuery($id: Float!) {
     id
     title
     description
+    cover
+    createdAt
+    viewsCount
     body {
       id
       type
@@ -24,11 +27,6 @@ query BlogQuery($id: Float!) {
         height
       }
     }
-    cover
-    readingTime
-    createdAt
-    category
-    tags
     user {
       id
       username

@@ -13,6 +13,7 @@
   .authorName {
     font-size: 20px;
     font-weight: 500;
+    color: var(--md-sys-color-on-surface-variant);
     @include breakpoint-down(sm) {
       font-size: 18px;
     }

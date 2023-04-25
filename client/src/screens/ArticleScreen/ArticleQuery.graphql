@@ -3,6 +3,12 @@ query ArticleQuery($id: Float!) {
     id
     title
     description
+    cover
+    readingTime
+    createdAt
+    tags
+    category
+    viewsCount
     body {
       id
       type
@@ -20,11 +26,6 @@ query ArticleQuery($id: Float!) {
         items
       }
     }
-    cover
-    readingTime
-    createdAt
-    tags
-    category
     user {
       id
       username

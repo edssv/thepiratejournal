@@ -10,7 +10,7 @@ export const toHtml = (blocks: Block[]) => {
           return (
             <div role="region" className="relative">
               <div className="scrollTarget"></div>
-              <h2>${block.data.text}</h2>
+              <h2>{block.data.text}</h2>
             </div>
           );
         }
@@ -36,7 +36,7 @@ export const toHtml = (blocks: Block[]) => {
         );
 
       case 'paragraph':
-        return <p>{block.data.text}</p>;
+        return block.data.text && <p dangerouslySetInnerHTML={{ __html: block.data.text }}></p>;
 
       case 'delimiter':
         return <hr className="ce-delimiter cdx-block" />;
@@ -46,7 +46,19 @@ export const toHtml = (blocks: Block[]) => {
           block.data?.file?.url && (
             <figure>
               <div className="imageContainer">
-                <img src={block.data?.file?.url} alt="Image" />
+                <Image
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  style={{ width: '100%', height: '100%' }}
+                  src={
+                    process.env.NEXT_PUBLIC_CONTAINER_SERVER_DOMAIN +
+                    '/' +
+                    process.env.NEXT_PUBLIC_ASSETS_PREFIX +
+                    block.data.file.url.split(`/${process.env.NEXT_PUBLIC_ASSETS_PREFIX}`)[1]
+                  }
+                  alt="Image"
+                />
               </div>
               <figcaption>{block.data.caption}</figcaption>
             </figure>

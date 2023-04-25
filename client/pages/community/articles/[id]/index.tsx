@@ -17,7 +17,7 @@ const ArticlePage: NextPageWithLayout<{ data: ArticleQuery }> = ({ data }) => {
 
   return (
     <Meta title={title} type="article" description={description} image={cover} url={getPublicUrl.article(String(id))}>
-      <ArticleScreen data={data} mode={ArticlePageMode.ARTICLE} />
+      <ArticleScreen data={data.getArticle} mode={ArticlePageMode.ARTICLE} />
     </Meta>
   );
 };

@@ -1,7 +1,8 @@
 import { ArticleQuery, BlogQuery } from '@/gql/__generated__';
 import { ArticlePageMode } from '@/lib/enums';
-import NotFoundPage from 'pages/404';
+
 import CreatedAt from './CreatedAt/CreatedAt';
+import ViewsCounter from './ViewsCounter/ViewsCounter';
 import Header from './Header/Header';
 import Hero from './Hero/Hero';
 import Body from './Body/Body';
@@ -13,29 +14,12 @@ import { UpNext } from './UpNext/UpNext';
 import styles from './ArticleScreen.module.scss';
 
 interface ArticleScreenProps {
-  data: ArticleQuery | BlogQuery;
+  data: ArticleQuery['getArticle'] | BlogQuery['getOneBlog'];
   mode: ArticlePageMode;
 }
 
 const ArticleScreen: React.FC<ArticleScreenProps> = ({ data, mode }) => {
-  const isArticleQuery = (data: any): data is ArticleQuery => {
-    return data;
-  };
-  const isBlogQuery = (data: any): data is BlogQuery => {
-    return data;
-  };
-  const getData = (data: any) => {
-    if (mode === ArticlePageMode.ARTICLE && isArticleQuery(data)) {
-      return data.getArticle;
-    } else if (mode === ArticlePageMode.BLOG && isBlogQuery(data)) {
-      return data.getOneBlog;
-    }
-  };
-
-  const content = getData(data);
-  if (!content) return <NotFoundPage />;
-
-  const { id, title, description, cover, body, createdAt, user } = content;
+  const { id, title, description, cover, body, createdAt, user } = data;
 
   return (
     <>

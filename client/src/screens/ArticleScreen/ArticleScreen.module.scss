@@ -35,12 +35,9 @@ $infoWidth: 768px;
         margin: 0 auto;
       }
 
-      .articleDate {
-        text-align: left;
-        @include breakpoint-down(sm) {
-          font-size: 14px;
-          line-height: 20px;
-        }
+      .top {
+        display: flex;
+        gap: 24px;
       }
 
       .shareButtonsWrap {

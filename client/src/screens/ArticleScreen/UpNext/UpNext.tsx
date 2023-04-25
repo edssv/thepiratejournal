@@ -44,7 +44,7 @@ export const UpNext: React.FC<{ mode: ArticlePageMode }> = ({ mode }) => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
+  }, [handleScroll, mode]);
 
   return (
     <div ref={UpNextRef} className={styles.root}>

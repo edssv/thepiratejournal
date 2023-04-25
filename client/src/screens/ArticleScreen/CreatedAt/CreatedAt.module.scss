@@ -2,6 +2,7 @@
 
 .root {
   text-align: left;
+  line-height: 24px;
   @include breakpoint-down(sm) {
     font-size: 14px;
     line-height: 20px;

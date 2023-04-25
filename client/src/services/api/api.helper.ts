@@ -1,4 +1,4 @@
-export const SSR_URL = process.env.SERVER_DOMAIN + '/' + process.env.NEXT_PUBLIC_API_PREFIX;
+export const SSR_URL = process.env.NEXT_PUBLIC_CONTAINER_SERVER_DOMAIN + '/' + process.env.NEXT_PUBLIC_API_PREFIX;
 export const CLIENT_URL = process.env.NEXT_PUBLIC_SERVER_DOMAIN + '/' + process.env.NEXT_PUBLIC_API_PREFIX;
 
 export const getContentType = () => ({
