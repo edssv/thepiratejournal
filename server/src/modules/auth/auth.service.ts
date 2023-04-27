@@ -104,6 +104,7 @@ export class AuthService {
       username: signUpDto.username,
       email: signUpDto.email,
       password: await argonHash(signUpDto.password),
+      hash: hash,
     });
 
     await this.mailService.userSignUp({
@@ -130,7 +131,7 @@ export class AuthService {
     user.hash = null;
     user.emailVerified = true;
 
-    await this.userService.update(user.id, { ...user, hash: null, emailVerified: true });
+    await this.userService.update(user.id, user);
   }
 
   async refresh(id: number) {

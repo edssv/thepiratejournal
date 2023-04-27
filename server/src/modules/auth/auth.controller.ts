@@ -23,7 +23,7 @@ export class AuthController {
     return this.authService.signUp(signUpDto);
   }
 
-  @Post('email/confirm')
+  @Post('confirm')
   @HttpCode(HttpStatus.NO_CONTENT)
   async confirmEmail(@Body() confirmEmailDto: AuthConfirmEmailDto): Promise<void> {
     return this.authService.confirmEmail(confirmEmailDto.hash);

@@ -13,28 +13,25 @@ export class MailService {
   ) {}
 
   async userSignUp(mailData: MailData<{ hash: string }>): Promise<void> {
-    let emailConfirmTitle: MaybeType<string>;
-    let text1: MaybeType<string>;
-    let text2: MaybeType<string>;
-    let text3: MaybeType<string>;
-
     await this.mailerService.sendMail({
       to: mailData.to,
-      subject: emailConfirmTitle,
+      subject: 'Активация аккаунта',
       text: `${this.configService.get('app.clientDomain', {
         infer: true,
-      })}/confirm-email/${mailData.data.hash} ${emailConfirmTitle}`,
+      })}/${this.configService.get('app.apiPrefix', {
+        infer: true,
+      })}/confirm/${mailData.data.hash} 'Активация аккаунта'`,
       template: 'activation',
       context: {
-        title: emailConfirmTitle,
+        title: 'Активация аккаунта',
         url: `${this.configService.get('app.clientDomain', {
           infer: true,
-        })}/confirm-email/${mailData.data.hash}`,
-        actionTitle: emailConfirmTitle,
+        })}/${this.configService.get('app.apiPrefix', {
+          infer: true,
+        })}/confirm/${mailData.data.hash}`,
+        actionTitle: 'Активировать аккаунт',
         app_name: this.configService.get('app.name', { infer: true }),
-        text1: 'hey1!',
-        text2: 'hey2!',
-        text3: 'hey3!',
+        text1: 'Нажмите на ссылку ниже, чтобы активировать свою учетную запись.',
       },
     });
   }
