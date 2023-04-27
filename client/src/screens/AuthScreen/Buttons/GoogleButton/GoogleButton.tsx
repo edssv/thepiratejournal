@@ -1,10 +1,38 @@
-import React from 'react';
+import clsx from 'clsx';
+import { useGoogleLogin } from '@react-oauth/google';
+import { useRouter } from 'next/router';
+
+import { useGoogleLoginMutation } from '@/services/auth/auth.service';
+import { getPublicUrl } from '@/lib/publicUrlBuilder';
 
 import styles from './GoogleButton.module.scss';
 
-const GoogleButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ ...props }) => {
+interface GoogleButtonProps {
+  size: 'small' | 'large';
+}
+
+const GoogleButton: React.FC<GoogleButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
+  size,
+  ...props
+}) => {
+  const { replace } = useRouter();
+
+  const [googleLogin] = useGoogleLoginMutation();
+
+  const loginGoogle = useGoogleLogin({
+    onSuccess: ({ code }) => {
+      try {
+        googleLogin(code)
+          .unwrap()
+          .then(() => replace(getPublicUrl.home()));
+      } catch (error) {}
+    },
+    flow: 'auth-code',
+    redirect_uri: 'postmessage',
+  });
+
   return (
-    <button className={styles.root} {...props}>
+    <button onClick={loginGoogle} className={clsx(styles.root, styles[size])} {...props}>
       <svg viewBox="0 0 1152 1152" focusable="false" aria-hidden="true" role="img" data-social-button-type="icon">
         <path
           d="M1055.994 594.42a559.973 559.973 0 0 0-8.86-99.684h-458.99V683.25h262.28c-11.298 60.918-45.633 112.532-97.248 147.089v122.279h157.501c92.152-84.842 145.317-209.78 145.317-358.198z"
@@ -23,7 +51,7 @@ const GoogleButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
           fill="#ea4335"
         ></path>
       </svg>
-      <span>Продолжить с Google</span>
+      {size === 'large' && <span>Продолжить с Google</span>}
     </button>
   );
 };

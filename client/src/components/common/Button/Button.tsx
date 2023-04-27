@@ -8,14 +8,14 @@ export type Variant = 'elevated' | 'filled' | 'filledTonal' | 'outlined' | 'text
 export type ButtonColor = 'primary' | 'secondary' | 'tertiary';
 
 export interface ButtonOwnProps<E extends ElementType = ElementType> {
-    children: any;
-    isLoading?: boolean;
-    isActive?: boolean;
-    variant?: Variant;
-    icon?: boolean;
-    color?: ButtonColor;
-    className?: string;
-    as?: E;
+  children: any;
+  isLoading?: boolean;
+  isActive?: boolean;
+  variant?: Variant;
+  icon?: boolean;
+  color?: ButtonColor;
+  className?: string;
+  as?: E;
 }
 
 // type ElevatedButtonProps = ButtonOwnProps & { variant: 'elevated'; color?: never };
@@ -29,38 +29,38 @@ export type ButtonProps<E extends ElementType> = ButtonOwnProps<E> & Omit<Compon
 const defaultElement = 'button';
 
 function Button<E extends ElementType = typeof defaultElement>({
-    isLoading,
-    isActive,
-    children,
-    variant = 'text',
-    icon,
-    color = 'primary',
-    className,
-    as,
-    ...otherProps
+  isLoading,
+  isActive,
+  children,
+  variant = 'text',
+  icon,
+  color = 'primary',
+  className,
+  as,
+  ...otherProps
 }: ButtonProps<E>) {
-    const TagName = as || defaultElement;
+  const TagName = as || defaultElement;
 
-    const isSeveralChildren = Array.isArray(children) && children[1] !== null;
+  const isSeveralChildren = Array.isArray(children) && children[1] !== null;
 
-    return (
-        <TagName
-            className={clsx(
-                styles.root,
-                isSeveralChildren && styles.iconWithText,
-                icon && styles.icon,
-                isActive && styles.isActive,
-                variant,
-                color + 'Color',
-                className,
-                'label-large'
-            )}
-            {...otherProps}
-        >
-            {isLoading && <MoonLoader size="14px" color="var(--md-sys-color-primary)" speedMultiplier={0.7} />}
-            {children}
-        </TagName>
-    );
+  return (
+    <TagName
+      className={clsx(
+        styles.root,
+        isSeveralChildren && styles.iconWithText,
+        icon && styles.icon,
+        isActive && styles.isActive,
+        variant,
+        color + 'Color',
+        className,
+        'label-large'
+      )}
+      {...otherProps}
+    >
+      {isLoading && <MoonLoader size="14px" color="var(--md-sys-color-primary)" speedMultiplier={0.7} />}
+      {children}
+    </TagName>
+  );
 }
 
 export default Button;

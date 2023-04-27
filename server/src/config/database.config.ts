@@ -1,6 +1,7 @@
 import { registerAs } from '@nestjs/config';
+import { DatabaseConfig } from './config.type';
 
-export default registerAs('database', () => ({
+export default registerAs<DatabaseConfig>('database', () => ({
   type: process.env.DATABASE_TYPE,
   host: process.env.DATABASE_HOST,
   port: parseInt(process.env.DATABASE_PORT, 10) || 5432,

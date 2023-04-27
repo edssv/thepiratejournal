@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { EntityCondition } from 'src/utils/types/entity-condition.type';
 
 @Injectable()
 export class UserService {
@@ -21,8 +22,8 @@ export class UserService {
     return this.repository.find({ select: ['id', 'username', 'image'] });
   }
 
-  async findOne(id: number) {
-    return this.repository.findOne({ where: { id } });
+  async findOne(fields: EntityCondition<User>) {
+    return this.repository.findOne({ where: fields });
   }
 
   async findOneByEmail(email: string) {

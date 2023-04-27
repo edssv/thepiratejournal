@@ -13,9 +13,9 @@ export class AuthResolver {
 
   @UseGuards(LocalAuthGuard)
   @Mutation(() => Auth)
-  async login(@Args('loginInput') loginInput: EmailLoginInput, @Context() req) {
-    console.log(req);
-    return await this.authService.login(req.user);
+  async login(@Args('loginInput') loginInput: EmailLoginInput, @Context() context) {
+    console.log(context.req.user);
+    return await this.authService.login(context.req.user);
   }
 
   @Mutation(() => Auth)

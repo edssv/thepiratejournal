@@ -1,11 +1,12 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, Index } from 'typeorm';
 
 import { Article } from 'src/modules/article/entities/article.entity';
 import { Bookmark } from 'src/modules/bookmark/entities/bookmark.entity';
 import { Draft } from 'src/modules/draft/entities/draft.entity';
 import { Follower } from 'src/modules/follower/entities/follower.entity';
 import { Like } from 'src/modules/like/entities/like.entity';
+import { Exclude } from 'class-transformer';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -45,6 +46,11 @@ export class User {
   @Field()
   @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
   role: UserRole;
+
+  @Column({ type: String, nullable: true })
+  @Index()
+  @Exclude({ toPlainOnly: true })
+  hash: string | null;
 
   @Field()
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })

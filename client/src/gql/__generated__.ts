@@ -390,136 +390,115 @@ export type RemoveDraftMutationVariables = Exact<{
 }>;
 
 
-export type RemoveDraftMutation = { __typename: 'Mutation', removeDraft: { __typename: 'Draft', id: string } };
+export type RemoveDraftMutation = { removeDraft: { id: string } };
 
-export type ArticlePreview = { __typename: 'Article', id: string, title: string, description: string, cover: string };
-
-export type RemoveArticleMutationVariables = Exact<{
-  id: Scalars['Float'];
-}>;
-
-
-export type RemoveArticleMutation = { __typename: 'Mutation', removeArticle: { __typename: 'Article', id: string } };
+export type ArticlePreview = { id: string, title: string, description: string, cover: string };
 
 export type ArticleQueryVariables = Exact<{
   id: Scalars['Float'];
 }>;
 
 
-export type ArticleQuery = { __typename: 'Query', getArticle: { __typename: 'Article', id: string, title: string, description: string, cover: string, readingTime: number, createdAt: any, tags?: Array<string> | null, category: string, viewsCount: number, body: Array<{ __typename: 'Block', id: string, type: string, data: { __typename: 'BlockData', text?: string | null, level?: number | null, caption?: string | null, stretched?: boolean | null, withBackground?: boolean | null, withBorder?: boolean | null, items?: Array<string> | null, file?: { __typename: 'FileData', ref?: string | null, url?: string | null } | null } }>, user: { __typename: 'User', id: string, username: string, image?: string | null } } };
+export type ArticleQuery = { getArticle: { id: string, title: string, description: string, cover: string, readingTime: number, createdAt: any, tags?: Array<string> | null, category: string, viewsCount: number, body: Array<{ id: string, type: string, data: { text?: string | null, level?: number | null, caption?: string | null, stretched?: boolean | null, withBackground?: boolean | null, withBorder?: boolean | null, items?: Array<string> | null, file?: { ref?: string | null, url?: string | null } | null } }>, user: { id: string, username: string, image?: string | null } } };
 
 export type BlogQueryVariables = Exact<{
   id: Scalars['Float'];
 }>;
 
 
-export type BlogQuery = { __typename: 'Query', getOneBlog: { __typename: 'Blog', id: string, title: string, description: string, cover: string, createdAt: any, viewsCount: number, body: Array<{ __typename: 'Block', id: string, type: string, data: { __typename: 'BlockData', text?: string | null, level?: number | null, caption?: string | null, stretched?: boolean | null, withBackground?: boolean | null, withBorder?: boolean | null, items?: Array<string> | null, source?: string | null, embed?: string | null, width?: number | null, height?: number | null, file?: { __typename: 'FileData', ref?: string | null, url?: string | null } | null } }>, user: { __typename: 'User', id: string, username: string, image?: string | null } } };
-
-export type CreateLikeMutationVariables = Exact<{
-  articleId: Scalars['Float'];
-}>;
-
-
-export type CreateLikeMutation = { __typename: 'Mutation', createLike: string };
-
-export type RemoveLikeMutationVariables = Exact<{
-  articleId: Scalars['Float'];
-}>;
-
-
-export type RemoveLikeMutation = { __typename: 'Mutation', removeLike: string };
+export type BlogQuery = { getOneBlog: { id: string, title: string, description: string, cover: string, createdAt: any, viewsCount: number, body: Array<{ id: string, type: string, data: { text?: string | null, level?: number | null, caption?: string | null, stretched?: boolean | null, withBackground?: boolean | null, withBorder?: boolean | null, items?: Array<string> | null, source?: string | null, embed?: string | null, width?: number | null, height?: number | null, file?: { ref?: string | null, url?: string | null } | null } }>, user: { id: string, username: string, image?: string | null } } };
 
 export type NextArticlesQueryVariables = Exact<{
   id: Scalars['Float'];
 }>;
 
 
-export type NextArticlesQuery = { __typename: 'Query', getNextArticles: Array<{ __typename: 'Article', id: string, title: string, cover: string, category: string }> };
+export type NextArticlesQuery = { getNextArticles: Array<{ id: string, title: string, cover: string, category: string }> };
 
 export type NextBlogsQueryVariables = Exact<{
   id: Scalars['Float'];
 }>;
 
 
-export type NextBlogsQuery = { __typename: 'Query', getNextBlogs: Array<{ __typename: 'Blog', id: string, title: string, cover: string, category: string }> };
+export type NextBlogsQuery = { getNextBlogs: Array<{ id: string, title: string, cover: string, category: string }> };
 
 export type LoginMutationVariables = Exact<{
   loginInput: EmailLoginInput;
 }>;
 
 
-export type LoginMutation = { __typename: 'Mutation', login: { __typename: 'Auth', accessToken: string, refreshToken: string, user: { __typename: 'User', id: string, username: string, image?: string | null, role: string, emailVerified: boolean } } };
+export type LoginMutation = { login: { accessToken: string, refreshToken: string, user: { id: string, username: string, image?: string | null, role: string, emailVerified: boolean } } };
 
 export type SignupMutationVariables = Exact<{
   signupInput: SignUpInput;
 }>;
 
 
-export type SignupMutation = { __typename: 'Mutation', signup: { __typename: 'Auth', accessToken: string, refreshToken: string, user: { __typename: 'User', id: string, username: string, image?: string | null, role: string, emailVerified: boolean } } };
+export type SignupMutation = { signup: { accessToken: string, refreshToken: string, user: { id: string, username: string, image?: string | null, role: string, emailVerified: boolean } } };
 
 export type BlogListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type BlogListQuery = { __typename: 'Query', getAllBlog: Array<{ __typename: 'Blog', id: string, title: string, description: string, cover: string, createdAt: any }> };
+export type BlogListQuery = { getAllBlog: Array<{ id: string, title: string, description: string, cover: string, createdAt: any }> };
 
 export type CreateArticleMutationVariables = Exact<{
   createArticleInput: CreateArticleInput;
 }>;
 
 
-export type CreateArticleMutation = { __typename: 'Mutation', createArticle: { __typename: 'Article', id: string } };
+export type CreateArticleMutation = { createArticle: { id: string } };
 
 export type CreateBlogMutationVariables = Exact<{
   createBlogInput: CreateBlogInput;
 }>;
 
 
-export type CreateBlogMutation = { __typename: 'Mutation', createBlog: { __typename: 'Blog', id: string } };
+export type CreateBlogMutation = { createBlog: { id: string } };
 
 export type UpdateArticleMutationVariables = Exact<{
   updateArticleInput: UpdateArticleInput;
 }>;
 
 
-export type UpdateArticleMutation = { __typename: 'Mutation', updateArticle: { __typename: 'Article', id: string } };
+export type UpdateArticleMutation = { updateArticle: { id: string } };
 
 export type UpdateBlogMutationVariables = Exact<{
   updateBlogInput: UpdateBlogInput;
 }>;
 
 
-export type UpdateBlogMutation = { __typename: 'Mutation', updateBlog: { __typename: 'Blog', id: string } };
+export type UpdateBlogMutation = { updateBlog: { id: string } };
 
 export type DraftQueryVariables = Exact<{
   id: Scalars['Float'];
 }>;
 
 
-export type DraftQuery = { __typename: 'Query', getDraft: { __typename: 'Draft', id: string, title?: string | null, description?: string | null, cover?: string | null, createdAt: any, body?: Array<{ __typename: 'Block', id: string, type: string, data: { __typename: 'BlockData', text?: string | null, level?: number | null, caption?: string | null, stretched?: boolean | null, withBackground?: boolean | null, withBorder?: boolean | null, items?: Array<string> | null, file?: { __typename: 'FileData', ref?: string | null, url?: string | null } | null } }> | null, user: { __typename: 'User', id: string, username: string, image?: string | null } } };
+export type DraftQuery = { getDraft: { id: string, title?: string | null, description?: string | null, cover?: string | null, createdAt: any, body?: Array<{ id: string, type: string, data: { text?: string | null, level?: number | null, caption?: string | null, stretched?: boolean | null, withBackground?: boolean | null, withBorder?: boolean | null, items?: Array<string> | null, file?: { ref?: string | null, url?: string | null } | null } }> | null, user: { id: string, username: string, image?: string | null } } };
 
 export type CreateDraftMutationVariables = Exact<{
   createDraftInput: CreateDraftInput;
 }>;
 
 
-export type CreateDraftMutation = { __typename: 'Mutation', createDraft: { __typename: 'Draft', id: string } };
+export type CreateDraftMutation = { createDraft: { id: string } };
 
 export type UpdateDraftMutationVariables = Exact<{
   updateDraftInput: UpdateDraftInput;
 }>;
 
 
-export type UpdateDraftMutation = { __typename: 'Mutation', updateDraft: number };
+export type UpdateDraftMutation = { updateDraft: number };
 
 export type ArticlesListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ArticlesListQuery = { __typename: 'Query', getAllArticles: Array<{ __typename: 'Article', id: string, title: string, description: string, cover: string }> };
+export type ArticlesListQuery = { getAllArticles: Array<{ id: string, title: string, description: string, cover: string }> };
 
 export type HomeSignedOutQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomeSignedOutQuery = { __typename: 'Query', getAuthorChoiceArticles: Array<{ __typename: 'Article', id: string, title: string, description: string, cover: string }>, getBestOfWeekArticles: Array<{ __typename: 'Article', id: string, title: string, description: string, cover: string }>, getNewestArticles: Array<{ __typename: 'Article', id: string, title: string, description: string, cover: string }> };
+export type HomeSignedOutQuery = { getAuthorChoiceArticles: Array<{ id: string, title: string, description: string, cover: string }>, getBestOfWeekArticles: Array<{ id: string, title: string, description: string, cover: string }>, getNewestArticles: Array<{ id: string, title: string, description: string, cover: string }> };
 
 export type UserQueryVariables = Exact<{
   id: Scalars['Float'];
@@ -527,7 +506,7 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { __typename: 'Query', getUser: { __typename: 'User', id: string, username: string, image?: string | null, createdAt: any, followers?: Array<{ __typename: 'Follower', id: string }> | null }, getUserContent?: Array<{ __typename: 'Article', id: string, title: string, cover: string, viewsCount: number, user: { __typename: 'User', id: string, username: string } }> | null };
+export type UserQuery = { getUser: { id: string, username: string, image?: string | null, createdAt: any, followers?: Array<{ id: string }> | null }, getUserContent?: Array<{ id: string, title: string, cover: string, viewsCount: number, user: { id: string, username: string } }> | null };
 
 export const ArticlePreview = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArticlePreview"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Article"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"cover"}}]}}]} as unknown as DocumentNode;
 export const RemoveDraftMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveDraftMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"removeDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode;
@@ -557,33 +536,6 @@ export function useRemoveDraftMutation(baseOptions?: Apollo.MutationHookOptions<
 export type RemoveDraftMutationHookResult = ReturnType<typeof useRemoveDraftMutation>;
 export type RemoveDraftMutationMutationResult = Apollo.MutationResult<RemoveDraftMutation>;
 export type RemoveDraftMutationMutationOptions = Apollo.BaseMutationOptions<RemoveDraftMutation, RemoveDraftMutationVariables>;
-export const RemoveArticleMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveArticleMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"removeArticle"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode;
-export type RemoveArticleMutationMutationFn = Apollo.MutationFunction<RemoveArticleMutation, RemoveArticleMutationVariables>;
-
-/**
- * __useRemoveArticleMutation__
- *
- * To run a mutation, you first call `useRemoveArticleMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRemoveArticleMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [removeArticleMutation, { data, loading, error }] = useRemoveArticleMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useRemoveArticleMutation(baseOptions?: Apollo.MutationHookOptions<RemoveArticleMutation, RemoveArticleMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RemoveArticleMutation, RemoveArticleMutationVariables>(RemoveArticleMutationDocument, options);
-      }
-export type RemoveArticleMutationHookResult = ReturnType<typeof useRemoveArticleMutation>;
-export type RemoveArticleMutationMutationResult = Apollo.MutationResult<RemoveArticleMutation>;
-export type RemoveArticleMutationMutationOptions = Apollo.BaseMutationOptions<RemoveArticleMutation, RemoveArticleMutationVariables>;
 export const ArticleQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ArticleQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getArticle"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"cover"}},{"kind":"Field","name":{"kind":"Name","value":"readingTime"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"tags"}},{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"viewsCount"}},{"kind":"Field","name":{"kind":"Name","value":"body"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"file"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ref"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"stretched"}},{"kind":"Field","name":{"kind":"Name","value":"withBackground"}},{"kind":"Field","name":{"kind":"Name","value":"withBorder"}},{"kind":"Field","name":{"kind":"Name","value":"items"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**
@@ -642,60 +594,6 @@ export function useBlogQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type BlogQueryHookResult = ReturnType<typeof useBlogQuery>;
 export type BlogQueryLazyQueryHookResult = ReturnType<typeof useBlogQueryLazyQuery>;
 export type BlogQueryQueryResult = Apollo.QueryResult<BlogQuery, BlogQueryVariables>;
-export const CreateLikeMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateLikeMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"articleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createLike"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"articleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"articleId"}}}]}]}}]} as unknown as DocumentNode;
-export type CreateLikeMutationMutationFn = Apollo.MutationFunction<CreateLikeMutation, CreateLikeMutationVariables>;
-
-/**
- * __useCreateLikeMutation__
- *
- * To run a mutation, you first call `useCreateLikeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateLikeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createLikeMutation, { data, loading, error }] = useCreateLikeMutation({
- *   variables: {
- *      articleId: // value for 'articleId'
- *   },
- * });
- */
-export function useCreateLikeMutation(baseOptions?: Apollo.MutationHookOptions<CreateLikeMutation, CreateLikeMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateLikeMutation, CreateLikeMutationVariables>(CreateLikeMutationDocument, options);
-      }
-export type CreateLikeMutationHookResult = ReturnType<typeof useCreateLikeMutation>;
-export type CreateLikeMutationMutationResult = Apollo.MutationResult<CreateLikeMutation>;
-export type CreateLikeMutationMutationOptions = Apollo.BaseMutationOptions<CreateLikeMutation, CreateLikeMutationVariables>;
-export const RemoveLikeMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveLikeMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"articleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"removeLike"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"articleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"articleId"}}}]}]}}]} as unknown as DocumentNode;
-export type RemoveLikeMutationMutationFn = Apollo.MutationFunction<RemoveLikeMutation, RemoveLikeMutationVariables>;
-
-/**
- * __useRemoveLikeMutation__
- *
- * To run a mutation, you first call `useRemoveLikeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRemoveLikeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [removeLikeMutation, { data, loading, error }] = useRemoveLikeMutation({
- *   variables: {
- *      articleId: // value for 'articleId'
- *   },
- * });
- */
-export function useRemoveLikeMutation(baseOptions?: Apollo.MutationHookOptions<RemoveLikeMutation, RemoveLikeMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RemoveLikeMutation, RemoveLikeMutationVariables>(RemoveLikeMutationDocument, options);
-      }
-export type RemoveLikeMutationHookResult = ReturnType<typeof useRemoveLikeMutation>;
-export type RemoveLikeMutationMutationResult = Apollo.MutationResult<RemoveLikeMutation>;
-export type RemoveLikeMutationMutationOptions = Apollo.BaseMutationOptions<RemoveLikeMutation, RemoveLikeMutationVariables>;
 export const NextArticlesQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"NextArticlesQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getNextArticles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"cover"}},{"kind":"Field","name":{"kind":"Name","value":"category"}}]}}]}}]} as unknown as DocumentNode;
 
 /**

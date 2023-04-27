@@ -6,14 +6,12 @@ import BlogHeader from './BlogHeader/BlogHeader';
 import Loader from '../Loader/Loader';
 import Footer from '../Footer/Footer';
 
-import styles from './BlogLayout.module.scss';
-
 const BlogLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const isTablet = useMediaPredicate('(max-width: 990.98px)');
 
   return (
-    <div className={styles.root}>
-      {!isTablet && <Loader color="var(--md-sys-color-on-surface)" />}
+    <>
+      {!isTablet && <Loader color="var(--md-sys-color-primary" />}
       <BlogHeader />
       <main>
         <div className={clsx('padding-medium', 'container-fluid')}>
@@ -23,7 +21,7 @@ const BlogLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         </div>
       </main>
       <Footer />
-    </div>
+    </>
   );
 };
 

@@ -6,35 +6,35 @@ import { Follower } from './entities/follower.entity';
 
 @Injectable()
 export class FollowerService {
-    constructor(
-        @InjectRepository(Follower)
-        private repository: Repository<Follower>,
-        private readonly userService: UserService
-    ) {}
+  constructor(
+    @InjectRepository(Follower)
+    private repository: Repository<Follower>,
+    private readonly userService: UserService
+  ) {}
 
-    async create(followingToId: number, userId: number) {
-        if (followingToId === userId) throw new NotAcceptableException('Нельзя подписаться на самого себя.');
+  async create(followingToId: number, userId: number) {
+    if (followingToId === userId) throw new NotAcceptableException('Нельзя подписаться на самого себя.');
 
-        const findFollower = await this.repository.findOne({
-            where: { user: { id: userId }, followingTo: { id: followingToId } },
-        });
-        if (findFollower) throw new NotAcceptableException('Уже есть подписка.');
+    const findFollower = await this.repository.findOne({
+      where: { user: { id: userId }, followingTo: { id: followingToId } },
+    });
+    if (findFollower) throw new NotAcceptableException('Уже есть подписка.');
 
-        const find = await this.userService.findOne(followingToId);
-        if (!find) throw new NotFoundException('Пользователь не найден.');
+    const find = await this.userService.findOne({ id: followingToId });
+    if (!find) throw new NotFoundException('Пользователь не найден.');
 
-        return this.repository.save({ followingTo: { id: followingToId }, user: { id: userId } });
-    }
+    return this.repository.save({ followingTo: { id: followingToId }, user: { id: userId } });
+  }
 
-    async remove(followingToId: number, userId: number) {
-        const findFollower = await this.repository.findOne({
-            where: { user: { id: userId }, followingTo: { id: followingToId } },
-        });
-        if (!findFollower) throw new NotAcceptableException('Подписки нет.');
+  async remove(followingToId: number, userId: number) {
+    const findFollower = await this.repository.findOne({
+      where: { user: { id: userId }, followingTo: { id: followingToId } },
+    });
+    if (!findFollower) throw new NotAcceptableException('Подписки нет.');
 
-        const find = await this.userService.findOne(followingToId);
-        if (!find) throw new NotFoundException('Пользователь не найден.');
+    const find = await this.userService.findOne({ id: followingToId });
+    if (!find) throw new NotFoundException('Пользователь не найден.');
 
-        return this.repository.delete({ followingTo: { id: followingToId }, user: { id: userId } });
-    }
+    return this.repository.delete({ followingTo: { id: followingToId }, user: { id: userId } });
+  }
 }

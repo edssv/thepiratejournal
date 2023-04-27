@@ -1,23 +1,23 @@
 .root {
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    background-color: rgba(0, 0, 0, 0);
-    border-color: transparent;
-    color: #505050;
-    position: absolute;
-    right: 0;
-    top: -2px;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background-color: rgba(0, 0, 0, 0);
+  border-color: transparent;
+  color: #505050;
+  position: absolute;
+  right: 0;
+  top: 4px;
 
-    &:hover {
-        color: #323232;
-
-        svg path {
-            fill: #323232;
-        }
-    }
+  &:hover {
+    color: #323232;
 
     svg path {
-        fill: #747474;
+      fill: #323232;
     }
+  }
+
+  svg path {
+    fill: #747474;
+  }
 }

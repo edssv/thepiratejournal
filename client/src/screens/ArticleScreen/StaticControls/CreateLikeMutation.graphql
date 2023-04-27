@@ -1,3 +1,0 @@
-mutation CreateLikeMutation($articleId: Float!) {
-  createLike(articleId: $articleId)
-}

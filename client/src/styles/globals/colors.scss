@@ -279,9 +279,9 @@
   /* Primary container channel */
   --md-sys-color-primary-containerChannel: var(--md-ref-palette-primary90-rgb);
   /* Primary */
-  --md-sys-color-primary: var(--md-ref-palette-primary40);
+  --md-sys-color-primary: #0b57d0;
   /* Primary channel*/
-  --md-sys-color-primaryChannel: var(--md-ref-palette-primary40-rgb);
+  --md-sys-color-primaryChannel: 11 87 208;
 }
 
 :root[data-theme='dark'] {

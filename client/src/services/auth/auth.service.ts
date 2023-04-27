@@ -41,7 +41,7 @@ export const authApi = api.injectEndpoints({
       query: (code: string) => ({
         url: getApiUrl.googleLogin(),
         method: 'POST',
-        body: code,
+        body: { code },
       }),
     }),
     googleOneTap: builder.mutation<AuthResponse, string>({

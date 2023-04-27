@@ -66,7 +66,7 @@ export const toHtml = (blocks: Block[]) => {
         );
 
       case 'list':
-        return <ul className="cdx-list">{block?.data?.items?.forEach((li: any) => <li>{li}</li>) ?? null}</ul>;
+        return <ul className="cdx-list">{block?.data?.items?.forEach((li, i) => <li key={i}>{li}</li>) ?? null}</ul>;
       default:
         break;
     }

@@ -14,7 +14,6 @@ generates:
 config:
   documentMode: 'documentNodeImportFragments'
   namingConvention: 'keep'
-  nonOptionalTypename: true
   dedupeOperationSuffix: true
   omitOperationSuffix: true
   skipTypename: true

@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { getLocalStorage } from '@/utils';
-import { InitialState } from './user.interface';
 import { authApi } from '@/services/auth/auth.service';
 import { removeFromStorage, saveToStorage } from '@/services/auth/auth.helper';
+
+import { InitialState } from './user.interface';
 
 const initialState: InitialState = {
   user: getLocalStorage('user'),
@@ -14,6 +15,9 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    setUser: (state, { payload }) => {
+      state.user = payload;
+    },
     tokenReceived: (state, { payload }) => {
       saveToStorage(payload);
     },
@@ -24,21 +28,14 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(authApi.endpoints.login.matchPending, (state) => {
-        state.isLoading = true;
-      })
-      .addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }) => {
+      .addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }: { payload: any }) => {
         state.user = payload.user;
         saveToStorage(payload);
-        state.isLoading = false;
-      })
-      .addMatcher(authApi.endpoints.login.matchRejected, (state) => {
-        state.isLoading = false;
       })
       .addMatcher(authApi.endpoints.signup.matchPending, (state) => {
         state.isLoading = true;
       })
-      .addMatcher(authApi.endpoints.signup.matchFulfilled, (state, { payload }) => {
+      .addMatcher(authApi.endpoints.signup.matchFulfilled, (state, { payload }: { payload: any }) => {
         state.user = payload.user;
         saveToStorage(payload);
         state.isLoading = false;
@@ -49,7 +46,7 @@ export const userSlice = createSlice({
       .addMatcher(authApi.endpoints.getNewTokens.matchPending, (state) => {
         state.isLoading = true;
       })
-      .addMatcher(authApi.endpoints.getNewTokens.matchFulfilled, (state, { payload }) => {
+      .addMatcher(authApi.endpoints.getNewTokens.matchFulfilled, (state, { payload }: { payload: any }) => {
         state.user = payload.user;
         saveToStorage(payload);
         state.isLoading = false;
@@ -60,7 +57,7 @@ export const userSlice = createSlice({
       .addMatcher(authApi.endpoints.googleLogin.matchPending, (state) => {
         state.isLoading = true;
       })
-      .addMatcher(authApi.endpoints.googleLogin.matchFulfilled, (state, { payload }) => {
+      .addMatcher(authApi.endpoints.googleLogin.matchFulfilled, (state, { payload }: { payload: any }) => {
         state.user = payload.user;
         saveToStorage(payload);
         state.isLoading = false;
@@ -71,7 +68,7 @@ export const userSlice = createSlice({
       .addMatcher(authApi.endpoints.googleOneTap.matchPending, (state) => {
         state.isLoading = true;
       })
-      .addMatcher(authApi.endpoints.googleOneTap.matchFulfilled, (state, { payload }) => {
+      .addMatcher(authApi.endpoints.googleOneTap.matchFulfilled, (state, { payload }: { payload: any }) => {
         state.user = payload.user;
         saveToStorage(payload);
         state.isLoading = false;

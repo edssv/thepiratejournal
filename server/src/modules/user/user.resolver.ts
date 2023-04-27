@@ -10,7 +10,7 @@ export class UserResolver {
 
   @Query(() => User)
   async getUser(@Args('id') id: number): Promise<User> {
-    return await this.userService.findOne(id);
+    return await this.userService.findOne({ id });
   }
 
   @Query(() => [Article], { nullable: true })

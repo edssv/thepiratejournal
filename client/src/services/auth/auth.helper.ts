@@ -1,7 +1,8 @@
 import Cookies from 'js-cookie';
 
-import { AuthResponse, Tokens } from '@/store/user/user.interface';
+import { Tokens } from '@/store/user/user.interface';
 import { Tokens as TokensEnum } from '@/lib/enums';
+import { Auth, SignupMutation } from '@/gql/__generated__';
 
 export const getAccessToken = () => {
   return Cookies.get(TokensEnum.ACCESS_TOKEN);
@@ -30,7 +31,8 @@ export const removeFromStorage = () => {
   localStorage.removeItem('user');
 };
 
-export const saveToStorage = (data: AuthResponse) => {
+export const saveToStorage = (data: SignupMutation['signup']) => {
+  console.log('sadas');
   saveTokensStorage(data);
   localStorage.setItem('user', JSON.stringify(data.user));
 };

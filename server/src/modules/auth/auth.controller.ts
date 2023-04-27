@@ -5,6 +5,7 @@ import { SignUpDto } from './dto/sign-up.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { RtGuard } from './guards/rt.guard';
+import { AuthConfirmEmailDto } from './dto/auth-confirm-email.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -22,7 +23,12 @@ export class AuthController {
     return this.authService.signUp(signUpDto);
   }
 
-  // @ApiBearerAuth
+  @Post('email/confirm')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async confirmEmail(@Body() confirmEmailDto: AuthConfirmEmailDto): Promise<void> {
+    return this.authService.confirmEmail(confirmEmailDto.hash);
+  }
+
   @UseGuards(RtGuard)
   @Get('refresh')
   refresh(@Request() req) {

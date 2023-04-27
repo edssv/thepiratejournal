@@ -45,7 +45,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           <Provider store={store}>
             <AuthProvider>
               <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ''}>
-                <ThemeProvider>
+                <ThemeProvider defaultTheme="system">
                   {getLayout(<Component {...pageProps} />)}
                   <GoogleOneTap />
                   <CrossScreensSnackbars />

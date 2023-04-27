@@ -1,19 +1,23 @@
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { hash, verify } from 'argon2';
+import { hash as argonHash, verify } from 'argon2';
+import * as crypto from 'crypto';
 import { SignUpDto } from './dto/sign-up.dto';
 import { UserService } from 'src/modules/user/user.service';
 import { User } from 'src/modules/user/entities/user.entity';
 import { GenerateJwtTokenDto } from './dto/generate-jwt-token.dto';
 import { SocialInterface } from 'src/social/interfaces/social.interface';
+import { MailService } from '../mail/mail.service';
+import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
 
 @Injectable()
 export class AuthService {
   constructor(
     private configService: ConfigService,
     private readonly userService: UserService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private mailService: MailService
   ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
@@ -56,7 +60,7 @@ export class AuthService {
         image: socialData.image,
       });
 
-      user = await this.userService.findOne(user.id);
+      user = await this.userService.findOne({ id: user.id });
     }
 
     return {
@@ -94,10 +98,19 @@ export class AuthService {
     if (findByEmail) throw new BadRequestException('Данный почтовый адрес уже занят.');
     if (findByUsername) throw new BadRequestException('Данный никнейм уже занят.');
 
+    const hash = crypto.createHash('sha256').update(randomStringGenerator()).digest('hex');
+
     const { password, ...user } = await this.userService.create({
       username: signUpDto.username,
       email: signUpDto.email,
-      password: await hash(signUpDto.password),
+      password: await argonHash(signUpDto.password),
+    });
+
+    await this.mailService.userSignUp({
+      to: signUpDto.email,
+      data: {
+        hash,
+      },
     });
 
     return {
@@ -107,8 +120,21 @@ export class AuthService {
     };
   }
 
+  async confirmEmail(hash: string): Promise<void> {
+    const user = await this.userService.findOne({
+      hash,
+    });
+
+    if (!user) throw new NotFoundException();
+
+    user.hash = null;
+    user.emailVerified = true;
+
+    await this.userService.update(user.id, { ...user, hash: null, emailVerified: true });
+  }
+
   async refresh(id: number) {
-    const user = await this.userService.findOne(id);
+    const user = await this.userService.findOne({ id });
 
     if (!user) throw new UnauthorizedException('Пользователь не найден');
 
@@ -120,6 +146,6 @@ export class AuthService {
   }
 
   async getProfile(user: User) {
-    return this.userService.findOne(user.id);
+    return this.userService.findOne({ id: user.id });
   }
 }

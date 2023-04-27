@@ -4,7 +4,13 @@ module.exports = {
   useTabs: false,
   tabWidth: 2,
   singleQuote: true,
-  // importOrder: ['<THIRD_PARTY_MODULES>'],
-  // importOrderSeparation: false,
-  // importOrderSortSpecifiers: true,
+  importOrder: [
+    '^(next/(.*)$)|^(next$)', // Imports by "next"
+    '<THIRD_PARTY_MODULES>',
+    '^@/components/(.*)$',
+    '^@/services/(.*)$',
+    '^@/utils/(.*)$',
+  ],
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
 };
