@@ -17,6 +17,17 @@ services:
       net:
         ipv4_address: 172.18.0.6
 
+  maildev:
+    build:
+      context: .
+      dockerfile: maildev.Dockerfile
+    ports:
+      - ${MAIL_CLIENT_PORT}:1080
+      - ${MAIL_PORT}:1025
+    networks:
+      net:
+        ipv4_address: 172.18.0.7
+
   # pgadmin:
   #   container_name: pgadmin
   #   image: dpage/pgadmin4
