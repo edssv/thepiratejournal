@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 
 const ClientOnly = ({ children }: { children: React.ReactElement }) => {
-    const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-    if (!mounted) return null;
+  if (!mounted) return null;
 
-    if (typeof window !== 'undefined') {
-        return children;
-    }
-    return null;
+  if (typeof window !== 'undefined') {
+    return children;
+  }
+  return null;
 };
 
 export default ClientOnly;

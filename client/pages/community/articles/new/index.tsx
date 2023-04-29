@@ -1,22 +1,21 @@
-import { NextPageWithLayout } from 'pages/_app';
-import { EditorPageMode } from '@/lib/enums';
-import EditorScreen from '@/screens/EditorScreen/EditorScreen';
-import PrivateOutlet from '@/components/outlets/PrivateOutlet/PrivateOutlet';
+import type { NextPageWithLayout } from 'pages/_app';
+
 import Layout from '@/components/layout/Layout';
 import Meta from '@/components/meta/Meta';
+import PrivateOutlet from '@/components/outlets/PrivateOutlet/PrivateOutlet';
+import { EditorPageMode } from '@/lib/enums';
+import EditorScreen from '@/screens/EditorScreen/EditorScreen';
 
-const EditorPageNew: NextPageWithLayout = () => {
-  return (
-    <PrivateOutlet>
-      <EditorScreen body={null} mode={EditorPageMode.NEW} />
-    </PrivateOutlet>
-  );
-};
+const EditorPageNew: NextPageWithLayout = () => (
+  <PrivateOutlet>
+    <EditorScreen body={null} mode={EditorPageMode.NEW} />
+  </PrivateOutlet>
+);
 
 EditorPageNew.getLayout = function getLayout(page: React.ReactElement) {
   return (
     <Meta noRobots>
-      <Layout padding={null} hiddenContainer>
+      <Layout hiddenContainer padding={null}>
         {page}
       </Layout>
     </Meta>

@@ -1,11 +1,11 @@
-import Link from 'next/link';
-import Image from 'next/image';
 import clsx from 'clsx';
 import moment from 'moment';
+import Image from 'next/image';
+import Link from 'next/link';
 import 'moment/locale/ru';
 
-import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import { robotoMono } from '@/components/fonts/roboto-mono';
+import { getPublicUrl } from '@/lib/publicUrlBuilder';
 
 import styles from './ArticlePreview.module.scss';
 
@@ -24,7 +24,7 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({
   description,
   cover,
   createdAt,
-  featured = false,
+  featured = false
 }) => {
   const TitleTag = featured ? 'h1' : 'h2';
   const date = moment(createdAt).format('DD.MM.YY');
@@ -54,13 +54,13 @@ export const ArticlePreview: React.FC<ArticlePreviewProps> = ({
           </div>
           <div className={styles.articleImage}>
             <Image
-              width={0}
+              alt='Обложка'
               height={0}
-              sizes="100vw"
-              style={{ width: '100%', height: '100%' }}
               priority={featured}
+              sizes='100vw'
               src={cover}
-              alt="Обложка"
+              style={{ height: '100%', width: '100%' }}
+              width={0}
             />
           </div>
         </div>

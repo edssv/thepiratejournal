@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import { useAuth } from '@/hooks';
-import { useFollowMutation, useUnfollowMutation } from '@/services/follow/follow.service';
 import Button from '@/components/common/Button/Button';
 import {
   Dialog,
@@ -9,11 +7,13 @@ import {
   DialogCancelButton,
   DialogContent,
   DialogControls,
-  DialogTitle,
+  DialogTitle
 } from '@/components/common/Dialog/Dialog';
-import Tippy from '@/components/common/Tippy/Tippy';
 import DialogTrigger from '@/components/common/DialogTrigger/DialogTrigger';
 import Snackbar from '@/components/common/Snackbar/Snackbar';
+import Tippy from '@/components/common/Tippy/Tippy';
+import { useAuth } from '@/hooks';
+import { useFollowMutation, useUnfollowMutation } from '@/services/follow/follow.service';
 
 interface ButtonFollowProps {
   username: string | undefined;
@@ -51,29 +51,27 @@ const ButtonFollow: React.FC<ButtonFollowProps> = ({ username, hasSubscription, 
 
   if (!user) {
     return (
-      <>
-        <Tippy
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          offset={50}
-          tooltipPosition="right"
-          title="Следи за обновлениями авторов"
-          description="Чтобы отслеживать обновления авторов, войди в аккаунт."
-        >
-          <Button icon={configuration === 'icon'} onClick={() => setIsOpen(true)} variant="filled">
-            {configuration === 'iconWithText' ? (
-              <>
-                <span className="material-symbols-outlined">add_circle</span>
-                Подписаться
-              </>
-            ) : configuration === 'icon' ? (
-              <span className="material-symbols-outlined">person_add</span>
-            ) : (
-              'Подписаться'
-            )}
-          </Button>
-        </Tippy>
-      </>
+      <Tippy
+        description='Чтобы отслеживать обновления авторов, войди в аккаунт.'
+        isOpen={isOpen}
+        offset={50}
+        setIsOpen={setIsOpen}
+        title='Следи за обновлениями авторов'
+        tooltipPosition='right'
+      >
+        <Button icon={configuration === 'icon'} variant='filled' onClick={() => setIsOpen(true)}>
+          {configuration === 'iconWithText' ? (
+            <>
+              <span className='material-symbols-outlined'>add_circle</span>
+              Подписаться
+            </>
+          ) : configuration === 'icon' ? (
+            <span className='material-symbols-outlined'>person_add</span>
+          ) : (
+            'Подписаться'
+          )}
+        </Button>
+      </Tippy>
     );
   }
 
@@ -82,18 +80,18 @@ const ButtonFollow: React.FC<ButtonFollowProps> = ({ username, hasSubscription, 
       {isFollow ? (
         <>
           <Button
-            onClick={() => setIsOpen(true)}
-            isActive={isOpen}
             icon={configuration === 'icon'}
-            variant="filledTonal"
+            isActive={isOpen}
+            variant='filledTonal'
+            onClick={() => setIsOpen(true)}
           >
             {configuration === 'iconWithText' ? (
               <>
-                <span className="material-symbols-outlined">notifications</span>
+                <span className='material-symbols-outlined'>notifications</span>
                 Подписка
               </>
             ) : configuration === 'icon' ? (
-              <span className="material-symbols-outlined">person</span>
+              <span className='material-symbols-outlined'>person</span>
             ) : (
               'Подписка'
             )}
@@ -121,14 +119,14 @@ const ButtonFollow: React.FC<ButtonFollowProps> = ({ username, hasSubscription, 
         </>
       ) : (
         <>
-          <Button icon={configuration === 'icon'} onClick={handleFollow} variant="filled">
+          <Button icon={configuration === 'icon'} variant='filled' onClick={handleFollow}>
             {configuration === 'iconWithText' ? (
               <>
-                <span className="material-symbols-outlined">add_circle</span>
+                <span className='material-symbols-outlined'>add_circle</span>
                 Подписаться
               </>
             ) : configuration === 'icon' ? (
-              <span className="material-symbols-outlined">person_add</span>
+              <span className='material-symbols-outlined'>person_add</span>
             ) : (
               'Подписаться'
             )}

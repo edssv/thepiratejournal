@@ -1,11 +1,11 @@
-import { PropsWithChildren } from 'react';
 import Head from 'next/head';
+import type { PropsWithChildren } from 'react';
 
-import { Meta } from './meta.interface';
+import type { MetaProps } from './meta.interface';
 
 const projectName = process.env.NEXT_PUBLIC_PROJECT_NAME;
 
-const Meta: React.FC<PropsWithChildren<Meta>> = ({
+const Meta: React.FC<PropsWithChildren<MetaProps>> = ({
   title = projectName,
   description = 'Переиграли и уничтожили.',
   image = `${process.env.NEXT_PUBLIC_CLIENT_URL}/assets/og/brand.png`,
@@ -13,7 +13,7 @@ const Meta: React.FC<PropsWithChildren<Meta>> = ({
   url = '',
   noRobots = false,
   home = false,
-  children,
+  children
 }) => {
   const fullTitle = home ? projectName : `${title} - ${projectName}`;
   const fullUrl = (process.env.NEXT_PUBLIC_CLIENT_URL ?? '') + url;
@@ -23,21 +23,24 @@ const Meta: React.FC<PropsWithChildren<Meta>> = ({
     <>
       <Head>
         <title>{fullTitle}</title>
-        <meta property="og:title" content={title} key="title" />
-        <meta name="twitter:title" content={title} />
-        <meta property="og:type" content={type} />
-        <meta property="og:site_name" content={projectName} />
-        <meta name="description" content={description} />
-        <meta property="og:description" content={description} />
-        <meta name="twitter:description" content={description} />
-        <meta property="og:image" content={image} />
-        <meta name="twitter:image" content={image} />
-        <meta property="og:url" content={fullUrl} />
-        <meta name="twitter:url" content={fullUrl} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="yandex-verification" content="2fb5232a43f9c3a6" />
-        <meta name="google-site-verification" content="2NihTUNNRZaWfOf4vg3_xeqDysO3l7dgRg64CK2f7PE" />
-        <meta name="robots" content={robotsContent} />
+        <meta key='title' content={title} property='og:title' />
+        <meta content={title} name='twitter:title' />
+        <meta content={type} property='og:type' />
+        <meta content={projectName} property='og:site_name' />
+        <meta content={description} name='description' />
+        <meta content={description} property='og:description' />
+        <meta content={description} name='twitter:description' />
+        <meta content={image} property='og:image' />
+        <meta content={image} name='twitter:image' />
+        <meta content={fullUrl} property='og:url' />
+        <meta content={fullUrl} name='twitter:url' />
+        <meta content='summary_large_image' name='twitter:card' />
+        <meta content='2fb5232a43f9c3a6' name='yandex-verification' />
+        <meta
+          content='2NihTUNNRZaWfOf4vg3_xeqDysO3l7dgRg64CK2f7PE'
+          name='google-site-verification'
+        />
+        <meta content={robotsContent} name='robots' />
       </Head>
       {children}
     </>

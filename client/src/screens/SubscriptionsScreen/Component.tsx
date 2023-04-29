@@ -1,5 +1,6 @@
-import { useArticlesListQuery } from '@/gql/__generated__';
 import AiryArticlePreview from '@/components/AiryArticlePreview/AiryArticlePreview';
+import { useArticlesListQuery } from '@/gql/__generated__';
+
 import { Prompt } from './Prompt';
 
 export const Component = () => {
@@ -9,19 +10,24 @@ export const Component = () => {
     if (loading) return null;
     if (error) return <h3>Здесь появятся статьи для тебя</h3>;
     if (data) {
-      return data.getAllArticles?.map((article, id: number) => <AiryArticlePreview key={id} article={article} />);
+      return data.getAllArticles?.map((article, id: number) => (
+        <AiryArticlePreview key={id} article={article} />
+      ));
     }
+
+    return null;
   };
 
   const articles = () => {
     if (!data?.getAllArticles.length) {
       return (
         <Prompt
-          headline="Ты еще не подписан ни на одного автора."
-          text="Подписавшись на автора, ты увидишь все его проекты, которые автор делает доступными для подписчиков."
+          headline='Ты еще не подписан ни на одного автора.'
+          text='Подписавшись на автора, ты увидишь все его проекты, которые автор делает доступными для подписчиков.'
         />
       );
-    } else return <div className="AiryArticlesList">{articlesList()}</div>;
+    }
+    return <div className='AiryArticlesList'>{articlesList()}</div>;
   };
 
   return articles();

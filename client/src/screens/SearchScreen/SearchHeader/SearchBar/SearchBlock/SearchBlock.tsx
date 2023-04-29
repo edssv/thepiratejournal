@@ -1,8 +1,8 @@
-import { useCallback, useState } from 'react';
 import debounce from 'lodash.debounce';
+import { useCallback, useState } from 'react';
 
-import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { useActions } from '@/hooks';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
 
 import styles from './SearchBlock.module.scss';
 
@@ -32,19 +32,19 @@ const SearchBlock = () => {
   };
   return (
     <div className={styles.inputWrap}>
-      <span className="material-symbols-outlined">search</span>
-      <form action="/search/articles">
+      <span className='material-symbols-outlined'>search</span>
+      <form action='/search/articles'>
         <input
+          className={styles.searchInput}
+          placeholder='Что хочешь почитать?'
+          type='search'
+          value={inputValue}
+          onChange={onChangeInput}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               e.preventDefault();
             }
           }}
-          value={inputValue}
-          onChange={onChangeInput}
-          className={styles.searchInput}
-          placeholder="Что хочешь почитать?"
-          type="search"
         />
       </form>
     </div>

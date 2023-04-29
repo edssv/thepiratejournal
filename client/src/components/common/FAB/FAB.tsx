@@ -1,27 +1,30 @@
-import React, { PropsWithChildren } from 'react';
+import clsx from 'clsx';
+import type { PropsWithChildren } from 'react';
+import React from 'react';
 
 import styles from './FAB.module.scss';
 
 export type FABProps = {
-    size?: 'S' | 'M' | 'L';
+  size?: 'S' | 'M' | 'L';
 };
 
 const FAB: React.FC<PropsWithChildren<FABProps & React.HTMLAttributes<HTMLButtonElement>>> = ({
-    children,
-    className,
-    size = 'M',
-    ...props
+  children,
+  className,
+  size = 'M',
+  ...props
 }) => {
-    return (
-        <button
-            className={`${styles.root} ${className ?? ''} ${
-                size === 'S' ? styles.small : size === 'L' ? styles.large : styles.medium
-            }`}
-            {...props}
-        >
-            {children}
-        </button>
-    );
+  const getSize = () => {
+    if (size === 'S') return 'small';
+    if (size === 'L') return 'large';
+    return 'medium';
+  };
+
+  return (
+    <button className={clsx(styles.root, className && className, styles[getSize()])} {...props}>
+      {children}
+    </button>
+  );
 };
 
 export default FAB;

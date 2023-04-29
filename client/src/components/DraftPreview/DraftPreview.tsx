@@ -1,18 +1,19 @@
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import Image from 'next/image';
 import moment from 'moment';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import 'moment/locale/ru';
 
-import { Draft, useRemoveDraftMutation } from '@/gql/__generated__';
+import { useRemoveDraftMutation } from '@/gql/__generated__';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
-import Button from '../common/Button/Button';
-import ButtonDelete from '../Buttons/ButtonDelete';
+
 import ArticleStats from '../ArticlePreview/ArticleStats/ArticleStats';
+import ButtonDelete from '../Buttons/ButtonDelete';
+import Button from '../common/Button/Button';
 
 import styles from './DraftPreview.module.scss';
 
-const DraftPreview: React.FC<{ draft: Draft }> = ({ draft }) => {
+const DraftPreview: React.FC<{ draft: any }> = ({ draft }) => {
   const { push } = useRouter();
   const [removeDraft] = useRemoveDraftMutation();
 
@@ -25,33 +26,33 @@ const DraftPreview: React.FC<{ draft: Draft }> = ({ draft }) => {
         <div className={styles.cover__wrapper}>
           <div className={styles.cover__content}>
             {draft.cover ? (
-              <div className={styles.backgroundColor}></div>
+              <div className={styles.backgroundColor} />
             ) : (
               <div className={styles.backgroundImage}>
-                <span className="material-symbols-outlined">image</span>
+                <span className='material-symbols-outlined'>image</span>
               </div>
             )}
             {draft.cover && (
               <Image
-                width={0}
+                alt='Обложка'
                 height={0}
-                sizes="100vw"
-                style={{ width: '100%', height: '100%' }}
+                sizes='100vw'
                 src={draft.cover}
-                alt="Обложка"
+                style={{ width: '100%', height: '100%' }}
+                width={0}
               />
             )}
           </div>
           <div className={styles.cover__overlay}>
             <div className={styles.controls}>
-              <Button onClick={() => push(getPublicUrl.draftEdit(String(draft?.id)))} variant="filled">
+              <Button variant='filled' onClick={() => push(getPublicUrl.draftEdit(String(draft?.id)))}>
                 Продолжить создание
               </Button>
               <ButtonDelete
+                variant='filledTonal'
                 onPrimaryAction={() => {
                   removeDraft({ variables: { id: Number(draft.id) } });
                 }}
-                variant="filledTonal"
               >
                 Удалить черновик
               </ButtonDelete>
@@ -60,7 +61,7 @@ const DraftPreview: React.FC<{ draft: Draft }> = ({ draft }) => {
             <div className={styles.details}>
               <div className={styles.info}>
                 <h4>{draft.title ?? ''}</h4>
-                <Link href={getPublicUrl.user(String(draft?.user?.id))} className={styles.authorName}>
+                <Link className={styles.authorName} href={getPublicUrl.user(String(draft?.user?.id))}>
                   {draft?.user?.id}
                 </Link>
               </div>

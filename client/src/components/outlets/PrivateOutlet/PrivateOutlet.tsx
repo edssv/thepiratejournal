@@ -1,20 +1,22 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 
-import { useAuth } from '@/hooks';
-import { UserRole } from '@/lib/enums';
-import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import {
   Dialog,
   DialogActionButton,
   DialogCancelButton,
   DialogContent,
   DialogControls,
-  DialogTitle,
+  DialogTitle
 } from '@/components/common/Dialog/Dialog';
+import { useAuth } from '@/hooks';
+import { UserRole } from '@/lib/enums';
+import { getPublicUrl } from '@/lib/publicUrlBuilder';
 
-const DialogTrigger = dynamic(() => import('@/components/common/DialogTrigger/DialogTrigger'), { ssr: false });
+const DialogTrigger = dynamic(() => import('@/components/common/DialogTrigger/DialogTrigger'), {
+  ssr: false
+});
 
 const PrivateOutlet: React.FC<any> = ({ children }) => {
   const { user, isLoading } = useAuth();
@@ -27,7 +29,7 @@ const PrivateOutlet: React.FC<any> = ({ children }) => {
   if (!user)
     return (
       <>
-        <DialogTrigger isVisible={isOpen} clickOutside={false} onClose={setOpen}>
+        <DialogTrigger clickOutside={false} isVisible={isOpen} onClose={setOpen}>
           <Dialog>
             <DialogTitle>Войти</DialogTitle>
             <DialogContent>Чтобы продолжить, тебе необходимо войти в систему</DialogContent>

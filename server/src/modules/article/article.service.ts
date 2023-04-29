@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
 
@@ -13,7 +17,7 @@ export class ArticleService {
   constructor(
     @InjectRepository(Article)
     private repository: Repository<Article>,
-    private readonly draftService: DraftService
+    private readonly draftService: DraftService,
   ) {}
 
   create(userId: number, createArticleInput: CreateArticleInput) {
@@ -63,11 +67,15 @@ export class ArticleService {
   async update(userId: number, updateArticleInput: UpdateArticleInput) {
     const { id, ...articleData } = updateArticleInput;
 
-    const find = await this.repository.findOne({ where: { id }, relations: ['user'] });
+    const find = await this.repository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
 
     if (!find) throw new NotFoundException('Статья не найдена');
 
-    if (userId !== find.user.id) throw new ForbiddenException('Статья принадлежит другому пользователю.');
+    if (userId !== find.user.id)
+      throw new ForbiddenException('Статья принадлежит другому пользователю.');
 
     this.repository.update(id, {
       title: articleData.title,
@@ -88,7 +96,8 @@ export class ArticleService {
 
     if (!find) throw new NotFoundException('Статья не найдена');
 
-    if (userId !== find.user.id) throw new ForbiddenException('Статья принадлежит другому пользователю.');
+    if (userId !== find.user.id)
+      throw new ForbiddenException('Статья принадлежит другому пользователю.');
 
     return this.repository.softDelete(id);
   }
@@ -102,7 +111,8 @@ export class ArticleService {
 
     if (dto.sort === 'recent') qb.orderBy('created_at', 'DESC');
     if (dto.sort === 'appreciations') qb.orderBy('likes_count', 'DESC');
-    if (dto.sort === 'views' || dto.sort === undefined) qb.orderBy('views_count', 'DESC');
+    if (dto.sort === 'views' || dto.sort === undefined)
+      qb.orderBy('views_count', 'DESC');
 
     const [articles, total] = await qb.getManyAndCount();
 

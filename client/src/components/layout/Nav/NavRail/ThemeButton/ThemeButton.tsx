@@ -11,15 +11,15 @@ const ThemeButton = () => {
   return (
     <div className={styles.root}>
       <button
-        onClick={() => setTheme(theme === ThemeMode.LIGHT ? ThemeMode.DARK : ThemeMode.LIGHT)}
         aria-label={theme === ThemeMode.LIGHT ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+        onClick={() => setTheme(theme === ThemeMode.LIGHT ? ThemeMode.DARK : ThemeMode.LIGHT)}
       >
         <div className={clsx(styles.track, theme === ThemeMode.DARK && styles.isDarkMode)}>
           <div className={styles.switch}>
-            <span className="material-symbols-outlined">dark_mode</span>
+            <span className='material-symbols-outlined'>dark_mode</span>
           </div>
           <div className={styles.switch}>
-            <span className="material-symbols-outlined">light_mode</span>
+            <span className='material-symbols-outlined'>light_mode</span>
           </div>
         </div>
       </button>

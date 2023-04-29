@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useUploadFileMutation } from '@/services/file/file.service';
 import Button from '@/components/common/Button/Button';
+import { useUploadFileMutation } from '@/services/file/file.service';
 
 export const UploadAvatar = () => {
   const filePicker = useRef<HTMLInputElement>(null);
@@ -18,34 +18,34 @@ export const UploadAvatar = () => {
   };
 
   useEffect(() => {
-    const handleUpload = async () => {
-      if (!selectedFile) {
-        return alert('Пожалуйста выберите изображение');
-      }
+    const handleUpload = () => {
+      if (!selectedFile) return null;
 
       const formData = new FormData();
       formData.append('image', selectedFile);
 
-      upload(formData);
+      return upload(formData);
     };
 
     if (selectedFile) {
       handleUpload();
     }
+
+    return () => {};
   }, [selectedFile, upload]);
 
   return (
     <div>
-      <Button isLoading={isLoading} disabled={isLoading} onClick={handlePick} variant="filledTonal">
+      <Button disabled={isLoading} isLoading={isLoading} variant='filledTonal' onClick={handlePick}>
         Изменить аватар
       </Button>
       <input
         ref={filePicker}
-        className="hidden"
-        type="file"
+        accept='image/jpeg,image/png,image/webp'
+        className='hidden'
+        name='photo'
+        type='file'
         onChange={handleChange}
-        accept="image/jpeg,image/png,image/webp"
-        name="photo"
       />
     </div>
   );

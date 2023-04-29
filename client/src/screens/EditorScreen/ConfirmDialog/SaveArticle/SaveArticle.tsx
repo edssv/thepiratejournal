@@ -1,20 +1,20 @@
-import { MutableRefObject } from 'react';
 import { useRouter } from 'next/router';
+import type { MutableRefObject } from 'react';
 import { useMediaPredicate } from 'react-media-hook';
 
+import Button from '@/components/common/Button/Button';
+import type { Block } from '@/gql/__generated__';
 import {
-  Block,
   useCreateArticleMutation,
   useCreateBlogMutation,
   useUpdateArticleMutation,
-  useUpdateBlogMutation,
+  useUpdateBlogMutation
 } from '@/gql/__generated__';
-import { ArticleType, EditorPageMode, UserRole } from '@/lib/enums';
 import { readingTime } from '@/helpers';
 import { useActions, useAuth } from '@/hooks';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
+import { ArticleType, EditorPageMode, UserRole } from '@/lib/enums';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
-import Button from '@/components/common/Button/Button';
 
 interface ConfirmButtonProps {
   articleContentRef?: React.Ref<HTMLDivElement>;
@@ -29,26 +29,26 @@ const SaveArticle: React.FC<ConfirmButtonProps> = ({ articleContentRef, blocks }
 
   const { setAlert } = useActions();
   const [createArticle, { loading: isLoadingCreateArticle, error: isErrorCreateArticle }] = useCreateArticleMutation({
-    onCompleted: () => replace(getPublicUrl.home()),
+    onCompleted: () => replace(getPublicUrl.home())
   });
   const [updateArticle, { loading: isLoadingUpdateArticle, error: isErrorUpdateArticle }] = useUpdateArticleMutation({
-    onCompleted: () => replace(getPublicUrl.home()),
+    onCompleted: () => replace(getPublicUrl.home())
   });
   const [createBlog, { loading: isLoadingCreateBlog, error: isErrorCreateBlog }] = useCreateBlogMutation({
-    onCompleted: () => replace(getPublicUrl.home()),
+    onCompleted: () => replace(getPublicUrl.home())
   });
   const [updateBlog, { loading: isLoadingUpdateBlog, error: isErrorUpdateBlog }] = useUpdateBlogMutation({
-    onCompleted: () => replace(getPublicUrl.home()),
+    onCompleted: () => replace(getPublicUrl.home())
   });
 
   const isMobile = useMediaPredicate('(max-width: 551px)');
 
-  const saveArticle = async () => {
+  const saveArticle = () => {
     const description = (articleContentRef as MutableRefObject<HTMLDivElement>).current.innerText
       .split('.', 2)
       .toString();
 
-    const formData = Object.assign({
+    const formData = {
       title: data.title,
       description: data.description ?? description,
       cover: data.cover,
@@ -56,12 +56,12 @@ const SaveArticle: React.FC<ConfirmButtonProps> = ({ articleContentRef, blocks }
       category: data.category,
       body: blocks,
       readingTime: readingTime(articleContentRef),
-      draftId: Number(draftId),
-    });
+      draftId: Number(draftId)
+    };
 
     if (articleType === ArticleType.BLOG) {
       if (mode === EditorPageMode.EDIT) {
-        updateBlog({ variables: { updateBlogInput: { ...formData, id: Number(data.id) } } });
+        updateBlog({ variables: { updateBlogInput: { ...formData, id: String(data.id) } } });
       } else createBlog({ variables: { createBlogInput: formData } });
     }
 
@@ -83,6 +83,7 @@ const SaveArticle: React.FC<ConfirmButtonProps> = ({ articleContentRef, blocks }
       if (user?.role === UserRole.EDITOR || user?.role === UserRole.ADMIN) return 'Статья изменена';
       return 'Статья отправлена на проверку и в скором времени будет изменена';
     }
+    return null;
   };
 
   const getButtonText = () => {
@@ -93,6 +94,7 @@ const SaveArticle: React.FC<ConfirmButtonProps> = ({ articleContentRef, blocks }
   return (
     <Button
       isLoading={isLoadingCreateArticle || isLoadingUpdateArticle || isLoadingCreateBlog || isLoadingUpdateBlog}
+      variant='filled'
       disabled={
         isLoadingCreateArticle ||
         isLoadingUpdateArticle ||
@@ -100,10 +102,10 @@ const SaveArticle: React.FC<ConfirmButtonProps> = ({ articleContentRef, blocks }
         isLoadingUpdateBlog ||
         !(data.category && data?.cover && data.description && blocks)
       }
-      onClick={async () => {
-        await saveArticle(), setAlert(getSnackbarText());
+      onClick={() => {
+        saveArticle();
+        setAlert(getSnackbarText());
       }}
-      variant="filled"
     >
       {getButtonText()}
     </Button>

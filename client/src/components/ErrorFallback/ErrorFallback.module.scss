@@ -1,64 +1,64 @@
 @use '../../styles/util' as *;
 
 .root {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  min-height: 75vh;
+  padding-top: 60px;
+
+  @include breakpoint-down(lg) {
+    flex-direction: column;
+    justify-content: start;
+  }
+
+  .content {
     display: flex;
-    align-items: center;
-    justify-content: space-around;
-    min-height: 75vh;
-    padding-top: 60px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    text-align: left;
 
     @include breakpoint-down(lg) {
-        flex-direction: column;
-        justify-content: start;
+      text-align: center;
+      align-items: center;
     }
 
-    .content {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-        text-align: left;
-
-        @include breakpoint-down(lg) {
-            text-align: center;
-            align-items: center;
-        }
-
-        .headline {
-            color: var(--md-sys-color-primary);
-            font-weight: 700;
-            @include breakpoint-down(sm) {
-                font-size: 18px;
-            }
-        }
-
-        p {
-            font-size: 36px;
-            font-weight: 700;
-
-            @include breakpoint-down(sm) {
-                font-size: 22px;
-            }
-        }
-
-        button {
-            cursor: pointer;
-        }
+    .headline {
+      color: var(--md-sys-color-primary);
+      font-weight: 700;
+      @include breakpoint-down(sm) {
+        font-size: 18px;
+      }
     }
-    img {
-        max-height: 780px;
 
-        @include breakpoint-down(xl) {
-            height: 480px;
-        }
+    p {
+      font-size: 36px;
+      font-weight: 700;
 
-        @include breakpoint-down(lg) {
-            height: 380px;
-            order: 1;
-        }
-
-        @include breakpoint-down(sm) {
-            height: 280px;
-        }
+      @include breakpoint-down(sm) {
+        font-size: 22px;
+      }
     }
+
+    button {
+      cursor: pointer;
+    }
+  }
+  img {
+    max-height: 780px;
+
+    @include breakpoint-down(xl) {
+      height: 480px;
+    }
+
+    @include breakpoint-down(lg) {
+      height: 380px;
+      order: 1;
+    }
+
+    @include breakpoint-down(sm) {
+      height: 280px;
+    }
+  }
 }

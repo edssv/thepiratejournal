@@ -208,7 +208,7 @@ type Query {
   getNextBlogs(id: Float!): [Blog!]!
   getOneBlog(id: Float!): Blog!
   getUser(id: Float!): User!
-  getUserContent(articles: String!, id: Float!): [Article!]
+  getUserContent(articles: String!, id: Float!): [Draft!]
 }
 
 input SignUpInput {

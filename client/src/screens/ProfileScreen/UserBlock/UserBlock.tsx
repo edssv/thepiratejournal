@@ -2,6 +2,7 @@ import moment from 'moment';
 import 'moment/locale/ru';
 
 import Avatar from '@/components/Avatar/Avatar';
+
 import styles from './UserBlock.module.scss';
 
 interface UserBlockProps {
@@ -19,7 +20,9 @@ const UserBlock: React.FC<UserBlockProps> = ({ username, image, createdAt }) => 
       <div className={styles.top__wrapper}>
         <div className={styles.top__info}>
           <h3 className={styles.info__headline}>{username}</h3>
-          <div className={styles.info__counters}>{/* Подписчики: <span>{data.followersCount}</span> */}</div>
+          <div className={styles.info__counters}>
+            {/* Подписчики: <span>{data.followersCount}</span> */}
+          </div>
           <div className={styles.location}>Пиратский корабль</div>
         </div>
         {/* {isOwner && <UploadAvatar />} */}

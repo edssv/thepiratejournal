@@ -1,14 +1,14 @@
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import queryString from 'query-string';
+import { useEffect } from 'react';
 
 import { useActions } from '@/hooks';
-import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-import TabList from './TabList/TabList';
-import SearchBlock from './SearchBlock/SearchBlock';
+import { getPublicUrl } from '@/lib/publicUrlBuilder';
 
 import styles from './SearchBar.module.scss';
+import SearchBlock from './SearchBlock/SearchBlock';
+import TabList from './TabList/TabList';
 
 export const SearchBar: React.FC = () => {
   const { push, query } = useRouter();
@@ -28,10 +28,10 @@ export const SearchBar: React.FC = () => {
 
   useEffect(() => {
     const queryParams = {
-      category: category,
-      sort: sort,
-      search: search,
-      tag: tag,
+      category,
+      sort,
+      search,
+      tag
     };
     const stringified = queryString.stringify(queryParams, { skipEmptyString: true });
     const decodeUrl = decodeURI(stringified);

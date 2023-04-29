@@ -1,15 +1,14 @@
-import { ReactElement } from 'react';
+import type { ReactElement } from 'react';
 
-import { NextPageWithLayout } from '../../_app';
-import BookmarksScreen from '@/screens/BookmarksScreen/BookmarksScreen';
 import Layout from '@/components/layout/Layout';
+import BookmarksScreen from '@/screens/BookmarksScreen/BookmarksScreen';
 
-const BookmarksPage: NextPageWithLayout = () => {
-  return <BookmarksScreen />;
-};
+import type { NextPageWithLayout } from '../../_app';
+
+const BookmarksPage: NextPageWithLayout = () => <BookmarksScreen />;
 
 BookmarksPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout padding="small">{page}</Layout>;
+  return <Layout padding='small'>{page}</Layout>;
 };
 
 export default BookmarksPage;

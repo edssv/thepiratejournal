@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
+import type { NextPageWithLayout } from 'pages/_app';
 
-import { useUserQuery } from '@/gql/__generated__';
-import { NextPageWithLayout } from 'pages/_app';
-import ProfileScreen from '@/screens/ProfileScreen/ProfileScreen';
 import Layout from '@/components/layout/Layout';
 import Meta from '@/components/meta/Meta';
+import { useUserQuery } from '@/gql/__generated__';
 import NotFoundPage from '@/screens/NotFoundScreen/NotFoundScreen';
+import ProfileScreen from '@/screens/ProfileScreen/ProfileScreen';
 
 const ProfilePage: NextPageWithLayout = () => {
   const { query, isReady } = useRouter();
@@ -13,21 +13,24 @@ const ProfilePage: NextPageWithLayout = () => {
   const userId = (query?.id && query?.id[0]) ?? '';
   const articles = (query?.id && query?.id[1]) ?? 'articles';
 
-  const { data, loading } = useUserQuery({ variables: { id: +userId, articles: articles }, skip: !isReady });
+  const { data, loading } = useUserQuery({
+    variables: { id: +userId, articles },
+    skip: !isReady
+  });
 
   if (loading || !isReady) return null;
 
   if (!data) return <NotFoundPage />;
 
   return (
-    <Meta title={data.getUser.username} image={data.getUser.image ?? ''} url={data.getUser.id}>
+    <Meta image={data.getUser.image ?? ''} title={data.getUser.username} url={data.getUser.id}>
       <ProfileScreen data={data} />
     </Meta>
   );
 };
 
 ProfilePage.getLayout = function getLayout(page: React.ReactElement) {
-  return <Layout padding="large">{page}</Layout>;
+  return <Layout padding='large'>{page}</Layout>;
 };
 
 export default ProfilePage;

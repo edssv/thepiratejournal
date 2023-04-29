@@ -1,24 +1,32 @@
-import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
+import React, { useState } from 'react';
 
-import { Block } from '@/gql/__generated__';
-import { EditorPageMode, UserRole } from '@/lib/enums';
+import Button from '@/components/common/Button/Button';
+import {
+  Dialog,
+  DialogCancelButton,
+  DialogContent,
+  DialogControls
+} from '@/components/common/Dialog/Dialog';
+import type { Block } from '@/gql/__generated__';
 import { useAuth } from '@/hooks';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-import Button from '@/components/common/Button/Button';
-import { Dialog, DialogCancelButton, DialogContent, DialogControls } from '@/components/common/Dialog/Dialog';
+import { EditorPageMode, UserRole } from '@/lib/enums';
+
 import DraftSave from '../DraftSave/DraftSave';
+
+import styles from './ConfirmDialog.module.scss';
 import CoverBlock from './CoverBlock/CoverBlock';
-import { ListBoxPicker } from './ListBoxPicker/ListBoxPicker';
 import { DescriptionArea } from './DescriptionArea/DescriptionArea';
+import { ListBoxPicker } from './ListBoxPicker/ListBoxPicker';
+import SaveArticle from './SaveArticle/SaveArticle';
 import { TagsField } from './TagsField/TagsField';
 import TitleField from './TitleField/TitleField';
 import TypePicker from './TypePicker/TypePicker';
-import SaveArticle from './SaveArticle/SaveArticle';
 
-import styles from './ConfirmDialog.module.scss';
-
-const DialogTrigger = dynamic(() => import('@/components/common/DialogTrigger/DialogTrigger'), { ssr: false });
+const DialogTrigger = dynamic(() => import('@/components/common/DialogTrigger/DialogTrigger'), {
+  ssr: false
+});
 interface ConfirmDialogProps {
   articleContentRef?: React.Ref<HTMLDivElement>;
   blocks: Block[];
@@ -32,11 +40,15 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ articleContentRef, blocks
   return (
     <>
       {' '}
-      <Button onClick={() => setIsOpen(true)} disabled={!(data?.title && blocks.length)} variant="filled">
+      <Button
+        disabled={!(data?.title && blocks.length)}
+        variant='filled'
+        onClick={() => setIsOpen(true)}
+      >
         Продолжить
       </Button>
       <DialogTrigger isVisible={isOpen} onClose={setIsOpen}>
-        <Dialog size="M" mobileType="fullscreen">
+        <Dialog mobileType='fullscreen' size='M'>
           <DialogContent>
             <div className={styles.plateContent}>
               <div className={styles.coverColumn}>
@@ -47,9 +59,10 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({ articleContentRef, blocks
                 <DescriptionArea />
                 <ListBoxPicker />
                 <TagsField />
-                {mode === EditorPageMode.NEW && (user?.role === UserRole.EDITOR || user?.role === UserRole.ADMIN) && (
-                  <TypePicker />
-                )}
+                {mode === EditorPageMode.NEW &&
+                  (user?.role === UserRole.EDITOR || user?.role === UserRole.ADMIN) && (
+                    <TypePicker />
+                  )}
               </div>
             </div>
           </DialogContent>

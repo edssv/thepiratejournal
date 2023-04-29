@@ -2,9 +2,9 @@ const path = require('path');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  // reactStrictMode: true,
   sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')],
+    includePaths: [path.join(__dirname, 'styles')]
   },
   images: {
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
@@ -13,13 +13,13 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'thepirate.press',
+        hostname: 'thepirate.press'
       },
       { hostname: 'localhost' },
-      { hostname: '172.18.0.5' },
-    ],
+      { hostname: '172.18.0.5' }
+    ]
   },
-  output: 'standalone',
+  output: 'standalone'
 };
 
 module.exports = nextConfig;

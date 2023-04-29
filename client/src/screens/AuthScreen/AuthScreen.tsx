@@ -1,40 +1,27 @@
-import { useTheme } from 'next-themes';
-import Link from 'next/link';
-
-import { useGoogleLoginMutation } from '@/services/auth/auth.service';
-import { AuthPage } from '@/lib/enums';
-import { getPublicUrl } from '@/lib/publicUrlBuilder';
+import clsx from 'clsx';
+import Image from 'next/image';
 
 import logo from '@/assets/img/logotype.png';
+import { AuthPage } from '@/lib/enums';
+
 import styles from './AuthScreen.module.scss';
-import Image from 'next/image';
-import clsx from 'clsx';
+import StepsIndicator from './StepsIndicator/StepsIndicator';
 
 interface AuthScreenProps {
   page: AuthPage;
+  step?: number;
 }
 
-const AuthScreen: React.FC<React.PropsWithChildren<AuthScreenProps>> = ({ children, page }) => {
+const AuthScreen: React.FC<React.PropsWithChildren<AuthScreenProps>> = ({
+  children,
+  page,
+  step
+}) => {
   const getPageTitle = () => {
     if (page === AuthPage.LOGIN) return 'Войти';
     if (page === AuthPage.SIGNUP) return 'Создать аккаунт';
-  };
 
-  const getHelperText = () => {
-    if (page === AuthPage.LOGIN) {
-      return (
-        <>
-          Новый пользователь? <Link href={getPublicUrl.signup()}>Создать аккаунт</Link>
-        </>
-      );
-    }
-    if (page === AuthPage.SIGNUP) {
-      return (
-        <>
-          Уже есть аккаунт? <Link href={getPublicUrl.login()}>Войти</Link>
-        </>
-      );
-    }
+    return null;
   };
 
   return (
@@ -42,15 +29,16 @@ const AuthScreen: React.FC<React.PropsWithChildren<AuthScreenProps>> = ({ childr
       <div className={styles.inner}>
         <div className={styles.logoAndText}>
           <div className={styles.logoWrapper}>
-            <Image width={42} height={42} className={styles.logo} src={logo.src} alt="Logo" />
+            <Image alt='Logo' className={styles.logo} height={42} src={logo.src} width={42} />
             <span className={styles.text}>The Pirate Journal</span>
           </div>
         </div>
         <div className={clsx(styles.item, styles.panel)}>
           <div className={clsx(styles.logoWrapper, 'icon-center')}>
-            <Image width={24} height={24} className={styles.logo} src={logo.src} alt="Logo" />
+            <Image alt='Logo' className={styles.logo} height={24} src={logo.src} width={24} />
             <span className={styles.text}>The Pirate Journal</span>
           </div>
+          {page === AuthPage.SIGNUP && <StepsIndicator step={step} />}
           <h1 className={styles.title}>{getPageTitle()}</h1>
           {children}
         </div>

@@ -3,10 +3,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { useActions } from '@/hooks';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { useUploadFileMutation } from '@/services/file/file.service';
-import Placeholder from './Placeholder/Placeholder';
-import { CoverWindow } from './CoverWindow/CoverWindow';
 
 import styles from './CoverBlock.module.scss';
+import { CoverWindow } from './CoverWindow/CoverWindow';
+import Placeholder from './Placeholder/Placeholder';
 
 const CoverBlock: React.FC = () => {
   const { setCover } = useActions();
@@ -15,10 +15,8 @@ const CoverBlock: React.FC = () => {
   const { data } = useTypedSelector((state) => state.editorPage);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const handleUpload = useCallback(async () => {
-    if (!selectedFile) {
-      alert('Пожалуйста выберите изображение');
-    }
+  const handleUpload = useCallback(() => {
+    if (!selectedFile) return;
 
     const formData = new FormData();
     formData.append('image', selectedFile ?? '');
@@ -49,7 +47,7 @@ const CoverBlock: React.FC = () => {
 
   return (
     <div className={styles.root}>
-      <h4 className="confirmDialogItemLabel">
+      <h4 className='confirmDialogItemLabel'>
         Обложка статьи <span>(обязательно)</span>
       </h4>
       <div className={styles.container}>{getContent()}</div>

@@ -1,5 +1,3 @@
-// NOTICE: __generated__ folders should be added to .gitignore
-// In this repo I keep generated files only for demo purposes!
 import { DocumentNode } from 'graphql';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -16,7 +14,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
-  DateTime: any;
+  DateTime: Date;
 };
 
 export type Article = {
@@ -399,14 +397,14 @@ export type ArticleQueryVariables = Exact<{
 }>;
 
 
-export type ArticleQuery = { getArticle: { id: string, title: string, description: string, cover: string, readingTime: number, createdAt: any, tags?: Array<string> | null, category: string, viewsCount: number, body: Array<{ id: string, type: string, data: { text?: string | null, level?: number | null, caption?: string | null, stretched?: boolean | null, withBackground?: boolean | null, withBorder?: boolean | null, items?: Array<string> | null, file?: { ref?: string | null, url?: string | null } | null } }>, user: { id: string, username: string, image?: string | null } } };
+export type ArticleQuery = { getArticle: { id: string, title: string, description: string, cover: string, readingTime: number, createdAt: Date, tags?: Array<string> | null, category: string, viewsCount: number, body: Array<{ id: string, type: string, data: { text?: string | null, level?: number | null, caption?: string | null, stretched?: boolean | null, withBackground?: boolean | null, withBorder?: boolean | null, items?: Array<string> | null, file?: { ref?: string | null, url?: string | null } | null } }>, user: { id: string, username: string, image?: string | null } } };
 
 export type BlogQueryVariables = Exact<{
   id: Scalars['Float'];
 }>;
 
 
-export type BlogQuery = { getOneBlog: { id: string, title: string, description: string, cover: string, createdAt: any, viewsCount: number, body: Array<{ id: string, type: string, data: { text?: string | null, level?: number | null, caption?: string | null, stretched?: boolean | null, withBackground?: boolean | null, withBorder?: boolean | null, items?: Array<string> | null, source?: string | null, embed?: string | null, width?: number | null, height?: number | null, file?: { ref?: string | null, url?: string | null } | null } }>, user: { id: string, username: string, image?: string | null } } };
+export type BlogQuery = { getOneBlog: { id: string, title: string, description: string, cover: string, createdAt: Date, viewsCount: number, body: Array<{ id: string, type: string, data: { text?: string | null, level?: number | null, caption?: string | null, stretched?: boolean | null, withBackground?: boolean | null, withBorder?: boolean | null, items?: Array<string> | null, source?: string | null, embed?: string | null, width?: number | null, height?: number | null, file?: { ref?: string | null, url?: string | null } | null } }>, user: { id: string, username: string, image?: string | null } } };
 
 export type NextArticlesQueryVariables = Exact<{
   id: Scalars['Float'];
@@ -439,7 +437,7 @@ export type SignupMutation = { signup: { accessToken: string, refreshToken: stri
 export type BlogListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type BlogListQuery = { getAllBlog: Array<{ id: string, title: string, description: string, cover: string, createdAt: any }> };
+export type BlogListQuery = { getAllBlog: Array<{ id: string, title: string, description: string, cover: string, createdAt: Date }> };
 
 export type CreateArticleMutationVariables = Exact<{
   createArticleInput: CreateArticleInput;
@@ -474,7 +472,7 @@ export type DraftQueryVariables = Exact<{
 }>;
 
 
-export type DraftQuery = { getDraft: { id: string, title?: string | null, description?: string | null, cover?: string | null, createdAt: any, body?: Array<{ id: string, type: string, data: { text?: string | null, level?: number | null, caption?: string | null, stretched?: boolean | null, withBackground?: boolean | null, withBorder?: boolean | null, items?: Array<string> | null, file?: { ref?: string | null, url?: string | null } | null } }> | null, user: { id: string, username: string, image?: string | null } } };
+export type DraftQuery = { getDraft: { id: string, title?: string | null, description?: string | null, cover?: string | null, createdAt: Date, body?: Array<{ id: string, type: string, data: { text?: string | null, level?: number | null, caption?: string | null, stretched?: boolean | null, withBackground?: boolean | null, withBorder?: boolean | null, items?: Array<string> | null, file?: { ref?: string | null, url?: string | null } | null } }> | null, user: { id: string, username: string, image?: string | null } } };
 
 export type CreateDraftMutationVariables = Exact<{
   createDraftInput: CreateDraftInput;
@@ -506,7 +504,7 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { getUser: { id: string, username: string, image?: string | null, createdAt: any, followers?: Array<{ id: string }> | null }, getUserContent?: Array<{ id: string, title: string, cover: string, viewsCount: number, user: { id: string, username: string } }> | null };
+export type UserQuery = { getUser: { id: string, username: string, image?: string | null, createdAt: Date, followers?: Array<{ id: string }> | null }, getUserContent?: Array<{ id: string, title: string, cover: string, viewsCount: number, user: { id: string, username: string } }> | null };
 
 export const ArticlePreview = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArticlePreview"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Article"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"cover"}}]}}]} as unknown as DocumentNode;
 export const RemoveDraftMutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveDraftMutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"removeDraft"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode;

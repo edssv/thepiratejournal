@@ -1,4 +1,5 @@
 import { getApiUrl } from '@/lib/apiUrlBuilder';
+
 import { api } from '../api/api';
 
 export const followApi = api.injectEndpoints({
@@ -6,16 +7,16 @@ export const followApi = api.injectEndpoints({
     follow: builder.mutation<void, string>({
       query: (id) => ({
         url: getApiUrl.followUser(id),
-        method: 'POST',
-      }),
+        method: 'POST'
+      })
     }),
     unfollow: builder.mutation<void, string>({
       query: (id) => ({
         url: getApiUrl.followUser(id),
-        method: 'DELETE',
-      }),
-    }),
-  }),
+        method: 'DELETE'
+      })
+    })
+  })
 });
 
 export const { useFollowMutation, useUnfollowMutation } = followApi;

@@ -10,7 +10,8 @@
     "build-nextjs": "next build",
     "build-codegen": "graphql-codegen",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint . --ext ts --ext tsx",
+    "format": "prettier --write **/*.{ts,tsx,scss,mdx}",
     "update-schema": "graphql-codegen -c ./codegen.download.yaml"
   },
   "dependencies": {
@@ -63,7 +64,6 @@
     "@graphql-codegen/typescript-react-query": "^4.1.0",
     "@graphql-eslint/eslint-plugin": "^3.18.0",
     "@next/bundle-analyzer": "^13.3.1",
-    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/body-scroll-lock": "^3.1.0",
     "@types/js-cookie": "^3.0.3",
     "@types/lodash.debounce": "^4.0.7",
@@ -74,7 +74,15 @@
     "@typescript-eslint/parser": "^5.58.0",
     "cross-env": "^7.0.3",
     "eslint": "8.36.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-next": "13.2.4",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^2.8.8",
     "sass": "^1.59.3",
     "typescript": "5.0.2"
   }

@@ -1,11 +1,11 @@
 type OutputData = any;
 
 export interface EditorCore {
-    destroy(): Promise<void>;
+  destroy(): Promise<void>;
 
-    clear(): Promise<void>;
+  clear(): Promise<void>;
 
-    save(): Promise<OutputData>;
+  save(): Promise<OutputData>;
 
-    render(data: OutputData): Promise<void>;
+  render(data: OutputData): Promise<void>;
 }

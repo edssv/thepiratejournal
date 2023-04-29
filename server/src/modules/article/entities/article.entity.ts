@@ -65,7 +65,11 @@ export class Article {
   user: User;
 
   @Field()
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    name: 'created_at',
+  })
   createdAt: Date;
 
   @Field()

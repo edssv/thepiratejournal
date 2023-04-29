@@ -1,6 +1,6 @@
-import { Article } from '@/interfaces/article.interface';
+import type { Article } from '@/interfaces/article.interface';
 
 export interface SearchResponse {
-    articles: Article[];
-    total: number;
+  articles: Article[];
+  total: number;
 }

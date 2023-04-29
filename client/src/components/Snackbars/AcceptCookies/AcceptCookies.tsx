@@ -11,21 +11,22 @@ const AcceptCookies = () => {
   if (!isAcceptCookies) {
     return (
       <Snackbar
+        accept
+        permanent
         className={styles.root}
         isOpen={isOpen}
-        permanent
-        accept
+        position='center'
         onClose={() => {
           localStorage.setItem('isAcceptCookies', 'true');
           setIsOpen(false);
         }}
-        position="center"
       >
-        <span className="material-symbols-outlined">info</span> Для правильной работы сайта нам необходимо использовать
-        файлы cookie.
+        <span className='material-symbols-outlined'>info</span> Для правильной работы сайта нам
+        необходимо использовать файлы cookie.
       </Snackbar>
     );
-  } else return null;
+  }
+  return null;
 };
 
 export default AcceptCookies;

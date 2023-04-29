@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getLocalStorage } from '@/utils';
-import { authApi } from '@/services/auth/auth.service';
 import { removeFromStorage, saveToStorage } from '@/services/auth/auth.helper';
+import { authApi } from '@/services/auth/auth.service';
+import { getLocalStorage } from '@/utils';
 
-import { InitialState } from './user.interface';
+import type { InitialState } from './user.interface';
 
 const initialState: InitialState = {
   user: getLocalStorage('user'),
-  isLoading: false,
+  isLoading: false
 };
 
 export const userSlice = createSlice({
@@ -24,7 +24,7 @@ export const userSlice = createSlice({
     logout: (state) => {
       state.user = null;
       removeFromStorage();
-    },
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -76,5 +76,5 @@ export const userSlice = createSlice({
       .addMatcher(authApi.endpoints.googleOneTap.matchRejected, (state) => {
         state.isLoading = false;
       });
-  },
+  }
 });

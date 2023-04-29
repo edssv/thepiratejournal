@@ -5,5 +5,5 @@ export const robotoMono = Roboto_Mono({
   style: ['normal'],
   subsets: ['latin', 'cyrillic', 'cyrillic-ext'],
   display: 'block',
-  variable: '--roboto-mono-font',
+  variable: '--roboto-mono-font'
 });

@@ -1,14 +1,15 @@
-import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
+import { useState, useEffect, useRef } from 'react';
 
-import { Block, useCreateDraftMutation, useUpdateDraftMutation } from '@/gql/__generated__';
+import type { Block } from '@/gql/__generated__';
+import { useCreateDraftMutation, useUpdateDraftMutation } from '@/gql/__generated__';
 import { useActions, useAuth } from '@/hooks';
-import { EditorFormStatus, EditorPageMode } from '@/lib/enums';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-import Form from './Form/Form';
-import Bar from './Bar/Bar';
+import { EditorFormStatus, EditorPageMode } from '@/lib/enums';
 
+import Bar from './Bar/Bar';
 import styles from './EditorScreen.module.scss';
+import Form from './Form/Form';
 
 interface EditorScreenProps {
   body: Block[] | null | undefined;
@@ -57,12 +58,13 @@ const EditorScreen: React.FC<EditorScreenProps> = ({ body, mode }) => {
             cover: data.cover,
             body: blocks,
             category: data.category,
-            tags: data.tags,
-          },
+            tags: data.tags
+          }
         },
         onCompleted: ({ createDraft }) => {
-          setDraftId(createDraft.id), setFormStatus(EditorFormStatus.SAVED);
-        },
+          setDraftId(createDraft.id);
+          setFormStatus(EditorFormStatus.SAVED);
+        }
       });
     }
 
@@ -76,23 +78,24 @@ const EditorScreen: React.FC<EditorScreenProps> = ({ body, mode }) => {
             body: blocks,
             category: data.category,
             tags: data.tags,
-            id: Number(draftId),
-          },
+            id: Number(draftId)
+          }
         },
         onCompleted: () => {
           setFormStatus(EditorFormStatus.SAVED);
-        },
+        }
       });
     }
   }, [data, blocks, draftData, formStatus, createDraft, mode, setDraftId, setFormStatus, updateDraft, draftId]);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       resetData();
       setMode(null);
       setBlocks([]);
-    };
-  }, [resetData, setMode, setBlocks]);
+    },
+    [resetData, setMode, setBlocks]
+  );
 
   return (
     <div className={styles.root}>
@@ -100,11 +103,11 @@ const EditorScreen: React.FC<EditorScreenProps> = ({ body, mode }) => {
         <Form blocks={blocks} setBlocks={setBlocks} />
       </div>
       <Bar
-        mode={mode}
-        blocks={blocks}
         articleContentRef={articleContentRef}
-        isLoading={isLoadingCreatDraft || isLoadingUpdateDraft}
+        blocks={blocks}
         isError={Boolean(isErrorCreateDraft) || Boolean(isErrorUpdateDraft)}
+        isLoading={isLoadingCreatDraft || isLoadingUpdateDraft}
+        mode={mode}
       />
     </div>
   );

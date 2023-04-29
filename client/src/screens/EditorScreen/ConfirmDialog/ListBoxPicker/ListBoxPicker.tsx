@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import { Listbox } from '@headlessui/react';
 import clsx from 'clsx';
+import { useState } from 'react';
 
 import { useActions } from '@/hooks';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
@@ -16,25 +16,25 @@ export const ListBoxPicker = () => {
 
   return (
     <div>
-      <h4 className="confirmDialogItemLabel">Категория</h4>
-      <Listbox onChange={setSelectedCategory} value={selectedCategory}>
+      <h4 className='confirmDialogItemLabel'>Категория</h4>
+      <Listbox value={selectedCategory} onChange={setSelectedCategory}>
         {({ open }) => (
-          <div className="listBox">
-            <Listbox.Button placeholder="Выбери категорию" className={clsx('listBoxButton', open && 'openListBox')}>
+          <div className='listBox'>
+            <Listbox.Button className={clsx('listBoxButton', open && 'openListBox')} placeholder='Выбери категорию'>
               {selectedCategory}
-              <span className="material-symbols-outlined unfoldMoreIcon">arrow_drop_down</span>
+              <span className='material-symbols-outlined unfoldMoreIcon'>arrow_drop_down</span>
             </Listbox.Button>
-            <Listbox.Options className="listBoxOptions">
+            <Listbox.Options className='listBoxOptions'>
               {categories.map((category) => (
                 <Listbox.Option
-                  className="listBoxOption"
-                  onClick={() => setArticleCategory(category)}
                   key={category}
+                  className='listBoxOption'
                   value={category}
+                  onClick={() => setArticleCategory(category)}
                 >
-                  {({ active, selected }) => (
+                  {({ selected }) => (
                     <div className={clsx(selected && 'selected', 'optionContent')}>
-                      {selected && <span className="material-symbols-outlined">check</span>} {category}
+                      {selected && <span className='material-symbols-outlined'>check</span>} {category}
                     </div>
                   )}
                 </Listbox.Option>

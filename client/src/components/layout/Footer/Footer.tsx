@@ -1,10 +1,8 @@
-import logo from '../../assets/img/logotype.png';
 import styles from './Footer.module.scss';
 
-const Footer = () => {
-    return (
-        <footer className={styles.root}>
-            {/* <div className={styles.squiggle}>
+const Footer = () => (
+  <footer className={styles.root}>
+    {/* <div className={styles.squiggle}>
                 <svg
                     _ngcontent-eax-c39=""
                     aria-hidden="true"
@@ -26,7 +24,7 @@ const Footer = () => {
                     <rect _ngcontent-eax-c39="" width="100%" height="100%" fill="url(#a)"></rect>
                 </svg>
             </div> */}
-            {/* <div className={styles.wrapper}>
+    {/* <div className={styles.wrapper}>
                 <section className={styles.about}>
                     <div className={styles.aboutCompany}>
                         <Link to="/" className={styles.logo}>
@@ -61,8 +59,7 @@ const Footer = () => {
                     </a>
                 </section>
             </div> */}
-        </footer>
-    );
-};
+  </footer>
+);
 
 export default Footer;

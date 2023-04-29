@@ -1,10 +1,9 @@
-import { NextPageWithLayout } from '../../_app';
-import SearchScreen from '@/screens/SearchScreen/SearchScreen';
 import Layout from '@/components/layout/Layout';
+import SearchScreen from '@/screens/SearchScreen/SearchScreen';
 
-const SearchPage: NextPageWithLayout = () => {
-  return <SearchScreen />;
-};
+import type { NextPageWithLayout } from '../../_app';
+
+const SearchPage: NextPageWithLayout = () => <SearchScreen />;
 
 SearchPage.getLayout = function getLayout(page: React.ReactElement) {
   return <Layout>{page}</Layout>;

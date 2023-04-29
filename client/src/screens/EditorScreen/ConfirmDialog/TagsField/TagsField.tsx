@@ -11,7 +11,8 @@ export const TagsField = () => {
 
   const removeTags = (indexToRemove: number) => {
     if (data.tags) {
-      setTags([...data?.tags.filter((_, index) => index !== indexToRemove)]);
+      const tags = data?.tags.filter((_, index) => index !== indexToRemove);
+      setTags([...tags]);
     }
   };
 
@@ -25,7 +26,7 @@ export const TagsField = () => {
   return (
     <div>
       {' '}
-      <h4 className="confirmDialogItemLabel">
+      <h4 className='confirmDialogItemLabel'>
         Теги статьи <span>(до 10)</span>
       </h4>
       <div className={styles.root}>
@@ -35,15 +36,15 @@ export const TagsField = () => {
               <li key={index} className={styles.tag}>
                 <span className={styles.tagTitle}>{tag}</span>
                 <button className={styles.tagCloseButton} onClick={() => removeTags(index)}>
-                  <span className="material-symbols-outlined">cancel</span>
+                  <span className='material-symbols-outlined'>cancel</span>
                 </button>
               </li>
             ))}
           </ul>
           <input
-            type="text"
+            placeholder='Добавь теги'
+            type='text'
             onKeyUp={(event) => (event.key === 'Enter' ? addTags(event) : null)}
-            placeholder="Добавь теги"
           />
         </div>
       </div>

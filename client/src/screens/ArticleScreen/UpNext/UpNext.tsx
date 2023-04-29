@@ -1,12 +1,12 @@
-import { useEffect, useCallback, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
+import { useEffect, useCallback, useRef, useState } from 'react';
 
 import { useNextArticlesQuery, useNextBlogsQuery } from '@/gql/__generated__';
 import { ArticlePageMode } from '@/lib/enums';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
-import { ArticlePreview } from './ArticlePreview/ArticlePreview';
 
+import { ArticlePreview } from './ArticlePreview/ArticlePreview';
 import styles from './UpNext.module.scss';
 
 export const UpNext: React.FC<{ mode: ArticlePageMode }> = ({ mode }) => {
@@ -17,11 +17,11 @@ export const UpNext: React.FC<{ mode: ArticlePageMode }> = ({ mode }) => {
 
   const { data: articlesData } = useNextArticlesQuery({
     variables: { id: Number(query.id) },
-    skip: mode === ArticlePageMode.BLOG,
+    skip: mode === ArticlePageMode.BLOG
   });
   const { data: blogData } = useNextBlogsQuery({
     variables: { id: Number(query.id) },
-    skip: mode === ArticlePageMode.ARTICLE,
+    skip: mode === ArticlePageMode.ARTICLE
   });
 
   const articlesList = mode === ArticlePageMode.ARTICLE ? articlesData?.getNextArticles : blogData?.getNextBlogs;
@@ -55,18 +55,18 @@ export const UpNext: React.FC<{ mode: ArticlePageMode }> = ({ mode }) => {
             isMount && (
               <motion.div
                 key={article.id}
-                initial={{ y: 30, scale: 0.95 }}
                 animate={{ y: 0, scale: 1 }}
-                transition={{ duration: 0.3, delay: 0.15 * (i + 1) }}
                 className={styles.motionDiv}
+                initial={{ y: 30, scale: 0.95 }}
+                transition={{ duration: 0.3, delay: 0.15 * (i + 1) }}
               >
                 <ArticlePreview
+                  category={article.category}
+                  cover={article.cover}
+                  title={article.title}
                   href={
                     mode === ArticlePageMode.ARTICLE ? getPublicUrl.article(article.id) : getPublicUrl.blog(article.id)
                   }
-                  title={article.title}
-                  cover={article.cover}
-                  category={article.category}
                 />
               </motion.div>
             )

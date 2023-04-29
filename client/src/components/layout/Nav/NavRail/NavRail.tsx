@@ -1,23 +1,27 @@
 import { useRouter } from 'next/navigation';
 
+import FAB from '@/components/common/FAB/FAB';
+import {
+  NavigationItem,
+  NavigationItemIcon,
+  NavigationItemLabel
+} from '@/components/layout/Nav/NavRail/NavigationItem/NavigationItem';
 import { navData } from '@/lib/navData';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
-import FAB from '@/components/common/FAB/FAB';
-import { NavigationItem, NavigationItemIcon, NavigationItemLabel } from '@/components/NavigationItem/NavigationItem';
-import ThemeButton from './ThemeButton/ThemeButton';
 
 import styles from './NavRail.module.scss';
+import ThemeButton from './ThemeButton/ThemeButton';
 
 const NavRail = () => {
-  const { push } = useRouter();
+  const router = useRouter();
 
   return (
     <div className={styles.root}>
       <div className={styles.content}>
-        <FAB onClick={() => push(getPublicUrl.articleNew())} className={styles.fab}>
-          <span className="material-symbols-outlined">edit</span>
+        <FAB className={styles.fab} onClick={() => router.push(getPublicUrl.articleNew())}>
+          <span className='material-symbols-outlined'>edit</span>
         </FAB>
-        <nav className={styles.nav} aria-label="Main">
+        <nav aria-label='Main' className={styles.nav}>
           {navData.map((item, i) => (
             <NavigationItem key={i} href={item.link}>
               <NavigationItemIcon>{item.icon}</NavigationItemIcon>

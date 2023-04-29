@@ -1,15 +1,15 @@
 .root {
-    display: flex;
-    width: 100%;
-    min-height: 100%;
-    flex-grow: 1;
-    z-index: 2;
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+  flex-grow: 1;
+  z-index: 2;
 
-    .container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-grow: 1;
-        min-height: 100%;
-    }
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    min-height: 100%;
+  }
 }

@@ -3,6 +3,7 @@ import { Args, Resolver, Query } from '@nestjs/graphql';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 import { Article } from 'src/modules/article/entities/article.entity';
+import { Draft } from '../draft/entities/draft.entity';
 
 @Resolver('User')
 export class UserResolver {
@@ -13,8 +14,11 @@ export class UserResolver {
     return await this.userService.findOne({ id });
   }
 
-  @Query(() => [Article], { nullable: true })
-  async getUserContent(@Args('id') id: number, @Args('articles') articles: string) {
+  @Query(() => [Draft], { nullable: true })
+  async getUserContent(
+    @Args('id') id: number,
+    @Args('articles') articles: string,
+  ) {
     return await this.userService.findContent(id, articles);
   }
 }

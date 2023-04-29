@@ -1,12 +1,10 @@
 import { ArticlesBlock } from './ArticlesBlock/ArticlesBlock';
 
 export enum HomeSection {
-    ForYou = 'for_you',
-    Following = 'following',
+  ForYou = 'for_you',
+  Following = 'following'
 }
 
-const SignedIn = () => {
-    return <ArticlesBlock />;
-};
+const SignedIn = () => <ArticlesBlock />;
 
 export default SignedIn;

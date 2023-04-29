@@ -1,19 +1,19 @@
 @use '../../../../styles/util' as *;
 
 .root {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    height: 65px;
-    @include breakpoint(md) {
-        justify-content: space-between;
-    }
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  height: 65px;
+  @include breakpoint(md) {
+    justify-content: space-between;
+  }
 
-    .tags {
-        display: flex;
-        gap: 12px;
-        @include breakpoint-down(md) {
-            display: none;
-        }
+  .tags {
+    display: flex;
+    gap: 12px;
+    @include breakpoint-down(md) {
+      display: none;
     }
+  }
 }

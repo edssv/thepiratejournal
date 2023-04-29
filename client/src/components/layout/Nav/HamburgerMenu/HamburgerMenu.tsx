@@ -1,14 +1,14 @@
-import { useRef } from 'react';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
 import clsx from 'clsx';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useRef } from 'react';
 
-import { navData } from '@/lib/navData';
-import { getPublicUrl } from '@/lib/publicUrlBuilder';
+import Avatar from '@/components/Avatar/Avatar';
+import Button from '@/components/common/Button/Button';
 import { useActions, useAuth } from '@/hooks';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-import Button from '@/components/common/Button/Button';
-import Avatar from '@/components/Avatar/Avatar';
+import { navData } from '@/lib/navData';
+import { getPublicUrl } from '@/lib/publicUrlBuilder';
 
 import styles from './HamburgerMenu.module.scss';
 import ThemeButton from './ThemeButton/ThemeButton';
@@ -31,7 +31,7 @@ const HamburgerMenu: React.FC = () => {
   const getTopButton = () => {
     if (user) {
       return (
-        <Button onClick={onClickWrite} variant="filled">
+        <Button variant='filled' onClick={onClickWrite}>
           Создать статью
         </Button>
       );
@@ -39,14 +39,14 @@ const HamburgerMenu: React.FC = () => {
 
     return (
       <Button
+        icon
+        variant='filledTonal'
         onClick={() => {
           setIsOpenHamburgerMenu(false);
           push(getPublicUrl.login());
         }}
-        icon
-        variant="filledTonal"
       >
-        <span className="material-symbols-outlined">account_circle</span> Войти
+        <span className='material-symbols-outlined'>account_circle</span> Войти
       </Button>
     );
   };
@@ -57,12 +57,12 @@ const HamburgerMenu: React.FC = () => {
         <div className={styles.closeAndloginOrCreate}>
           <Button
             icon
-            variant="text"
-            color="secondary"
-            onClick={() => setIsOpenHamburgerMenu(false)}
             className={styles.buttonClose}
+            color='secondary'
+            variant='text'
+            onClick={() => setIsOpenHamburgerMenu(false)}
           >
-            <span className="material-symbols-outlined">menu_open</span>
+            <span className='material-symbols-outlined'>menu_open</span>
           </Button>
           {getTopButton()}
         </div>
@@ -70,11 +70,11 @@ const HamburgerMenu: React.FC = () => {
           {navData.map((item, i) => (
             <Link
               key={i}
+              className={clsx(styles.navLink, currentLocation === item.link && styles.active)}
               href={item.link}
               onClick={() => setIsOpenHamburgerMenu(false)}
-              className={clsx(styles.navLink, currentLocation === item.link && styles.active)}
             >
-              <span className="material-symbols-outlined">{item.icon}</span> {item.label}
+              <span className='material-symbols-outlined'>{item.icon}</span> {item.label}
             </Link>
           ))}
         </nav>
@@ -90,13 +90,13 @@ const HamburgerMenu: React.FC = () => {
         )}
         {user && (
           <Button
+            style={{ marginLeft: '16px' }}
+            variant='filledTonal'
             onClick={() => {
               setIsOpenHamburgerMenu(false);
               logout();
               push(getPublicUrl.login());
             }}
-            variant="filledTonal"
-            style={{ marginLeft: '16px' }}
           >
             Выйти
           </Button>
@@ -106,8 +106,9 @@ const HamburgerMenu: React.FC = () => {
         </div>
       </div>
       <div
-        onClick={() => setIsOpenHamburgerMenu(false)}
+        aria-hidden='true'
         className={clsx(styles.overlay, isOpen && styles.visible, 'overlay')}
+        onClick={() => setIsOpenHamburgerMenu(false)}
       />
     </>
   );

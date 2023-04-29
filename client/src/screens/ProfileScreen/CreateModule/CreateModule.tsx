@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
 
-import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import Button from '@/components/common/Button/Button';
+import { getPublicUrl } from '@/lib/publicUrlBuilder';
 
 import styles from './CreateModule.module.scss';
 
@@ -10,7 +10,7 @@ interface CreateModuleProps {
 }
 
 const CreateModule: React.FC<CreateModuleProps> = ({ variant }) => {
-  const { push } = useRouter();
+  const router = useRouter();
 
   return (
     <div className={styles.root}>
@@ -20,16 +20,16 @@ const CreateModule: React.FC<CreateModuleProps> = ({ variant }) => {
             <div className={styles.iconAndHeading}>
               <div className={styles.icon}>
                 {variant === 'create' || variant === 'draft' ? (
-                  <span className="material-symbols-outlined">add_circle</span>
+                  <span className='material-symbols-outlined'>add_circle</span>
                 ) : (
-                  variant === 'find' && <span className="material-symbols-outlined">search</span>
+                  variant === 'find' && <span className='material-symbols-outlined'>search</span>
                 )}
               </div>
               <Button
+                variant='outlined'
                 onClick={() =>
-                  variant === ('create' || 'draft') ? push(getPublicUrl.articleNew()) : push('/articles')
+                  variant === ('create' || 'draft') ? router.push(getPublicUrl.articleNew()) : router.push('/articles')
                 }
-                variant="outlined"
               >
                 {variant === 'create' || variant === 'draft' ? 'Написать статью' : 'Найти статьи'}
               </Button>

@@ -1,4 +1,5 @@
 import { ApolloClient, InMemoryCache, from } from '@apollo/client';
+
 import authLink from './authLink';
 import errorLink from './errorLink';
 import httpLink from './httpLink';
@@ -12,7 +13,7 @@ export const getClient = () => {
     client = new ApolloClient({
       link: from([authLink, errorLink, httpLink]),
       cache: new InMemoryCache(),
-      ssrMode: typeof window === 'undefined',
+      ssrMode: typeof window === 'undefined'
     });
   }
 

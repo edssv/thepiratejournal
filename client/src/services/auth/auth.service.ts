@@ -1,8 +1,10 @@
-import { AuthResponse, LoginData, SignupData } from '@/store/user/user.interface';
+import type { User } from '@/interfaces/user.interface';
 import { getApiUrl } from '@/lib/apiUrlBuilder';
-import { User } from '@/interfaces/user.interface';
-import { getRefreshToken } from './auth.helper';
+import type { AuthResponse, LoginData, SignupData } from '@/store/user/user.interface';
+
 import { api } from '../api/api';
+
+import { getRefreshToken } from './auth.helper';
 
 export interface LoginRequest {
   username?: string;
@@ -18,40 +20,40 @@ export const authApi = api.injectEndpoints({
       query: (formData: LoginData) => ({
         url: getApiUrl.login(),
         method: 'POST',
-        body: formData,
-      }),
+        body: formData
+      })
     }),
     signup: builder.mutation<AuthResponse, SignupData>({
       query: (formData: SignupData) => ({
         url: getApiUrl.signup(),
         method: 'POST',
-        body: formData,
-      }),
+        body: formData
+      })
     }),
     getNewTokens: builder.query<AuthResponse, void>({
       query: () => ({
         url: getApiUrl.refresh(),
-        headers: { authorization: `Bearer ${refreshToken}` },
-      }),
+        headers: { authorization: refreshToken ? `Bearer ${refreshToken}` : '' }
+      })
     }),
     getProfile: builder.query<User, void>({
-      query: () => getApiUrl.profile(),
+      query: () => getApiUrl.profile()
     }),
     googleLogin: builder.mutation<AuthResponse, string>({
       query: (code: string) => ({
         url: getApiUrl.googleLogin(),
         method: 'POST',
-        body: { code },
-      }),
+        body: { code }
+      })
     }),
     googleOneTap: builder.mutation<AuthResponse, string>({
       query: (credential: string) => ({
         url: getApiUrl.googleOneTap(),
         method: 'POST',
-        body: { credential },
-      }),
-    }),
-  }),
+        body: { credential }
+      })
+    })
+  })
 });
 
 export const {
@@ -60,5 +62,5 @@ export const {
   useLazyGetNewTokensQuery,
   useGetProfileQuery,
   useGoogleLoginMutation,
-  useGoogleOneTapMutation,
+  useGoogleOneTapMutation
 } = authApi;

@@ -1,15 +1,11 @@
-import clsx from 'clsx';
 import { useMediaPredicate } from 'react-media-hook';
 
-import { categoriesData } from '@/lib/categoriesData';
 import { useActions } from '@/hooks';
-import { useTypedSelector } from '@/hooks/useTypedSelector';
+import { categoriesData } from '@/lib/categoriesData';
 
 import styles from './TabList.module.scss';
 
 const TabList = () => {
-  const { category } = useTypedSelector((state) => state.filter);
-
   const { setCategory } = useActions();
 
   const isTablet = useMediaPredicate('(max-width: 990.98px)');
@@ -19,9 +15,10 @@ const TabList = () => {
 
     setCategory(selectValue);
   };
+
   return isTablet ? (
     <div className={styles.tabTrigger}>
-      <select onChange={onChangeSelect} name="" id="">
+      <select id='' name='' onChange={onChangeSelect}>
         {categoriesData.map((item, i) => (
           <option key={i} value={item.key}>
             {item.name}
@@ -31,17 +28,18 @@ const TabList = () => {
     </div>
   ) : (
     <nav className={styles.tabNavigation}>
-      <ul className={styles.tabList}>
+      {/* <ul className={styles.tabList}>
         {categoriesData.map((item, i) => (
           <li
             key={i}
-            onClick={() => setCategory(item.key)}
             className={clsx(category === item.key && styles.active, styles.tabItem)}
+            onClick={() => setCategory(item.key)}
+            onKeyDown={() => {}}
           >
             {item.name}
           </li>
         ))}
-      </ul>
+      </ul> */}
     </nav>
   );
 };

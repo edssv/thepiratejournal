@@ -1,13 +1,12 @@
-import { SearchHeader } from './SearchHeader/SearchHeader';
 import ArticlesBlock from './ArticlesBlock/ArticlesBlock';
-
 import styles from './Search.module.scss';
+import { SearchHeader } from './SearchHeader/SearchHeader';
 
-export default function SearchScreen() {
-  return (
-    <div className={styles.root}>
-      <SearchHeader />
-      <ArticlesBlock />
-    </div>
-  );
-}
+const SearchScreen = () => (
+  <div className={styles.root}>
+    <SearchHeader />
+    <ArticlesBlock />
+  </div>
+);
+
+export default SearchScreen;

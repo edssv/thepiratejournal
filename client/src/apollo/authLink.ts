@@ -1,4 +1,5 @@
 import { setContext } from '@apollo/client/link/context';
+
 import { getAccessToken } from '@/services/auth/auth.helper';
 
 const authLink = setContext((_, { headers }) => {
@@ -7,8 +8,8 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: accessToken ? `Bearer ${accessToken}` : '',
-    },
+      authorization: accessToken ? `Bearer ${accessToken}` : ''
+    }
   };
 });
 

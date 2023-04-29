@@ -1,56 +1,56 @@
 export enum ArticleCategory {
   REVIEWS = 'Обзоры',
   MENTIONS = 'Отзывы',
-  SOLUTIONS = 'Прохождения',
+  SOLUTIONS = 'Прохождения'
 }
 
 export enum ArticlePageMode {
   ARTICLE = 'article',
-  BLOG = 'blog',
+  BLOG = 'blog'
 }
 
 export enum ArticleType {
   ARTICLE = 'Статья',
-  BLOG = 'Блог',
+  BLOG = 'Блог'
 }
 
 export enum AuthPage {
   LOGIN = 'login',
-  SIGNUP = 'signup',
+  SIGNUP = 'signup'
 }
 
 export enum EditorPageMode {
   NEW = 'new',
   EDIT = 'edit',
-  DRAFT = 'draft',
+  DRAFT = 'draft'
 }
 
 export enum EditorFormStatus {
   UNCHANGED = 'unchanged',
   MODIFIED = 'modified',
-  SAVED = 'saved',
+  SAVED = 'saved'
 }
 
 export enum ProfileSection {
   Articles = 'articles',
   Likes = 'likes',
   Bookmarks = 'bookmarks',
-  Drafts = 'drafts',
+  Drafts = 'drafts'
 }
 
 export enum ThemeMode {
   SYSTEM = 'system',
   LIGHT = 'light',
-  DARK = 'dark',
+  DARK = 'dark'
 }
 
 export enum Tokens {
   ACCESS_TOKEN = 'accessToken',
-  REFRESH_TOKEN = 'refreshToken',
+  REFRESH_TOKEN = 'refreshToken'
 }
 
 export enum UserRole {
   USER = 'user',
   EDITOR = 'editor',
-  ADMIN = 'admin',
+  ADMIN = 'admin'
 }

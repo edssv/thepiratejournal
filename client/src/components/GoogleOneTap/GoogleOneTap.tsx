@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router';
 import { GoogleLogin } from '@react-oauth/google';
+import { useRouter } from 'next/router';
 
 import { useAuth } from '@/hooks';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
@@ -15,16 +15,18 @@ const GoogleOneTap = () => {
   const currentLocation = pathname.split('/')[1];
 
   return (
-    <div className="hidden">
-      {!user && currentLocation !== getPublicUrl.login() && currentLocation !== getPublicUrl.signup() && (
-        <GoogleLogin
-          onSuccess={({ credential }) => {
-            login(credential ?? '');
-          }}
-          useOneTap
-          cancel_on_tap_outside={false}
-        />
-      )}
+    <div className='hidden'>
+      {!user &&
+        currentLocation !== getPublicUrl.login() &&
+        currentLocation !== getPublicUrl.signup() && (
+          <GoogleLogin
+            useOneTap
+            cancel_on_tap_outside={false}
+            onSuccess={({ credential }) => {
+              login(credential ?? '');
+            }}
+          />
+        )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
+import { useEffect, useRef } from 'react';
 import LoadingBar from 'react-top-loading-bar';
 
 const Loader: React.FC<{ color?: string }> = ({ color = 'var(--md-sys-color-primary)' }) => {

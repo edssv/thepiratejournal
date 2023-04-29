@@ -1,20 +1,27 @@
-import { GetStaticPaths, GetStaticProps } from 'next';
+import type { GetStaticPaths, GetStaticProps } from 'next';
+import type { NextPageWithLayout } from 'pages/_app';
 
-import { BlogQuery, BlogQueryDocument } from '@/gql/__generated__';
-import { getPublicUrl } from '@/lib/publicUrlBuilder';
-import { Params } from '@/interfaces/params.interface';
-import { NextPageWithLayout } from 'pages/_app';
-import ArticleScreen from '@/screens/ArticleScreen/ArticleScreen';
+import apolloClient from '@/apollo/client';
 import BlogLayout from '@/components/layout/BlogLayout/BlogLayout';
 import Meta from '@/components/meta/Meta';
+import type { BlogQuery } from '@/gql/__generated__';
+import { BlogQueryDocument } from '@/gql/__generated__';
+import type { Params } from '@/interfaces/params.interface';
 import { ArticlePageMode } from '@/lib/enums';
-import apolloClient from '@/apollo/client';
+import { getPublicUrl } from '@/lib/publicUrlBuilder';
+import ArticleScreen from '@/screens/ArticleScreen/ArticleScreen';
 
 const BlogArticlePage: NextPageWithLayout<{ data: BlogQuery }> = ({ data }) => {
   const { title, description, cover, id } = data.getOneBlog;
 
   return (
-    <Meta title={title} type="article" description={description} image={cover} url={getPublicUrl.blog(String(id))}>
+    <Meta
+      description={description}
+      image={cover}
+      title={title}
+      type='article'
+      url={getPublicUrl.blog(String(id))}
+    >
       <ArticleScreen data={data.getOneBlog} mode={ArticlePageMode.BLOG} />
     </Meta>
   );
@@ -24,24 +31,22 @@ BlogArticlePage.getLayout = function getLayout(page: React.ReactElement) {
   return <BlogLayout>{page}</BlogLayout>;
 };
 
-export const getStaticPaths: GetStaticPaths<Params> = async () => {
-  return {
-    paths: [],
-    fallback: 'blocking',
-  };
-};
+export const getStaticPaths: GetStaticPaths<Params> = () => ({
+  paths: [],
+  fallback: 'blocking'
+});
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params?.id;
 
   const { data } = await apolloClient.query({
     query: BlogQueryDocument,
-    variables: { id: Number(id) },
+    variables: { id: Number(id) }
   });
 
   return {
     props: { data },
-    revalidate: 60,
+    revalidate: 60
   };
 };
 

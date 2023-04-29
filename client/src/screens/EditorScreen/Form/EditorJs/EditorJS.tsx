@@ -1,11 +1,12 @@
 import { useCallback, useRef } from 'react';
 import { createReactEditorJS } from 'react-editor-js';
 
-import { Block } from '@/gql/__generated__';
+import type { Block } from '@/gql/__generated__';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-import { EDITOR_JS_TOOLS } from './tools';
+
+import type { EditorCore } from './EditorCore.interface';
 import { i18n } from './i18n';
-import { EditorCore } from './EditorCore.interface';
+import { EDITOR_JS_TOOLS } from './tools';
 
 interface EditorProps {
   setBlocks: React.Dispatch<React.SetStateAction<Block[]>>;
@@ -31,13 +32,13 @@ const EditorJS: React.FC<EditorProps> = ({ setBlocks }) => {
 
   return (
     <ReactEditorJS
-      onInitialize={handleInitialize}
+      i18n={i18n}
+      tools={EDITOR_JS_TOOLS}
       defaultValue={{
-        blocks: data?.body ?? [],
+        blocks: data?.body ?? []
       }}
       onChange={handleSave}
-      tools={EDITOR_JS_TOOLS}
-      i18n={i18n}
+      onInitialize={handleInitialize}
     />
   );
 };

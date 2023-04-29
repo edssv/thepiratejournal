@@ -1,6 +1,7 @@
-import { Block } from '@/gql/__generated__';
-import { Comment } from './comments.interface';
-import { User } from './user.interface';
+import type { Block } from '@/gql/__generated__';
+
+import type { Comment } from './comments.interface';
+import type { User } from './user.interface';
 
 export interface Article {
   id: number;

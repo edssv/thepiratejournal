@@ -1,6 +1,8 @@
+import Image from 'next/image';
+
+import Button from '@/components/common/Button/Button';
 import { useActions } from '@/hooks';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-import Button from '@/components/common/Button/Button';
 
 import styles from './CoverWindow.module.scss';
 
@@ -19,15 +21,24 @@ export const CoverWindow: React.FC<CoverWindowProps> = ({ isLoading, setSelected
     setSelectedFile(null);
   };
 
-  if (isLoading) return <div className="cdx-loader" />;
+  if (isLoading) return <div className='cdx-loader' />;
 
   return (
     <div className={styles.coverContainer}>
-      <img className={styles.coverImage} src={data?.cover} alt="Обложка статьи" />
       {data?.cover && (
-        <Button className={styles.closeBtn} icon onClick={handleDeleteCover} variant="filledTonal">
-          <span className="material-symbols-outlined">delete</span>
-        </Button>
+        <>
+          <Image
+            alt='Обложка статьи'
+            className={styles.coverImage}
+            height={0}
+            sizes='100vw'
+            src={data?.cover}
+            width={0}
+          />
+          <Button icon className={styles.closeBtn} variant='filledTonal' onClick={handleDeleteCover}>
+            <span className='material-symbols-outlined'>delete</span>
+          </Button>
+        </>
       )}
     </div>
   );

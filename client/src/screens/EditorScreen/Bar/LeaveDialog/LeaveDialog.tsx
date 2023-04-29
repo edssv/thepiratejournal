@@ -1,17 +1,19 @@
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import { useRemoveDraftMutation } from '@/gql/__generated__';
-import { useTypedSelector } from '@/hooks/useTypedSelector';
 import {
   Dialog,
   DialogActionButton,
   DialogCancelButton,
   DialogContent,
-  DialogControls,
+  DialogControls
 } from '@/components/common/Dialog/Dialog';
+import { useRemoveDraftMutation } from '@/gql/__generated__';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
 
-const DialogTrigger = dynamic(() => import('@/components/common/DialogTrigger/DialogTrigger'), { ssr: false });
+const DialogTrigger = dynamic(() => import('@/components/common/DialogTrigger/DialogTrigger'), {
+  ssr: false
+});
 
 interface LeaveDialogProps {
   isOpen: boolean;
@@ -26,12 +28,12 @@ const LeaveDialog: React.FC<LeaveDialogProps> = ({ isOpen, setIsOpen }) => {
   const [removeDraft] = useRemoveDraftMutation();
 
   const handleLeave = () => {
-    draftId && removeDraft({ variables: { id: draftId } });
-    back();
+    if (!draftId) return;
+    removeDraft({ onCompleted: () => back(), variables: { id: draftId } });
   };
   return (
     <DialogTrigger isVisible={isOpen} onClose={() => setIsOpen(false)}>
-      <Dialog size="M">
+      <Dialog size='M'>
         <DialogContent>Ты действительно хочешь выйти и отменить все изменения?</DialogContent>
         <DialogControls>
           <DialogActionButton onClick={handleLeave}>Выйти</DialogActionButton>

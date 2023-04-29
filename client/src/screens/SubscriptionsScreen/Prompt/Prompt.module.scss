@@ -1,19 +1,19 @@
 .root {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    width: 100%;
-    margin-top: 120px;
-    padding: 16px;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin-top: 120px;
+  padding: 16px;
+  text-align: center;
 
-    .headline {
-        font-size: 24px;
-        font-weight: 600;
-    }
+  .headline {
+    font-size: 24px;
+    font-weight: 600;
+  }
 
-    .paragraph {
-        max-width: 700px;
-    }
+  .paragraph {
+    max-width: 700px;
+  }
 }

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
-import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import Avatar from '@/components/Avatar/Avatar';
+import { getPublicUrl } from '@/lib/publicUrlBuilder';
 
 import styles from './AuthorInfo.module.scss';
 

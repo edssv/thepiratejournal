@@ -1,4 +1,5 @@
 import { getApiUrl } from '@/lib/apiUrlBuilder';
+
 import { api } from '../api/api';
 
 interface FileData {
@@ -11,10 +12,10 @@ export const fileApi = api.injectEndpoints({
       query: (formData: FormData) => ({
         url: getApiUrl.fileUpload(),
         method: 'POST',
-        body: formData,
-      }),
-    }),
-  }),
+        body: formData
+      })
+    })
+  })
 });
 
 export const { useUploadFileMutation } = fileApi;

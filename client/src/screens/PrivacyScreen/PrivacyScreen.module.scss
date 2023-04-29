@@ -1,0 +1,29 @@
+.root {
+  .container {
+    width: 100%;
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 48px 32px;
+
+    .content {
+      h1 {
+        font-size: 42px;
+        font-weight: 500;
+      }
+
+      h2 {
+        margin-top: 40px;
+        border-bottom: 1px solid var(--md-sys-color-outline-variant);
+        font-size: 28px;
+        font-weight: 500;
+        line-height: 36px;
+        letter-spacing: -0.75px;
+      }
+
+      p {
+        margin-top: 24px;
+        line-height: 28px;
+      }
+    }
+  }
+}

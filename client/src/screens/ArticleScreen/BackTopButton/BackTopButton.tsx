@@ -1,41 +1,42 @@
 import { useCallback, useEffect, useState } from 'react';
+
 import styles from './BackTopButton.module.scss';
 
 export const BackTopButton = () => {
-    const [prevScrollPosition, setPrevSrollPosition] = useState(0);
-    const [isVisible, setIsVisible] = useState(false);
+  const [prevScrollPosition, setPrevSrollPosition] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
 
-    const handleBackTop = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+  const handleBackTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
-    const handleVisibleButton = useCallback(() => {
-        const scrollPosition = window.scrollY;
+  const handleVisibleButton = useCallback(() => {
+    const scrollPosition = window.scrollY;
 
-        if (scrollPosition > 400 && prevScrollPosition > scrollPosition) {
-            setIsVisible(true);
-        } else if (scrollPosition < 400 || prevScrollPosition < scrollPosition) {
-            setIsVisible(false);
-        }
+    if (scrollPosition > 400 && prevScrollPosition > scrollPosition) {
+      setIsVisible(true);
+    } else if (scrollPosition < 400 || prevScrollPosition < scrollPosition) {
+      setIsVisible(false);
+    }
 
-        setPrevSrollPosition(scrollPosition);
-    }, [prevScrollPosition]);
+    setPrevSrollPosition(scrollPosition);
+  }, [prevScrollPosition]);
 
-    useEffect(() => {
-        window.addEventListener('scroll', handleVisibleButton);
+  useEffect(() => {
+    window.addEventListener('scroll', handleVisibleButton);
 
-        return () => window.removeEventListener('scroll', handleVisibleButton);
-    }, [isVisible, handleVisibleButton]);
+    return () => window.removeEventListener('scroll', handleVisibleButton);
+  }, [isVisible, handleVisibleButton]);
 
-    return (
-        <button
-            onClick={handleBackTop}
-            className={`${styles.root} ${isVisible && styles.show} elevated`}
-            aria-label="Scroll back to top"
-            type="button"
-        >
-            <div className={styles.stateOverlay}></div>
-            <span className="material-symbols-outlined">vertical_align_top</span>
-        </button>
-    );
+  return (
+    <button
+      aria-label='Scroll back to top'
+      className={`${styles.root} ${isVisible && styles.show} elevated`}
+      type='button'
+      onClick={handleBackTop}
+    >
+      <div className={styles.stateOverlay} />
+      <span className='material-symbols-outlined'>vertical_align_top</span>
+    </button>
+  );
 };

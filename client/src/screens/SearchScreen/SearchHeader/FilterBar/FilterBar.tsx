@@ -1,26 +1,27 @@
-import React, { useState } from 'react';
 import { Listbox } from '@headlessui/react';
+import clsx from 'clsx';
+import React, { useState } from 'react';
 
-import { useGetTagsQuery } from '@/services/article/article.service';
+import Chip from '@/components/common/Chip/Chip';
+import { useActions } from '@/hooks';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { sortData } from '@/lib/sortData';
-import { useActions } from '@/hooks';
-import Chip from '@/components/common/Chip/Chip';
+import { useGetTagsQuery } from '@/services/article/article.service';
 
 import styles from './FilterBar.module.scss';
 
 export const FilterBar: React.FC = () => {
   const { sort, tag } = useTypedSelector((state) => state.filter);
   const { data } = useGetTagsQuery();
-  const [selectedCategory, setSelectedCategory] = useState(
-    sort === 'views'
-      ? sortData[0]
-      : sort === 'recent'
-      ? sortData[1]
-      : sort === 'appreciations'
-      ? sortData[2]
-      : sortData[0]
-  );
+
+  const getSelectedCategory = () => {
+    if (sort === 'views') return sortData[0];
+    if (sort === 'recent') return sortData[1];
+    if (sort === 'appreciations') return sortData[2];
+    return sortData[0];
+  };
+
+  const [selectedCategory, setSelectedCategory] = useState(getSelectedCategory());
 
   const { setTag, setSort } = useActions();
 
@@ -28,27 +29,23 @@ export const FilterBar: React.FC = () => {
     <div className={styles.root}>
       <div className={styles.tags}>
         {data?.map((item: string, i: number) => (
-          <Chip key={i} onClick={() => setTag(item)} selected={item === tag}>
+          <Chip key={i} selected={item === tag} onClick={() => setTag(item)}>
             {item}
           </Chip>
         ))}
       </div>
       <Listbox value={selectedCategory} onChange={setSelectedCategory}>
-        <div className="listBox">
-          <Listbox.Button placeholder="Выбери категорию" className="listBoxButton">
+        <div className='listBox'>
+          <Listbox.Button className='listBoxButton' placeholder='Выбери категорию'>
             {selectedCategory.name}
-            <span className="material-symbols-outlined">unfold_more</span>
+            <span className='material-symbols-outlined'>unfold_more</span>
           </Listbox.Button>
-          <Listbox.Options className="listBoxOptions">
+          <Listbox.Options className='listBoxOptions'>
             {sortData.map((item) => (
-              <Listbox.Option className="listBoxOption" onClick={() => setSort(item.key)} key={item.key} value={item}>
-                {({ active, selected }) => (
-                  <div
-                    className={`${selected && 'selected'}
-                                    optionContent
-                                    `}
-                  >
-                    {selected && <span className="material-symbols-outlined">check</span>} {item.name}
+              <Listbox.Option key={item.key} className='listBoxOption' value={item} onClick={() => setSort(item.key)}>
+                {({ selected }) => (
+                  <div className={clsx(selected && 'selected', 'optionContent')}>
+                    {selected && <span className='material-symbols-outlined'>check</span>} {item.name}
                   </div>
                 )}
               </Listbox.Option>

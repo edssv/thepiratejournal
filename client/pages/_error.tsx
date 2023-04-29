@@ -1,7 +1,5 @@
 import ErrorFallback from '@/components/ErrorFallback/ErrorFallback';
 
-const ErrorPage = () => {
-  return <ErrorFallback />;
-};
+const ErrorPage = () => <ErrorFallback />;
 
 export default ErrorPage;

@@ -1,14 +1,14 @@
 import { useRouter } from 'next/router';
 
-import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import Button from '@/components/common/Button/Button';
+import { getPublicUrl } from '@/lib/publicUrlBuilder';
 
 const CommunityButton: React.FC = () => {
   const { push } = useRouter();
 
   return (
-    <Button onClick={() => push(getPublicUrl.community())} icon color="secondary">
-      <span className="material-symbols-outlined">local_library</span>
+    <Button icon color='secondary' onClick={() => push(getPublicUrl.community())}>
+      <span className='material-symbols-outlined'>local_library</span>
     </Button>
   );
 };

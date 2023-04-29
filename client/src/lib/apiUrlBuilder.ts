@@ -10,7 +10,7 @@ export const ApiUrlBuilder = {
   ArticlesPopular: '/articles/popular',
   ArticlesBestOfWeek: '/articles/week',
   Blog: '/blog',
-  Users: '/users',
+  Users: '/users'
 };
 
 export const getApiUrl = {
@@ -85,5 +85,5 @@ export const getApiUrl = {
   },
   search(query: string) {
     return `/articles/search/?${query}`;
-  },
+  }
 };

@@ -1,23 +1,24 @@
-import { ReactElement, ReactNode } from 'react';
-import { NextPage } from 'next';
-import { AppProps } from 'next/app';
+/* eslint-disable react/no-unknown-property */
+import { ApolloProvider } from '@apollo/client';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
+import type { NextPage } from 'next';
+import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import { Roboto } from 'next/font/google';
-import { ApolloProvider } from '@apollo/client';
-import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import { Provider } from 'react-redux';
 import { ThemeProvider } from 'next-themes';
+import type { ReactElement, ReactNode } from 'react';
+import { Provider } from 'react-redux';
 
 import apolloClient from '@/apollo/client';
-import { store } from '@/store';
-import { api } from '@/services/api/api';
-import AuthProvider from '@/components/providers/AuthProvider';
 import CrossScreensSnackbars from '@/components/Snackbars/CrossScreensSnackbars/Component';
+import AuthProvider from '@/components/providers/AuthProvider';
+import { api } from '@/services/api/api';
+import { store } from '@/store';
 
 import '@/styles/styles.scss';
 
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
@@ -30,12 +31,14 @@ export const roboto = Roboto({
   style: ['normal'],
   subsets: ['cyrillic', 'latin'],
   display: 'block',
-  variable: '--roboto-font',
+  variable: '--roboto-font'
 });
 
-const GoogleOneTap = dynamic(() => import('@/components/GoogleOneTap/GoogleOneTap'), { ssr: false });
+const GoogleOneTap = dynamic(() => import('@/components/GoogleOneTap/GoogleOneTap'), {
+  ssr: false
+});
 
-export default function App({ Component, pageProps }: AppPropsWithLayout) {
+const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
@@ -45,7 +48,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           <Provider store={store}>
             <AuthProvider>
               <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ''}>
-                <ThemeProvider defaultTheme="system">
+                <ThemeProvider defaultTheme='system'>
                   {getLayout(<Component {...pageProps} />)}
                   <GoogleOneTap />
                   <CrossScreensSnackbars />
@@ -55,7 +58,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           </Provider>
         </ApiProvider>
       </ApolloProvider>
-      <style jsx global>
+      <style global jsx>
         {`
           html {
             font-family: ${roboto.style.fontFamily};
@@ -64,4 +67,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       </style>
     </>
   );
-}
+};
+
+export default App;

@@ -1,14 +1,15 @@
-import { useMediaPredicate } from 'react-media-hook';
 import clsx from 'clsx';
+import { useMediaPredicate } from 'react-media-hook';
 
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-import Header from './Header/Header';
-import HamburgerMenu from './Nav/HamburgerMenu/HamburgerMenu';
-import Footer from './Footer/Footer';
-import NavRail from './Nav/NavRail/NavRail';
-import Loader from './Loader/Loader';
 
+import Footer from './Footer/Footer';
+import Header from './Header/Header';
 import styles from './Layout.module.scss';
+import Loader from './Loader/Loader';
+import HamburgerMenu from './Nav/HamburgerMenu/HamburgerMenu';
+import NavRail from './Nav/NavRail/NavRail';
+
 interface LayoutProps {
   padding?: 'small' | 'medium' | 'large' | null;
   hiddenContainer?: boolean;
@@ -17,7 +18,7 @@ interface LayoutProps {
 const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
   children,
   padding = 'medium',
-  hiddenContainer = false,
+  hiddenContainer = false
 }) => {
   const isOpenNavRail = useTypedSelector((state) => state.ui.isOpenNavRail);
   const isTablet = useMediaPredicate('(max-width: 990.98px)');
@@ -28,8 +29,14 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
       <Header />
       {isTablet ? <HamburgerMenu /> : isOpenNavRail && <NavRail />}
       <main className={clsx(styles.main, isOpenNavRail && styles.withMargin)}>
-        <div id="wrapper" className={styles.wrap}>
-          <div className={clsx('container-fluid', padding && 'padding-' + padding, hiddenContainer && styles.hidden)}>
+        <div className={styles.wrap} id='wrapper'>
+          <div
+            className={clsx(
+              'container-fluid',
+              padding && `padding-${padding}`,
+              hiddenContainer && styles.hidden
+            )}
+          >
             {children}
           </div>
         </div>

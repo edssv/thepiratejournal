@@ -1,17 +1,15 @@
 import { useAuth } from '@/hooks';
+
 import { SignOut } from './SignOut/SignOut';
 
-import styles from './Bookmarks.module.scss';
-
 const Bookmarks = () => {
-    const { user, isLoading } = useAuth();
+  const { user, isLoading } = useAuth();
 
-    if (isLoading) return null;
+  if (isLoading) return null;
 
-    if (user) return <h3>Раздел в разработке.</h3>;
-    else {
-        return <SignOut />;
-    }
+  if (user) return <h3>Раздел в разработке.</h3>;
+
+  return <SignOut />;
 };
 
 export default Bookmarks;

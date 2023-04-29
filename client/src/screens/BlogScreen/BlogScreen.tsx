@@ -1,25 +1,24 @@
-import { BlogListQuery } from '@/gql/__generated__';
-import { ArticlePreview } from './ArticlePreview/ArticlePreview';
+import type { BlogListQuery } from '@/gql/__generated__';
 
+import { ArticlePreview } from './ArticlePreview/ArticlePreview';
 import styles from './Blog.module.scss';
 
 const BlogScreen: React.FC<{ data: BlogListQuery }> = ({ data }) => {
   const featuredBlog = data?.getAllBlog[0] ?? null;
 
-  const blogList = () => {
-    return data?.getAllBlog
+  const blogList = () =>
+    data?.getAllBlog
       .map((item) => (
         <ArticlePreview
           key={item.id}
-          id={item.id}
-          title={item.title}
-          description={item.description}
           cover={item.cover}
           createdAt={item.createdAt}
+          description={item.description}
+          id={item.id}
+          title={item.title}
         />
       ))
       .slice(1);
-  };
 
   if (!featuredBlog) return null;
 
@@ -27,12 +26,12 @@ const BlogScreen: React.FC<{ data: BlogListQuery }> = ({ data }) => {
     <div className={styles.root}>
       <div className={styles.container}>
         <ArticlePreview
-          id={featuredBlog.id}
-          title={featuredBlog.title}
-          description={featuredBlog.description}
+          featured
           cover={featuredBlog.cover}
           createdAt={featuredBlog.createdAt}
-          featured
+          description={featuredBlog.description}
+          id={featuredBlog.id}
+          title={featuredBlog.title}
         />
         <div className={styles.articlesContainer}>{blogList()}</div>
       </div>

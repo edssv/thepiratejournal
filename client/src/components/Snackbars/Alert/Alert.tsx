@@ -1,17 +1,23 @@
+import Snackbar from '@/components/common/Snackbar/Snackbar';
 import { useActions } from '@/hooks';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-import Snackbar from '@/components/common/Snackbar/Snackbar';
 
 const Alert: React.FC = () => {
-    const alert = useTypedSelector((state) => state.ui.alert);
+  const alert = useTypedSelector((state) => state.ui.alert);
 
-    const { setAlert } = useActions();
+  const { setAlert } = useActions();
 
-    return (
-        <Snackbar isOpen={Boolean(alert)} close onClose={() => setAlert(null)} position="center" timeout={6000}>
-            {alert}
-        </Snackbar>
-    );
+  return (
+    <Snackbar
+      close
+      isOpen={Boolean(alert)}
+      position='center'
+      timeout={6000}
+      onClose={() => setAlert(null)}
+    >
+      {alert}
+    </Snackbar>
+  );
 };
 
 export default Alert;

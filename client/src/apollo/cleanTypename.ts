@@ -5,7 +5,5 @@ export const cleanTypeName = new ApolloLink((operation, forward) => {
     const omitTypename = (key: any, value: any) => (key === '__typename' ? undefined : value);
     operation.variables = JSON.parse(JSON.stringify(operation.variables), omitTypename);
   }
-  return forward(operation).map((data) => {
-    return data;
-  });
+  return forward(operation).map((data) => data);
 });

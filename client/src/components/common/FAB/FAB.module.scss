@@ -1,55 +1,57 @@
 .root {
-    background-color: var(--md-sys-color-primary-container);
-    color: var(--md-sys-color-on-primary-container);
-    transition: box-shadow 0.08s linear, min-width 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  transition: box-shadow 0.08s linear, min-width 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 
-    &:hover {
-        background-color: rgba(
-            var(--md-sys-color-primary-containerChannel) / calc(1 - var(--md-sys-state-hover-state-layer-opacity))
-        );
-        box-shadow: var(--md-sys-elevation-4);
+  &:hover {
+    background-color: rgba(
+      var(--md-sys-color-primary-containerChannel) /
+        calc(1 - var(--md-sys-state-hover-state-layer-opacity))
+    );
+    box-shadow: var(--md-sys-elevation-4);
+  }
+
+  &:active {
+    background-color: rgba(
+      var(--md-sys-color-primary-containerChannel) /
+        calc(1 - var(--md-sys-state-pressed-state-layer-opacity))
+    );
+    box-shadow: var(--md-sys-elevation-3);
+  }
+
+  // sizes
+
+  &.small,
+  &.medium {
+    span {
+      font-size: 24px;
     }
+  }
 
-    &:active {
-        background-color: rgba(
-            var(--md-sys-color-primary-containerChannel) / calc(1 - var(--md-sys-state-pressed-state-layer-opacity))
-        );
-        box-shadow: var(--md-sys-elevation-3);
+  &.medium,
+  &.large {
+    margin: 16px;
+  }
+
+  &.small {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+
+  &.medium {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+  }
+
+  &.large {
+    width: 96px;
+    height: 96px;
+    border-radius: 28px;
+
+    span {
+      font-size: 36px;
     }
-
-    // sizes
-
-    &.small,
-    &.medium {
-        span {
-            font-size: 24px;
-        }
-    }
-
-    &.medium,
-    &.large {
-        margin: 16px;
-    }
-
-    &.small {
-        width: 40px;
-        height: 40px;
-        border-radius: 12px;
-    }
-
-    &.medium {
-        width: 56px;
-        height: 56px;
-        border-radius: 16px;
-    }
-
-    &.large {
-        width: 96px;
-        height: 96px;
-        border-radius: 28px;
-
-        span {
-            font-size: 36px;
-        }
-    }
+  }
 }

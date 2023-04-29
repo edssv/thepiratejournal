@@ -1,20 +1,29 @@
 import dynamic from 'next/dynamic';
 
-import { NextPageWithLayout } from '../_app';
-import { AuthPage } from '@/lib/enums';
 import Meta from '@/components/meta/Meta';
+import { AuthPage } from '@/lib/enums';
 import AuthScreen from '@/screens/AuthScreen/AuthScreen';
 import SignupForm from '@/screens/AuthScreen/SignupForm/SignupForm';
 
-const AuthOutlet = dynamic(() => import('@/components/outlets/AuthOutlet/AuthOutlet'), { ssr: false });
+import type { NextPageWithLayout } from '../_app';
 
-const Page: NextPageWithLayout = () => {
+const AuthOutlet = dynamic(() => import('@/components/outlets/AuthOutlet/AuthOutlet'), {
+  ssr: false
+});
+
+const Page: NextPageWithLayout = () => (
+  <Meta noRobots title='Регистрация'>
+    <SignupForm step={1} />
+  </Meta>
+);
+
+Page.getLayout = function getLayout(page: React.ReactElement) {
   return (
-    <Meta noRobots>
-      <AuthScreen page={AuthPage.SIGNUP}>
-        <SignupForm />
+    <AuthOutlet>
+      <AuthScreen page={AuthPage.SIGNUP} step={1}>
+        {page}
       </AuthScreen>
-    </Meta>
+    </AuthOutlet>
   );
 };
 

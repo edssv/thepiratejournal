@@ -12,38 +12,32 @@ const apolloClient = new ApolloClient({
       Article: {
         fields: {
           cover: {
-            merge(existing, incoming) {
+            merge(_, incoming) {
               if (!process.env.NEXT_PUBLIC_CONTAINER_SERVER_DOMAIN) return null;
 
-              return (
-                process.env.NEXT_PUBLIC_CONTAINER_SERVER_DOMAIN +
-                '/' +
-                process.env.NEXT_PUBLIC_ASSETS_PREFIX +
+              return `${process.env.NEXT_PUBLIC_CONTAINER_SERVER_DOMAIN}/${process.env.NEXT_PUBLIC_ASSETS_PREFIX}${
                 incoming.split(`/${process.env.NEXT_PUBLIC_ASSETS_PREFIX}`)[1]
-              );
-            },
-          },
-        },
+              }`;
+            }
+          }
+        }
       },
       Blog: {
         fields: {
           cover: {
-            merge(existing, incoming) {
+            merge(_, incoming) {
               if (!process.env.NEXT_PUBLIC_CONTAINER_SERVER_DOMAIN) return null;
 
-              return (
-                process.env.NEXT_PUBLIC_CONTAINER_SERVER_DOMAIN +
-                '/' +
-                process.env.NEXT_PUBLIC_ASSETS_PREFIX +
+              return `${process.env.NEXT_PUBLIC_CONTAINER_SERVER_DOMAIN}/${process.env.NEXT_PUBLIC_ASSETS_PREFIX}${
                 incoming.split(`/${process.env.NEXT_PUBLIC_ASSETS_PREFIX}`)[1]
-              );
-            },
-          },
-        },
-      },
-    },
+              }`;
+            }
+          }
+        }
+      }
+    }
   }),
-  ssrMode: typeof window === 'undefined',
+  ssrMode: typeof window === 'undefined'
 });
 
 export default apolloClient;

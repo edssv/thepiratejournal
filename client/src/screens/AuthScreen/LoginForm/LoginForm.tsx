@@ -1,16 +1,16 @@
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
-
-import { LoginData } from '@/store/user/user.interface';
-import { useLoginMutation } from '@/services/auth/auth.service';
-import { getPublicUrl } from '@/lib/publicUrlBuilder';
+import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
 
 import Button from '@/components/common/Button/Button';
-import { ErrorLabel } from '../Fields/Field/Field';
-import EmailField from '../Fields/EmailField';
-import PasswordField from '../Fields/PasswordField';
+import { getPublicUrl } from '@/lib/publicUrlBuilder';
+import { useLoginMutation } from '@/services/auth/auth.service';
+import type { LoginData } from '@/store/user/user.interface';
+
 import GoogleButton from '../Buttons/GoogleButton/GoogleButton';
+import EmailField from '../Fields/EmailField';
+import { ErrorLabel } from '../Fields/Field/Field';
+import PasswordField from '../Fields/PasswordField';
 
 import styles from './LoginForm.module.scss';
 
@@ -22,39 +22,47 @@ const LoginForm = () => {
   const {
     register,
     formState: { errors },
-    handleSubmit,
+    handleSubmit
   } = useForm<LoginData>({
-    mode: 'all',
+    mode: 'all'
   });
 
   const onSubmit = handleSubmit((formData: LoginData) => {
     login(formData)
       .unwrap()
-      .then(() => replace(getPublicUrl.home()));
+      .then(() => replace(getPublicUrl.home()))
+      .catch(() => {});
   });
 
   return (
     <div className={styles.root}>
       {' '}
-      <form onSubmit={onSubmit} className={styles.form}>
+      <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.content}>
           <p className={styles.instructions}>
             Новый пользователь? <Link href={getPublicUrl.signup()}>Создать учетную запись</Link>
           </p>
           <div className={styles.fields}>
-            <EmailField disabled={isLoading} register={register} errors={errors} strict={false} />
-            <PasswordField disabled={isLoading} register={register} errors={errors} strict={false} />
+            <EmailField disabled={isLoading} errors={errors} register={register} strict={false} />
+            <PasswordField
+              disabled={isLoading}
+              errors={errors}
+              register={register}
+              strict={false}
+            />
           </div>
-          {error && <ErrorLabel style={{ marginTop: '8px' }}>Неверные данные для входа.</ErrorLabel>}
+          {error && (
+            <ErrorLabel style={{ marginTop: '8px' }}>Неверные данные для входа.</ErrorLabel>
+          )}
         </div>
         <div className={styles.submit}>
-          <Button isLoading={isLoading} disabled={isLoading} variant="filled" type="submit">
+          <Button disabled={isLoading} isLoading={isLoading} type='submit' variant='filled'>
             Войти
           </Button>
         </div>
       </form>
       <div className={styles.separator}>Или</div>
-      <GoogleButton size="large" />
+      <GoogleButton size='large' />
     </div>
   );
 };

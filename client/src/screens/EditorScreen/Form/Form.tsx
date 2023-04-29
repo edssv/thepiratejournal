@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import { useEffect } from 'react';
 
-import { Block } from '@/gql/__generated__';
+import type { Block } from '@/gql/__generated__';
 import { useActions } from '@/hooks';
-import TitleBlock from './TitleBlock/TitleBlock';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { EditorFormStatus } from '@/lib/enums';
 
 import styles from './Form.module.scss';
+import TitleBlock from './TitleBlock/TitleBlock';
 
 const Editor = dynamic(() => import('./EditorJs/EditorJS'), { ssr: false });
 

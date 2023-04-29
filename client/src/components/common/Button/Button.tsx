@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { ComponentProps, ElementType } from 'react';
+import type { ComponentProps, ElementType } from 'react';
 import { MoonLoader } from 'react-spinners';
 
 import styles from './Button.module.scss';
@@ -24,11 +24,12 @@ export interface ButtonOwnProps<E extends ElementType = ElementType> {
 // type OutlinedButtonProps = ButtonOwnProps & { variant: 'outlined'; color?: never };
 // type TextButtonProps = ButtonOwnProps & { variant: 'text'; color?: ButtonColor };
 
-export type ButtonProps<E extends ElementType> = ButtonOwnProps<E> & Omit<ComponentProps<E>, keyof ButtonOwnProps>;
+export type ButtonProps<E extends ElementType> = ButtonOwnProps<E> &
+  Omit<ComponentProps<E>, keyof ButtonOwnProps>;
 
 const defaultElement = 'button';
 
-function Button<E extends ElementType = typeof defaultElement>({
+const Button = <E extends ElementType = typeof defaultElement>({
   isLoading,
   isActive,
   children,
@@ -38,7 +39,7 @@ function Button<E extends ElementType = typeof defaultElement>({
   className,
   as,
   ...otherProps
-}: ButtonProps<E>) {
+}: ButtonProps<E>) => {
   const TagName = as || defaultElement;
 
   const isSeveralChildren = Array.isArray(children) && children[1] !== null;
@@ -51,16 +52,18 @@ function Button<E extends ElementType = typeof defaultElement>({
         icon && styles.icon,
         isActive && styles.isActive,
         variant,
-        color + 'Color',
+        `${color}Color`,
         className,
         'label-large'
       )}
       {...otherProps}
     >
-      {isLoading && <MoonLoader size="14px" color="var(--md-sys-color-primary)" speedMultiplier={0.7} />}
+      {isLoading && (
+        <MoonLoader color='var(--md-sys-color-primary)' size='14px' speedMultiplier={0.7} />
+      )}
       {children}
     </TagName>
   );
-}
+};
 
 export default Button;

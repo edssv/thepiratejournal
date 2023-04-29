@@ -1,5 +1,5 @@
-import { User } from '@/interfaces/user.interface';
-import { UserRole } from '@/lib/enums';
+import type { User } from '@/interfaces/user.interface';
+import type { UserRole } from '@/lib/enums';
 
 export interface UserState {
   id: string | number;

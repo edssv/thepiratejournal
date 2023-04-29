@@ -1,6 +1,8 @@
-import { ArticleCategory, ArticleType, EditorFormStatus } from '@/lib/enums';
 import { createSlice } from '@reduxjs/toolkit';
-import { InitialState } from './editor-page.interface';
+
+import { ArticleCategory, ArticleType, EditorFormStatus } from '@/lib/enums';
+
+import type { InitialState } from './editor-page.interface';
 
 const initialState: InitialState = {
   mode: null,
@@ -9,7 +11,7 @@ const initialState: InitialState = {
   data: { category: ArticleCategory.REVIEWS },
   isLoading: false,
   error: null,
-  draftId: null,
+  draftId: null
 };
 
 export const editorPageSlice = createSlice({
@@ -48,6 +50,6 @@ export const editorPageSlice = createSlice({
     },
     setArticleCategory: (state, { payload }) => {
       state.data.category = payload;
-    },
-  },
+    }
+  }
 });

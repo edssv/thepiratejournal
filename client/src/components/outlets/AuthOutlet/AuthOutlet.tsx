@@ -5,12 +5,12 @@ import { getPublicUrl } from '@/lib/publicUrlBuilder';
 
 const AuthOutlet: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { user, isLoading } = useAuth();
-  const { replace } = useRouter();
+  const router = useRouter();
 
   if (isLoading) return null;
 
   if (user) {
-    replace(getPublicUrl.home());
+    router.replace(getPublicUrl.home());
     return null;
   }
 
