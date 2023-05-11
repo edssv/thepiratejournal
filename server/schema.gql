@@ -48,6 +48,24 @@ type BlockData {
   withBorder: Boolean
 }
 
+type Blog {
+  body: [Block!]!
+  category: String!
+  cover: String!
+  createdAt: DateTime!
+  description: String!
+  id: ID!
+  isDeleted: Boolean
+  isPublished: Boolean!
+  likesCount: Float!
+  readingTime: Float!
+  tags: [String!]
+  title: String!
+  updatedAt: DateTime!
+  user: User!
+  viewsCount: Float!
+}
+
 type Bookmark {
   article: Article!
   createdAt: DateTime!
@@ -60,6 +78,17 @@ input CreateArticleInput {
   cover: String!
   description: String!
   draftId: Float
+  title: String!
+}
+
+input CreateBlogInput {
+  body: [InputBlock!]!
+  category: String
+  cover: String!
+  description: String!
+  draftId: Float
+  readingTime: Float!
+  tags: [String!]
   title: String!
 }
 
@@ -141,23 +170,29 @@ type Like {
 
 type Mutation {
   createArticle(createArticleInput: CreateArticleInput!): Article!
+  createBlog(createBlogInput: CreateBlogInput!): Blog!
   createDraft(createDraftInput: CreateDraftInput!): Draft!
   createLike(articleId: Float!): ID!
   login(loginInput: EmailLoginInput!): Auth!
   removeArticle(id: Float!): Article!
+  removeBlog(id: Float!): Blog!
   removeDraft(id: Float!): Draft!
   removeLike(articleId: Float!): ID!
   signup(signupInput: SignUpInput!): Auth!
   updateArticle(updateArticleInput: UpdateArticleInput!): Article!
+  updateBlog(updateBlogInput: UpdateBlogInput!): Blog!
   updateDraft(updateDraftInput: UpdateDraftInput!): Float!
   updateProfile(updateProfileInput: UpdateProfileInput!): User
 }
 
 type Query {
   getAllArticle: [Article!]!
+  getAllBlog: [Blog!]!
   getArticle(id: Float!): Article!
   getDraft(id: Float!): Draft!
   getNextArticles(id: Float!): [Article!]!
+  getNextBlogs(id: Float!): [Blog!]!
+  getOneBlog(id: Float!): Blog!
   getUser(id: Float!): User!
   getUserArticles: [Article!]!
   getUserContent(articles: String!, id: Float!): [Draft!]
@@ -179,6 +214,18 @@ input UpdateArticleInput {
   description: String!
   draftId: Float
   id: ID!
+  title: String!
+}
+
+input UpdateBlogInput {
+  body: [InputBlock!]!
+  category: String
+  cover: String!
+  description: String!
+  draftId: Float
+  id: ID!
+  readingTime: Float!
+  tags: [String!]
   title: String!
 }
 

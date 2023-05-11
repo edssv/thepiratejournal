@@ -1,5 +1,23 @@
 version: '3.8'
 services:
+  pg:
+    container_name: pg_db
+    image: postgres:alpine
+    restart: unless-stopped
+    ports:
+      - 5433:5433
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DB}
+    volumes:
+      - internship-pgdata:/var/lib/internship-postgresql/data
+    command: -p 5433
+    networks:
+      net:
+        ipv4_address: 172.18.0.7
+
   postgres:
     container_name: postgres_db
     image: postgres:alpine
@@ -17,16 +35,16 @@ services:
       net:
         ipv4_address: 172.18.0.6
 
-  maildev:
-    build:
-      context: .
-      dockerfile: maildev.Dockerfile
-    ports:
-      - ${MAIL_CLIENT_PORT}:1080
-      - ${MAIL_PORT}:1025
-    networks:
-      net:
-        ipv4_address: 172.18.0.7
+  # maildev:
+  #   build:
+  #     context: .
+  #     dockerfile: maildev.Dockerfile
+  #   ports:
+  #     - ${MAIL_CLIENT_PORT}:1080
+  #     - ${MAIL_PORT}:1025
+  #   networks:
+  #     net:
+  #       ipv4_address: 172.18.0.7
 
   # pgadmin:
   #   container_name: pgadmin
@@ -39,6 +57,20 @@ services:
   #     - .env
   #   links:
   #     - postgres
+
+  api:
+    container_name: api
+    restart: unless-stopped
+    build:
+      context: api
+    ports:
+      - '5001:5001'
+    volumes:
+      - ./api/media:/usr/src/api/media
+      - internship-media:/usr/src/api/media
+    networks:
+      net:
+        ipv4_address: 172.18.0.3
 
   server:
     container_name: server
@@ -69,19 +101,6 @@ services:
       net:
         ipv4_address: 172.18.0.4
 
-  # dashboard:
-  #   container_name: dashboard
-  #   restart: unless-stopped
-  #   build:
-  #     context: dashboard
-  #   ports:
-  #     - '3001:3001'
-  #   depends_on:
-  #     - server
-  #   networks:
-  #     net:
-  #       ipv4_address: 172.18.0.3
-
   nginx:
     container_name: nginx
     restart: unless-stopped
@@ -97,7 +116,9 @@ services:
 
 volumes:
   pgdata:
+  internship-pgdata:
   media:
+  internship-media:
 
 networks:
   net:
