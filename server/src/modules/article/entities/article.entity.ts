@@ -2,6 +2,7 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -9,16 +10,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
 import { User } from 'src/modules/user/entities/user.entity';
-import { Like } from 'src/modules/like/entities/like.entity';
 import { Block } from 'src/lib/block.type';
-
-export enum ArticleCategory {
-  REVIEWS = 'Обзоры',
-  MENTIONS = 'Отзывы',
-  SOLUTIONS = 'Прохождения',
-}
+import { Like } from 'src/modules/like/entities/like.entity';
 
 @ObjectType()
 @Entity('articles')
@@ -33,10 +27,6 @@ export class Article {
 
   @Field()
   @Column()
-  searchTitle: string;
-
-  @Field()
-  @Column()
   description: string;
 
   @Field()
@@ -44,16 +34,8 @@ export class Article {
   cover: string;
 
   @Field(() => [Block])
-  @Column({ type: 'jsonb', nullable: false })
+  @Column({ type: 'jsonb' })
   body: Block[];
-
-  @Field(() => [String], { nullable: true })
-  @Column({ type: 'jsonb', nullable: true })
-  tags: string[];
-
-  @Field()
-  @Column({ type: 'enum', enum: ArticleCategory })
-  category: ArticleCategory;
 
   @Field()
   @Column()
@@ -81,9 +63,8 @@ export class Article {
   })
   updatedAt: Date;
 
-  @Field()
-  @Column({ array: true, nullable: true })
-  comments: string;
+  @DeleteDateColumn({ name: 'deleted_at' })
+  deletedAt: Date;
 
   @Field()
   @Column({ default: 0, name: 'views_count' })
@@ -92,12 +73,4 @@ export class Article {
   @Field(() => [Like])
   @OneToMany(() => Like, (likes) => likes.article)
   likes: Like[];
-
-  @Field()
-  @Column({ select: false, default: false, name: 'is_published' })
-  isPublished: boolean;
-
-  @Field()
-  @Column({ select: false, default: false, name: 'is_deleted' })
-  isDeleted: boolean;
 }

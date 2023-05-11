@@ -2,33 +2,26 @@ import type { GetStaticPaths, GetStaticProps } from 'next';
 import type { NextPageWithLayout } from 'pages/_app';
 
 import apolloClient from '@/apollo/client';
-import BlogLayout from '@/components/layout/BlogLayout/BlogLayout';
+import Layout from '@/components/layout/Layout/Layout';
 import Meta from '@/components/meta/Meta';
-import type { BlogQuery } from '@/gql/__generated__';
-import { BlogQueryDocument } from '@/gql/__generated__';
+import ArticleScreen from '@/components/screens/ArticleScreen/ArticleScreen';
+import type { ArticleQuery } from '@/gql/__generated__';
+import { ArticleQueryDocument } from '@/gql/__generated__';
 import type { Params } from '@/interfaces/params.interface';
-import { ArticlePageMode } from '@/lib/enums';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
-import ArticleScreen from '@/screens/ArticleScreen/ArticleScreen';
 
-const BlogArticlePage: NextPageWithLayout<{ data: BlogQuery }> = ({ data }) => {
-  const { title, description, cover, id } = data.getOneBlog;
+const BlogArticlePage: NextPageWithLayout<{ data: ArticleQuery }> = ({ data }) => {
+  const { cover, description, id, title } = data.getArticle;
 
   return (
-    <Meta
-      description={description}
-      image={cover}
-      title={title}
-      type='article'
-      url={getPublicUrl.blog(String(id))}
-    >
-      <ArticleScreen data={data.getOneBlog} mode={ArticlePageMode.BLOG} />
+    <Meta description={description} image={cover} title={title} type='article' url={getPublicUrl.blog(String(id))}>
+      <ArticleScreen data={data.getArticle} />
     </Meta>
   );
 };
 
 BlogArticlePage.getLayout = function getLayout(page: React.ReactElement) {
-  return <BlogLayout>{page}</BlogLayout>;
+  return <Layout withAnimation>{page}</Layout>;
 };
 
 export const getStaticPaths: GetStaticPaths<Params> = () => ({
@@ -40,7 +33,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params?.id;
 
   const { data } = await apolloClient.query({
-    query: BlogQueryDocument,
+    query: ArticleQueryDocument,
     variables: { id: Number(id) }
   });
 

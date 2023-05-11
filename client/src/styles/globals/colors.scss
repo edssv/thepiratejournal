@@ -227,7 +227,7 @@
   /* Outline */
   --md-sys-color-outline: var(--md-ref-palette-neutral-variant50);
   /* Outline variant */
-  --md-sys-color-outline-variant: var(--md-ref-palette-neutral-variant80);
+  --md-sys-color-outline-variant: var(--md-ref-palette-neutral-variant90);
   /* On background */
   --md-sys-color-on-background: var(--md-ref-palette-neutral10);
   /* Background */
@@ -237,7 +237,7 @@
   /* Inverse surface */
   --md-sys-color-inverse-surface: var(--md-ref-palette-neutral20);
   /* On surface variant */
-  --md-sys-color-on-surface-variant: var(--md-ref-palette-neutral-variant30);
+  --md-sys-color-on-surface-variant: var(--md-ref-palette-neutral-variant40);
   /* On surface variant channel*/
   --md-sys-color-on-surface-variantChannel: var(--md-ref-palette-neutral-variant30-rgb);
   /* On surface */
@@ -245,7 +245,7 @@
   /* On surface channel*/
   --md-sys-color-on-surfaceChannel: var(--md-ref-palette-neutral10-rgb);
   /* Surface Variant */
-  --md-sys-color-surface-variant: var(--md-ref-palette-neutral-variant90);
+  --md-sys-color-surface-variant: var(--md-ref-palette-neutral-variant95);
   /* Surface */
   --md-sys-color-surface: var(--md-ref-palette-neutral99);
   /* Surface 1 */
@@ -314,7 +314,7 @@
   /* Outline */
   --md-sys-color-outline: var(--md-ref-palette-neutral-variant60);
   /* Outline variant*/
-  --md-sys-color-outline-variant: var(--md-ref-palette-neutral-variant30);
+  --md-sys-color-outline-variant: var(--md-ref-palette-neutral-variant20);
   /* On background */
   --md-sys-color-on-background: var(--md-ref-palette-neutral90);
   /* Background */
@@ -324,13 +324,13 @@
   /* Inverse surface */
   --md-sys-color-inverse-surface: var(--md-ref-palette-neutral90);
   /* On surface variant */
-  --md-sys-color-on-surface-variant: var(--md-ref-palette-neutral-variant80);
+  --md-sys-color-on-surface-variant: var(--md-ref-palette-neutral-variant70);
   /* On surface */
   --md-sys-color-on-surface: var(--md-ref-palette-neutral90);
   /* On surface channel*/
   --md-sys-color-on-surfaceChannel: var(--md-ref-palette-neutral90-rgb);
   /* Surface Variant */
-  --md-sys-color-surface-variant: var(--md-ref-palette-neutral-variant30);
+  --md-sys-color-surface-variant: var(--md-ref-palette-neutral-variant20);
   /* Surface */
   --md-sys-color-surface: var(--md-ref-palette-neutral10);
   /* On secondary container */
@@ -365,6 +365,16 @@
   --md-sys-color-primary: var(--md-ref-palette-primary80);
   /* Primary channel */
   --md-sys-color-primaryChannel: var(--md-ref-palette-primary80-rgb);
+}
+
+:root[data-theme='light'] {
+  --bg-dropdown: var(--md-sys-color-surface);
+  --bg-dropdown-separator: var(--md-sys-color-outline-variant);
+}
+
+:root[data-theme='dark'] {
+  --bg-dropdown: var(--md-sys-color-surface-variant);
+  --bg-dropdown-separator: var(--md-sys-color-outline);
 }
 
 :root[data-theme='light'] {

@@ -6,12 +6,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
+import { UpdateProfileInput } from './inputs/update-profile';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private repository: Repository<User>
+    private repository: Repository<User>,
   ) {}
 
   create(createUserDto: CreateUserDto) {
@@ -69,11 +70,18 @@ export class UserService {
   }
 
   findOneForAuth(email: string) {
-    return this.repository.findOne({ where: { email }, select: ['id', 'email', 'password', 'role'] });
+    return this.repository.findOne({
+      where: { email },
+      select: ['id', 'email', 'password', 'role'],
+    });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return this.repository.update(id, updateUserDto);
+  }
+
+  updateProfile(id: number, updateProfileInput: UpdateProfileInput) {
+    return this.repository.save({ id, ...updateProfileInput });
   }
 
   softDelete(id: number) {

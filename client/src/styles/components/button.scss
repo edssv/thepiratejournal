@@ -36,8 +36,7 @@ button {
       box-shadow: var(--md-sys-elevation-2);
     }
     &:active {
-      background-color: var(--md-sys-color-primaryChannel),
-        var(--md-sys-state-pressed-state-layer-opacity);
+      background-color: var(--md-sys-color-primaryChannel), var(--md-sys-state-pressed-state-layer-opacity);
     }
   }
   &.filled {
@@ -48,13 +47,11 @@ button {
       background-color: rgba(
         var(--md-sys-color-primaryChannel) / calc(1 - var(--md-sys-state-hover-state-layer-opacity))
       );
-      color: var(--md-sys-color-on-primary);
       box-shadow: var(--md-sys-elevation-level1), var(--md-sys-color-shadow);
     }
     &:active {
       background-color: rgba(
-        var(--md-sys-color-primaryChannel) /
-          calc(1 - var(--md-sys-state-pressed-state-layer-opacity))
+        var(--md-sys-color-primaryChannel) / calc(1 - var(--md-sys-state-pressed-state-layer-opacity))
       );
     }
   }
@@ -64,15 +61,13 @@ button {
     color: var(--md-sys-color-on-secondary-container);
     &:hover {
       background-color: rgba(
-        var(--md-sys-color-secondary-containerChannel) /
-          calc(1 - var(--md-sys-state-hover-state-layer-opacity))
+        var(--md-sys-color-secondary-containerChannel) / calc(1 - var(--md-sys-state-hover-state-layer-opacity))
       );
       box-shadow: var(--md-sys-elevation-level1), var(--md-sys-color-shadow);
     }
     &:active {
       background-color: rgba(
-        var(--md-sys-color-secondary-containerChannel) /
-          calc(1 - var(--md-sys-state-pressed-state-layer-opacity))
+        var(--md-sys-color-secondary-containerChannel) / calc(1 - var(--md-sys-state-pressed-state-layer-opacity))
       );
     }
   }
@@ -85,10 +80,7 @@ button {
       outline-color: rgba(var(--md-sys-color-on-surfaceChannel) / 0.12);
     }
     &:active {
-      background-color: rgba(
-        var(--md-sys-color-primaryChannel),
-        var(--md-sys-state-pressed-state-layer-opacity)
-      );
+      background-color: rgba(var(--md-sys-color-primaryChannel), var(--md-sys-state-pressed-state-layer-opacity));
     }
   }
   &.text {
@@ -102,12 +94,14 @@ button {
       color: var(--md-sys-color-on-surface);
       opacity: 38%;
     }
+    &:hover {
+      background-color: rgba(var(--md-sys-color-primaryChannel) / var(--md-sys-state-hover-state-layer-opacity));
+    }
     &:active {
-      background-color: var(--md-sys-color-primaryChannel),
-        var(--md-sys-state-pressed-state-layer-opacity);
+      background-color: rgba(var(--md-sys-color-primaryChannel) / var(--md-sys-state-pressed-state-layer-opacity));
     }
 
-    &.iconWithText {
+    &.startIcon {
       padding: 0 16px 0 12px;
     }
   }

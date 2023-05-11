@@ -12,10 +12,11 @@ import { Provider } from 'react-redux';
 
 import apolloClient from '@/apollo/client';
 import CrossScreensSnackbars from '@/components/Snackbars/CrossScreensSnackbars/Component';
+import { Toaster } from '@/components/common/Toaster/Toaster';
 import AuthProvider from '@/components/providers/AuthProvider';
 import { api } from '@/services/api/api';
-import { store } from '@/store';
-
+import { store } from '@/store/store';
+import '@/styles/index.css';
 import '@/styles/styles.scss';
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
@@ -51,6 +52,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
                 <ThemeProvider defaultTheme='system'>
                   {getLayout(<Component {...pageProps} />)}
                   <GoogleOneTap />
+                  <Toaster />
                   <CrossScreensSnackbars />
                 </ThemeProvider>
               </GoogleOAuthProvider>

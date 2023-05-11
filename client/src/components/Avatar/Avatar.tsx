@@ -7,11 +7,12 @@ import styles from './Avatar.module.scss';
 interface AvatarProps {
   imageSrc?: string | undefined | null;
   width?: number;
+  sizes?: string;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ imageSrc, width = 32 }) => (
+const Avatar: React.FC<AvatarProps> = ({ imageSrc, sizes, width = 32 }) => (
   <div className={styles.root} style={{ width, height: width }}>
-    <Image alt='Аватар' height={width} referrerPolicy='no-referrer' src={imageSrc ?? avatar.src} width={width} />
+    <Image alt='Аватар' height={width} sizes={sizes || '10vw'} src={imageSrc ?? avatar.src} width={width} />
   </div>
 );
 

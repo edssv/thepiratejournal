@@ -1,7 +1,7 @@
 import type { GetStaticProps } from 'next';
 
 import Meta from '@/components/meta/Meta';
-import TermsScreen from '@/screens/TermsScreen/TermsScreen';
+import TermsScreen from '@/components/screens/TermsScreen/TermsScreen';
 
 import type { NextPageWithLayout } from '../_app';
 

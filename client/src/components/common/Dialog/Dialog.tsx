@@ -1,66 +1,93 @@
+import * as DialogPrimitive from '@radix-ui/react-dialog';
 import clsx from 'clsx';
-import { useMediaPredicate } from 'react-media-hook';
+import * as React from 'react';
 
-import type { ButtonProps } from '@/components/common/Button/Button';
-import Button from '@/components/common/Button/Button';
+import Button from '../Button/Button';
 
 import styles from './Dialog.module.scss';
 
-type DialogProps = {
-  size?: 'S' | 'M' | 'L';
-  mobileType?: 'modal' | 'fullscreen';
-};
+const Dialog = DialogPrimitive.Root;
 
-type DialogControlsProps = { className?: string };
+const DialogTrigger = DialogPrimitive.Trigger;
 
-type ActionButtonProps = ButtonProps<React.ElementType>;
-type CancelButtonProps = ButtonProps<React.ElementType>;
-
-export const DialogTitle: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <div className={styles.title}>{children}</div>
+const DialogPortal = ({ children, className, ...props }: DialogPrimitive.DialogPortalProps) => (
+  <DialogPrimitive.Portal className={clsx(className)} {...props}>
+    <div className='fixed inset-0 z-50 flex items-center justify-center'>{children}</div>
+  </DialogPrimitive.Portal>
 );
+DialogPortal.displayName = DialogPrimitive.Portal.displayName;
 
-export const DialogContent: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <div className={styles.content}>{children}</div>
+const DialogOverlay = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Overlay>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
+>(({ children, className, ...props }, ref) => (
+  <DialogPrimitive.Overlay className={clsx('overlay', className)} {...props} ref={ref} />
+));
+DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
+
+const DialogContent = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
+>(({ className, ...props }, ref) => (
+  <DialogPortal>
+    <DialogOverlay />
+    <DialogPrimitive.Content ref={ref} className={clsx(styles.content, className)} {...props} />
+  </DialogPortal>
+));
+DialogContent.displayName = DialogPrimitive.Content.displayName;
+
+const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={clsx('mb-10 flex flex-col space-y-2', className)} {...props} />
 );
+DialogHeader.displayName = 'DialogHeader';
 
-export const DialogControls: React.FC<React.PropsWithChildren<DialogControlsProps>> = ({ children, className }) => (
-  <div className={clsx(className || styles.controls)}>{children}</div>
+const DialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={clsx('mt-10', className)} {...props} />
 );
+DialogFooter.displayName = 'DialogFooter';
 
-export const DialogActionButton: React.FC<React.PropsWithChildren<ActionButtonProps>> = ({ children, ...props }) => (
-  <Button className={styles.actionButton} {...props}>
-    {children}
-  </Button>
-);
+const DialogTitle = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Title>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Title ref={ref} className={clsx('text-lg font-semibold', className)} {...props} />
+));
+DialogTitle.displayName = DialogPrimitive.Title.displayName;
 
-export const DialogCancelButton: React.FC<React.PropsWithChildren<CancelButtonProps>> = ({ children, ...props }) => (
-  <Button className={styles.cancelButton} {...props}>
-    {children}
-  </Button>
-);
+const DialogDescription = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Description>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Description ref={ref} className={clsx('text-muted-foreground text-sm', className)} {...props} />
+));
+DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
-export const Dialog: React.FC<React.PropsWithChildren<DialogProps>> = ({
-  children,
-  size = 'S',
-  mobileType = 'modal'
-}) => {
-  const isMobile = useMediaPredicate('(max-width: 509.98px)');
+const DialogClose = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Close>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Close>
+>(({ className, ...props }, ref) => <DialogPrimitive.Close ref={ref} className={className} {...props} />);
+DialogClose.displayName = DialogPrimitive.Close.displayName;
 
-  const setSize = () => {
-    if (size === 'S') return 'smallDialog';
-    if (size === 'M') return 'mediumDialog';
-    if (size === 'L') return 'largeDialog';
-    return null;
-  };
+const DialogCloseIcon = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Close>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Close>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Close ref={ref} className={clsx('absolute right-3 top-3', className)} {...props}>
+    <Button icon color='secondary' weight='light'>
+      <span className='material-symbols-outlined'>close</span>
+    </Button>
+  </DialogPrimitive.Close>
+));
+DialogClose.displayName = DialogPrimitive.Close.displayName;
 
-  const setMobileType = () => {
-    if (isMobile) {
-      if (mobileType === 'modal') return 'mobileModal';
-      if (mobileType === 'fullscreen') return 'mobileFullscreen';
-    }
-    return null;
-  };
-
-  return <div className={clsx(styles.root, setSize(), setMobileType())}>{children}</div>;
+export {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+  DialogCloseIcon
 };

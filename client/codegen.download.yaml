@@ -1,7 +1,7 @@
 schema:
   - http://localhost:5000/graphql
 generates:
-  ./schema.graphql:
+  ./src/gql/schema/schema.graphql:
     plugins:
       - schema-ast
     config:

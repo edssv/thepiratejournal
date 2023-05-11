@@ -15,7 +15,6 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthGoogleModule } from './auth-google/auth-google.module';
 import { ArticleModule } from './article/article.module';
-import { BlogModule } from './blog/blog.module';
 import { BookmarkModule } from './bookmark/bookmark.module';
 import { CommentModule } from './comment/comment.module';
 import { DraftModule } from './draft/draft.module';
@@ -30,7 +29,14 @@ import { MailModule } from './mail/mail.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, appConfig, authConfig, mailConfig, fileConfig, googleConfig],
+      load: [
+        databaseConfig,
+        appConfig,
+        authConfig,
+        mailConfig,
+        fileConfig,
+        googleConfig,
+      ],
       envFilePath: [`.env.${process.env.NODE_ENV || 'production'}`],
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -54,7 +60,7 @@ import { MailModule } from './mail/mail.module';
     UserModule,
     CommentModule,
     FileModule,
-    BlogModule,
+    ArticleModule,
     LikeModule,
     BookmarkModule,
     FollowerModule,

@@ -7,8 +7,6 @@ const nextConfig = {
     includePaths: [path.join(__dirname, 'styles')]
   },
   images: {
-    imageSizes: [16, 32, 48, 64, 96, 128, 256],
-    minimumCacheTTL: 3600,
     formats: ['image/webp'],
     remotePatterns: [
       {
@@ -16,7 +14,8 @@ const nextConfig = {
         hostname: 'thepirate.press'
       },
       { hostname: 'localhost' },
-      { hostname: '172.18.0.5' }
+      { hostname: '172.18.0.5' },
+      { hostname: 'lh3.googleusercontent.com' }
     ]
   },
   output: 'standalone'

@@ -1,4 +1,12 @@
-import { Controller, Post, Body, HttpCode, HttpStatus, Request, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  HttpStatus,
+  Request,
+  Get,
+} from '@nestjs/common';
 import { UseGuards } from '@nestjs/common/decorators';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/sign-up.dto';
@@ -25,7 +33,9 @@ export class AuthController {
 
   @Post('confirm')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async confirmEmail(@Body() confirmEmailDto: AuthConfirmEmailDto): Promise<void> {
+  async confirmEmail(
+    @Body() confirmEmailDto: AuthConfirmEmailDto,
+  ): Promise<void> {
     return this.authService.confirmEmail(confirmEmailDto.hash);
   }
 

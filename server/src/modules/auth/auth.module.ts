@@ -26,7 +26,13 @@ import { MailModule } from '../mail/mail.module';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, AuthResolver, LocalStrategy, JwtStrategy, RtStrategy],
+  providers: [
+    AuthService,
+    AuthResolver,
+    LocalStrategy,
+    JwtStrategy,
+    RtStrategy,
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}

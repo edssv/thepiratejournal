@@ -1,0 +1,81 @@
+@use '@/styles/util' as *;
+
+$infoWidth: 768px;
+
+.root {
+  position: relative;
+  width: 100%;
+  margin: 32px auto 72px;
+  @include breakpoint(sm) {
+    max-width: 768px;
+  }
+  @include breakpoint(lg) {
+    margin: 120px auto 100px;
+  }
+  @include breakpoint(xl) {
+    max-width: 1240px;
+  }
+
+  .content {
+    position: relative;
+    display: flex;
+    max-width: 768px;
+
+    transition: padding 0.4s ease, max-width 0.4s ease;
+    transition-delay: 0.25s;
+    @include breakpoint-down(xxl) {
+      margin: 0 auto;
+    }
+
+    &Container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      @include breakpoint-down(lg) {
+        margin: 0 auto;
+      }
+
+      .top {
+        display: flex;
+        gap: 24px;
+      }
+
+      .shareButtonsWrap {
+        @include breakpoint(lg) {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .bottom {
+    margin: 0 auto;
+    @include breakpoint(sm) {
+      max-width: 840px;
+    }
+    @include breakpoint(xl) {
+      max-width: 1240px;
+    }
+  }
+}
+
+.root {
+  :global {
+    .ce-delimiter {
+      line-height: 1.6em;
+      width: 100%;
+      text-align: center;
+      height: 30px;
+      border: none;
+
+      &::before {
+        display: inline-block;
+        content: '***';
+        font-size: 30px;
+        line-height: 40px;
+        height: 30px;
+        letter-spacing: 0.2em;
+      }
+    }
+  }
+}

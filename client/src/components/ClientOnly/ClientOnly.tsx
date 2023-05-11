@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const ClientOnly = ({ children }: { children: React.ReactElement }) => {
+const ClientOnly: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -10,8 +10,9 @@ const ClientOnly = ({ children }: { children: React.ReactElement }) => {
   if (!mounted) return null;
 
   if (typeof window !== 'undefined') {
-    return children;
+    return <>{children}</>;
   }
+
   return null;
 };
 

@@ -1,0 +1,45 @@
+@use '@/styles/util' as *;
+
+.root {
+  width: 100%;
+  margin: 0 auto;
+  @include breakpoint(sm) {
+    max-width: 768px;
+  }
+  @include breakpoint(xxl) {
+    max-width: 1240px;
+  }
+
+  h2 {
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: -0.333333px;
+    font-weight: 300 !important;
+    @include breakpoint-down(sm) {
+      font-size: 32px;
+      line-height: 40px;
+    }
+  }
+
+  .container {
+    display: block;
+    width: 100%;
+    margin-top: 32px;
+    @include breakpoint(sm) {
+      display: flex;
+      flex-wrap: nowrap;
+      column-gap: 16px;
+    }
+    @include breakpoint(lg) {
+      column-gap: 40px;
+    }
+    @include breakpoint(xxl) {
+      width: 760px;
+    }
+
+    .motionDiv {
+      display: flex;
+      flex: 1;
+    }
+  }
+}

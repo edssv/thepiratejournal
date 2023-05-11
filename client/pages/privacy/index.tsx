@@ -1,7 +1,7 @@
 import type { GetStaticProps } from 'next';
 
 import Meta from '@/components/meta/Meta';
-import PrivacyScreen from '@/screens/PrivacyScreen/PrivacyScreen';
+import PrivacyScreen from '@/components/screens/PrivacyScreen/PrivacyScreen';
 
 import type { NextPageWithLayout } from '../_app';
 

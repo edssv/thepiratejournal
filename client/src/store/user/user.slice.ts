@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { removeFromStorage, saveToStorage } from '@/services/auth/auth.helper';
 import { authApi } from '@/services/auth/auth.service';
-import { getLocalStorage } from '@/utils';
+import { getLocalStorage } from '@/utils/local-storage';
 
 import type { InitialState } from './user.interface';
 
@@ -18,7 +18,7 @@ export const userSlice = createSlice({
     setUser: (state, { payload }) => {
       state.user = payload;
     },
-    tokenReceived: (state, { payload }) => {
+    tokenReceived: (_, { payload }) => {
       saveToStorage(payload);
     },
     logout: (state) => {

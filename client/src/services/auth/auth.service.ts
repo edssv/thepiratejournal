@@ -57,10 +57,10 @@ export const authApi = api.injectEndpoints({
 });
 
 export const {
-  useLoginMutation,
-  useSignupMutation,
-  useLazyGetNewTokensQuery,
   useGetProfileQuery,
   useGoogleLoginMutation,
-  useGoogleOneTapMutation
+  useGoogleOneTapMutation,
+  useLazyGetNewTokensQuery,
+  useLoginMutation,
+  useSignupMutation
 } = authApi;

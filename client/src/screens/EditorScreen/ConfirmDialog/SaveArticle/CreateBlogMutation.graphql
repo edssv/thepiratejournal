@@ -1,5 +1,0 @@
-mutation CreateBlogMutation($createBlogInput: CreateBlogInput!) {
-  createBlog(createBlogInput: $createBlogInput) {
-    id
-  }
-}

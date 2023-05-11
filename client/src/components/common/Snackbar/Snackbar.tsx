@@ -18,15 +18,15 @@ type SnackbarProps = {
 };
 
 const Snackbar: React.FC<React.PropsWithChildren<SnackbarProps>> = ({
+  accept = false,
   children,
   className,
-  position = 'left',
-  permanent = false,
-  timeout = 4000,
-  isOpen,
   close = false,
-  accept = false,
-  onClose
+  isOpen,
+  onClose,
+  permanent = false,
+  position = 'left',
+  timeout = 4000
 }) => {
   const portalRoot = document.getElementById('portal-root') || new HTMLElement();
 

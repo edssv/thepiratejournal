@@ -13,8 +13,20 @@ export class DraftResolver {
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Draft)
-  async createDraft(@Context() context, @Args('createDraftInput') createDraftInput: CreateDraftInput) {
-    return await this.draftService.create(context.req.user.id, createDraftInput);
+  async createDraft(
+    @Context() context,
+    @Args('createDraftInput') createDraftInput: CreateDraftInput,
+  ) {
+    return await this.draftService.create(
+      context.req.user.id,
+      createDraftInput,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query(() => [Draft])
+  async getUserDrafts(@Context() context) {
+    return await this.draftService.findUserDrafts(context.req.user.id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -25,13 +37,16 @@ export class DraftResolver {
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Number)
-  async updateDraft(@Context() context, @Args('updateDraftInput') updateDraftInput: UpdateDraftInput) {
+  async updateDraft(
+    @Context() context,
+    @Args('updateDraftInput') updateDraftInput: UpdateDraftInput,
+  ) {
     return await this.draftService.update(updateDraftInput);
   }
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Draft)
-  async removeDraft(@Args('id') id: number) {
-    return await this.draftService.remove(id);
+  async removeDraft(@Context() context, @Args('id') id: number) {
+    return await this.draftService.remove(id, context.req.user.id);
   }
 }

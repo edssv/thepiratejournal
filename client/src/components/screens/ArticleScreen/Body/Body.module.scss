@@ -1,0 +1,81 @@
+@use '@/styles/util' as *;
+.root {
+  margin-bottom: 42px;
+  @include breakpoint(lg) {
+    margin: 12px 0 60px;
+  }
+
+  .content {
+    line-height: 1.5;
+    word-break: break-word;
+    word-wrap: break-word;
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 1em 0;
+    }
+
+    h2 {
+      margin-top: 48px;
+      margin-bottom: 16px;
+      font-size: 22px;
+      line-height: 32px;
+      font-weight: 400 !important;
+    }
+
+    @supports (-webkit-hyphens: none) {
+      h2 {
+        padding-top: 1em;
+        margin-top: -1em;
+      }
+    }
+
+    h3 {
+      font-size: 22px;
+    }
+
+    p {
+      font-size: 20px;
+      line-height: 32px;
+      font-weight: 300;
+    }
+
+    ul {
+      list-style: disc;
+      margin-bottom: 1.7em;
+      padding-left: 2.5em;
+    }
+
+    a {
+      border-bottom: 1px solid var(--md-sys-color-primary);
+      color: var(--md-sys-color-primary);
+      text-decoration: none;
+      transition: color 0.25s, border-bottom-color 0.25s;
+    }
+
+    figure {
+      margin: 48px 0;
+      @include breakpoint-down(sm) {
+        margin: 32px 0;
+      }
+
+      img {
+        max-height: 960px;
+        height: auto;
+        max-width: 100%;
+        border-radius: 4px;
+      }
+
+      figcaption {
+        max-width: 728px;
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        color: var(--md-sys-color-secondary-text);
+      }
+    }
+  }
+}

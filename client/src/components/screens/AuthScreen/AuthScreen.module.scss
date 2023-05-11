@@ -1,0 +1,68 @@
+@use '@/styles/util' as *;
+
+.root {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: var(--md-sys-color-surface-variant);
+
+  .inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 260px;
+
+    .logoAndText {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+      text-align: left;
+      align-items: flex-start;
+      color: var(--md-sys-color-on-surface);
+      @include breakpoint(xl) {
+        display: flex;
+      }
+
+      .logoWrapper {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        .text {
+          font-size: 32px;
+          line-height: 1.2;
+          font-weight: 700;
+        }
+      }
+
+      p {
+        font-size: 20px;
+      }
+    }
+
+    .panel {
+      display: flex;
+      flex-direction: column;
+      min-height: 600px;
+      width: 510px;
+      padding: 48px;
+      border-radius: 8px;
+      background-color: var(--md-sys-color-surface);
+      @include breakpoint-down(sm) {
+        height: 100%;
+        padding: 24px;
+      }
+
+      .logoWrapper {
+        display: none;
+        @include breakpoint-down(sm) {
+          display: flex;
+          margin-bottom: 12px;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}

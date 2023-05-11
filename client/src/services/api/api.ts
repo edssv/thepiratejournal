@@ -12,9 +12,10 @@ const baseQuery = fetchBaseQuery({
   baseUrl: typeof window === 'undefined' ? SSR_URL : CLIENT_URL,
   credentials: 'include',
   prepareHeaders: (headers) => {
+    const isRefreshtokenExist = headers.get('authorization');
     const accessToken = getAccessToken();
 
-    if (accessToken) {
+    if (!isRefreshtokenExist && accessToken) {
       headers.set('authorization', `Bearer ${accessToken}`);
     }
     return headers;
@@ -34,12 +35,12 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
     const refreshResult = await baseQueryWithRetry(getApiUrl.refresh(), api, extraOptions);
     if (refreshResult.data) {
       // store the new token
-      api.dispatch({ type: 'auth/tokenReceived', payload: refreshResult.data });
+      api.dispatch({ type: 'user/tokenReceived', payload: refreshResult.data });
       // retry the initial query
       result = await baseQueryWithRetry(args, api, extraOptions);
     } else {
       api.dispatch({
-        type: 'auth/logout'
+        type: 'user/logout'
       });
     }
   }

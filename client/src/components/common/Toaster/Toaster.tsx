@@ -1,15 +1,19 @@
-import styles from './Toaster.module.scss';
+import { Toast, ToastClose, ToastDescription, ToastProvider, ToastViewport } from '@/components/common/Toast/Toast';
+import { useToast } from '@/components/common/Toaster/useToast';
 
-const Toaster = () => (
-  <div className={styles.root}>
-    <div className={styles.label}>
-      <span className='material-symbols-outlined'>flight</span>
-      <p>
-        Ваш компьютер работает в автономном режиме.
-        <br /> Проверьте подключение к Интернету и повторите попытку.
-      </p>
-    </div>
-  </div>
-);
+export const Toaster = () => {
+  const { toasts } = useToast();
 
-export default Toaster;
+  return (
+    <ToastProvider>
+      {toasts.map(({ action, description, id, ...props }) => (
+        <Toast key={id} {...props}>
+          <div className='grid gap-1'>{description && <ToastDescription>{description}</ToastDescription>}</div>
+          {action}
+          {/* <ToastClose /> */}
+        </Toast>
+      ))}
+      <ToastViewport />
+    </ToastProvider>
+  );
+};

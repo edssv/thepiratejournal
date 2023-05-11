@@ -4,17 +4,70 @@ import { MoonLoader } from 'react-spinners';
 
 import styles from './Button.module.scss';
 
+// const buttonVariants = cva(styles.root, {
+//   variants: {
+//     variant: {
+//       filled: styles.filled,
+//       outlined: styles.outlined,
+//       elevated: styles.elevated,
+//       filledTonal: styles.filledTonal,
+//       text: styles.text
+//     },
+//     color: {
+//       primary: styles.primary,
+//       secondary: styles.secondary,
+//       tertiary: styles.tertiary
+//     }
+//   },
+//   defaultVariants: {
+//     variant: 'text',
+//     color: 'primary'
+//   }
+// });
+
 export type Variant = 'elevated' | 'filled' | 'filledTonal' | 'outlined' | 'text';
 export type ButtonColor = 'primary' | 'secondary' | 'tertiary';
 
 export interface ButtonOwnProps<E extends ElementType = ElementType> {
-  children: any;
+  /**
+   * label
+   */
+  children: React.ReactNode;
+  /**
+   * loading
+   */
   isLoading?: boolean;
+  /**
+   * is active
+   */
   isActive?: boolean;
+  /**
+   * variant
+   */
   variant?: Variant;
+  /**
+   * start icon
+   */
+  startIcon?: string;
+  /**
+   *  icon
+   */
   icon?: boolean;
+  /**
+   * color
+   */
   color?: ButtonColor;
+  /**
+   * weight
+   */
+  weight?: 'light' | 'normal' | 'medium';
+  /**
+   * class
+   */
   className?: string;
+  /**
+   * html Type
+   */
   as?: E;
 }
 
@@ -24,43 +77,41 @@ export interface ButtonOwnProps<E extends ElementType = ElementType> {
 // type OutlinedButtonProps = ButtonOwnProps & { variant: 'outlined'; color?: never };
 // type TextButtonProps = ButtonOwnProps & { variant: 'text'; color?: ButtonColor };
 
-export type ButtonProps<E extends ElementType> = ButtonOwnProps<E> &
-  Omit<ComponentProps<E>, keyof ButtonOwnProps>;
+export type ButtonProps<E extends ElementType> = ButtonOwnProps<E> & Omit<ComponentProps<E>, keyof ButtonOwnProps>;
 
 const defaultElement = 'button';
 
 const Button = <E extends ElementType = typeof defaultElement>({
-  isLoading,
-  isActive,
-  children,
-  variant = 'text',
-  icon,
-  color = 'primary',
-  className,
   as,
+  children,
+  className,
+  color = 'primary',
+  icon,
+  isActive,
+  isLoading,
+  startIcon,
+  variant = 'text',
+  weight = 'normal',
   ...otherProps
 }: ButtonProps<E>) => {
   const TagName = as || defaultElement;
-
-  const isSeveralChildren = Array.isArray(children) && children[1] !== null;
 
   return (
     <TagName
       className={clsx(
         styles.root,
-        isSeveralChildren && styles.iconWithText,
+        startIcon && styles.startIcon,
         icon && styles.icon,
         isActive && styles.isActive,
         variant,
         `${color}Color`,
-        className,
-        'label-large'
+        styles[weight],
+        className
       )}
       {...otherProps}
     >
-      {isLoading && (
-        <MoonLoader color='var(--md-sys-color-primary)' size='14px' speedMultiplier={0.7} />
-      )}
+      {isLoading && <MoonLoader color='var(--md-sys-color-primary)' size='14px' speedMultiplier={0.7} />}
+      {startIcon && <span className='material-symbols-outlined'>{startIcon}</span>}
       {children}
     </TagName>
   );

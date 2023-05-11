@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-import { useAuth } from '@/hooks';
 import { useActions } from '@/hooks/useActions';
+import { useAuth } from '@/hooks/useAuth';
 import { getAccessToken, getRefreshToken } from '@/services/auth/auth.helper';
 import { useLazyGetNewTokensQuery } from '@/services/auth/auth.service';
 

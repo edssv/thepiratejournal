@@ -1,5 +1,0 @@
-mutation UpdateBlogMutation($updateBlogInput: UpdateBlogInput!) {
-  updateBlog(updateBlogInput: $updateBlogInput) {
-    id
-  }
-}

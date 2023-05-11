@@ -13,8 +13,8 @@ interface DialogTriggerProps {
 
 const DialogTrigger: React.FC<React.PropsWithChildren<DialogTriggerProps>> = ({
   children,
-  isVisible,
   clickOutside = true,
+  isVisible,
   onClose
 }) => {
   const portalRoot = document.getElementById('portal-root') || new HTMLElement();

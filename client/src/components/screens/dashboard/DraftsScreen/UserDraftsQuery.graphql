@@ -1,0 +1,8 @@
+query UserDraftsQuery {
+  getUserDrafts {
+    id
+    title
+    cover
+    createdAt
+  }
+}

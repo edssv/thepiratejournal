@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { hash as argonHash, verify } from 'argon2';
@@ -17,17 +22,21 @@ export class AuthService {
     private configService: ConfigService,
     private readonly userService: UserService,
     private jwtService: JwtService,
-    private mailService: MailService
+    private mailService: MailService,
   ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.userService.findOneForAuth(email);
     if (!user) throw new NotFoundException('Пользователь не найден.');
-    if (!user.password) throw new NotFoundException('Зарегистрирован через социальную сеть или пароль не найден.');
+    if (!user.password)
+      throw new NotFoundException(
+        'Зарегистрирован через социальную сеть или пароль не найден.',
+      );
 
     const isValidPassword = await verify(user.password, password);
 
-    if (!isValidPassword) throw new UnauthorizedException('Неверный почтовый адрес или пароль.');
+    if (!isValidPassword)
+      throw new UnauthorizedException('Неверный почтовый адрес или пароль.');
 
     if (user && isValidPassword) {
       const { password, ...result } = user;
@@ -44,12 +53,17 @@ export class AuthService {
     user = userByEmail;
 
     if (userByEmail) {
+      const isChangedImage =
+        user.image.split('googleusercontent.com')[0] !==
+        'googleusercontent.com';
+
+      const image = isChangedImage ? user.image : socialData.image;
+
       this.userService.update(user.id, {
-        username: `${socialData.firstName} ${socialData.lastName}`,
         email: socialEmail,
         firstName: socialData.firstName,
         lastName: socialData.lastName,
-        image: socialData.image,
+        image: image,
       });
     } else {
       user = await this.userService.create({
@@ -65,8 +79,10 @@ export class AuthService {
 
     return {
       user: user,
-      accessToken: this.generateJwtTokens({ ...user, sub: user.id }).accessToken,
-      refreshToken: this.generateJwtTokens({ ...user, sub: user.id }).refreshToken,
+      accessToken: this.generateJwtTokens({ ...user, sub: user.id })
+        .accessToken,
+      refreshToken: this.generateJwtTokens({ ...user, sub: user.id })
+        .refreshToken,
     };
   }
 
@@ -87,18 +103,27 @@ export class AuthService {
 
     return {
       user: userData,
-      accessToken: this.generateJwtTokens({ ...user, sub: user.id }).accessToken,
-      refreshToken: this.generateJwtTokens({ ...user, sub: user.id }).refreshToken,
+      accessToken: this.generateJwtTokens({ ...user, sub: user.id })
+        .accessToken,
+      refreshToken: this.generateJwtTokens({ ...user, sub: user.id })
+        .refreshToken,
     };
   }
 
   async signUp(signUpDto: SignUpDto) {
     const findByEmail = await this.userService.findOneForAuth(signUpDto.email);
-    const findByUsername = await this.userService.findOneByUsername(signUpDto.username);
-    if (findByEmail) throw new BadRequestException('Данный почтовый адрес уже занят.');
-    if (findByUsername) throw new BadRequestException('Данный никнейм уже занят.');
+    const findByUsername = await this.userService.findOneByUsername(
+      signUpDto.username,
+    );
+    if (findByEmail)
+      throw new BadRequestException('Данный почтовый адрес уже занят.');
+    if (findByUsername)
+      throw new BadRequestException('Данный никнейм уже занят.');
 
-    const hash = crypto.createHash('sha256').update(randomStringGenerator()).digest('hex');
+    const hash = crypto
+      .createHash('sha256')
+      .update(randomStringGenerator())
+      .digest('hex');
 
     const { password, ...user } = await this.userService.create({
       username: signUpDto.username,
@@ -116,8 +141,10 @@ export class AuthService {
 
     return {
       user,
-      accessToken: this.generateJwtTokens({ ...user, sub: user.id }).accessToken,
-      refreshToken: this.generateJwtTokens({ ...user, sub: user.id }).refreshToken,
+      accessToken: this.generateJwtTokens({ ...user, sub: user.id })
+        .accessToken,
+      refreshToken: this.generateJwtTokens({ ...user, sub: user.id })
+        .refreshToken,
     };
   }
 
@@ -141,8 +168,10 @@ export class AuthService {
 
     return {
       user,
-      accessToken: this.generateJwtTokens({ ...user, sub: user.id }).accessToken,
-      refreshToken: this.generateJwtTokens({ ...user, sub: user.id }).refreshToken,
+      accessToken: this.generateJwtTokens({ ...user, sub: user.id })
+        .accessToken,
+      refreshToken: this.generateJwtTokens({ ...user, sub: user.id })
+        .refreshToken,
     };
   }
 

@@ -4,18 +4,12 @@
 
 type Article {
   body: [Block!]!
-  category: String!
-  comments: String!
   cover: String!
   createdAt: DateTime!
   description: String!
   id: ID!
-  isDeleted: Boolean!
-  isPublished: Boolean!
   likes: [Like!]!
   readingTime: Float!
-  searchTitle: String!
-  tags: [String!]
   title: String!
   updatedAt: DateTime!
   user: User!
@@ -54,24 +48,6 @@ type BlockData {
   withBorder: Boolean
 }
 
-type Blog {
-  body: [Block!]!
-  category: String!
-  cover: String!
-  createdAt: DateTime!
-  description: String!
-  id: ID!
-  isDeleted: Boolean
-  isPublished: Boolean!
-  likesCount: Float!
-  readingTime: Float!
-  tags: [String!]
-  title: String!
-  updatedAt: DateTime!
-  user: User!
-  viewsCount: Float!
-}
-
 type Bookmark {
   article: Article!
   createdAt: DateTime!
@@ -81,32 +57,16 @@ type Bookmark {
 
 input CreateArticleInput {
   body: [InputBlock!]!
-  category: String!
   cover: String!
   description: String!
   draftId: Float
-  readingTime: Float!
-  tags: [String!]
-  title: String!
-}
-
-input CreateBlogInput {
-  body: [InputBlock!]!
-  category: String
-  cover: String!
-  description: String!
-  draftId: Float
-  readingTime: Float!
-  tags: [String!]
   title: String!
 }
 
 input CreateDraftInput {
   body: [InputBlock!]
-  category: String
   cover: String
   description: String
-  tags: [String!]
   title: String
 }
 
@@ -117,7 +77,6 @@ scalar DateTime
 
 type Draft {
   body: [Block!]
-  category: String
   cover: String
   createdAt: DateTime!
   description: String
@@ -182,33 +141,27 @@ type Like {
 
 type Mutation {
   createArticle(createArticleInput: CreateArticleInput!): Article!
-  createBlog(createBlogInput: CreateBlogInput!): Blog!
   createDraft(createDraftInput: CreateDraftInput!): Draft!
   createLike(articleId: Float!): ID!
   login(loginInput: EmailLoginInput!): Auth!
   removeArticle(id: Float!): Article!
-  removeBlog(id: Float!): Blog!
   removeDraft(id: Float!): Draft!
   removeLike(articleId: Float!): ID!
   signup(signupInput: SignUpInput!): Auth!
   updateArticle(updateArticleInput: UpdateArticleInput!): Article!
-  updateBlog(updateBlogInput: UpdateBlogInput!): Blog!
   updateDraft(updateDraftInput: UpdateDraftInput!): Float!
+  updateProfile(updateProfileInput: UpdateProfileInput!): User
 }
 
 type Query {
-  getAllArticles: [Article!]!
-  getAllBlog: [Blog!]!
+  getAllArticle: [Article!]!
   getArticle(id: Float!): Article!
-  getAuthorChoiceArticles: [Article!]!
-  getBestOfWeekArticles: [Article!]!
   getDraft(id: Float!): Draft!
-  getNewestArticles: [Article!]!
   getNextArticles(id: Float!): [Article!]!
-  getNextBlogs(id: Float!): [Blog!]!
-  getOneBlog(id: Float!): Blog!
   getUser(id: Float!): User!
+  getUserArticles: [Article!]!
   getUserContent(articles: String!, id: Float!): [Draft!]
+  getUserDrafts: [Draft!]!
 }
 
 input SignUpInput {
@@ -222,36 +175,24 @@ input SignUpInput {
 
 input UpdateArticleInput {
   body: [InputBlock!]!
-  category: String!
   cover: String!
   description: String!
   draftId: Float
   id: ID!
-  readingTime: Float!
-  tags: [String!]
-  title: String!
-}
-
-input UpdateBlogInput {
-  body: [InputBlock!]!
-  category: String
-  cover: String!
-  description: String!
-  draftId: Float
-  id: ID!
-  readingTime: Float!
-  tags: [String!]
   title: String!
 }
 
 input UpdateDraftInput {
   body: [InputBlock!]
-  category: String
   cover: String
   description: String
-  id: Float!
-  tags: [String!]
+  draftId: Float!
   title: String
+}
+
+input UpdateProfileInput {
+  image: String
+  username: String
 }
 
 type User {

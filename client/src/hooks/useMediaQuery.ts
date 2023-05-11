@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 export const useMediaQuery = (query: string) => {
   const [matches, setMatches] = useState(false);
+
   useEffect(() => {
     const matchQueryList = window.matchMedia(query);
     function handleChange(e: any) {

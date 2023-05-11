@@ -1,9 +1,11 @@
-import { Args, Resolver, Query } from '@nestjs/graphql';
+import { Args, Resolver, Query, Context, Mutation } from '@nestjs/graphql';
 
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
-import { Article } from 'src/modules/article/entities/article.entity';
 import { Draft } from '../draft/entities/draft.entity';
+import { UseGuards } from '@nestjs/common';
+import { UpdateProfileInput } from './inputs/update-profile';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Resolver('User')
 export class UserResolver {
@@ -20,5 +22,14 @@ export class UserResolver {
     @Args('articles') articles: string,
   ) {
     return await this.userService.findContent(id, articles);
+  }
+
+  @Mutation(() => User, { nullable: true })
+  @UseGuards(JwtAuthGuard)
+  async updateProfile(
+    @Context() context,
+    @Args('updateProfileInput') input: UpdateProfileInput,
+  ) {
+    return await this.userService.updateProfile(context.req.user.id, input);
   }
 }

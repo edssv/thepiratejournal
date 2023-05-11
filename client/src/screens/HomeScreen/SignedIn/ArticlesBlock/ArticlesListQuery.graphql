@@ -1,8 +1,0 @@
-query ArticlesListQuery {
-  getAllArticles {
-    id
-    title
-    description
-    cover
-  }
-}

@@ -1,6 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { InputBlock } from 'src/lib/block.type';
-import { ArticleCategory } from 'src/modules/article/entities/article.entity';
 
 @InputType()
 export class CreateDraftInput {
@@ -15,10 +14,4 @@ export class CreateDraftInput {
 
   @Field(() => [InputBlock], { nullable: true })
   body: InputBlock[];
-
-  @Field(() => [String], { nullable: true })
-  tags?: string[];
-
-  @Field({ nullable: true })
-  category: ArticleCategory;
 }

@@ -1,8 +1,0 @@
-query NextArticlesQuery($id: Float!) {
-  getNextArticles(id: $id) {
-    id
-    title
-    cover
-    category
-  }
-}

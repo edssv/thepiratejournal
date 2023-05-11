@@ -1,0 +1,211 @@
+type Article {
+  body: [Block!]!
+  cover: String!
+  createdAt: DateTime!
+  description: String!
+  id: ID!
+  likes: [Like!]!
+  readingTime: Float!
+  title: String!
+  updatedAt: DateTime!
+  user: User!
+  viewsCount: Float!
+}
+
+type Auth {
+  """JWT access token"""
+  accessToken: String!
+
+  """JWT refresh token"""
+  refreshToken: String!
+  user: User!
+}
+
+type Block {
+  data: BlockData!
+  id: ID!
+  type: String!
+}
+
+type BlockData {
+  caption: String
+  embed: String
+  file: FileData
+  height: Float
+  items: [String!]
+  level: Float
+  service: String
+  source: String
+  stretched: Boolean
+  style: String
+  text: String
+  width: Float
+  withBackground: Boolean
+  withBorder: Boolean
+}
+
+type Bookmark {
+  article: Article!
+  createdAt: DateTime!
+  id: ID!
+  user: User!
+}
+
+input CreateArticleInput {
+  body: [InputBlock!]!
+  cover: String!
+  description: String!
+  draftId: Float
+  title: String!
+}
+
+input CreateDraftInput {
+  body: [InputBlock!]
+  cover: String
+  description: String
+  title: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Draft {
+  body: [Block!]
+  cover: String
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  tags: [String!]
+  title: String
+  updatedAt: DateTime!
+  user: User!
+}
+
+input EmailLoginInput {
+  email: String!
+  password: String!
+}
+
+type FileData {
+  ref: String
+  url: String
+}
+
+type Follower {
+  createdAt: DateTime!
+  followingTo: [User!]!
+  id: ID!
+  user: [User!]!
+}
+
+input InputBlock {
+  data: InputBlockData!
+  id: ID!
+  type: String!
+}
+
+input InputBlockData {
+  caption: String
+  embed: String
+  file: InputFileData
+  height: Float
+  items: [String!]
+  level: Float
+  service: String
+  source: String
+  stretched: Boolean
+  style: String
+  text: String
+  width: Float
+  withBackground: Boolean
+  withBorder: Boolean
+}
+
+input InputFileData {
+  ref: String
+  url: String
+}
+
+type Like {
+  article: Article!
+  createdAt: DateTime!
+  id: ID!
+  user: User!
+}
+
+type Mutation {
+  createArticle(createArticleInput: CreateArticleInput!): Article!
+  createDraft(createDraftInput: CreateDraftInput!): Draft!
+  createLike(articleId: Float!): ID!
+  login(loginInput: EmailLoginInput!): Auth!
+  removeArticle(id: Float!): Article!
+  removeDraft(id: Float!): Draft!
+  removeLike(articleId: Float!): ID!
+  signup(signupInput: SignUpInput!): Auth!
+  updateArticle(updateArticleInput: UpdateArticleInput!): Article!
+  updateDraft(updateDraftInput: UpdateDraftInput!): Float!
+  updateProfile(updateProfileInput: UpdateProfileInput!): User
+}
+
+type Query {
+  getAllArticle: [Article!]!
+  getArticle(id: Float!): Article!
+  getDraft(id: Float!): Draft!
+  getNextArticles(id: Float!): [Article!]!
+  getUser(id: Float!): User!
+  getUserArticles: [Article!]!
+  getUserContent(articles: String!, id: Float!): [Draft!]
+  getUserDrafts: [Draft!]!
+}
+
+input SignUpInput {
+  email: String!
+  firstName: String
+  image: String
+  lastName: String
+  password: String
+  username: String!
+}
+
+input UpdateArticleInput {
+  body: [InputBlock!]!
+  cover: String!
+  description: String!
+  draftId: Float
+  id: ID!
+  title: String!
+}
+
+input UpdateDraftInput {
+  body: [InputBlock!]
+  cover: String
+  description: String
+  draftId: Float!
+  title: String
+}
+
+input UpdateProfileInput {
+  image: String
+  username: String
+}
+
+type User {
+  articles: [Article!]
+  bookmarks: [Bookmark!]
+  createdAt: DateTime!
+  drafts: [Draft!]
+  email: String!
+  emailVerified: Boolean!
+  firstName: String
+  followers: [Follower!]
+  following: [Follower!]
+  id: ID!
+  image: String
+  lastName: String
+  likes: [Like!]
+  role: String!
+  updatedAt: DateTime!
+  username: String!
+}

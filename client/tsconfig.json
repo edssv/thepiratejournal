@@ -24,13 +24,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "database/connectDB.ts",
-    "src/helpers/resizeTextareaHeight.js"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/helpers/resizeTextareaHeight.js"],
   "exclude": ["node_modules"]
 }

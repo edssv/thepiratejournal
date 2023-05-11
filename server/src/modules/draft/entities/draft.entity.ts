@@ -9,7 +9,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { ArticleCategory } from 'src/modules/article/entities/article.entity';
 import { User } from 'src/modules/user/entities/user.entity';
 import { Block } from 'src/lib/block.type';
 
@@ -40,17 +39,17 @@ export class Draft {
   @Column({ type: 'jsonb', nullable: true })
   tags: string[];
 
-  @Field({ nullable: true })
-  @Column({ type: 'enum', enum: ArticleCategory, nullable: true })
-  category: ArticleCategory;
-
   @Field(() => User)
   @ManyToOne(() => User, { nullable: false })
   @JoinColumn({ name: 'user_id' })
   user: User;
 
   @Field()
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    name: 'created_at',
+  })
   createdAt: Date;
 
   @Field()

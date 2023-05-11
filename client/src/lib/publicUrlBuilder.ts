@@ -1,48 +1,39 @@
 export const getPublicUrl = {
   article(id: string | number) {
-    return `${this.community()}/articles/${id}`;
+    return `/blog/${id}`;
   },
   articleEdit(id: string | number) {
-    return `${this.community()}/articles/${id}/edit`;
-  },
-  articleNew() {
-    return `${this.community()}/articles/new`;
+    return `/editor/${id}`;
   },
   blog(id: string) {
     return `/blog/${id}`;
   },
-  blogPage() {
-    return `${this.home()}`;
+  dashboard() {
+    return '/dashboard';
   },
-  bookmarks() {
-    return `${this.community()}/bookmarks`;
+  dashboardArticles() {
+    return '/dashboard/articles';
   },
-  community() {
-    return '/community';
+  dashboardDrafts() {
+    return '/dashboard/drafts';
+  },
+  dashboardSetting() {
+    return '/dashboard/settings';
+  },
+  editor() {
+    return `/editor`;
   },
   draftEdit(id: string | number) {
-    return `${this.community()}/drafts/${id}/edit`;
+    return `/editor/drafts/${id}`;
   },
   home() {
     return '/';
-  },
-  history() {
-    return `${this.community()}/history`;
   },
   login() {
     return '/login';
   },
   privacy() {
     return '/privacy';
-  },
-  profile(id: string | number) {
-    return `${this.community()}/users/${id}`;
-  },
-  profileWithCategory(id: string | number, category: string) {
-    return `${this.community()}/users/${id}/${category}`;
-  },
-  search(query?: string) {
-    return query ? `${this.community()}/search?${query}` : `${this.community()}/search`;
   },
   shareFacebook(category: 'articles' | 'blog', id: string) {
     return `https://www.facebook.com/sharer/sharer.php?u=${process.env.NEXT_PUBLIC_CLIENT_URL}/${category}/${id}`;
@@ -59,13 +50,7 @@ export const getPublicUrl = {
   signupStepSecond() {
     return '/signup/2';
   },
-  subscriptions() {
-    return `${this.community()}/subscriptions`;
-  },
   terms() {
     return '/terms';
-  },
-  user(id: string) {
-    return `${this.community()}/users/${id}`;
   }
 };

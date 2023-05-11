@@ -4,7 +4,10 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { User } from 'src/modules/user/entities/user.entity';
 
-type JwtPayload = Pick<User, 'email' | 'role'> & { sub: string } & { iat: number; exp: number };
+type JwtPayload = Pick<User, 'email' | 'role'> & { sub: string } & {
+  iat: number;
+  exp: number;
+};
 
 @Injectable()
 export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {

@@ -30,7 +30,7 @@ interface ComponentProps extends ComponentRootProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Component: React.FC<ComponentProps> = ({ setIsOpen, title, description, ...otherProps }) => {
+const Component: React.FC<ComponentProps> = ({ description, setIsOpen, title, ...otherProps }) => {
   const router = useRouter();
 
   return (
@@ -77,16 +77,16 @@ const Component: React.FC<ComponentProps> = ({ setIsOpen, title, description, ..
 const Tippy: React.FC<React.PropsWithChildren<TippyProps>> = ({
   children,
   description,
-  title,
   isOpen,
+  placement = 'right',
   setIsOpen,
-  placement = 'right'
+  title
 }) => {
   const portalRoot = document.getElementById('portal-root') || new HTMLElement();
   const tippyRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
   const isTablet = useMediaPredicate('(max-width: 990.98px)');
-  const { styles: popperStyles, attributes } = usePopper(buttonRef.current, tippyRef.current, {
+  const { attributes, styles: popperStyles } = usePopper(buttonRef.current, tippyRef.current, {
     placement,
 
     modifiers: [{ name: 'offset', options: { offset: [0, 24] } }]

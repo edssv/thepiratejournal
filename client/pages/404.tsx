@@ -1,4 +1,4 @@
-import NotFoundScreen from '@/screens/NotFoundScreen/NotFoundScreen';
+import NotFoundScreen from '@/components/screens/NotFoundScreen/NotFoundScreen';
 
 import type { NextPageWithLayout } from './_app';
 
