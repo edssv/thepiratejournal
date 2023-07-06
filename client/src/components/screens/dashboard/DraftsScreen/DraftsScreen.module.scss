@@ -1,9 +1,0 @@
-.root {
-  .articleList {
-    .listItem {
-      &:not(:last-child) {
-        border-bottom: 1px solid var(--md-sys-color-outline-variant);
-      }
-    }
-  }
-}

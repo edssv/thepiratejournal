@@ -1,5 +1,0 @@
-mutation CreateDraftMutation($createDraftInput: CreateDraftInput!) {
-  createDraft(createDraftInput: $createDraftInput) {
-    id
-  }
-}

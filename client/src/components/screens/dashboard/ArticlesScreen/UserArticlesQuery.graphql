@@ -1,9 +1,0 @@
-query UserArticlesQuery {
-  getUserArticles {
-    id
-    title
-    cover
-    createdAt
-    viewsCount
-  }
-}

@@ -1,5 +1,0 @@
-mutation CreateArticleMutation($createArticleInput: CreateArticleInput!) {
-  createArticle(createArticleInput: $createArticleInput) {
-    id
-  }
-}

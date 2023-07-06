@@ -1,5 +1,0 @@
-mutation UpdateArticleMutation($updateArticleInput: UpdateArticleInput!) {
-  updateArticle(updateArticleInput: $updateArticleInput) {
-    id
-  }
-}

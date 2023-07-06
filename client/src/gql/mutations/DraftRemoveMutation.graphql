@@ -1,6 +1,0 @@
-mutation DraftRemoveMutation($id: Float!) {
-  removeDraft(id: $id) {
-    __typename
-    id
-  }
-}

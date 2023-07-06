@@ -1,6 +1,0 @@
-fragment ArticlePreview on Article {
-  id
-  title
-  description
-  cover
-}
