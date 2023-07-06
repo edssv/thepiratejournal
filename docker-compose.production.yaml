@@ -50,18 +50,18 @@ services:
       next-strapi:
         ipv4_address: 172.18.0.5
 
-  next:
-    container_name: next
-    restart: unless-stopped
-    build:
-      context: next
-    ports:
-      - '3000:3000'
-    depends_on:
-      - strapi
-    networks:
-      next-strapi:
-        ipv4_address: 172.18.0.4
+  # next:
+  #   container_name: next
+  #   restart: unless-stopped
+  #   build:
+  #     context: next
+  #   ports:
+  #     - '3000:3000'
+  #   depends_on:
+  #     - strapi
+  #   networks:
+  #     next-strapi:
+  #       ipv4_address: 172.18.0.4
 
   nginx:
     container_name: nginx
