@@ -1,25 +1,7 @@
 version: '3.8'
 services:
-  pg:
-    container_name: pg_db
-    image: postgres:alpine
-    restart: unless-stopped
-    ports:
-      - 5433:5433
-    env_file: .env
-    environment:
-      POSTGRES_USER: ${PG_USER}
-      POSTGRES_PASSWORD: ${PG_PASSWORD}
-      POSTGRES_DB: ${PG_DB}
-    volumes:
-      - internship-pgdata:/var/lib/internship-postgresql/data
-    command: -p 5433
-    networks:
-      net:
-        ipv4_address: 172.18.0.7
-
   postgres:
-    container_name: postgres_db
+    container_name: postgres
     image: postgres:alpine
     restart: unless-stopped
     ports:
@@ -30,75 +12,55 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - strapi-data:/var/lib/postgresql/data/
     networks:
-      net:
+      next-strapi:
         ipv4_address: 172.18.0.6
 
-  # maildev:
-  #   build:
-  #     context: .
-  #     dockerfile: maildev.Dockerfile
-  #   ports:
-  #     - ${MAIL_CLIENT_PORT}:1080
-  #     - ${MAIL_PORT}:1025
-  #   networks:
-  #     net:
-  #       ipv4_address: 172.18.0.7
-
-  # pgadmin:
-  #   container_name: pgadmin
-  #   image: dpage/pgadmin4
-  #   ports:
-  #     - '8080:80'
-  #   volumes:
-  #     - /data/pgadmin:/root/.pgadmin
-  #   env_file:
-  #     - .env
-  #   links:
-  #     - postgres
-
-  api:
-    container_name: api
-    restart: unless-stopped
+  strapi:
+    container_name: strapi
     build:
-      context: api
-    ports:
-      - '5001:5001'
+      context: strapi
+    image: strapi:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_CLIENT: ${DATABASE_CLIENT}
+      DATABASE_HOST: ${POSTGRES_HOST}
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ${POSTGRES_DB}
+      DATABASE_USERNAME: ${POSTGRES_USER}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      APP_KEYS: ${APP_KEYS}
+      NODE_ENV: ${NODE_ENV}
     volumes:
-      - ./api/media:/usr/src/api/media
-      - internship-media:/usr/src/api/media
-    networks:
-      net:
-        ipv4_address: 172.18.0.3
-
-  server:
-    container_name: server
-    restart: unless-stopped
-    build:
-      context: server
+      - ./strapi/config:/opt/app/config
+      - ./strapi/src:/opt/app/src
+      - ./strapi/package.json:/opt/package.json
+      - ./strapi/yarn.lock:/opt/yarn.lock
+      - ./strapi/.env:/opt/app/.env
+      - ./strapi/public/uploads:/opt/app/public/uploads
     ports:
-      - '5000:5000'
+      - '1337:1337'
     depends_on:
       - postgres
-    volumes:
-      - ./server/media/og:/usr/src/server/media/og
-      - media:/usr/src/server/media
     networks:
-      net:
+      next-strapi:
         ipv4_address: 172.18.0.5
 
-  client:
-    container_name: client
+  next:
+    container_name: next
     restart: unless-stopped
     build:
-      context: client
+      context: next
     ports:
       - '3000:3000'
     depends_on:
-      - server
+      - strapi
     networks:
-      net:
+      next-strapi:
         ipv4_address: 172.18.0.4
 
   nginx:
@@ -109,19 +71,15 @@ services:
       target: prod
     ports:
       - '80:80'
-      - '443:443'
     networks:
-      net:
-        ipv4_address: 172.18.0.2
+      next-strapi:
+        ipv4_address: 172.18.0.3
 
 volumes:
-  pgdata:
-  internship-pgdata:
-  media:
-  internship-media:
+  strapi-data:
 
 networks:
-  net:
+  next-strapi:
     driver: bridge
     ipam:
       driver: default
