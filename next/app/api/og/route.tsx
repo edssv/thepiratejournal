@@ -4,6 +4,7 @@
 import { ImageResponse } from '@vercel/og';
 
 import { siteConfig } from '@/config/site';
+import { absoluteUrl, absoluteUrlImageFromStrapi } from '@/lib/utils';
 import { ogImageSchema } from '@/lib/validations/og';
 
 export const runtime = 'edge';
@@ -36,30 +37,19 @@ export async function GET(req: Request) {
           tw='flex relative flex-col p-12 w-full h-full items-start'
           style={{
             color: paint,
-            background: mode === 'dark' ? `url(${image})` : 'white'
+            backgroundImage: `url(${new URL(absoluteUrlImageFromStrapi(image))})`,
+            backgroundPosition: '-50%',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover'
           }}
         >
           <div
-            tw='absolute -z-10 w-[1200px] h-[630px] top-0 left-0 bottom-0'
+            tw='absolute w-[1200px] h-[630px] top-0 left-0 bottom-0'
             style={{
-              background: 'linear-gradient(90deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.05))',
+              background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.25))',
               backgroundSize: '100% 100%'
             }}
           />
-          <div tw='flex items-center'>
-            <div
-              style={{
-                background: `url(http://localhost:3000/android-chrome-192x192.png)`,
-                backgroundSize: '48px 48px',
-                width: '48px',
-                height: '48px',
-                marginRight: '12px'
-              }}
-            />
-            <div style={{ fontFamily: 'Inter', fontWeight: 'normal' }} tw='text-xl font-medium'>
-              {siteConfig.name}
-            </div>
-          </div>
 
           <div tw='flex flex-col h-full justify-end flex-1 py-10'>
             <div
@@ -81,6 +71,20 @@ export async function GET(req: Request) {
             </div>
           </div>
           <div tw='flex items-center w-full justify-between'>
+            <div tw='flex items-center'>
+              <div
+                style={{
+                  background: `url(http://localhost:3000/android-chrome-192x192.png)`,
+                  backgroundSize: '42px 42px',
+                  width: '42px',
+                  height: '42px',
+                  marginRight: '12px'
+                }}
+              />
+              <div style={{ fontFamily: 'Inter', fontWeight: 'normal' }} tw='text-xl font-medium'>
+                {siteConfig.name}
+              </div>
+            </div>
             <div style={{ fontFamily: 'Inter', fontWeight: 'normal' }} tw='flex text-xl'>
               thepirate.press
             </div>
