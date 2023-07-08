@@ -9,7 +9,7 @@ import Header from '@/components/article-page/header';
 import Hero from '@/components/article-page/hero';
 import ShareArticle from '@/components/share-article';
 import { env } from '@/env.mjs';
-import { absoluteUrl } from '@/lib/utils';
+import { absoluteUrl, absoluteUrlImageFromStrapi } from '@/lib/utils';
 import { ArticleService } from '@/services/article/article.service';
 
 interface ArticlePageProps {
@@ -22,7 +22,6 @@ async function getArticleFromParams(params: ArticlePageProps['params']) {
   const slug = params?.articleId;
   const { data } = await ArticleService.getArticle(slug);
 
-  console.log(data);
   return data;
 }
 
@@ -38,6 +37,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   const ogUrl = new URL(`${url}/api/og`);
   ogUrl.searchParams.set('heading', article.title);
   ogUrl.searchParams.set('type', 'Blog article');
+  ogUrl.searchParams.set('image', absoluteUrlImageFromStrapi(article.cover.data.attributes.url));
   ogUrl.searchParams.set('mode', 'dark');
 
   return {

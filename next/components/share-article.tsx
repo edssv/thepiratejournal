@@ -69,7 +69,7 @@ export default function ShareArticle({ data }: ShareProps) {
                         vk: `https://vk.com/share.php?url=${url}&title=${data.label}&image=${data.image}`,
                         ok: `https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&st.title=${data.label}&st.shareUrl=${url}`,
                         telegram: `https://t.me/share/url?url=${url}&text=${data.label}`
-                      }[title] || '/'
+                      }[title.toLocaleLowerCase()] || '/'
                     }
                   >
                     <Icon />
