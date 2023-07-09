@@ -36,7 +36,9 @@ COPY package*.json ./
 
 RUN yarn install --production
 
+WORKDIR /usr/app/src/plugins/strapi-plugin-react-editorjs
 
+RUN yarn install
 
 COPY . .
 
