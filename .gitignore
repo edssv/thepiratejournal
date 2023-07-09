@@ -6,14 +6,6 @@ node_modules
 # testing
 coverage
 
-# production
-build
-/new-backend/media
-backend/media
-dist
-/.data
-/media
-
 
 # misc
 .DS_Store
@@ -27,8 +19,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# codegen
-codegen.download.yaml
 
-# dashboard
-/dashboard
+/strapi/public/uploads

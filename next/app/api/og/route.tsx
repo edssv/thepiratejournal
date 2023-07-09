@@ -4,7 +4,7 @@
 import { ImageResponse } from '@vercel/og';
 
 import { siteConfig } from '@/config/site';
-import { absoluteUrl, absoluteUrlImageFromStrapi } from '@/lib/utils';
+import { absoluteUrlImageFromStrapi } from '@/lib/utils';
 import { ogImageSchema } from '@/lib/validations/og';
 
 export const runtime = 'edge';
