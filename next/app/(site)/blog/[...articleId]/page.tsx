@@ -83,7 +83,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 : `Опубликовано ${formatDate(data.createdAt)}`}
             </time>
           )}
-          <h1 className='mt-2 inline-block font-heading text-4xl leading-tight lg:text-5xl xl:w-[880px]'>
+          <h1 className='font-heading mt-2 inline-block text-4xl leading-tight lg:text-5xl xl:w-[880px]'>
             {data.title}
           </h1>
           <p className='my-4 text-lg'>{data.description}</p>
@@ -116,9 +116,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               priority
               alt={data.title}
               className='my-8 w-full rounded-3xl bg-muted transition-colors'
-              height={405}
+              height={data.cover.data.attributes.height}
               src={absoluteUrlImageFromStrapi(data.cover.data.attributes.url)}
-              width={720}
+              width={data.cover.data.attributes.width}
             />
           </div>
         )}

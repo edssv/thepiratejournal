@@ -4,6 +4,7 @@ const nextConfig = {
   swcMinify: true,
   output: 'standalone',
   images: {
+    formats: ['image/webp'],
     remotePatterns: [
       {
         protocol: 'http',

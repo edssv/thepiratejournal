@@ -4,7 +4,7 @@ import type { GetArticleResponse } from '@/interfaces/get-article-res';
 
 export const ArticleService = {
   async getArticleList() {
-    const res = await fetch(`${env.STRAPI_API_URL}/articles?populate=*`, {
+    const res = await fetch(`${env.STRAPI_API_URL}/articles?populate=*&sort[0]=createdAt%3Adesc`, {
       headers: {
         Authorization: `bearer ${env.STRAPI_API_TOKEN}`
       },

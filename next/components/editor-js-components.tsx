@@ -49,7 +49,7 @@ const CustomImageRenderer = ({ classNames, config, data, ...props }: any) =>
         {...props}
       />
       {data.caption && (
-        <figcaption className='mt-2 text-center text-sm text-muted-foreground'>{data.file.caption}</figcaption>
+        <figcaption className='mt-2 text-center text-sm text-muted-foreground'>{data.caption}</figcaption>
       )}
     </figure>
   ) : (
