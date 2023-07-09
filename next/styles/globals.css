@@ -78,17 +78,23 @@
 }
 
 @layer components {
-  .article {
-    @media (min-width: 1024px) {
-      :nth-child(4n + 1),
-      :nth-child(4n + 2) {
-        padding-right: 142px;
-      }
+  .article:nth-child(odd) {
+    @media (min-width: 620px) {
+      padding-right: 32px;
+    }
+  }
 
-      :nth-child(4n + 3),
-      :nth-child(4n + 4) {
-        padding-left: 142px;
-      }
+  .article:nth-child(4n + 1),
+  .article:nth-child(4n + 2) {
+    @media (min-width: 1024px) {
+      padding-right: 142px;
+    }
+  }
+
+  .article:nth-child(4n + 3),
+  .article:nth-child(4n + 4) {
+    @media (min-width: 1024px) {
+      padding-left: 142px;
     }
   }
 }

@@ -16,8 +16,7 @@
     "better-sqlite3": "8.0.1",
     "false": "^0.0.4",
     "pg": "^8.11.1",
-    "sharp": "^0.32.1",
-    "strapi-plugin-react-editorjs": "^2.0.2"
+    "sharp": "^0.32.1"
   },
   "author": {
     "name": "A Strapi developer"

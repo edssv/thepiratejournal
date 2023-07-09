@@ -14,14 +14,15 @@ import { env } from '@/env.mjs';
 
 import { Icons } from './icons';
 
-interface ShareProps {
+interface ShareArticleProps {
   data: {
     label: string;
     image: string;
   };
+  children: React.ReactNode;
 }
 
-export default function ShareArticle({ data }: ShareProps) {
+export default function ShareArticle({ children, data }: ShareArticleProps) {
   const pathname = usePathname();
   const [isCopied, setIsCopied] = useState(false);
   const url = `${env.NEXT_PUBLIC_APP_URL}${pathname}`;
@@ -34,14 +35,7 @@ export default function ShareArticle({ data }: ShareProps) {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          className='max-w-10 flex h-10 items-center justify-center rounded-full bg-accent lg:bg-transparent'
-          variant='outline'
-        >
-          <Icons.share className='mr-2' /> <span>Поделиться</span>
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader />
         <div className='flex flex-col items-center'>

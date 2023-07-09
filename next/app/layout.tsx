@@ -1,6 +1,5 @@
-import { Roboto, Roboto_Mono } from 'next/font/google';
+import { Inter as FontSans, Roboto_Mono } from 'next/font/google';
 
-import '@/styles/styles.scss';
 import '@/styles/globals.css';
 import { Analytics } from '@/components/analytics';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
@@ -13,23 +12,20 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export const roboto = Roboto({
+export const fontSans = FontSans({
   subsets: ['latin', 'cyrillic'],
-  weight: ['300', '400', '500', '700'],
-  style: ['normal'],
-  variable: '--roboto-font'
+  variable: '--font-sans'
 });
+
 export const robotoMono = Roboto_Mono({
-  weight: ['300', '400', '500', '700'],
-  style: ['normal'],
   subsets: ['cyrillic', 'latin'],
-  variable: '--roboto-mono-font'
+  variable: '--font-roboto-mono'
 });
 
 export const metadata = {
   title: {
     default: siteConfig.name,
-    template: `%s | ${siteConfig.name}`
+    template: `%s - ${siteConfig.name}`
   },
   description: siteConfig.description,
   keywords: ['Game articles', 'Articles', 'Game'],
@@ -70,7 +66,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang='en'>
       <head />
-      <body className={cn('min-h-screen bg-background font-sans antialiased', roboto.variable)}>
+      <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable, robotoMono.variable)}>
         <ThemeProvider enableSystem attribute='class' defaultTheme='system'>
           {children}
           <Analytics />

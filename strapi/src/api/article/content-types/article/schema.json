@@ -22,13 +22,14 @@
       "type": "string",
       "required": true,
       "minLength": 8,
-      "maxLength": 80
+      "maxLength": 120
     },
     "body": {
       "type": "richtext"
     },
     "slug": {
-      "type": "uid"
+      "type": "uid",
+      "targetField": "title"
     },
     "cover": {
       "type": "media",

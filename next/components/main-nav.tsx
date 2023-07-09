@@ -20,7 +20,7 @@ export function MainNav({ children, items }: MainNavProps) {
 
   return (
     <div className='flex gap-6 md:gap-10'>
-      <Link className='hidden items-center space-x-2 md:flex' href='/'>
+      <Link className='hidden items-center space-x-3 md:flex' href='/'>
         <Image
           alt={`${siteConfig.name}`}
           height={40}
@@ -28,7 +28,7 @@ export function MainNav({ children, items }: MainNavProps) {
           src={`${siteConfig.url}/android-chrome-192x192.png`}
           width={40}
         />
-        <span className='hidden font-medium sm:inline-block'>{siteConfig.name}</span>
+        <span className='hidden font-bold sm:inline-block'>{siteConfig.name}</span>
       </Link>
       {items?.length ? (
         <nav className='hidden gap-6 md:flex'>
@@ -38,7 +38,7 @@ export function MainNav({ children, items }: MainNavProps) {
               key={index}
               href={item.disabled ? '#' : item.href}
               className={cn(
-                'flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm',
+                'flex items-center text-lg font-bold transition-colors hover:text-foreground/80 sm:text-sm',
                 item.href.startsWith(`/${segment}`) ? 'text-foreground' : 'text-foreground/60',
                 item.disabled && 'cursor-not-allowed opacity-80'
               )}
