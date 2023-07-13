@@ -1,4 +1,5 @@
 import { Inter as FontSans, Roboto_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 
 import '@/styles/globals.css';
 
@@ -22,6 +23,11 @@ export const fontSans = FontSans({
 export const robotoMono = Roboto_Mono({
   subsets: ['cyrillic', 'latin'],
   variable: '--font-roboto-mono'
+});
+
+const fontHeading = localFont({
+  src: '../assets/fonts/CalSans-SemiBold.woff2',
+  variable: '--font-heading'
 });
 
 export const metadata = {
@@ -68,7 +74,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang='en'>
       <head />
-      <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable, robotoMono.variable)}>
+      <body
+        className={cn(
+          'min-h-screen bg-background font-sans antialiased',
+          fontSans.variable,
+          robotoMono.variable,
+          fontHeading.variable
+        )}
+      >
         <ThemeProvider enableSystem attribute='class' defaultTheme='system'>
           <SessionProvider>{children}</SessionProvider>
           <Analytics />

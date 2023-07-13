@@ -1,10 +1,8 @@
-import moment from 'moment';
 import Image from 'next/image';
 import Link from 'next/link';
-import 'moment/locale/ru';
 
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
-import { cn } from '@/lib/utils';
+import { cn, formatDate } from '@/lib/utils';
 
 interface ArticleProps {
   id: string;
@@ -26,7 +24,7 @@ export const Article: React.FC<ArticleProps> = ({
   title
 }) => {
   const TitleTag = featured ? 'h1' : 'h2';
-  const date = moment(createdAt).format('DD.MM.YY');
+  const date = formatDate(createdAt, { month: 'numeric', day: 'numeric', year: '2-digit' });
 
   return (
     <div

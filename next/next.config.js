@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  output: 'standalone',
+  // output: 'standalone',
   images: {
     formats: ['image/webp'],
     remotePatterns: [
@@ -40,4 +40,6 @@ const nextConfig = {
   }
 };
 
-module.exports = nextConfig;
+const { withContentlayer } = require('next-contentlayer');
+
+module.exports = withContentlayer(nextConfig);
