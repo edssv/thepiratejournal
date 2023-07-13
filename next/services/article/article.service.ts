@@ -20,7 +20,7 @@ export const ArticleService = {
       headers: {
         Authorization: `bearer ${env.STRAPI_API_TOKEN}`
       },
-      next: { revalidate: 120 }
+      next: { revalidate: 120, tags: [`article,${slug}`] }
     });
     return res.json() as Promise<GetArticleResponse>;
   },
