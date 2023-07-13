@@ -6,7 +6,7 @@ export function EmptyPlaceholder({ children, className, ...props }: EmptyPlaceho
   return (
     <div
       className={clsx(
-        'animate-in fade-in-50 flex min-h-[400px] flex-col items-center justify-center rounded-md border border-dashed p-8 text-center',
+        'flex min-h-[400px] flex-col items-center justify-center rounded-md border border-dashed p-8 text-center animate-in fade-in-50',
         className
       )}
       {...props}

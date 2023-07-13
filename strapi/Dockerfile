@@ -26,7 +26,7 @@ ENV PATH /opt/node_modules/.bin:$PATH
 RUN chown -R node:node /opt/app
 RUN chmod -R 777 /opt/app/public/uploads
 EXPOSE 1337
-CMD ["yarn", "start"]
+CMD ["yarn", "develop"]
 
 # FROM node:16-alpine
 

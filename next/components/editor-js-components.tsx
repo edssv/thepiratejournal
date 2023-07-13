@@ -76,6 +76,26 @@ const CustomListRenderer = ({ classNames, data, props }: any) =>
     ''
   );
 
+const CustomVideoRenderer = ({ classNames, config, data, ...props }: any) =>
+  data ? (
+    <figure className='mt-6 xl:-mx-4'>
+      <iframe
+        allowFullScreen
+        allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+        className='w-full md:h-[450px]'
+        height={data.height}
+        loading='lazy'
+        src={data.embed}
+        title={data.caption}
+      />
+      {data.caption && (
+        <figcaption className='mt-2 text-center text-sm text-muted-foreground'>{data.caption}</figcaption>
+      )}
+    </figure>
+  ) : (
+    ''
+  );
+
 const CustomTableRenderer = ({ data }: any) =>
   data.content ? (
     <table>
@@ -117,7 +137,8 @@ const renderers = {
   quote: CustomQuoteRenderer,
   list: CustomListRenderer,
   table: CustomTableRenderer,
-  delimiter: CustomDelimiterRenderer
+  delimiter: CustomDelimiterRenderer,
+  embed: CustomVideoRenderer
 };
 
 export function Body({ data }: { data: [] }) {

@@ -16,7 +16,7 @@ import { Icons } from './icons';
 
 interface ShareArticleProps {
   data: {
-    label: string;
+    title: string;
     image: string;
   };
   children: React.ReactNode;
@@ -60,9 +60,9 @@ export default function ShareArticle({ children, data }: ShareArticleProps) {
                     target='_blank'
                     href={
                       {
-                        vk: `https://vk.com/share.php?url=${url}&title=${data.label}&image=${data.image}`,
-                        ok: `https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&st.title=${data.label}&st.shareUrl=${url}`,
-                        telegram: `https://t.me/share/url?url=${url}&text=${data.label}`
+                        vk: `https://vk.com/share.php?url=${url}&title=${data.title}&image=${data.image}`,
+                        ok: `https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&st.title=${data.title}&st.shareUrl=${url}`,
+                        telegram: `https://t.me/share/url?url=${url}&text=${data.title}`
                       }[title.toLocaleLowerCase()] || '/'
                     }
                   >

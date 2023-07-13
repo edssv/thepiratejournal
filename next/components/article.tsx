@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import 'moment/locale/ru';
 
-import { robotoMono } from '@/app/layout';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import { cn } from '@/lib/utils';
 

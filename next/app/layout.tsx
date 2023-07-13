@@ -1,9 +1,11 @@
 import { Inter as FontSans, Roboto_Mono } from 'next/font/google';
 
 import '@/styles/globals.css';
+
 import { Analytics } from '@/components/analytics';
+import { SessionProvider } from '@/components/providers/session-provider';
+import { ThemeProvider } from '@/components/providers/theme-provider';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
-import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
@@ -68,7 +70,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <head />
       <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable, robotoMono.variable)}>
         <ThemeProvider enableSystem attribute='class' defaultTheme='system'>
-          {children}
+          <SessionProvider>{children}</SessionProvider>
           <Analytics />
           <Toaster />
           <TailwindIndicator />

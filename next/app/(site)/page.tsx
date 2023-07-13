@@ -4,7 +4,7 @@ import { ArticleService } from '@/services/article/article.service';
 
 export default async function MainPage() {
   const { data } = await ArticleService.getArticleList();
-  console.log(data);
+
   return (
     <div className='container flex-wrap py-6 lg:py-10'>
       {data?.length

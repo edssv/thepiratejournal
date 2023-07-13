@@ -38,6 +38,15 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "views": {
+      "type": "integer"
+    },
+    "likes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::like.like",
+      "mappedBy": "article"
     }
   }
 }

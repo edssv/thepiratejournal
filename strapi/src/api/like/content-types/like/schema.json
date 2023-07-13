@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "likes",
+  "info": {
+    "singularName": "like",
+    "pluralName": "likes",
+    "displayName": "Like",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "article": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article.article",
+      "inversedBy": "likes"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "likes"
+    }
+  }
+}
