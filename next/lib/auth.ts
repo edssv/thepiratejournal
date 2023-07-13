@@ -34,7 +34,6 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt'
   },
-  debug: true,
   callbacks: {
     session({ session, token }) {
       if (token) {

@@ -30,15 +30,14 @@ export function ArticleLikeButton({
 
   const Icon = isLike ? Icons.filledHeart : Icons.heart;
 
-  const onClick = async () => {
+  const onClick = () => {
     setClicked(true);
 
     if (isLike) {
       LikeService.delete(article.id);
     } else LikeService.create(article.id);
 
-    await fetch(`/api/revalidate?tag=article,${article.slug}`);
-    router.refresh();
+    fetch(`/api/revalidate?tag=article,${article.slug}`).then(() => router.refresh());
   };
 
   return isAuth ? (
