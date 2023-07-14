@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  output: 'standalone',
+  // output: 'standalone',
   images: {
     formats: ['image/webp'],
     remotePatterns: [

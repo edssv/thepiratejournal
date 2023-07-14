@@ -24,9 +24,9 @@ export const ArticleService = {
     });
     return res.json() as Promise<GetArticleResponse>;
   },
-  async getUserArticles(authorId: number) {
+  async getUserArticles(slug: string, authorId: number) {
     const res = await fetch(
-      `${env.STRAPI_API_URL}/articles/?filters[author][id]=${authorId}&populate=author&populate=cover&pagination[pageSize]=4`,
+      `${env.STRAPI_API_URL}/articles/?filters[slug][$ne]=${slug}&filters[author][id]=${authorId}&populate=author&populate=cover&pagination[pageSize]=4`,
       {
         headers: {
           Authorization: `bearer ${env.STRAPI_API_TOKEN}`

@@ -20,12 +20,12 @@ import { ArticleService } from '@/services/article/article.service';
 
 interface ArticlePageProps {
   params: {
-    articleId: string;
+    slug: string;
   };
 }
 
 async function getArticleFromParams(params: ArticlePageProps['params']) {
-  const slug = params?.articleId;
+  const slug = params?.slug;
   const { data } = await ArticleService.getArticle(slug);
 
   if (!data) {
@@ -79,12 +79,12 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { attributes: data, id: articleId } = await getArticleFromParams(params);
-  const authorId = data.author.data.id;
-  const author = data.author.data.attributes;
+  const authorId = data.author?.data.id;
+  const author = data.author?.data.attributes;
   const authorName = author.firstname && author.lastname ? `${author.firstname} ${author.lastname}` : author.username;
 
-  const { data: userArticlesData } = await ArticleService.getUserArticles(authorId);
-  const { data: moreArticlesData } = await ArticleService.getNextArticles(params.articleId, authorId);
+  const { data: userArticlesData } = await ArticleService.getUserArticles(params.slug, authorId);
+  const { data: moreArticlesData } = await ArticleService.getNextArticles(params.slug, authorId);
   const { data: isLikeArticle } = await ArticleService.checkLike(articleId);
 
   const user = await getCurrentUser();
