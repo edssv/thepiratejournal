@@ -34,13 +34,12 @@ export async function GET(req: Request) {
     return new ImageResponse(
       (
         <div
-          tw='flex relative flex-col p-12 w-full h-full items-start'
+          tw='flex bg-no-repeat relative flex-col n p-12 w-full h-full items-start'
           style={{
             color: paint,
             backgroundImage: `url(${new URL(absoluteUrlImageFromStrapi(image))})`,
-            backgroundPosition: '-50%',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover'
+            backgroundColor: '#7678ed',
+            backgroundSize: '100% 100%'
           }}
         >
           <div
@@ -50,7 +49,6 @@ export async function GET(req: Request) {
               backgroundSize: '100% 100%'
             }}
           />
-
           <div tw='flex flex-col h-full justify-end flex-1 py-10'>
             <div
               style={{ fontFamily: 'Inter', fontWeight: 'normal' }}
