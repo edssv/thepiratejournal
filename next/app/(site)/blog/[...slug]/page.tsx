@@ -79,10 +79,11 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { attributes: data, id: articleId } = await getArticleFromParams(params);
-  const authorId = data.author?.data.id;
-  const author = data.author?.data.attributes;
-  const authorName = author.firstname && author.lastname ? `${author.firstname} ${author.lastname}` : author.username;
-
+  const authorId = data.author?.data?.id;
+  const author = data.author?.data?.attributes;
+  const authorName =
+    author?.firstname && author?.lastname ? `${author?.firstname} ${author?.lastname}` : author?.username;
+  console.log(author.image);
   const { data: userArticlesData } = await ArticleService.getUserArticles(params.slug, authorId);
   const { data: moreArticlesData } = await ArticleService.getNextArticles(params.slug, authorId);
   const { data: isLikeArticle } = await ArticleService.checkLike(articleId);
@@ -115,7 +116,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <div className='flex items-center space-x-3 text-sm'>
               <UserAvatar
                 user={{
-                  image: author.image ? absoluteUrlImageFromStrapi(author.image) : '',
+                  image: author?.image?.data ? absoluteUrlImageFromStrapi(author.image.data.attributes.url) : '',
                   name: author.username
                 }}
               />
