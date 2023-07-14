@@ -6,7 +6,7 @@ import Balancer from 'react-wrap-balancer';
 
 import { ArticleLikeButton } from '@/components/article-like-button';
 import { BackTopButton } from '@/components/article-page/back-top-button';
-import { SuggestionArticles } from '@/components/article-page/more-articles/suggestion-articles';
+import { SuggestionArticles } from '@/components/article-page/suggestion-articles/suggestion-articles';
 import { ArticleShareButton } from '@/components/article-share-button';
 import { Body } from '@/components/editor-js-components';
 import { Icons } from '@/components/icons';
@@ -83,7 +83,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const author = data.author?.data?.attributes;
   const authorName =
     author?.firstname && author?.lastname ? `${author?.firstname} ${author?.lastname}` : author?.username;
-  console.log(author.image);
+
   const { data: userArticlesData } = await ArticleService.getUserArticles(params.slug, authorId);
   const { data: moreArticlesData } = await ArticleService.getNextArticles(params.slug, authorId);
   const { data: isLikeArticle } = await ArticleService.checkLike(articleId);
@@ -112,7 +112,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <Balancer>{data.description}</Balancer>
         </p>
         <div className='mt-4 flex items-center justify-between gap-x-3 gap-y-6'>
-          {data.author?.data ? (
+          {author ? (
             <div className='flex items-center space-x-3 text-sm'>
               <UserAvatar
                 user={{
