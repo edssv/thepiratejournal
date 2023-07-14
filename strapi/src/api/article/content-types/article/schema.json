@@ -40,13 +40,22 @@
       ]
     },
     "views": {
-      "type": "integer"
+      "type": "integer",
+      "min": 0,
+      "required": false,
+      "default": 0
     },
     "likes": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::like.like",
       "mappedBy": "article"
+    },
+    "author": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "articles"
     }
   }
 }

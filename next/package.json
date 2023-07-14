@@ -58,10 +58,12 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.1",
     "react-image-crop": "^10.1.5",
+    "react-wrap-balancer": "^1.0.0",
     "rehype-autolink-headings": "^6.1.1",
     "rehype-pretty-code": "^0.10.0",
     "rehype-slug": "^5.1.0",
     "remark-gfm": "^3.0.1",
+    "sharp": "^0.32.2",
     "tailwind-merge": "^1.13.2",
     "tailwindcss-animate": "^1.0.6",
     "zod": "^3.21.4"

@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import Balancer from 'react-wrap-balancer';
 
 import { ArticleLikeButton } from '@/components/article-like-button';
 import { BackTopButton } from '@/components/article-page/back-top-button';
-import { MoreArticles } from '@/components/article-page/more-articles/more-articles';
+import { SuggestionArticles } from '@/components/article-page/more-articles/suggestion-articles';
 import { ArticleShareButton } from '@/components/article-share-button';
 import { Body } from '@/components/editor-js-components';
 import { Icons } from '@/components/icons';
@@ -25,6 +27,10 @@ interface ArticlePageProps {
 async function getArticleFromParams(params: ArticlePageProps['params']) {
   const slug = params?.articleId;
   const { data } = await ArticleService.getArticle(slug);
+
+  if (!data) {
+    return notFound();
+  }
 
   return data;
 }
@@ -73,8 +79,14 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { attributes: data, id: articleId } = await getArticleFromParams(params);
-  const { data: moreArticlesData } = await ArticleService.getNextArticles(params.articleId);
+  const authorId = data.author.data.id;
+  const author = data.author.data.attributes;
+  const authorName = author.firstname && author.lastname ? `${author.firstname} ${author.lastname}` : author.username;
+
+  const { data: userArticlesData } = await ArticleService.getUserArticles(authorId);
+  const { data: moreArticlesData } = await ArticleService.getNextArticles(params.articleId, authorId);
   const { data: isLikeArticle } = await ArticleService.checkLike(articleId);
+
   const user = await getCurrentUser();
 
   return (
@@ -92,23 +104,27 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             Опубликовано {formatDate(data.createdAt)}
           </time>
         )}
-        <h1 className='mt-2 inline-block text-4xl leading-tight lg:text-5xl xl:w-[880px]'>{data.title}</h1>
-        <p className='my-4 text-lg'>{data.description}</p>
+        <h1 className='mt-2 inline-block text-4xl leading-tight lg:text-5xl xl:w-[880px]'>
+          <Balancer>{data.title}</Balancer>
+        </h1>
+        <p className='my-4 text-lg'>
+          <Balancer>{data.description}</Balancer>
+        </p>
         <div className='mt-4 flex items-center justify-between gap-x-3 gap-y-6'>
-          {data.createdBy.data ? (
+          {data.author?.data ? (
             <div className='flex items-center space-x-3 text-sm'>
               <UserAvatar
                 user={{
-                  image: '',
-                  name: `${data.createdBy.data.attributes.firstname} ${data.createdBy.data.attributes.lastname}`
+                  image: author.image ? absoluteUrlImageFromStrapi(author.image) : '',
+                  name: author.username
                 }}
               />
               <div className='flex-1 text-left leading-tight'>
-                <p className='font-medium'>{`${data.createdBy.data.attributes.firstname} ${data.createdBy.data.attributes.lastname}`}</p>
+                <p className='font-medium'>{authorName} </p>
               </div>
             </div>
           ) : null}
-          <div className='flex gap-3'>
+          <div className='flex gap-2'>
             <ArticleLikeButton
               article={{ id: articleId, slug: data.slug, likesCount: data.likes.data.length }}
               isAuth={!!user}
@@ -138,31 +154,39 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </div>
       )}
       <Body data={JSON.parse(data.body)} />
-      <hr className='mb-6 mt-12' />
+      <hr className='mb-3 mt-12' />
       <div className='mb-6 flex justify-between gap-3'>
-        <ArticleLikeButton
-          article={{ id: articleId, slug: data.slug, likesCount: data.likes.data.length }}
-          isAuth={!!user}
-          isLike={isLikeArticle?.attributes?.isLike}
-          size='sm'
-        />
-        <ArticleShareButton
-          article={{ image: absoluteUrlImageFromStrapi(data.cover.data.attributes.url), title: data.title }}
-          size='sm'
-          variant='outline'
-        >
-          <Icons.share /> <span className='ml-2'>Поделиться</span>
-        </ArticleShareButton>
-      </div>
-      {/* <div className='flex justify-center py-6 lg:py-10'>
         <Link className={cn(buttonVariants({ variant: 'ghost' }))} href={getPublicUrl.home()}>
           <Icons.chevronLeft className='mr-2 h-4 w-4' />
           Все статьи
         </Link>
-      </div> */}
-
+        <div className='flex gap-2'>
+          {' '}
+          <ArticleLikeButton
+            article={{ id: articleId, slug: data.slug, likesCount: data.likes.data.length }}
+            isAuth={!!user}
+            isLike={isLikeArticle?.attributes?.isLike}
+            size='sm'
+          />
+          <ArticleShareButton
+            article={{ image: absoluteUrlImageFromStrapi(data.cover.data.attributes.url), title: data.title }}
+            size='sm'
+            variant='outline'
+          >
+            <Icons.share /> <span className='ml-2'>Поделиться</span>
+          </ArticleShareButton>
+        </div>
+      </div>
       <hr className='mb-12 border-transparent bg-transparent' />
-      {moreArticlesData.length ? <MoreArticles data={moreArticlesData} /> : null}
+      {userArticlesData?.length ? (
+        <>
+          <SuggestionArticles data={userArticlesData} heading={`Больше от ${authorName}`} />
+          <hr className='my-12' />
+        </>
+      ) : null}
+      {moreArticlesData?.length ? (
+        <SuggestionArticles data={moreArticlesData} heading='Рекомендуем посмотреть' />
+      ) : null}
       <BackTopButton />
     </article>
   );

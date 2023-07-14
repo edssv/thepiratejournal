@@ -1,8 +1,8 @@
 import { Inter as FontSans, Roboto_Mono } from 'next/font/google';
 import localFont from 'next/font/local';
+import { Provider } from 'react-wrap-balancer';
 
 import '@/styles/globals.css';
-
 import { Analytics } from '@/components/analytics';
 import { SessionProvider } from '@/components/providers/session-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';
@@ -83,7 +83,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
         )}
       >
         <ThemeProvider enableSystem attribute='class' defaultTheme='system'>
-          <SessionProvider>{children}</SessionProvider>
+          <SessionProvider>
+            <Provider>{children}</Provider>
+          </SessionProvider>
           <Analytics />
           <Toaster />
           <TailwindIndicator />

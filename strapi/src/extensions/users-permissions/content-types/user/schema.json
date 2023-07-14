@@ -72,11 +72,28 @@
       "mappedBy": "user"
     },
     "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
+    },
+    "articles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::article.article",
+      "mappedBy": "author"
+    },
+    "firstname": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 16
+    },
+    "lastname": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 22
     }
   }
 }

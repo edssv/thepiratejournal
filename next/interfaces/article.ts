@@ -1,4 +1,5 @@
 import type { Image } from './strapi-image';
+import type { User } from './user';
 
 export interface Article {
   id: number;
@@ -12,6 +13,9 @@ export interface Article {
     slug: string;
     cover: {
       data: Image;
+    };
+    author: {
+      data: { id: number; attributes: User };
     };
     createdBy: { id: number; firstname: string; lastname: string };
     updatedBy: { id: number; firstname: string; lastname: string };

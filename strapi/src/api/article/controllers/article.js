@@ -8,7 +8,7 @@ module.exports = createCoreController("api::article.article", ({ strapi }) => ({
 
     const entity = await strapi.db.query("api::article.article").findOne({
       where: { slug: id },
-      populate: ["createdBy", "updatedBy", "cover", "likes"],
+      populate: ["createdBy", "updatedBy", "cover", "likes", "author"],
     });
 
     entity.createdBy = {

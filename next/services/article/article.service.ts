@@ -24,9 +24,21 @@ export const ArticleService = {
     });
     return res.json() as Promise<GetArticleResponse>;
   },
-  async getNextArticles(slug: string) {
+  async getUserArticles(authorId: number) {
     const res = await fetch(
-      `${env.STRAPI_API_URL}/articles/?filters[slug][$ne]=${slug}&populate=author&populate=cover&pagination[pageSize]=4`,
+      `${env.STRAPI_API_URL}/articles/?filters[author][id]=${authorId}&populate=author&populate=cover&pagination[pageSize]=4`,
+      {
+        headers: {
+          Authorization: `bearer ${env.STRAPI_API_TOKEN}`
+        },
+        next: { revalidate: 60 }
+      }
+    );
+    return res.json() as Promise<GetArticleListResponse>;
+  },
+  async getNextArticles(slug: string, authorId: number) {
+    const res = await fetch(
+      `${env.STRAPI_API_URL}/articles/?filters[slug][$ne]=${slug}&filters[author][id][$ne]=${authorId}&populate=author&populate=cover&pagination[pageSize]=4`,
       {
         headers: {
           Authorization: `bearer ${env.STRAPI_API_TOKEN}`
