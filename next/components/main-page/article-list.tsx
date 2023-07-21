@@ -11,7 +11,7 @@ import { ArticleService } from '@/services/article/article.service';
 import { Article } from '../article';
 
 export function ArticleList({ initialData }: { initialData: GetArticleListResponse }) {
-  const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+  const { data, fetchNextPage, isFetching, isFetchingNextPage } = useInfiniteQuery(
     ['query'],
     async ({ pageParam = 1 }) => {
       const response = await ArticleService.getArticleList(pageParam === 1 ? 11 : 10 * pageParam + 1, 10);
@@ -67,7 +67,7 @@ export function ArticleList({ initialData }: { initialData: GetArticleListRespon
                   title={attributes.title}
                 />
               ))}
-              {isFetchingNextPage && [...new Array(4)].map(() => <Article.Skeleton />)}
+              {isFetching && [...new Array(4)].map(() => <Article.Skeleton />)}
             </div>
           ) : null}
         </>
