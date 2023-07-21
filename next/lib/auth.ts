@@ -26,11 +26,11 @@ export const authOptions: NextAuthOptions = {
       }
     }),
     GoogleProvider({
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET
+      clientId: env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+      clientSecret: env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET
     })
   ],
-  secret: env.NEXTAUTH_SECRET,
+  secret: env.NEXT_PUBLIC_NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt'
   },

@@ -15,7 +15,7 @@ import { UserAvatar } from '@/components/user-avatar';
 import { env } from '@/env.mjs';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import { getCurrentUser } from '@/lib/session';
-import { absoluteUrl, absoluteUrlImageFromStrapi, cn, formatDate } from '@/lib/utils';
+import { absoluteUrl, absoluteUrlImageFromStrapi, cn, formatDate, plural } from '@/lib/utils';
 import { ArticleService } from '@/services/article/article.service';
 
 interface ArticlePageProps {
@@ -53,7 +53,6 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   return {
     title: article.title,
     description: article.description,
-
     openGraph: {
       title: article.title,
       description: article.description,
@@ -73,6 +72,9 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       title: article.title,
       description: article.description,
       images: [ogUrl.toString()]
+    },
+    other: {
+      'article:published_time': article.createdAt
     }
   };
 }
@@ -89,7 +91,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const { data: isLikeArticle } = await ArticleService.checkLike(articleId);
 
   const user = await getCurrentUser();
-
+  // return new Promise((resolve) => setTimeout(resolve, 10000000));
   return (
     <article className='container relative max-w-3xl px-6 py-6 sm:px-8 lg:py-10'>
       <Link
@@ -100,12 +102,19 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         Все статьи
       </Link>
       <div>
-        {data.createdAt && (
-          <time className='block text-sm text-muted-foreground' dateTime={data.createdAt}>
-            Опубликовано {formatDate(data.createdAt)}
-          </time>
-        )}
-        <h1 className='mt-2 inline-block text-4xl leading-tight lg:text-5xl xl:w-[880px]'>
+        <div className='flex flex-col justify-between gap-2 sm:flex-row'>
+          {data.createdAt && (
+            <time className='block text-sm text-muted-foreground' dateTime={data.createdAt}>
+              Опубликовано {formatDate(data.createdAt)}
+            </time>
+          )}
+          {data.views && (
+            <span className='block text-sm text-muted-foreground'>
+              {data.views} {plural(data.views, ['просмотр', 'просмотра', 'просмотров', 'просмотров'])}
+            </span>
+          )}
+        </div>
+        <h1 className='mt-2 inline-block text-4xl leading-tight lg:text-5xl'>
           <Balancer>{data.title}</Balancer>
         </h1>
         <p className='my-4 text-lg'>

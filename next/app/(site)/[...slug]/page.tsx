@@ -52,7 +52,6 @@ export default async function PagePage({ params }: PageProps) {
   return (
     <article className='prose dark:prose-invert container max-w-3xl py-12'>
       <DocsPageHeader heading={page.title} text={page.description} />
-
       <Mdx code={page.body.code} />
     </article>
   );

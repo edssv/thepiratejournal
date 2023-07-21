@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { PostOperations } from '@/components/post-operations';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getPublicUrl } from '@/lib/publicUrlBuilder';
 import { formatDate } from '@/lib/utils';

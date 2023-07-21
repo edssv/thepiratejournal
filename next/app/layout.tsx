@@ -4,6 +4,7 @@ import { Provider } from 'react-wrap-balancer';
 
 import '@/styles/globals.css';
 import { Analytics } from '@/components/analytics';
+import { QueryProvider } from '@/components/providers/query-provider';
 import { SessionProvider } from '@/components/providers/session-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
@@ -84,7 +85,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
       >
         <ThemeProvider enableSystem attribute='class' defaultTheme='system'>
           <SessionProvider>
-            <Provider>{children}</Provider>
+            <Provider>
+              <QueryProvider>{children}</QueryProvider>
+            </Provider>
           </SessionProvider>
           <Analytics />
           <Toaster />

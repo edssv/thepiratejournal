@@ -20,7 +20,7 @@ export const AuthService = {
     });
   },
   async login(credentials: Record<'email' | 'password', string> | undefined) {
-    const response = await fetch(`${env.STRAPI_API_URL}/auth/local?populate=image`, {
+    const response = await fetch(`${env.NEXT_PUBLIC_STRAPI_API_URL}/auth/local?populate=image`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

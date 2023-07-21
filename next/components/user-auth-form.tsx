@@ -102,7 +102,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCorrect='off'
               disabled={isLoading || isGoogleLoading}
               id='password'
-              placeholder='strong password'
+              placeholder='jQtnVHbyhy'
               type='password'
               {...register('password')}
             />
@@ -110,7 +110,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </div>
           <button className={cn(buttonVariants())} disabled={isLoading}>
             {isLoading && <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />}
-            Sign In with Email
+            Войти с помощью почты
           </button>
         </div>
       </form>
@@ -119,7 +119,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           <span className='w-full border-t' />
         </div>
         <div className='relative flex justify-center text-xs uppercase'>
-          <span className='bg-background px-2 text-muted-foreground'>Or continue with</span>
+          <span className='bg-background px-2 text-muted-foreground'>Или продолжить с</span>
         </div>
       </div>
       <button

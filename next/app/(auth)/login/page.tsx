@@ -39,8 +39,9 @@ export default function LoginPage() {
         </div>
         <UserAuthForm />
         <p className='px-8 text-center text-sm text-muted-foreground'>
+          У вас нет учетной записи?
           <Link className='hover:text-brand underline underline-offset-4' href='/register'>
-            У вас нет учетной записи? Зарегистрироваться
+            Зарегистрироваться
           </Link>
         </p>
       </div>

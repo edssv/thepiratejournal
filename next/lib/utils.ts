@@ -24,5 +24,24 @@ export function absoluteUrl(path: string) {
 }
 
 export function absoluteUrlImageFromStrapi(imageSrc: string) {
-  return typeof window === 'undefined' ? ` ${env.STRAPI_URL}${imageSrc}` : `${env.NEXT_PUBLIC_STRAPI_URL}${imageSrc}`;
+  return `${env.NEXT_PUBLIC_STRAPI_URL}${imageSrc}`;
+}
+
+export function plural(count: number, messages: string[]) {
+  if (count <= 0) {
+    return messages[3];
+  }
+
+  const lastDigit = count % 10;
+  const lastTwoDigits = count % 100;
+
+  if (lastDigit === 1 && lastTwoDigits !== 11) {
+    return messages[0];
+  }
+
+  if (lastDigit >= 2 && lastDigit <= 4 && (lastTwoDigits < 10 || lastTwoDigits >= 20)) {
+    return messages[1];
+  }
+
+  return messages[2];
 }
