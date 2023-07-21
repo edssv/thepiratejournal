@@ -14,13 +14,13 @@ export function ArticleList({ initialData }: { initialData: GetArticleListRespon
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['query'],
     async ({ pageParam = 1 }) => {
-      const response = await ArticleService.getArticleList(4 * pageParam, 4);
+      const response = await ArticleService.getArticleList(pageParam === 1 ? 5 : 4 * pageParam + 1, 4);
       return response.data;
     },
     {
       getNextPageParam: (_, pages) => pages.length,
       enabled: false,
-      initialData: { pages: [initialData.data], pageParams: [1] }
+      initialData: { pages: [initialData.data], pageParams: [0] }
     }
   );
 
