@@ -14,7 +14,7 @@ export function ArticleList({ initialData }: { initialData: GetArticleListRespon
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['query'],
     async ({ pageParam = 1 }) => {
-      const response = await ArticleService.getArticleList(pageParam === 1 ? 5 : 4 * pageParam + 1, 4);
+      const response = await ArticleService.getArticleList(pageParam === 1 ? 11 : 10 * pageParam + 1, 10);
       return response.data;
     },
     {
