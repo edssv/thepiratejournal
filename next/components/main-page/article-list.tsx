@@ -4,8 +4,8 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { env } from '@/env.mjs';
 import type { GetArticleListResponse } from '@/interfaces/get-article-list-res';
+import { absoluteUrlImageFromStrapi } from '@/lib/utils';
 import { ArticleService } from '@/services/article/article.service';
 
 import { Article } from '../article';
@@ -47,7 +47,7 @@ export function ArticleList({ initialData }: { initialData: GetArticleListRespon
               key={id}
               featured
               priority
-              cover={`${env.NEXT_PUBLIC_STRAPI_URL}${attributes.cover?.data.attributes.url}`}
+              cover={absoluteUrlImageFromStrapi(attributes.cover?.data.attributes.url)}
               createdAt={attributes.createdAt}
               description={attributes.description}
               id={attributes.slug}
@@ -59,7 +59,7 @@ export function ArticleList({ initialData }: { initialData: GetArticleListRespon
               {articles?.slice(1).map(({ attributes, id }, index) => (
                 <Article
                   key={id}
-                  cover={`${env.NEXT_PUBLIC_STRAPI_URL}${attributes.cover?.data.attributes.url}`}
+                  cover={absoluteUrlImageFromStrapi(attributes.cover?.data.attributes.url)}
                   createdAt={attributes.createdAt}
                   description={attributes.description}
                   id={attributes.slug}

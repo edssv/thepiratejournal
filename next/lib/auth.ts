@@ -68,11 +68,7 @@ export const authOptions: NextAuthOptions = {
 
           return token;
         }
-        const response = await fetch(
-          `${env.STRAPI_API_URL}/auth/${account?.provider}/callback?access_token=${account?.access_token}`
-        );
-
-        const data = await response.json();
+        const data = await AuthService.callback(account?.provider, account?.access_token);
 
         token.jwt = data.jwt;
         token.id = data.user.id;

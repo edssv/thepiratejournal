@@ -6,6 +6,12 @@ import type { userAuthSchema } from '@/lib/validations/auth';
 type UserAuthForm = z.infer<typeof userAuthSchema>;
 
 export const AuthService = {
+  async callback(provider: string | undefined, accessToken: string | undefined) {
+    const response = await fetch(
+      `${env.NEXT_PUBLIC_STRAPI_API_URL}/auth/${provider}/callback?access_token=${accessToken}`
+    );
+    return response.json();
+  },
   register(credentials: UserAuthForm) {
     return fetch(`${env.NEXT_PUBLIC_STRAPI_API_URL}/auth/local/register`, {
       method: 'POST',
@@ -30,7 +36,6 @@ export const AuthService = {
         password: credentials?.password
       })
     });
-
     return response.json();
   }
 };
