@@ -34,4 +34,4 @@
 
 ## Лицензия
 
-Licensed under the [MIT license](https://github.com/edssv/thepiratejournal/LICENSE.md).
+Licensed under the [MIT license](https://github.com/edssv/thepiratejournal/blob/main/LICENSE.md).
