@@ -1,32 +1,39 @@
 {
   "name": "strapi",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
   "description": "A Strapi application",
+  "license": "MIT",
+  "author": {
+    "name": "A Strapi developer"
+  },
   "scripts": {
-    "develop": "strapi develop",
-    "start": "strapi start",
     "build": "strapi build",
+    "dev": "strapi develop",
+    "sitemap": "strapi-sitemap",
+    "start": "strapi start",
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-i18n": "4.11.4",
-    "@strapi/plugin-users-permissions": "4.11.4",
-    "@strapi/strapi": "4.11.4",
-    "better-sqlite3": "8.0.1",
-    "false": "^0.0.4",
-    "pg": "^8.11.1",
-    "sharp": "^0.32.1"
+    "@strapi/plugin-i18n": "4.20.5",
+    "@strapi/plugin-users-permissions": "4.20.5",
+    "@strapi/strapi": "4.20.5",
+    "pg": "8.8.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "5.3.4",
+    "styled-components": "5.3.3"
   },
-  "author": {
-    "name": "A Strapi developer"
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.1.1",
+    "@typescript-eslint/parser": "^7.1.1",
+    "eslint": "^8.57.0"
   },
   "strapi": {
     "uuid": "9537a841-a336-419f-9ced-e7a25c6f268a"
   },
   "engines": {
-    "node": ">=14.19.1 <=18.x.x",
+    "node": ">=18.0.0 <=20.x.x",
     "npm": ">=6.0.0"
-  },
-  "license": "MIT"
+  }
 }
