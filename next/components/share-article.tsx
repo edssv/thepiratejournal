@@ -3,13 +3,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
+import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { articleShareConfig } from '@/config/articleShareConfig';
+import { articleShareConfig } from '@/config/article-share';
 import { env } from '@/env.mjs';
 
 import { Icons } from './icons';
@@ -24,14 +23,19 @@ interface ShareArticleProps {
 
 export default function ShareArticle({ children, data }: ShareArticleProps) {
   const pathname = usePathname();
-  const [isCopied, setIsCopied] = useState(false);
+  const [hasCopied, setHasCopied] = React.useState(false);
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setHasCopied(false);
+    }, 2000);
+  }, [hasCopied]);
+
   const url = `${env.NEXT_PUBLIC_APP_URL}${pathname}`;
 
-  function onCopy() {
-    setIsCopied(true);
-
-    setTimeout(() => setIsCopied(false), 1000);
-  }
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(url);
+  };
 
   return (
     <Dialog>
@@ -49,12 +53,12 @@ export default function ShareArticle({ children, data }: ShareArticleProps) {
             style={{ height: '231px', objectFit: 'cover' }}
             width={457}
           />
-          <h3 className='mb-5 text-xl font-medium'>Share this article</h3>
+          <h3 className='mb-5 text-xl font-medium'>Поделиться этой статьей</h3>
           <div className='flex gap-6'>
             {articleShareConfig.articleShare.map(({ color, icon, title }) => {
               const Icon = Icons[icon || 'share'];
               return (
-                <div className='flex flex-col items-center gap-2'>
+                <div key={title} className='flex flex-col items-center gap-2'>
                   <Link
                     className={`flex h-14 w-14 items-center justify-center rounded-full bg-${color}-100`}
                     target='_blank'
@@ -68,19 +72,25 @@ export default function ShareArticle({ children, data }: ShareArticleProps) {
                   >
                     <Icon />
                   </Link>
-                  <span className='text-xs text-gray-600'>{title}</span>
+                  <span className='text-xs text-muted-foreground'>{title}</span>
                 </div>
               );
             })}
           </div>
-          <span className='mb-4 mt-6 text-gray-500'>or copy the link</span>
+          <span className='mb-4 mt-6 text-muted-foreground'>или скопировать ссылку</span>
           <div className='flex w-full space-x-2'>
             <Input className='flex w-full' value={url} />
-            <CopyToClipboard text={url} onCopy={() => onCopy()}>
-              <Button className='w-32' variant='link'>
-                {isCopied ? 'Copied!' : 'Copy Link'}
-              </Button>
-            </CopyToClipboard>
+
+            <Button
+              className='w-32'
+              variant='link'
+              onClick={() => {
+                copyToClipboard();
+                setHasCopied(true);
+              }}
+            >
+              {hasCopied ? 'Скопировано!' : 'Копировать'}
+            </Button>
           </div>
         </div>
       </DialogContent>

@@ -25,7 +25,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
               rel='noreferrer'
               target='_blank'
             >
-              ForeverBetter
+              Eduard Sysoev
             </a>
             . Inspired by{' '}
             <a

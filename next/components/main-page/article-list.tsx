@@ -1,78 +1,70 @@
 'use client';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useEffect, useRef } from 'react';
+import * as React from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import type { GetArticleListResponse } from '@/interfaces/get-article-list-res';
-import { absoluteUrlImageFromStrapi } from '@/lib/utils';
 import { ArticleService } from '@/services/article/article.service';
 
-import { Article } from '../article';
+import { ArticlePreview } from '../article-preview';
 
 export function ArticleList({ initialData }: { initialData: GetArticleListResponse }) {
-  const { data, fetchNextPage, isFetching, isFetchingNextPage } = useInfiniteQuery(
-    ['query'],
-    async ({ pageParam = 1 }) => {
-      const response = await ArticleService.getArticleList(pageParam === 1 ? 11 : 10 * pageParam + 1, 10);
-      return response.data;
-    },
-    {
-      getNextPageParam: (_, pages) => pages.length,
-      enabled: false,
-      initialData: { pages: [initialData.data], pageParams: [0] }
-    }
+  const [articles, setArticles] = React.useState(initialData.data);
+  const [nextPage, setNextPage] = React.useState(
+    initialData.meta.pagination.pageCount - initialData.meta.pagination.page > 0 ? 2 : null
   );
+  const [loading, setLoading] = React.useState(false);
 
-  const lastArticleRef = useRef<HTMLElement>(null);
+  const lastArticleRef = React.useRef<HTMLElement>(null);
 
   const { entry, ref } = useInView({
     root: lastArticleRef.current,
-    threshold: 0.5
+    threshold: 1
   });
 
-  const articles = data?.pages.flatMap((page) => page);
+  React.useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
 
-  useEffect(() => {
-    const isExistNextPage = articles && initialData.meta.pagination.total > articles.length;
-    if (entry?.isIntersecting && isExistNextPage) fetchNextPage();
-  }, [entry, fetchNextPage, initialData, articles]);
+      const res = await ArticleService.getArticleList(nextPage, 20);
+
+      setArticles((state) => [...state, ...res.data]);
+      setNextPage(res.meta.pagination.pageCount - res.meta.pagination.page > 0 ? res.meta.pagination.page + 1 : null);
+      setLoading(false);
+    };
+
+    if (entry?.isIntersecting && nextPage !== null) {
+      fetchData();
+    }
+  }, [nextPage, entry]);
+
+  const featuredArticle = articles[0];
 
   return (
     <>
-      {articles?.length ? (
-        <>
-          {articles?.slice(0, 1).map(({ attributes, id }) => (
-            <Article
-              key={id}
-              featured
-              priority
-              cover={absoluteUrlImageFromStrapi(attributes.cover?.data.attributes.url)}
-              createdAt={attributes.createdAt}
-              description={attributes.description}
-              id={attributes.slug}
-              title={attributes.title}
-            />
-          ))}
-          {articles?.length > 1 ? (
-            <div className='flex flex-wrap items-center'>
-              {articles?.slice(1).map(({ attributes, id }, index) => (
-                <Article
-                  key={id}
-                  cover={absoluteUrlImageFromStrapi(attributes.cover?.data.attributes.url)}
-                  createdAt={attributes.createdAt}
-                  description={attributes.description}
-                  id={attributes.slug}
-                  priority={index < 3}
-                  title={attributes.title}
-                />
-              ))}
-              {isFetching && [...new Array(4)].map(() => <Article.Skeleton />)}
-            </div>
-          ) : null}
-        </>
-      ) : null}
-      {articles?.length && !isFetchingNextPage ? <div ref={ref} /> : null}
+      <ArticlePreview
+        key={featuredArticle.id}
+        featured
+        cover={featuredArticle.attributes.cover}
+        createdAt={featuredArticle.attributes.createdAt}
+        description={featuredArticle.attributes.description}
+        slug={featuredArticle.attributes.slug}
+        title={featuredArticle.attributes.title}
+      />
+      <div className='flex flex-wrap items-center'>
+        {articles.slice(1).map((article) => (
+          <ArticlePreview
+            key={article.id}
+            cover={article.attributes.cover}
+            createdAt={article.attributes.createdAt}
+            description={article.attributes.description}
+            slug={article.attributes.slug}
+            title={article.attributes.title}
+          />
+        ))}
+      </div>
+      {!!articles?.length && !loading && <div ref={ref} />}
+      {loading && [...new Array(4)].map(() => <ArticlePreview.Skeleton />)}
     </>
   );
 }

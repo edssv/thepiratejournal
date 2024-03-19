@@ -8,12 +8,16 @@ import { UserAuthForm } from '@/components/user-auth-form';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 
+interface LoginPageProps {
+  searchParams: { from: string | undefined };
+}
+
 export const metadata: Metadata = {
   title: 'Войти',
   description: 'Войдите в свой аккаунт'
 };
 
-export default function LoginPage() {
+export default function LoginPage({ searchParams }: LoginPageProps) {
   return (
     <div className='container flex h-screen w-screen flex-col items-center justify-center'>
       <Link className={cn(buttonVariants({ variant: 'ghost' }), 'absolute left-4 top-4 md:left-8 md:top-8')} href='/'>
@@ -37,7 +41,7 @@ export default function LoginPage() {
             Введите адрес электронной почты, чтобы войти в свою учетную запись
           </p>
         </div>
-        <UserAuthForm />
+        <UserAuthForm searchParams={searchParams} />
         <p className='px-8 text-center text-sm text-muted-foreground'>
           У вас нет учетной записи?
           <Link className='hover:text-brand underline underline-offset-4' href='/register'>

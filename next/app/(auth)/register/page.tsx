@@ -6,12 +6,16 @@ import { UserAuthForm } from '@/components/user-auth-form';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 
+interface RegisterPageProps {
+  searchParams: { from: string | undefined };
+}
+
 export const metadata = {
   title: 'Создать аккаунт',
   description: 'Создайте учетную запись, чтобы начать.'
 };
 
-export default function RegisterPage() {
+export default function RegisterPage({ searchParams }: RegisterPageProps) {
   return (
     <div className='container grid h-screen w-screen flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0'>
       <Link
@@ -37,7 +41,7 @@ export default function RegisterPage() {
               Введите адрес электронной почты ниже, чтобы создать учетную запись
             </p>
           </div>
-          <UserAuthForm />
+          <UserAuthForm searchParams={searchParams} />
           <p className='px-8 text-center text-sm text-muted-foreground'>
             Нажимая продолжить, вы соглашаетесь с нашими{' '}
             <Link className='hover:text-brand underline underline-offset-4' href='/terms'>

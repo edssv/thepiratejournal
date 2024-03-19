@@ -2,7 +2,6 @@ import { redirect } from 'next/navigation';
 
 import { DashboardHeader } from '@/components/header';
 import { DashboardShell } from '@/components/shell';
-import { UserImageForm } from '@/components/user-image-form';
 import { UserNameForm } from '@/components/user-name-form';
 import { authOptions } from '@/lib/auth';
 import { getCurrentUser } from '@/lib/session';
@@ -24,7 +23,6 @@ export default async function SettingsPage() {
       <DashboardHeader heading='Настройки' text='Управление настройками учетной записи и веб-сайта.' />
       <div className='grid gap-10'>
         <UserNameForm user={{ id: user.id, name: user.name || '' }} />
-        {/* <UserImageForm user={{ id: user.id, image: user.image || '' }} /> */}
       </div>
     </DashboardShell>
   );

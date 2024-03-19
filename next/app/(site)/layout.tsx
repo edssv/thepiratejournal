@@ -4,7 +4,7 @@ import { MainNav } from '@/components/main-nav';
 import { SiteFooter } from '@/components/site-footer';
 import { buttonVariants } from '@/components/ui/button';
 import { UserAccountNav } from '@/components/user-account-nav';
-import { getPublicUrl } from '@/lib/publicUrlBuilder';
+import { getPublicUrl } from '@/lib/public-url-builder';
 import { getCurrentUser } from '@/lib/session';
 import { cn } from '@/lib/utils';
 

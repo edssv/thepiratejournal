@@ -20,7 +20,7 @@ export function Article({ article }: ArticleProps) {
       {article.cover && (
         <Image
           alt={article.title}
-          className='rounded-lg border bg-muted transition-colors'
+          className='rounded-lg bg-muted transition-colors'
           height={452}
           src={article.cover}
           width={804}

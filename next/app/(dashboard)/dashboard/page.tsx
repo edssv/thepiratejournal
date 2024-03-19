@@ -5,7 +5,7 @@ import { EmptyPlaceholder } from '@/components/empty-placeholder';
 import { DashboardHeader } from '@/components/header';
 import { DashboardShell } from '@/components/shell';
 import { authOptions } from '@/lib/auth';
-import { getPublicUrl } from '@/lib/publicUrlBuilder';
+import { getPublicUrl } from '@/lib/public-url-builder';
 import { getCurrentUser } from '@/lib/session';
 import { absoluteUrlImageFromStrapi } from '@/lib/utils';
 import { ArticleService } from '@/services/article/article.service';

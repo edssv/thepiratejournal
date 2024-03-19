@@ -84,7 +84,7 @@ export async function GET(req: Request) {
               </div>
             </div>
             <div style={{ fontFamily: 'Inter', fontWeight: 'normal' }} tw='flex text-xl'>
-              thepirate.press
+              thepiratejournal.ru
             </div>
           </div>
         </div>

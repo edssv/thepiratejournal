@@ -1,31 +1,17 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { getPublicUrl } from '@/lib/publicUrlBuilder';
-import { cn, formatDate } from '@/lib/utils';
+import type { Article } from '@/interfaces/article';
+import { getPublicUrl } from '@/lib/public-url-builder';
+import { absoluteUrlImageFromStrapi, cn, formatDate } from '@/lib/utils';
 
 import { Skeleton } from './ui/skeleton';
 
-interface ArticleProps extends React.HTMLProps<HTMLDivElement> {
-  id: string;
-  title: string;
-  description: string;
-  cover: string;
-  createdAt: string;
+interface ArticleProps extends Pick<Article['attributes'], 'cover' | 'createdAt' | 'description' | 'title' | 'slug'> {
   featured?: boolean;
-  priority: boolean;
 }
 
-export function Article({
-  cover,
-  createdAt,
-  description,
-  featured = false,
-  id,
-  priority,
-  title,
-  ...props
-}: ArticleProps) {
+export function ArticlePreview({ cover, createdAt, description, featured = false, slug, title }: ArticleProps) {
   const TitleTag = featured ? 'h1' : 'h2';
   const date = formatDate(createdAt, { month: 'numeric', day: 'numeric', year: '2-digit' });
 
@@ -35,9 +21,8 @@ export function Article({
         '!m-0 !basis-auto !p-0': featured,
         article: !featured
       })}
-      {...props}
     >
-      <Link href={getPublicUrl.blog(String(id))}>
+      <Link href={getPublicUrl.blog(slug)}>
         <div className={cn({ 'flex flex-col items-center lg:flex-row': featured })}>
           <div className={cn({ 'w-full basis-full pr-10 sm:mb-10 lg:w-auto lg:basis-1/2': featured })}>
             <TitleTag
@@ -69,9 +54,9 @@ export function Article({
             <Image
               alt='Обложка'
               height={300}
-              priority={priority || featured}
+              priority={featured}
               sizes='100vw'
-              src={cover}
+              src={absoluteUrlImageFromStrapi(cover.data.attributes.url)}
               width={300}
               className={cn(
                 'h-full w-full rounded-2xl transition-[border-radius] duration-100 group-hover:rounded-[40px]'
@@ -84,7 +69,7 @@ export function Article({
   );
 }
 
-Article.Skeleton = function ArticleSkeleton() {
+ArticlePreview.Skeleton = function ArticleSkeleton() {
   return (
     <div className='article group mt-[72px] basis-auto sm:mt-40 sm:basis-1/2'>
       <div>

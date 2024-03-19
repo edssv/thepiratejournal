@@ -78,7 +78,7 @@ const CustomListRenderer = ({ classNames, data, props }: any) =>
 
 const CustomVideoRenderer = ({ classNames, config, data, ...props }: any) =>
   data ? (
-    <figure className='mt-6 xl:-mx-4'>
+    <figure className='mt-6 xl:-mx-4' {...props}>
       <iframe
         allowFullScreen
         allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'

@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
@@ -12,16 +12,16 @@ import { buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
-import { getPublicUrl } from '@/lib/publicUrlBuilder';
+import { getPublicUrl } from '@/lib/public-url-builder';
 import { cn } from '@/lib/utils';
 import { userAuthSchema } from '@/lib/validations/auth';
 import { AuthService } from '@/services/auth/auth.service';
 
-type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
+type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement> & { searchParams: { from: string | undefined } };
 
 type FormData = z.infer<typeof userAuthSchema>;
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+export function UserAuthForm({ className, searchParams, ...props }: UserAuthFormProps) {
   const router = useRouter();
   const pathname = usePathname();
   const {
@@ -33,7 +33,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false);
-  const searchParams = useSearchParams();
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
@@ -56,7 +55,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       email: data.email.toLowerCase(),
       password: data.password,
       redirect: false,
-      callbackUrl: searchParams?.get('from') || getPublicUrl.home()
+      callbackUrl: searchParams.from || getPublicUrl.home()
     });
 
     setIsLoading(false);
@@ -69,7 +68,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       });
     }
 
-    return router.replace(searchParams?.get('from') || getPublicUrl.home());
+    return router.replace(searchParams.from || getPublicUrl.home());
   }
 
   return (

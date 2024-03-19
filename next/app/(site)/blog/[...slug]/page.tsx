@@ -13,7 +13,7 @@ import { Icons } from '@/components/icons';
 import { buttonVariants } from '@/components/ui/button';
 import { UserAvatar } from '@/components/user-avatar';
 import { env } from '@/env.mjs';
-import { getPublicUrl } from '@/lib/publicUrlBuilder';
+import { getPublicUrl } from '@/lib/public-url-builder';
 import { getCurrentUser } from '@/lib/session';
 import { absoluteUrl, absoluteUrlImageFromStrapi, cn, formatDate, plural } from '@/lib/utils';
 import { ArticleService } from '@/services/article/article.service';

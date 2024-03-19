@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { Skeleton } from '@/components/ui/skeleton';
-import { getPublicUrl } from '@/lib/publicUrlBuilder';
+import { getPublicUrl } from '@/lib/public-url-builder';
 import { formatDate } from '@/lib/utils';
 
 interface ArticleItemProps {

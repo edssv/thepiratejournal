@@ -1,37 +1,18 @@
-import { Inter as FontSans, Roboto_Mono } from 'next/font/google';
-import localFont from 'next/font/local';
-import { Provider } from 'react-wrap-balancer';
+import type { Metadata, Viewport } from 'next';
 
 import '@/styles/globals.css';
-import { Analytics } from '@/components/analytics';
-import { QueryProvider } from '@/components/providers/query-provider';
-import { SessionProvider } from '@/components/providers/session-provider';
-import { ThemeProvider } from '@/components/providers/theme-provider';
-import { TailwindIndicator } from '@/components/tailwind-indicator';
-import { Toaster } from '@/components/ui/toaster';
+
 import { siteConfig } from '@/config/site';
+import { fontSans, robotoMono, fontHeading } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
+
+import Providers from './providers';
 
 interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export const fontSans = FontSans({
-  subsets: ['latin', 'cyrillic'],
-  variable: '--font-sans'
-});
-
-export const robotoMono = Roboto_Mono({
-  subsets: ['cyrillic', 'latin'],
-  variable: '--font-roboto-mono'
-});
-
-const fontHeading = localFont({
-  src: '../assets/fonts/CalSans-SemiBold.woff2',
-  variable: '--font-heading'
-});
-
-export const metadata = {
+export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
     template: `%s - ${siteConfig.name}`
@@ -45,10 +26,6 @@ export const metadata = {
     }
   ],
   creator: 'Eduard Sysoev',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' }
-  ],
   openGraph: {
     type: 'website',
     locale: 'ru_RU',
@@ -71,10 +48,16 @@ export const metadata = {
   manifest: `${siteConfig.url}/site.webmanifest`
 };
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: 'white' },
+    { media: '(prefers-color-scheme: dark)', color: 'black' }
+  ]
+};
+
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang='en'>
-      <head />
+    <html suppressHydrationWarning lang='en'>
       <body
         className={cn(
           'min-h-screen bg-background font-sans antialiased',
@@ -83,16 +66,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           fontHeading.variable
         )}
       >
-        <ThemeProvider enableSystem attribute='class' defaultTheme='system'>
-          <SessionProvider>
-            <Provider>
-              <QueryProvider>{children}</QueryProvider>
-            </Provider>
-          </SessionProvider>
-          <Analytics />
-          <Toaster />
-          <TailwindIndicator />
-        </ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
