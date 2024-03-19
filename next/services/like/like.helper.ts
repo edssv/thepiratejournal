@@ -1,4 +1,3 @@
-
 export interface GetCheckLikeResponse {
-  data: { attributes: { isLike: true } }
+  data: { attributes: { isLike: true } };
 }

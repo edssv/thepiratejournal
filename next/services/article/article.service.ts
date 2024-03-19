@@ -6,9 +6,9 @@ import { getServerUserJwt } from '@/lib/server-jwt';
 import type { GetCheckLikeResponse } from '../like/like.helper';
 
 export const ArticleService = {
-  async getArticleList(page: number, pageSize: number) {
+  async getArticleList(page: number | null, pageSize: number) {
     const res = await fetch(
-      `${env.NEXT_PUBLIC_STRAPI_API_URL}/articles?populate=cover&sort[0]=createdAt%3Adesc&pagination[start]=${page}&pagination[limit]=${pageSize}`,
+      `${env.NEXT_PUBLIC_STRAPI_API_URL}/articles?populate=cover&sort[0]=createdAt%3Adesc&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
       {
         headers: {
           Authorization: `bearer ${env.NEXT_PUBLIC_STRAPI_API_TOKEN}`
