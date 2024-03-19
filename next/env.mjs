@@ -4,7 +4,8 @@ import { z } from 'zod';
 export const env = createEnv({
   server: {
     NEXTAUTH_URL: z.string().url().optional(),
-    STRAPI_API_TOKEN: z.string().min(1)
+    STRAPI_API_TOKEN: z.string().min(1),
+    NEXTAUTH_SECRET: z.string().min(1)
   },
   client: {
     NEXT_PUBLIC_NEXTAUTH_SECRET: z.string().min(1),
@@ -18,6 +19,7 @@ export const env = createEnv({
   runtimeEnv: {
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     STRAPI_API_TOKEN: process.env.STRAPI_API_TOKEN,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXT_PUBLIC_NEXTAUTH_SECRET: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
     NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
     NEXT_PUBLIC_GOOGLE_CLIENT_SECRET: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
