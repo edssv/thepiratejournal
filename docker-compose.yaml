@@ -1,11 +1,10 @@
-version: '3.8'
+version: "3.8"
 services:
   postgres:
-    container_name: postgres
     image: postgres:alpine
     restart: unless-stopped
     ports:
-      - 5432:5432
+      - 5435:5432
     env_file: .env
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -13,77 +12,6 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - strapi-data:/var/lib/postgresql/data/
-    networks:
-      next-strapi:
-        ipv4_address: 172.18.0.6
-
-  strapi:
-    container_name: strapi
-    build:
-      context: strapi
-    image: strapi:latest
-    restart: unless-stopped
-    env_file: .env
-    environment:
-      DATABASE_CLIENT: ${DATABASE_CLIENT}
-      DATABASE_HOST: ${POSTGRES_HOST}
-      DATABASE_PORT: 5432
-      DATABASE_NAME: ${POSTGRES_DB}
-      DATABASE_USERNAME: ${POSTGRES_USER}
-      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
-      JWT_SECRET: ${JWT_SECRET}
-      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
-      APP_KEYS: ${APP_KEYS}
-      NODE_ENV: ${NODE_ENV}
-    volumes:
-      - ./strapi/config:/opt/app/config
-      - ./strapi/src:/opt/app/src
-      - ./strapi/package.json:/opt/package.json
-      - ./strapi/yarn.lock:/opt/yarn.lock
-      - ./strapi/.env:/opt/app/.env
-      - ./strapi/public/uploads:/opt/app/public/uploads
-    ports:
-      - '1337:1337'
-    depends_on:
-      - postgres
-    networks:
-      next-strapi:
-        ipv4_address: 172.18.0.5
-
-  # next:
-  #   container_name: next
-  #   restart: unless-stopped
-  #   build:
-  #     context: next
-  #   ports:
-  #     - '3000:3000'
-  #   # depends_on:
-  #   #   - strapi
-  #   networks:
-  #     next-strapi:
-  #       ipv4_address: 172.18.0.4
-
-  # nginx:
-  #   container_name: nginx
-  #   restart: unless-stopped
-  #   build:
-  #     context: nginx
-  #     target: dev
-  #   ports:
-  #     - '80:80'
-  #   networks:
-  #     next-strapi:
-  #       ipv4_address: 172.18.0.3
 
 volumes:
   strapi-data:
-
-networks:
-  next-strapi:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.18.0.0/24
-    driver_opts:
-      com.docker.network.bridge.name: common-bridge
