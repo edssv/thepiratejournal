@@ -9,6 +9,13 @@ import { UserService } from '@/services/user/user.service';
 import { absoluteUrlImageFromStrapi } from './utils';
 
 export const authOptions: NextAuthOptions = {
+  secret: typeof window === 'undefined' ? env.NEXTAUTH_SECRET : env.NEXT_PUBLIC_NEXTAUTH_SECRET,
+  session: {
+    strategy: 'jwt'
+  },
+  pages: {
+    signIn: '/login'
+  },
   providers: [
     CredentialsProvider({
       name: 'credentials',
@@ -30,10 +37,6 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET
     })
   ],
-  secret: env.NEXT_PUBLIC_NEXTAUTH_SECRET,
-  session: {
-    strategy: 'jwt'
-  },
   callbacks: {
     session({ session, token }) {
       if (token) {
