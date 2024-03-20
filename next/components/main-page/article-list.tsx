@@ -11,7 +11,7 @@ import { ArticlePreview } from '../article-preview';
 export function ArticleList({ initialData }: { initialData: GetArticleListResponse }) {
   const [articles, setArticles] = React.useState(initialData.data);
   const [nextPage, setNextPage] = React.useState(
-    initialData.meta.pagination.pageCount - initialData.meta.pagination.page > 0 ? 1 : null
+    initialData.meta.pagination.pageCount - initialData.meta.pagination.page > 0 ? 2 : null
   );
   const [loading, setLoading] = React.useState(false);
 
@@ -62,9 +62,9 @@ export function ArticleList({ initialData }: { initialData: GetArticleListRespon
             title={article.attributes.title}
           />
         ))}
+        {loading && [...new Array(4)].map(() => <ArticlePreview.Skeleton />)}
       </div>
       {!!articles?.length && !loading && <div ref={ref} />}
-      {loading && [...new Array(4)].map(() => <ArticlePreview.Skeleton />)}
     </>
   );
 }
