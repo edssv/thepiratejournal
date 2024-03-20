@@ -22,7 +22,7 @@
       "type": "string",
       "required": true,
       "minLength": 8,
-      "maxLength": 120
+      "maxLength": 150
     },
     "body": {
       "type": "richtext"
@@ -35,9 +35,7 @@
       "type": "media",
       "multiple": false,
       "required": true,
-      "allowedTypes": [
-        "images"
-      ]
+      "allowedTypes": ["images"]
     },
     "views": {
       "type": "integer",

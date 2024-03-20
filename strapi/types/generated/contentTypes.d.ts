@@ -384,7 +384,7 @@ export interface ApiArticleArticle extends Schema.CollectionType {
       Attribute.Required &
       Attribute.SetMinMaxLength<{
         minLength: 8;
-        maxLength: 120;
+        maxLength: 150;
       }>;
     body: Attribute.RichText;
     slug: Attribute.UID<'api::article.article', 'title'>;
