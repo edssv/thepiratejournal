@@ -34,7 +34,7 @@ export async function GET(req: Request) {
     return new ImageResponse(
       (
         <div
-          tw='flex bg-no-repeat relative flex-col n p-12 w-full h-full items-start'
+          tw='flex bg-no-repeat relative flex-col p-12 w-full h-full items-start'
           style={{
             color: paint,
             backgroundImage: `url(${new URL(absoluteUrlImageFromStrapi(image))})`,
@@ -72,7 +72,7 @@ export async function GET(req: Request) {
             <div tw='flex items-center'>
               <div
                 style={{
-                  background: `url(http://localhost:3000/android-chrome-192x192.png)`,
+                  background: `url(${siteConfig.url}/android-chrome-192x192.png)`,
                   backgroundSize: '42px 42px',
                   width: '42px',
                   height: '42px',
