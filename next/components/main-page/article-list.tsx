@@ -11,7 +11,7 @@ import { ArticlePreview } from '../article-preview';
 export function ArticleList({ initialData }: { initialData: GetArticleListResponse }) {
   const [articles, setArticles] = React.useState(initialData.data);
   const [nextPage, setNextPage] = React.useState(
-    initialData.meta.pagination.pageCount - initialData.meta.pagination.page > 0 ? 2 : null
+    initialData.meta.pagination.pageCount - initialData.meta.pagination.page > 0 ? 1 : null
   );
   const [loading, setLoading] = React.useState(false);
 
@@ -26,7 +26,7 @@ export function ArticleList({ initialData }: { initialData: GetArticleListRespon
     const fetchData = async () => {
       setLoading(true);
 
-      const res = await ArticleService.getArticleList(nextPage, 20);
+      const res = await ArticleService.getArticleList(nextPage, 11);
 
       setArticles((state) => [...state, ...res.data]);
       setNextPage(res.meta.pagination.pageCount - res.meta.pagination.page > 0 ? res.meta.pagination.page + 1 : null);
