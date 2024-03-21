@@ -45,7 +45,10 @@ export const metadata: Metadata = {
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png'
   },
-  manifest: `${siteConfig.url}/site.webmanifest`
+  manifest: `${siteConfig.url}/site.webmanifest`,
+  verification: {
+    yandex: '7c4cbf983a08cef8'
+  }
 };
 
 export const viewport: Viewport = {
