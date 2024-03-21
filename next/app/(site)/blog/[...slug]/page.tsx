@@ -121,7 +121,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <Balancer>{data.description}</Balancer>
         </p>
         <div className='mt-4 flex items-center justify-between gap-x-3 gap-y-6'>
-          {author ? (
+          {!!author && (
             <div className='flex items-center space-x-3 text-sm'>
               <UserAvatar
                 user={{
@@ -133,7 +133,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 <p className='font-medium'>{authorName} </p>
               </div>
             </div>
-          ) : null}
+          )}
           <div className='flex gap-2'>
             <ArticleLikeButton
               article={{ id: articleId, slug: data.slug, likesCount: data.likes.data.length }}
@@ -154,7 +154,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       {data.cover && (
         <div className='lg:-mx-10 xl:-mx-12'>
           <Image
-            priority
             alt={data.title}
             className='my-8 w-full rounded-3xl bg-muted transition-colors'
             height={data.cover.data.attributes.height}
@@ -171,7 +170,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           Все статьи
         </Link>
         <div className='flex gap-2'>
-          {' '}
           <ArticleLikeButton
             article={{ id: articleId, slug: data.slug, likesCount: data.likes.data.length }}
             isAuth={!!user}
@@ -188,15 +186,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </div>
       </div>
       <hr className='mb-12 border-transparent bg-transparent' />
-      {userArticlesData?.length ? (
+      {!!userArticlesData?.length && (
         <>
           <SuggestionArticles data={userArticlesData} heading={`Больше от ${authorName}`} />
           <hr className='my-12' />
         </>
-      ) : null}
-      {moreArticlesData?.length ? (
-        <SuggestionArticles data={moreArticlesData} heading='Рекомендуем посмотреть' />
-      ) : null}
+      )}
+      {!!moreArticlesData?.length && <SuggestionArticles data={moreArticlesData} heading='Рекомендуем посмотреть' />}
       <BackTopButton />
     </article>
   );
