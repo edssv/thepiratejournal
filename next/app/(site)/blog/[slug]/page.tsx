@@ -91,7 +91,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const { data: isLikeArticle } = await ArticleService.checkLike(articleId);
 
   const user = await getCurrentUser();
-  // return new Promise((resolve) => setTimeout(resolve, 10000000));
+
   return (
     <article className='container relative max-w-3xl px-6 py-6 sm:px-8 lg:py-10'>
       <Link

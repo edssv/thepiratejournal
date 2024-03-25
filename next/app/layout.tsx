@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import '@/styles/globals.css';
 
 import { siteConfig } from '@/config/site';
-import { fontSans, robotoMono, fontHeading } from '@/lib/fonts';
+import { fontSans, robotoMono } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 
 import Providers from './providers';
@@ -61,14 +61,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html suppressHydrationWarning lang='en'>
-      <body
-        className={cn(
-          'min-h-screen bg-background font-sans antialiased',
-          fontSans.variable,
-          robotoMono.variable,
-          fontHeading.variable
-        )}
-      >
+      <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable, robotoMono.variable)}>
         <Providers>{children}</Providers>
       </body>
     </html>

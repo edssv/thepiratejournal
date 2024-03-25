@@ -13,7 +13,7 @@ const interRegular = fetch(new URL('../../../assets/fonts/Inter-Regular.ttf', im
   res.arrayBuffer()
 );
 
-const interBold = fetch(new URL('../../../assets/fonts/CalSans-SemiBold.ttf', import.meta.url)).then((res) =>
+const interBold = fetch(new URL('../../../assets/fonts/Inter-Bold.ttf', import.meta.url)).then((res) =>
   res.arrayBuffer()
 );
 
@@ -34,7 +34,7 @@ export async function GET(req: Request) {
     return new ImageResponse(
       (
         <div
-          tw='flex bg-no-repeat relative flex-col p-12 w-full h-full items-start'
+          tw='flex relative flex-col p-12 w-full h-full items-start'
           style={{
             color: paint,
             backgroundImage: `url(${new URL(absoluteUrlImageFromStrapi(image))})`,
